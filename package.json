@@ -1,0 +1,20 @@
+{
+	"name": "@rsc-utils/x-utils",
+	"version": "0.0.0",
+	"license": "LGPL-3.0-or-later",
+	"main": "build/index.js",
+	"type": "module",
+	"scripts": {
+		"build": "bash ./node_modules/@rsc-utils/console-utils/scripts/sh/build.sh",
+		"release": "bash ./node_modules/@rsc-utils/console-utils/scripts/sh/release.sh",
+		"test": "bash ./node_modules/@rsc-utils/console-utils/scripts/sh/test.sh"
+	},
+	"devDependencies": {
+		"@rsc-utils/console-utils": "github:rpg-sage-creative/console-utils",
+		"@rsc-utils/test-utils": "github:rpg-sage-creative/test-utils",
+		"@types/node": "^18.18.7"
+	},
+	"dependencies": {
+		"@rsc-utils/type-utils": "github:rpg-sage-creative/type-utils"
+	}
+}
