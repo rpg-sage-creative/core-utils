@@ -1,5 +1,7 @@
 import { ArrayAsserter } from "./ArrayAsserter.js";
-import { AsserterBase, type TAsserterParent, type TObjectAsserter } from "./internal/index.js";
+import { AsserterBase } from "./internal/AsserterBase.js";
+import type { TAsserterParent } from "./internal/TAsserterParent.js";
+import type { TObjectAsserter } from "./internal/TObjectAsserter.js";
 import { ValueAsserter } from "./ValueAsserter.js";
 export declare class ObjectAsserter<Value, Parent extends TAsserterParent = TAsserterParent> extends AsserterBase<Value, Parent> implements TObjectAsserter<Value> {
     assertMap: Map<string, boolean>;

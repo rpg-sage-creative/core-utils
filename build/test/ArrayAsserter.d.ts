@@ -1,4 +1,6 @@
-import { AsserterBase, type TAsserterBase, type TAsserterParent } from "./internal/index.js";
+import { AsserterBase } from "./internal/AsserterBase.js";
+import type { TAsserterBase } from "./internal/TAsserterBase.js";
+import type { TAsserterParent } from "./internal/TAsserterParent.js";
 type ArrayOfTester<Value = any> = (value: Value) => boolean;
 type ArrayIterator<ValueType, ArrayParent extends TAsserterParent, Asserter extends TAsserterBase> = (this: ArrayAsserter<ValueType, ArrayParent>, asserter: Asserter, index: number, array: ValueType[]) => unknown;
 export declare class ArrayAsserter<Value, Parent extends TAsserterParent = TAsserterParent> extends AsserterBase<Value, Parent> implements TAsserterParent {

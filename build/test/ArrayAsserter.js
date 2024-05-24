@@ -1,5 +1,5 @@
+import { AsserterBase } from "./internal/AsserterBase.js";
 import { ObjectAsserter } from "./ObjectAsserter.js";
-import { AsserterBase } from "./internal/index.js";
 export class ArrayAsserter extends AsserterBase {
     assertMap;
     isArray;
@@ -15,16 +15,18 @@ export class ArrayAsserter extends AsserterBase {
         this.array.forEach((_, index) => this.keySet.add(`${this.keyPath}.${index}`));
     }
     of(type) {
-        if (!this.keyPresent || !this.isArray)
+        if (!this.keyPresent || !this.isArray) {
             return this._assert(false);
+        }
         const tester = typeof (type) === "string" ? (value) => typeof (value) === type : type;
         const typeMatches = this.array.map(tester);
         const hasFalse = typeMatches.includes(false);
         return this._assert(this.keyPresent ? !hasFalse : false);
     }
     iterate(iterator) {
-        if (!this.keyPresent || !this.isArray)
+        if (!this.keyPresent || !this.isArray) {
             return this._assert(false);
+        }
         const optional = false;
         const _this = this;
         this.array.forEach((value, index, array) => {

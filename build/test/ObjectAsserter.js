@@ -1,5 +1,5 @@
 import { ArrayAsserter } from "./ArrayAsserter.js";
-import { AsserterBase } from "./internal/index.js";
+import { AsserterBase } from "./internal/AsserterBase.js";
 import { ValueAsserter } from "./ValueAsserter.js";
 export class ObjectAsserter extends AsserterBase {
     assertMap;

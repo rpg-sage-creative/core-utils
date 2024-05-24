@@ -3,7 +3,8 @@ import { enableColorLevels } from "../console/colors/enableColorLevels.js";
 import { error } from "../console/loggers/error.js";
 import { info } from "../console/loggers/info.js";
 import { enableLogLevels } from "../console/logLevels/enableLogLevels.js";
-import { getAssertData, startAsserting, stopAsserting } from "./assert/index.js";
+import { getAssertData } from "./assert/AssertData.js";
+import { startAsserting, stopAsserting } from "./assert/AssertLabel.js";
 function showSummary(ex) {
     if (ex) {
         error(ex);

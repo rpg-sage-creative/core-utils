@@ -6,15 +6,32 @@ It contains the utility logic most commonly used throughout RSC repos.
 
 ## src/console
 
-Some of the functions in this repo are designed for debugging/logging.
+These functions are designed for debugging/logging.
+
+## src/env
+
+These functions are designed for environment variables.
+
+## src/json
+
+These functions are designed for interacting with JSON objects.
+Included are bigint safe parse/stringify functions.
+
+## src/snowflake
+
+These functions are designed for interacting with Discord snowflakes.
 
 ## src/test
 
-Some of the functions in this repo are designed for unit testing.
+These functions are designed for unit testing.
 
 ## src/types
 
-Some of the functions and objects in this repo are common types and commonly reused object/type based methods.
+These functions and objects are commonly reused objects, types, and related methods.
+
+## src/uuid
+
+These functions are designed for interacting with UUIDs.
 
 ## scripts
 
@@ -28,4 +45,4 @@ The build scripts included in this repo perform a dual pass build. One builds ev
 
 ### History
 
-It was created by combining `console-utils`, `test-utils`, and `type-utils` into a single repo.
+It was created by combining `console-utils`, `test-utils`, and `type-utils` into a single repo. Others repos were later added: `env-utils`, `json-utils`, `snowflake-utils`, and `uuid-utils`.

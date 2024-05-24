@@ -1,4 +1,4 @@
-import { AsserterBase } from "./internal/index.js";
+import { AsserterBase } from "./internal/AsserterBase.js";
 export class ValueAsserter extends AsserterBase {
     boolean() {
         return this.typeOf("boolean");

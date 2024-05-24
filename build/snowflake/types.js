@@ -1,0 +1,1 @@
+export const NIL_SNOWFLAKE = "0000000000000000";

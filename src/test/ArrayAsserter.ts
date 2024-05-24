@@ -1,5 +1,7 @@
+import { AsserterBase } from "./internal/AsserterBase.js";
+import type { TAsserterBase } from "./internal/TAsserterBase.js";
+import type { TAsserterParent } from "./internal/TAsserterParent.js";
 import { ObjectAsserter } from "./ObjectAsserter.js";
-import { AsserterBase, type TAsserterBase, type TAsserterParent } from "./internal/index.js";
 
 type ArrayOfTester<Value = any> = (value: Value) => boolean;
 
@@ -29,7 +31,9 @@ export class ArrayAsserter<Value, Parent extends TAsserterParent = TAsserterPare
 	public of(type: string): Parent;
 	public of<Value>(tester: ArrayOfTester<Value>): Parent;
 	public of(type: string | ArrayOfTester) {
-		if (!this.keyPresent || !this.isArray) return this._assert(false);
+		if (!this.keyPresent || !this.isArray) {
+			return this._assert(false);
+		}
 
 		const tester = typeof(type) === "string" ? (value: any) => typeof(value) === type : type;
 		const typeMatches = this.array.map(tester);
@@ -39,7 +43,9 @@ export class ArrayAsserter<Value, Parent extends TAsserterParent = TAsserterPare
 	}
 
 	public iterate(iterator: ArrayIterator<Value, Parent, any>) {
-		if (!this.keyPresent || !this.isArray) return this._assert(false);
+		if (!this.keyPresent || !this.isArray) {
+			return this._assert(false);
+		}
 		const optional = false;
 		const _this = this;
 		this.array.forEach((value: Value, index: number, array: Value[]) => {

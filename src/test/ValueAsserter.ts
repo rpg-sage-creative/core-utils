@@ -1,4 +1,5 @@
-import { AsserterBase, type TAsserterParent } from "./internal/index.js";
+import { AsserterBase } from "./internal/AsserterBase.js";
+import type { TAsserterParent } from "./internal/TAsserterParent.js";
 
 export class ValueAsserter<Value, Parent extends TAsserterParent> extends AsserterBase<Value, Parent> {
 

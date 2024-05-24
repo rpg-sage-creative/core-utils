@@ -1,3 +1,4 @@
+import { stringify } from "../json/bigint/stringify.js";
 function isErrorLike(arg) {
     if (arg) {
         if (arg instanceof Error) {
@@ -22,5 +23,5 @@ export function formatArg(arg) {
     if (!asString.startsWith("[object")) {
         return asString;
     }
-    return JSON.stringify(arg, (_, value) => typeof (value) === "bigint" ? `bigint-${value}n` : value);
+    return stringify(arg);
 }

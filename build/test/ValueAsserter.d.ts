@@ -1,4 +1,5 @@
-import { AsserterBase, type TAsserterParent } from "./internal/index.js";
+import { AsserterBase } from "./internal/AsserterBase.js";
+import type { TAsserterParent } from "./internal/TAsserterParent.js";
 export declare class ValueAsserter<Value, Parent extends TAsserterParent> extends AsserterBase<Value, Parent> {
     boolean(): Parent;
     enum<Enum>(enumObj: Enum): Parent;
