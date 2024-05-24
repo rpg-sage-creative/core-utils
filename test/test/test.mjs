@@ -1,4 +1,4 @@
-import { assert, runTests, setAssertMode, startAsserting, stopAsserting } from "../build/index.js"
+import { assert, runTests, setAssertMode, startAsserting, stopAsserting } from "../../build/index.js"
 
 runTests(async function test_testUtils() {
 	// test assert

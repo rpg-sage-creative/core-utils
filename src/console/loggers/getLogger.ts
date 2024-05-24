@@ -1,7 +1,7 @@
-import { colorPrefix } from "./colors/colorPrefix.js";
-import { getHandlers } from "./handlers/getHandlers.js";
-import type { LogLevelName } from "./logLevels/LogLevel.js";
-import { isLogLevelEnabled } from "./logLevels/isLogLevelEnabled.js";
+import { colorPrefix } from "../colors/colorPrefix.js";
+import { getHandlers } from "../handlers/getHandlers.js";
+import type { LogLevelName } from "../logLevels/LogLevel.js";
+import { isLogLevelEnabled } from "../logLevels/isLogLevelEnabled.js";
 
 /** Common interface to ensure all logging functions are accessible. */
 export interface Logger {

@@ -1,4 +1,4 @@
-import { info, assert, runTests, isDefined, isNullOrUndefined, isPrimitive } from "../build/index.js";
+import { info, assert, runTests, isDefined, isNullOrUndefined, isPrimitive } from "../../build/index.js";
 
 runTests(function test_typeUtils() {
 	//#region isDefined

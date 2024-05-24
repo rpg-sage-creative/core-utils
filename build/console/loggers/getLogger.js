@@ -1,6 +1,6 @@
-import { colorPrefix } from "./colors/colorPrefix.js";
-import { getHandlers } from "./handlers/getHandlers.js";
-import { isLogLevelEnabled } from "./logLevels/isLogLevelEnabled.js";
+import { colorPrefix } from "../colors/colorPrefix.js";
+import { getHandlers } from "../handlers/getHandlers.js";
+import { isLogLevelEnabled } from "../logLevels/isLogLevelEnabled.js";
 let _logger;
 export function getLogger() {
     if (!_logger) {

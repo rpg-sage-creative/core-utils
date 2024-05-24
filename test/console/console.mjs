@@ -1,5 +1,5 @@
-import * as ConsoleUtils from "../build/console/index.js";
-import { formatArg, runTests } from "../build/index.js";
+import * as ConsoleUtils from "../../build/console/index.js";
+import { formatArg, runTests } from "../../build/index.js";
 
 const logLevels = ["silly", "debug", "verbose", "http", "info", "warn", "error"];
 
