@@ -42,13 +42,20 @@ function runTest() {
 	echo "Testing: $1 ... done."
 }
 
-# run the tests
-for file in ./test/*.*js; do
-	[ -f "$file" ] && runTest $file $1 $2 $3 $4 $5 $6 $7 $8
-done
-for file in ./test/*/*.*js; do
-	[ -f "$file" ] && runTest $file $1 $2 $3 $4 $5 $6 $7 $8
-done
+# run explicitly given test file
+if [ -f "$1" ]; then
+	runTest $1 $2 $3 $4 $5 $6 $7 $8
+
+# iterate all test files
+else
+	# run the tests
+	for file in ./test/*.*js; do
+		[ -f "$file" ] && runTest $file $1 $2 $3 $4 $5 $6 $7 $8
+	done
+	for file in ./test/*/*.*js; do
+		[ -f "$file" ] && runTest $file $1 $2 $3 $4 $5 $6 $7 $8
+	done
+fi
 
 echo ""
 echo "Testing: $repoName ... done."
