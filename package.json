@@ -1,6 +1,6 @@
 {
 	"name": "@rsc-utils/core-utils",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"license": "LGPL-3.0-or-later",
 	"main": "build/index.js",
 	"type": "module",
@@ -12,6 +12,5 @@
 	"devDependencies": {
 		"@types/node": "^18.18.7"
 	},
-	"dependencies": {
-	}
+	"dependencies": {}
 }
