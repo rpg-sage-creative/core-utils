@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.2",
+"version":"0.0.3",
 "branch":"main",
-"commit":"e998291e93f0fa46a17f4bda1c43e2c6866ee5b1",
-"commitSubject":"include env-utils, json-utils, snowflake-utils, uuid-utils",
-"commitTs":1716587680000,
-"commitDate":"2024-05-24-1454",
-"buildTs":1716587722000,
-"buildDate":"2024-05-24-1455",
+"commit":"a8e3ff4379fdb8d48334d890931da341b3a2f376",
+"commitSubject":"include parseSnowflake and parseUuid",
+"commitTs":1716700585000,
+"commitDate":"2024-05-25-2216",
+"buildTs":1716700609000,
+"buildDate":"2024-05-25-2216",
 "author":"Randal"
 }
