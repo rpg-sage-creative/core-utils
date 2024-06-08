@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from "../types/index.js";
 import { isNilSnowflake } from "./isNilSnowflake.js";
 import { isNonNilSnowflake } from "./isNonNilSnowflake.js";
 import { isSnowflake } from "./isSnowflake.js";
@@ -20,7 +21,7 @@ export class SnowflakeMatcher {
     }
     value;
     matches(other) {
-        if (!this.isValid || other === null || other === undefined) {
+        if (!this.isValid || isNullOrUndefined(other)) {
             return false;
         }
         if (typeof (other) === "string") {

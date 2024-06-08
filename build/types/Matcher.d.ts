@@ -10,7 +10,7 @@ export type Matcher<Type extends string = string> = {
     /** The value used to compare to other values. */
     matchValue: string;
     /** The original value. */
-    value?: Type | null;
+    value: Optional<Type>;
     /** Returns true if the given value is considered a match. */
     matches(value: MatcherResolvable<Type>): boolean;
     /** Returns true if any of the given values are considered a match. */

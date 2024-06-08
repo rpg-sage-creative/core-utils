@@ -1,8 +1,9 @@
 import { isNonNilSnowflake } from "../snowflake/isNonNilSnowflake.js";
 import type { Snowflake } from "../snowflake/types.js";
+import type { Optional } from "../types/generics.js";
 import { getFromProcess } from "./internal/getFromProcess.js";
 
-function isValid(value: string | number | null | undefined): value is Snowflake {
+function isValid(value: Optional<string | number>): value is Snowflake {
 	return isNonNilSnowflake(String(value));
 }
 

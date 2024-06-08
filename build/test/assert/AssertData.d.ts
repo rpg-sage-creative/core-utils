@@ -12,7 +12,7 @@ type AssertData = AssertCounts & {
 /** Clears any assertion data. */
 export declare function clearAssertData(): void;
 /** Returns the current totals, or all 0s if no assertions have been incremented. */
-export declare function getAssertData(): AssertData | null;
+export declare function getAssertData(): AssertData;
 /**
  * Increments the total number of assertions.
  * If given true, the number of passed assertions is incremented.

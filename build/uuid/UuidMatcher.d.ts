@@ -19,7 +19,7 @@ export declare class UuidMatcher implements Matcher<UUID> {
     /** The value used to compare to other values. */
     get matchValue(): UUID;
     /** Stores the raw value. */
-    value?: UUID | null;
+    value: Optional<UUID>;
     /** Returns true if the given value is considered a match. */
     matches<T extends MatcherResolvable>(other: T): boolean;
     /** Returns true if any of the given values are considered a match. */

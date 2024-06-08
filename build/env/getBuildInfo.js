@@ -20,7 +20,7 @@ function readBuildInfo(repoPath, utilName) {
     }
     catch (ex) {
     }
-    return null;
+    return undefined;
 }
 function getRscLibsBuildInfo() {
     const rootPath = getRootPath();

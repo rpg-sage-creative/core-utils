@@ -5,7 +5,7 @@ function isValidCodeName(value) {
     return ["dev", "beta", "stable"].includes(value);
 }
 function isValid(value) {
-    return isValidCodeName(String(value));
+    return typeof (value) === "string" ? isValidCodeName(value) : false;
 }
 function enableLogLevelsIfValid(value) {
     const stringValue = String(value);

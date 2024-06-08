@@ -19,7 +19,7 @@ export declare class SnowflakeMatcher implements Matcher<Snowflake> {
     /** The value used to compare to other values. */
     get matchValue(): Snowflake;
     /** Stores the raw value. */
-    value?: Snowflake | null;
+    value: Optional<Snowflake>;
     /** Returns true if the given value is considered a match. */
     matches<T extends MatcherResolvable>(other: T): boolean;
     /** Returns true if any of the given values are considered a match. */

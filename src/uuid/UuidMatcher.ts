@@ -1,4 +1,5 @@
 import type { Optional } from "../types/generics.js";
+import { isNullOrUndefined } from "../types/index.js";
 import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
 import { isNilUuid } from "./isNilUuid.js";
 import { isNonNilUuid } from "./isNonNillUuid.js";
@@ -40,11 +41,11 @@ export class UuidMatcher implements Matcher<UUID> {
 	}
 
 	/** Stores the raw value. */
-	public value?: UUID | null;
+	public value: Optional<UUID>;
 
 	/** Returns true if the given value is considered a match. */
 	public matches<T extends MatcherResolvable>(other: T): boolean {
-		if (!this.isValid || other === null || other === undefined) {
+		if (!this.isValid || isNullOrUndefined(other)) {
 			return false;
 		}
 		if (typeof(other) === "string") {

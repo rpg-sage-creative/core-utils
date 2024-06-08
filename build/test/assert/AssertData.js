@@ -1,7 +1,7 @@
 import { getAssertLabel } from "./AssertLabel.js";
 let _assertData;
 export function clearAssertData() {
-    _assertData = null;
+    _assertData = undefined;
 }
 export function getAssertData() {
     return _assertData ?? { total: 0, passed: 0, failed: 0, labeled: [] };

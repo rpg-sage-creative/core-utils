@@ -1,5 +1,6 @@
+import { isNullOrUndefined } from "../typeGuards/isNullOrUndefined.js";
 export function parseEnum(_enum, value, defaultValue) {
-    if (value === null || value === undefined) {
+    if (isNullOrUndefined(value)) {
         return defaultValue;
     }
     if (typeof (value) === "number") {

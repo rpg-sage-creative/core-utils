@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from "../types/index.js";
 import { isNilUuid } from "./isNilUuid.js";
 import { isNonNilUuid } from "./isNonNillUuid.js";
 import { isUuid } from "./isUuid.js";
@@ -20,7 +21,7 @@ export class UuidMatcher {
     }
     value;
     matches(other) {
-        if (!this.isValid || other === null || other === undefined) {
+        if (!this.isValid || isNullOrUndefined(other)) {
             return false;
         }
         if (typeof (other) === "string") {
