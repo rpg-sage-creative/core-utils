@@ -4,4 +4,4 @@ export declare const NIL_SNOWFLAKE: NIL_SNOWFLAKE;
 export type NIL_SNOWFLAKE = Snowflake & {
     nil_snowflake: never;
 };
-export type Snowflake = string;
+export type Snowflake = `${number}`;

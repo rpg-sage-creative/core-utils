@@ -12,5 +12,7 @@
 	"devDependencies": {
 		"@types/node": "^18.18.7"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"@sapphire/snowflake": "^3.5.3"
+	}
 }

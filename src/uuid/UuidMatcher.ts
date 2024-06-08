@@ -71,11 +71,11 @@ export class UuidMatcher implements Matcher<UUID> {
 
 	/** Returns the original value. */
 	public toString(): Optional<UUID> {
-		return this.value ?? "";
+		return this.value;
 	}
 
 	/** Convenience method for new UuidMatcher(value) */
 	public static from(value: Optional<MatcherResolvable>): UuidMatcher {
-		return new UuidMatcher(typeof(value) === "string" ? value : value?.value);
+		return new UuidMatcher((typeof(value) === "string" ? value : value?.value) as UUID);
 	}
 }

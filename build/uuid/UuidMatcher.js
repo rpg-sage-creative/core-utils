@@ -38,9 +38,9 @@ export class UuidMatcher {
         return args.flat(1).some(value => this.matches(value));
     }
     toString() {
-        return this.value ?? "";
+        return this.value;
     }
     static from(value) {
-        return new UuidMatcher(typeof (value) === "string" ? value : value?.value);
+        return new UuidMatcher((typeof (value) === "string" ? value : value?.value));
     }
 }

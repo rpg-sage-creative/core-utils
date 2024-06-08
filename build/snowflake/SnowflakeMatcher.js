@@ -38,9 +38,9 @@ export class SnowflakeMatcher {
         return args.flat(1).some(value => this.matches(value));
     }
     toString() {
-        return this.value ?? "";
+        return this.value;
     }
     static from(value) {
-        return new SnowflakeMatcher(typeof (value) === "string" ? value : value?.value);
+        return new SnowflakeMatcher((typeof (value) === "string" ? value : value?.value));
     }
 }

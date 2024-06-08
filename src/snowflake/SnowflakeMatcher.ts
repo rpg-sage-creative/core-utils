@@ -71,11 +71,11 @@ export class SnowflakeMatcher implements Matcher<Snowflake> {
 
 	/** Returns the original value. */
 	public toString(): Optional<Snowflake> {
-		return this.value ?? "";
+		return this.value;
 	}
 
 	/** Convenience method for new SnowflakeMatcher(value) */
 	public static from(value: Optional<MatcherResolvable>): SnowflakeMatcher {
-		return new SnowflakeMatcher(typeof(value) === "string" ? value : value?.value);
+		return new SnowflakeMatcher((typeof(value) === "string" ? value : value?.value) as Snowflake);
 	}
 }
