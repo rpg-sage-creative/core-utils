@@ -1,4 +1,4 @@
-import { CodeName } from "./CodeName.js";
+import type { CodeName } from "./CodeName.js";
 /**
  * Returns the codeName.
  */
