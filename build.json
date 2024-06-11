@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.3",
+"version":"0.0.4",
 "branch":"main",
-"commit":"a8e3ff4379fdb8d48334d890931da341b3a2f376",
-"commitSubject":"include parseSnowflake and parseUuid",
-"commitTs":1716700585000,
-"commitDate":"2024-05-25-2216",
-"buildTs":1716700609000,
-"buildDate":"2024-05-25-2216",
+"commit":"7a4f751c552278939e17a1c7d8a2d4f807a05428",
+"commitSubject":"use undefined over null; us isNullOrUndefined",
+"commitTs":1717869906000,
+"commitDate":"2024-06-08-1105",
+"buildTs":1718079303000,
+"buildDate":"2024-06-10-2115",
 "author":"Randal"
 }
