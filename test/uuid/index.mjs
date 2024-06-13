@@ -1,7 +1,7 @@
-import { NIL_UUID, UuidMatcher, assert, isNilUuid, isNonNilUuid, isUuid, orNilUuid, runTests } from "../../build/index.js";
+import { NIL_UUID, UuidMatcher, assert, isNilUuid, isNonNilUuid, isUuid, orNilUuid, randomUuid, runTests } from "../../build/index.js";
 
 runTests(async function test_uuid() {
-	const validUuid = "3eb327b2-ecf6-40b0-a026-95b4dab9a141";
+	const validUuid = randomUuid();
 	const invalidUuid = "BOB";
 	assert(isUuid(NIL_UUID), `isUuid(NIL_UUID) --> false`);
 	assert(isNilUuid(NIL_UUID), `isNilUuid(NIL_UUID) --> false`);

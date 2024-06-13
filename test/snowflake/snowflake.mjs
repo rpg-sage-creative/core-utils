@@ -1,4 +1,4 @@
-import { assert, runTests, warn, NIL_SNOWFLAKE, isNilSnowflake, isNonNilSnowflake, isSnowflake, orNilSnowflake } from "../../build/index.js";
+import { assert, runTests, warn, NIL_SNOWFLAKE, isNilSnowflake, isNonNilSnowflake, isSnowflake, orNilSnowflake, randomSnowflake } from "../../build/index.js";
 
 runTests(async function test_snowflake() {
 	const zero = "00000";
@@ -15,7 +15,7 @@ runTests(async function test_snowflake() {
 	assert(false, isNilSnowflake, short);
 	assert(false, isNonNilSnowflake, short);
 
-	const snowflake = "1234567890123456";
+	const snowflake = randomSnowflake();
 	assert(true, isSnowflake, snowflake);
 	assert(false, isNilSnowflake, snowflake);
 	assert(true, isNonNilSnowflake, snowflake);
