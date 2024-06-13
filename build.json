@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.4",
+"version":"0.0.5",
 "branch":"main",
-"commit":"7a4f751c552278939e17a1c7d8a2d4f807a05428",
-"commitSubject":"use undefined over null; us isNullOrUndefined",
-"commitTs":1717869906000,
-"commitDate":"2024-06-08-1105",
-"buildTs":1718079303000,
-"buildDate":"2024-06-10-2115",
+"commit":"fb307145c381939a250ac637bae78ea7968408dd",
+"commitSubject":"modify runTests to be a single function but allow args after exitOnFail",
+"commitTs":1718312731000,
+"commitDate":"2024-06-13-1405",
+"buildTs":1718312748000,
+"buildDate":"2024-06-13-1405",
 "author":"Randal"
 }
