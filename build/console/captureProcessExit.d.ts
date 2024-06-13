@@ -1,3 +1,4 @@
+import type { Awaitable } from "../types/generics.js";
 type SignalEventName = 
 /** interrupt from keyboard (such as Ctrl+C): do normal shutdown and cleanup processes */
 "SIGINT"
@@ -7,9 +8,7 @@ type SignalEventName =
  | "SIGTERM"
 /** Hangup detected on controlling terminal or death of controlling process: ?? */
  | "SIGHUP";
-type AsyncSignalHandler = (eventName: SignalEventName, code?: number) => Promise<void>;
-type SyncSignalHandler = (eventName: SignalEventName, code?: number) => void;
-type SignalHandler = AsyncSignalHandler | SyncSignalHandler;
+type SignalHandler = (eventName: SignalEventName, code?: number) => Awaitable<void>;
 /** Captures SIGINT events to log them before exiting the process. */
 export declare function captureProcessExit(): void;
 /**
