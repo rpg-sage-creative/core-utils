@@ -15,9 +15,12 @@ function showSummary(ex) {
         process.exit(1);
     }
 }
-async function runTest(fn, exitOnFail) {
+export async function runTests(testFn, exitOnFail, ...args) {
+    enableColorLevels("development");
+    enableLogLevels("development");
+    startAsserting(testFn.name);
     try {
-        const res = fn();
+        const res = testFn(...args);
         if (isPromise(res)) {
             res.catch(showSummary);
         }
@@ -26,19 +29,9 @@ async function runTest(fn, exitOnFail) {
     catch (ex) {
         showSummary(ex);
     }
+    stopAsserting();
     if (exitOnFail && getAssertData()?.failed) {
         process.exit(1);
-    }
-}
-export async function runTests(...args) {
-    const exitOnFail = args.includes(true);
-    const tests = args.filter((arg) => typeof (arg) === "function");
-    enableColorLevels("development");
-    enableLogLevels("development");
-    for (const test of tests) {
-        startAsserting(test.name);
-        await runTest(test, exitOnFail);
-        stopAsserting();
     }
     showSummary();
 }
