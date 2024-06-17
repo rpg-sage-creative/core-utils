@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.5",
+"version":"0.0.6",
 "branch":"main",
-"commit":"fb307145c381939a250ac637bae78ea7968408dd",
-"commitSubject":"modify runTests to be a single function but allow args after exitOnFail",
-"commitTs":1718312731000,
-"commitDate":"2024-06-13-1405",
-"buildTs":1718312748000,
-"buildDate":"2024-06-13-1405",
+"commit":"08843a40c9632b3c4a4680926f358d9391a7656f",
+"commitSubject":"add pause logic",
+"commitTs":1718655037000,
+"commitDate":"2024-06-17-1310",
+"buildTs":1718655062000,
+"buildDate":"2024-06-17-1311",
 "author":"Randal"
 }
