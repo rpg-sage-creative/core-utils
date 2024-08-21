@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.7",
+"version":"0.0.8",
 "branch":"main",
-"commit":"d14a05516ae65978ad3a7a872a23a762a7ef2965",
-"commitSubject":"add assertAsync",
-"commitTs":1724280346000,
-"commitDate":"2024-08-21-1545",
-"buildTs":1724280366000,
-"buildDate":"2024-08-21-1546",
+"commit":"7c4365213df440fa60dbbd40086dbbf360fda4df",
+"commitSubject":"code reuse; label function args when asserting",
+"commitTs":1724281597000,
+"commitDate":"2024-08-21-1606",
+"buildTs":1724281615000,
+"buildDate":"2024-08-21-1606",
 "author":"Randal"
 }
