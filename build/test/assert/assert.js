@@ -8,7 +8,9 @@ function stringify(value) {
     if (isNullOrUndefined(value)) {
         return String(value);
     }
-    return jsonStringify(value);
+    return typeof (value) === "function"
+        ? `function ${value.name || "/lambda/"}`
+        : jsonStringify(value);
 }
 function getAssertPrefix(value) {
     const tab = getAssertLabel() ? "  " : "";
@@ -41,23 +43,25 @@ function compareValues(expected, actual) {
     }
     return false;
 }
+function _assert(expectedValue, fnName, actualValue, args) {
+    const compareResults = compareValues(expectedValue, actualValue);
+    incrementAssertData(compareResults);
+    const assertLabel = getAssertPrefix(compareResults);
+    if (assertLabel) {
+        const argsString = args.map(arg => stringify(arg)).join(",");
+        const actualString = stringify(actualValue);
+        const expectedString = stringify(expectedValue);
+        const output = `${fnName}(${argsString}) => ${actualString} !== ${expectedString}`;
+        console.log(assertLabel, output);
+    }
+}
 export function assert(..._args) {
     const callbackfn = typeof (_args[1]) === "function" ? _args[1] : null;
     if (callbackfn) {
         const args = _args.slice(2);
         const expectedValue = _args[0];
         const actualValue = callbackfn(...args);
-        const compareResults = compareValues(expectedValue, actualValue);
-        incrementAssertData(compareResults);
-        const assertLabel = getAssertPrefix(compareResults);
-        if (assertLabel) {
-            const fnName = callbackfn.name || "/lambda/";
-            const argsString = args.map(arg => stringify(arg)).join(",");
-            const actualString = stringify(actualValue);
-            const expectedString = stringify(expectedValue);
-            const output = `${fnName}(${argsString}) => ${actualString} !== ${expectedString}`;
-            console.log(assertLabel, output);
-        }
+        _assert(expectedValue, callbackfn.name || "/lambda/", actualValue, args);
     }
     else {
         const assertBool = _args[0];
@@ -71,15 +75,5 @@ export function assert(..._args) {
 }
 export async function assertAsync(expectedValue, callbackfn, ...args) {
     const actualValue = await callbackfn(...args);
-    const compareResults = compareValues(expectedValue, actualValue);
-    incrementAssertData(compareResults);
-    const assertLabel = getAssertPrefix(compareResults);
-    if (assertLabel) {
-        const fnName = callbackfn.name || "/lambda/";
-        const argsString = args.map(arg => stringify(arg)).join(",");
-        const actualString = stringify(actualValue);
-        const expectedString = stringify(expectedValue);
-        const output = `${fnName}(${argsString}) => ${actualString} !== ${expectedString}`;
-        console.log(assertLabel, output);
-    }
+    _assert(expectedValue, callbackfn.name || "/lambda/", actualValue, args);
 }

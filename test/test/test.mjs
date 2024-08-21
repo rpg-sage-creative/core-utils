@@ -9,7 +9,7 @@ runTests(async function test_testUtils() {
 	assert(null, assertTester);
 	assert(undefined, assertTester);
 	assert(undefined, () => undefined);
-	assert(undefined, () => null);
+	assert(undefined, () => null, f => f, function empty() { });
 	stopAsserting();
 
 	// test assertAsync
