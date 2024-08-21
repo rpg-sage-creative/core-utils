@@ -92,3 +92,23 @@ export function assert(..._args: any[]): void {
 		}
 	}
 }
+
+/**
+ * A convenience method for using console.assert.
+ * The callback method is called with all the given args and compared to the expected value.
+ * The output for a failure is created to show the function name, args, and result as well as the expected value.
+ */
+export async function assertAsync<T>(expectedValue: T, callbackfn: Function, ...args: any[]): Promise<void> {
+	const actualValue = await callbackfn(...args);
+	const compareResults = compareValues(expectedValue, actualValue);
+	incrementAssertData(compareResults);
+	const assertLabel = getAssertPrefix(compareResults);
+	if (assertLabel) {
+		const fnName = callbackfn.name || "/lambda/";
+		const argsString = args.map(arg => stringify(arg)).join(",");
+		const actualString = stringify(actualValue);
+		const expectedString = stringify(expectedValue);
+		const output = `${fnName}(${argsString}) => ${actualString} !== ${expectedString}`;
+		console.log(assertLabel, output);
+	}
+}

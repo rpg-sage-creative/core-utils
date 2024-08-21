@@ -1,4 +1,4 @@
-import { assert, runTests, setAssertMode, startAsserting, stopAsserting } from "../../build/index.js"
+import { assert, assertAsync, runTests, setAssertMode, startAsserting, stopAsserting } from "../../build/index.js"
 
 runTests(async function test_testUtils() {
 	// test assert
@@ -10,6 +10,17 @@ runTests(async function test_testUtils() {
 	assert(undefined, assertTester);
 	assert(undefined, () => undefined);
 	assert(undefined, () => null);
+	stopAsserting();
+
+	// test assertAsync
+	startAsserting("assertAsync");
+	async function assertAsyncTester(...args) { return args.length; }
+	await assertAsync(2, assertAsyncTester, "one", "two");
+	await assertAsync(3, assertAsyncTester, "one", "two", 3, 4);
+	await assertAsync(null, assertAsyncTester);
+	await assertAsync(undefined, assertAsyncTester);
+	await assertAsync(undefined, () => undefined);
+	await assertAsync(undefined, () => null);
 	stopAsserting();
 
 	// test assert modes

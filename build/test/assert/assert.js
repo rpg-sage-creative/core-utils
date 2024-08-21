@@ -69,3 +69,17 @@ export function assert(..._args) {
         }
     }
 }
+export async function assertAsync(expectedValue, callbackfn, ...args) {
+    const actualValue = await callbackfn(...args);
+    const compareResults = compareValues(expectedValue, actualValue);
+    incrementAssertData(compareResults);
+    const assertLabel = getAssertPrefix(compareResults);
+    if (assertLabel) {
+        const fnName = callbackfn.name || "/lambda/";
+        const argsString = args.map(arg => stringify(arg)).join(",");
+        const actualString = stringify(actualValue);
+        const expectedString = stringify(expectedValue);
+        const output = `${fnName}(${argsString}) => ${actualString} !== ${expectedString}`;
+        console.log(assertLabel, output);
+    }
+}
