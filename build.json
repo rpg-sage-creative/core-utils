@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.6",
+"version":"0.0.7",
 "branch":"main",
-"commit":"08843a40c9632b3c4a4680926f358d9391a7656f",
-"commitSubject":"add pause logic",
-"commitTs":1718655037000,
-"commitDate":"2024-06-17-1310",
-"buildTs":1718655062000,
-"buildDate":"2024-06-17-1311",
+"commit":"d14a05516ae65978ad3a7a872a23a762a7ef2965",
+"commitSubject":"add assertAsync",
+"commitTs":1724280346000,
+"commitDate":"2024-08-21-1545",
+"buildTs":1724280366000,
+"buildDate":"2024-08-21-1546",
 "author":"Randal"
 }
