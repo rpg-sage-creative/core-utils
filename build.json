@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.8",
+"version":"0.0.9",
 "branch":"main",
-"commit":"7c4365213df440fa60dbbd40086dbbf360fda4df",
-"commitSubject":"code reuse; label function args when asserting",
-"commitTs":1724281597000,
-"commitDate":"2024-08-21-1606",
-"buildTs":1724281615000,
-"buildDate":"2024-08-21-1606",
+"commit":"57745d9f505d7e92bc9f8a7bc357c8e500014d74",
+"commitSubject":"add LogQueue",
+"commitTs":1725658430000,
+"commitDate":"2024-09-06-1433",
+"buildTs":1725658447000,
+"buildDate":"2024-09-06-1434",
 "author":"Randal"
 }
