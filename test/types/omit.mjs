@@ -12,4 +12,7 @@ runTests(function test_omit() {
 	assert(AB, omit, ABC, "c");
 	assert(B, omit, ABC, "a", "c");
 	assert({}, omit, ABC, "a", "b", "c");
+	assert({}, omit, ABC, ..."abc"); // experimenting with spread
+	assert(null, omit, null);
+	assert(undefined, omit);
 }, true);
