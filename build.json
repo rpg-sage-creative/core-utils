@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.9",
+"version":"0.0.10",
 "branch":"main",
-"commit":"57745d9f505d7e92bc9f8a7bc357c8e500014d74",
-"commitSubject":"add LogQueue",
-"commitTs":1725658430000,
-"commitDate":"2024-09-06-1433",
-"buildTs":1725658447000,
-"buildDate":"2024-09-06-1434",
+"commit":"3225f0eb7c91ca6168dd4eb7de726738a9f8895d",
+"commitSubject":"add omit()",
+"commitTs":1727987528000,
+"commitDate":"2024-10-03-1332",
+"buildTs":1727987548000,
+"buildDate":"2024-10-03-1332",
 "author":"Randal"
 }
