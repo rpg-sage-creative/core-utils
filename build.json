@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.11",
+"version":"0.0.12",
 "branch":"main",
-"commit":"96ea85469ca7c91673198ac2b3e2a5922e724e3e",
-"commitSubject":"allow omit() input to be null/undefined",
-"commitTs":1727987949000,
-"commitDate":"2024-10-03-1339",
-"buildTs":1727987968000,
-"buildDate":"2024-10-03-1339",
+"commit":"10f183dffcc9d12ab3f96b4fae0bbdc49f5e725c",
+"commitSubject":"add regex; implement regex helpers",
+"commitTs":1728605494000,
+"commitDate":"2024-10-10-1711",
+"buildTs":1728605523000,
+"buildDate":"2024-10-10-1712",
 "author":"Randal"
 }
