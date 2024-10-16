@@ -41,6 +41,9 @@ function compareValues(expected, actual) {
     if (typeof (expected) === "object" && typeof (actual) === "object") {
         return jsonStringify(expected) === jsonStringify(actual);
     }
+    if (isNaN(expected) && isNaN(actual)) {
+        return true;
+    }
     return false;
 }
 function _assert(expectedValue, fnName, actualValue, args) {

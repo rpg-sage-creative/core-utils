@@ -52,6 +52,9 @@ function compareValues(expected: unknown, actual: unknown): boolean {
 	if (typeof(expected) === "object" && typeof(actual) === "object") {
 		return jsonStringify(expected) === jsonStringify(actual);
 	}
+	if (isNaN(expected as number) && isNaN(actual as number)) {
+		return true;
+	}
 	return false;
 }
 
