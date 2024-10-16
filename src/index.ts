@@ -5,6 +5,7 @@ export * from "./number/index.js";
 export * from "./pause/index.js";
 export * from "./regex/index.js";
 export * from "./snowflake/index.js";
+export * from "./temperature/index.js";
 export * from "./test/index.js";
 export * from "./types/index.js";
 export * from "./uuid/index.js";
