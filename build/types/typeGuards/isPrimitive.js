@@ -3,5 +3,5 @@ export function isPrimitive(object) {
     return object === null
         || object === undefined
         || isDate(object)
-        || ["number", "string", "boolean"].includes(typeof (object));
+        || ["bigint", "boolean", "number", "string"].includes(typeof (object));
 }

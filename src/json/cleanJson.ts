@@ -44,7 +44,7 @@ export function cleanJson<T>(value: T, rules: "scrub"): T;
 /** Cleans the JSON using the given rules. */
 export function cleanJson<T>(value: T, rules: JsonCleanRules): T;
 export function cleanJson<T>(value: T, rulesOrScrub?: JsonCleanRules | "scrub"): T {
-	// We clean primitive values
+	// We don't clean primitive values
 	if (isPrimitive(value)) {
 		return value;
 	}

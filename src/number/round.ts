@@ -6,3 +6,14 @@ export function round(value: number, decimals: number): number {
 	const rounded = Math.round(Number(`${value}e${decimals}`));
 	return Number(`${rounded}e-${decimals}`);
 }
+
+/*
+
+@todo what was this for???
+
+export function roundToPrecision(x: number, precision = 1) {
+	const y = x + precision / 2;
+	return y - (y % precision);
+}
+
+*/

@@ -4,9 +4,6 @@ import type { RegExpQuantifier } from "./quantifyRegex.js";
 export type RegExpGetOptions = {
 	/** include the case insensitive flag in the regex */
 	iFlag?: "i" | "";
-
-	/** are spoilers allowed or optional */
-	spoilers?: boolean | "optional";
 };
 
 /** These options are intended for creating a new RegExp option each time to preserve the .lastIndex of each instance. */
