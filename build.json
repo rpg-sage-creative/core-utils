@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.13",
+"version":"0.0.14",
 "branch":"main",
-"commit":"e908d49e0492dc2d03c6359f8b0e2271d6dea886",
-"commitSubject":"redo bigint stringify/parse; reuse logic instead of duplicating it",
-"commitTs":1729101314000,
-"commitDate":"2024-10-16-1055",
-"buildTs":1729101525000,
-"buildDate":"2024-10-16-1058",
+"commit":"588459305bd677bb703c12965d023fb020ff882d",
+"commitSubject":"restructure number and typeGuards",
+"commitTs":1729122685000,
+"commitDate":"2024-10-16-1651",
+"buildTs":1729122993000,
+"buildDate":"2024-10-16-1656",
 "author":"Randal"
 }
