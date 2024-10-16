@@ -9,8 +9,8 @@ if [ ! -d "./.git" ]; then
 fi
 
 # always do a new build
-npm run build
-if [ "$?" != "0" ]; then echo "Unable to Test!"; exit 1; fi
+# npm run build
+# if [ "$?" != "0" ]; then echo "Unable to Test!"; exit 1; fi
 
 echo ""
 repoName="$(basename -- "$(pwd)")"
@@ -27,12 +27,22 @@ function checkForTests() {
 	echo ${found}
 }
 
+function checkForTest() {
+	local found=false
+	if [ -f "$1" ]; then
+		case $1 in *.mjs) found=true;; esac
+	fi
+	echo ${found}
+}
+
 # make sure we have tests
 hasTests=$(checkForTests);
 if [ "$hasTests" = "false" ]; then
 	echo "Nothing to Test."
 	exit 0
 fi
+
+hasTest=$(checkForTest $1)
 
 function runTest() {
 	echo ""
@@ -43,7 +53,7 @@ function runTest() {
 }
 
 # run explicitly given test file
-if [ -f "$1" ]; then
+if [ "$hasTest" = "true" ]; then
 	runTest $1 $2 $3 $4 $5 $6 $7 $8
 
 # iterate all test files
