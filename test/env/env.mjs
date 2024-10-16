@@ -1,4 +1,4 @@
-import { info, assert, runTests, getCodeName, getBuildInfo, getDataRoot, getEnvironmentName, getId, getPort, } from "../../build/index.js";
+import { info, assert, runTests, getCodeName, getBuildInfo, getDataRoot, getEnvironmentName, getId, getPort, error } from "../../build/index.js";
 
 function assertMissingVariable(fn, arg) {
 	try {
