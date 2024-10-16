@@ -1,5 +1,6 @@
 import { parseNumber } from "./internal/parseNumber.js";
 import { parseScriptedNumber } from "./internal/parseScriptedNumber.js";
+import { getSubscriptCharacters } from "./subscript/getSubscriptCharacters.js";
 import { getSuperscriptCharacters } from "./superscript/getSuperscriptCharacters.js";
 
 type NumberType = "number" | "super-number" | "sub-number"
@@ -17,19 +18,6 @@ type ParseResults = {
 
 
 export function parseNumberString(value: string): ParseResults | undefined {
-	// check for our serialized format of "bigint-{number}n"
-	if (/^bigint-\d+n$/.test(value)) {
-		return {
-			isBigInt: true,
-			isNaN: false,
-			isNumber: false,
-			numericValue: BigInt(value.slice(7, -1)),
-			stringValue: value,
-			type: "bigint",
-			value
-		};
-	}
-
 	// see if we need to convert super/sub
 	if (/[^\d\.-]/.test(value)) {
 		const superResults = parseScriptedNumber(value, getSuperscriptCharacters());
@@ -39,7 +27,7 @@ export function parseNumberString(value: string): ParseResults | undefined {
 			return undefined;
 		}
 
-		const subResults = parseScriptedNumber(value, getSuperscriptCharacters());
+		const subResults = parseScriptedNumber(value, getSubscriptCharacters());
 		if (subResults) {
 			if (subResults.isBigInt) return { ...subResults, type:"sub-bigint" };
 			if (subResults.isNumber) return { ...subResults, type:"sub-number" };

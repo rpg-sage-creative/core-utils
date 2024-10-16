@@ -14,7 +14,8 @@ export function parseScriptedNumber(value: string, characters: string[]): Result
 	const regularNumbers = "0123456789";
 
 	// get other period / numbers
-	const period = characters[11];
+	const period = characters[10];
+	const minus = characters[12];
 	const numbers = characters.slice(0, 10);
 
 	// convert to normal chars
@@ -25,6 +26,12 @@ export function parseScriptedNumber(value: string, characters: string[]): Result
 			// can't have two decimals
 			if (stringValue.includes(".")) return undefined;
 			stringValue += ".";
+
+		}else if (char === minus) {
+			// the minus can only be at the beginning
+			if (stringValue.length) return undefined;
+			stringValue = "-";
+
 		}else {
 			const index = numbers.indexOf(char);
 			// must be a valid number

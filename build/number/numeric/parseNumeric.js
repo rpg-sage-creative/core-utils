@@ -1,8 +1,9 @@
 export function parseNumeric(value) {
     if (/^-?\d+$/.test(value)) {
-        if (value.length < 16)
+        const length = value.replace(/^-/, "").length;
+        if (length < 16)
             return Number(value);
-        if (value.length > 16)
+        if (length > 16)
             return BigInt(value);
         const big = BigInt(value);
         if (big > Number.MAX_SAFE_INTEGER)
