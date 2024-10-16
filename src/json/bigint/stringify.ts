@@ -13,6 +13,6 @@ export function stringify(value: any, replacer?: Function | (string | number)[] 
 				retVal = undefined!;
 			}
 		}
-		return typeof(retVal) === "bigint" ? `bigint-${retVal}n` : retVal;
+		return typeof(retVal) === "bigint" ? { $bigint:value.toString() } : retVal;
 	}, space);
 }

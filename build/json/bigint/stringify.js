@@ -9,6 +9,6 @@ export function stringify(value, replacer, space) {
                 retVal = undefined;
             }
         }
-        return typeof (retVal) === "bigint" ? `bigint-${retVal}n` : retVal;
+        return typeof (retVal) === "bigint" ? { $bigint: value.toString() } : retVal;
     }, space);
 }

@@ -1,6 +1,6 @@
+import { stringify } from "../../json/index.js";
 import type { TAsserterBase } from "./TAsserterBase.js";
 import type { TAsserterParent } from "./TAsserterParent.js";
-import { jsonStringify } from "./jsonStringify.js";
 
 /** @internal */
 export abstract class AsserterBase<Value, Parent extends TAsserterParent> implements TAsserterBase<Value> {
@@ -23,7 +23,7 @@ export abstract class AsserterBase<Value, Parent extends TAsserterParent> implem
 	protected _assert(testBool: boolean): Parent {
 		this.parent.assertMap.set(this.key, true);
 		const assertBool = this.optional ? !this.keyPresent || testBool : testBool;
-		const assertMessage = `${this.keyPath} :: ${jsonStringify(this.keyValue)}`;
+		const assertMessage = `${this.keyPath} :: ${stringify(this.keyValue)}`;
 		console.assert(assertBool, assertMessage);
 		return this.parent;
 	}

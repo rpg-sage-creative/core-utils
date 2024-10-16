@@ -1,6 +1,6 @@
 import { isDate } from "util/types";
+import { stringify as jsonStringify } from "../../json/index.js";
 import { isNullOrUndefined } from "../../types/index.js";
-import { jsonStringify } from "../internal/jsonStringify.js";
 import { incrementAssertData } from "./AssertData.js";
 import { getAssertLabel } from "./AssertLabel.js";
 import { getAssertMode } from "./AssertMode.js";
