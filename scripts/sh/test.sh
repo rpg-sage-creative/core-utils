@@ -9,8 +9,8 @@ if [ ! -d "./.git" ]; then
 fi
 
 # always do a new build
-# npm run build
-# if [ "$?" != "0" ]; then echo "Unable to Test!"; exit 1; fi
+npm run build
+if [ "$?" != "0" ]; then echo "Unable to Test!"; exit 1; fi
 
 echo ""
 repoName="$(basename -- "$(pwd)")"
