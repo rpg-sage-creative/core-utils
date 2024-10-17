@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.15",
+"version":"0.0.16",
 "branch":"main",
-"commit":"ceef11cbd36cd4b08c5d9e79dfd0f17ca5f9f578",
-"commitSubject":"bring in cache-utils logic",
-"commitTs":1729133578000,
-"commitDate":"2024-10-16-1952",
-"buildTs":1729133611000,
-"buildDate":"2024-10-16-1953",
+"commit":"ea15f3e37470b4d05fb2e0bcafd7d15775ceb427",
+"commitSubject":"include class-utils",
+"commitTs":1729140671000,
+"commitDate":"2024-10-16-2151",
+"buildTs":1729140737000,
+"buildDate":"2024-10-16-2152",
 "author":"Randal"
 }
