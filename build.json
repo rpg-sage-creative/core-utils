@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.14",
+"version":"0.0.15",
 "branch":"main",
-"commit":"588459305bd677bb703c12965d023fb020ff882d",
-"commitSubject":"restructure number and typeGuards",
-"commitTs":1729122685000,
-"commitDate":"2024-10-16-1651",
-"buildTs":1729122993000,
-"buildDate":"2024-10-16-1656",
+"commit":"ceef11cbd36cd4b08c5d9e79dfd0f17ca5f9f578",
+"commitSubject":"bring in cache-utils logic",
+"commitTs":1729133578000,
+"commitDate":"2024-10-16-1952",
+"buildTs":1729133611000,
+"buildDate":"2024-10-16-1953",
 "author":"Randal"
 }
