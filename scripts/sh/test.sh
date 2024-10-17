@@ -28,11 +28,22 @@ function checkForTests() {
 }
 
 function checkForTest() {
-	local found=false
+	local retVal=
 	if [ -f "$1" ]; then
-		case $1 in *.mjs) found=true;; esac
+		local found=
+		case $1 in
+			*.mjs) retVal="$1";;
+			*.ts) found="$1";;
+		esac
+		if [ ! -z "$found" ]; then
+			found="${found/src/test}"
+			found="${found/.ts/.mjs}"
+			if [ -f "$found" ]; then
+				retVal="$found"
+			fi
+		fi
 	fi
-	echo ${found}
+	echo ${retVal}
 }
 
 # make sure we have tests
@@ -42,7 +53,7 @@ if [ "$hasTests" = "false" ]; then
 	exit 0
 fi
 
-hasTest=$(checkForTest $1)
+testFile=$(checkForTest $1)
 
 function runTest() {
 	echo ""
@@ -53,8 +64,8 @@ function runTest() {
 }
 
 # run explicitly given test file
-if [ "$hasTest" = "true" ]; then
-	runTest $1 $2 $3 $4 $5 $6 $7 $8
+if [ -f "$testFile" ]; then
+	runTest $testFile $2 $3 $4 $5 $6 $7 $8
 
 # iterate all test files
 else
