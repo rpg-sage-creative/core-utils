@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.16",
+"version":"0.0.17",
 "branch":"main",
-"commit":"ea15f3e37470b4d05fb2e0bcafd7d15775ceb427",
-"commitSubject":"include class-utils",
-"commitTs":1729140671000,
-"commitDate":"2024-10-16-2151",
-"buildTs":1729140737000,
-"buildDate":"2024-10-16-2152",
+"commit":"973d5e2969815cbcbc5d9b198ff2d92d6aa3152d",
+"commitSubject":"add sum function to number",
+"commitTs":1729204044000,
+"commitDate":"2024-10-17-1527",
+"buildTs":1729204146000,
+"buildDate":"2024-10-17-1529",
 "author":"Randal"
 }
