@@ -1,5 +1,8 @@
 import { AsserterBase } from "./internal/AsserterBase.js";
 export class ValueAsserter extends AsserterBase {
+    bigint() {
+        return this.typeOf("bigint");
+    }
     boolean() {
         return this.typeOf("boolean");
     }

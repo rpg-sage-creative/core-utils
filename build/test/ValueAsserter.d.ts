@@ -1,6 +1,7 @@
 import { AsserterBase } from "./internal/AsserterBase.js";
 import type { TAsserterParent } from "./internal/TAsserterParent.js";
 export declare class ValueAsserter<Value, Parent extends TAsserterParent> extends AsserterBase<Value, Parent> {
+    bigint(): Parent;
     boolean(): Parent;
     enum<Enum>(enumObj: Enum): Parent;
     in(array: Value[]): Parent;

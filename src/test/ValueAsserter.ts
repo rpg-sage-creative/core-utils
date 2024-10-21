@@ -3,6 +3,10 @@ import type { TAsserterParent } from "./internal/TAsserterParent.js";
 
 export class ValueAsserter<Value, Parent extends TAsserterParent> extends AsserterBase<Value, Parent> {
 
+	public bigint() {
+		return this.typeOf("bigint");
+	}
+
 	public boolean() {
 		return this.typeOf("boolean");
 	}

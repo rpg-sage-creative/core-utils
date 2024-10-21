@@ -53,6 +53,9 @@ export class ObjectAsserter extends AsserterBase {
         });
         return this;
     }
+    bigint(key, optional = false) {
+        return this.value(key, optional).bigint();
+    }
     boolean(key, optional = false) {
         return this.value(key, optional).boolean();
     }

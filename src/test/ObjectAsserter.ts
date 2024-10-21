@@ -61,6 +61,9 @@ export class ObjectAsserter<Value, Parent extends TAsserterParent = TAsserterPar
 		return this;
 	}
 
+	public bigint(key: keyof Value, optional = false): this {
+		return this.value(key, optional).bigint();
+	}
 	public boolean(key: keyof Value, optional = false): this {
 		return this.value(key, optional).boolean();
 	}

@@ -15,6 +15,7 @@ export declare class ObjectAsserter<Value, Parent extends TAsserterParent = TAss
     setKeys(keys: (keyof Value)[]): this;
     setKeys<Key = keyof Value>(...keys: (keyof Value)[]): this;
     todo(): this;
+    bigint(key: keyof Value, optional?: boolean): this;
     boolean(key: keyof Value, optional?: boolean): this;
     enum<Enum>(key: keyof Value, enumObj: Enum, optional?: boolean): this;
     number(key: keyof Value, optional?: boolean): this;
