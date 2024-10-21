@@ -59,8 +59,10 @@ runTests(async function test_consoleUtils() {
 	// test getLogger() ?? <- should this exen get exported?
 
 	// test addLogHandler()
-	ConsoleUtils.addLogHandler("warn", (...args) => console.log("added log handler (warn)", ...args));
+	const addedWarn = (...args) => console.log("added log handler (warn)", ...args);
+	ConsoleUtils.addLogHandler("warn", addedWarn);
 	ConsoleUtils.warn("testing", "addLogHandler(warn)");
+	ConsoleUtils.removeLogHandler("warn", addedWarn);
 
 	// test captureProcessExit()
 	ConsoleUtils.captureProcessExit((ev, code) => {
