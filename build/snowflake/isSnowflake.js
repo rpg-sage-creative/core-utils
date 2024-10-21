@@ -1,7 +1,8 @@
+let _regexp;
 export function isSnowflake(value) {
     if (value) {
-        const regex = /^\d{16,}$/;
-        return regex.test(value);
+        const regexp = _regexp ?? (_regexp = /^\d{16,}$/);
+        return regexp.test(value);
     }
     return false;
 }
