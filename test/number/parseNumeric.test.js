@@ -1,7 +1,16 @@
-import { assert, parseNumeric, parseNumericString, runTests } from "../../build/index.js";
+import { parseNumeric, parseNumericString } from "../../build/index.js";
 
-runTests(async function test_parseNumeric() {
-	[
+function toString(value) {
+	switch (typeof(value)) {
+		case "string": return JSON.stringify(value);
+		case "bigint": return `${value}n`;
+		default: return String(value);
+	}
+}
+
+describe("number", () => {
+	/** @type {[string, number | bigint, string][]} [input, output, type] */
+	const tests = [
 		["12345678.09", 12345678.09, "number"],
 		["-12345678.09", -12345678.09, "number"],
 		["12345678123456709", 12345678123456709n, "bigint"],
@@ -15,9 +24,21 @@ runTests(async function test_parseNumeric() {
 		["₁₂₃₄₅₆₇₈₁₂₃₄₅₆₇₀₉", 12345678123456709n, "sub-bigint"],
 		["₋₁₂₃₄₅₆₇₈₁₂₃₄₅₆₇₀₉", -12345678123456709n, "sub-bigint"],
 		["blah", NaN, "number"],
-	]
-	.forEach(([stringValue, numericValue, type]) => {
-		assert(numericValue, parseNumeric, stringValue);
-		assert(type, value => parseNumericString(value)?.["type"], stringValue);
+	];
+
+	describe("parseNumeric", () => {
+		tests.forEach(([input, output]) => {
+			test(`parseNumeric(${toString(input)}) === ${toString(output)}`, () => {
+				expect(parseNumeric(input)).toBe(output);
+			});
+		});
 	});
-}, true);
+
+	describe("parseNumericString", () => {
+		tests.forEach(([input, output, type]) => {
+			test(`parseNumericString(${toString(input)}).type === ${type}`, () => {
+				expect(parseNumericString(input)?.type).toBe(type);
+			});
+		});
+	});
+});
