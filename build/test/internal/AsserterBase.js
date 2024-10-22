@@ -1,4 +1,4 @@
-import { stringify } from "../../json/index.js";
+import { stringifyJson } from "../../json/stringifyJson.js";
 export class AsserterBase {
     parent;
     key;
@@ -17,7 +17,7 @@ export class AsserterBase {
     _assert(testBool) {
         this.parent.assertMap.set(this.key, true);
         const assertBool = this.optional ? !this.keyPresent || testBool : testBool;
-        const assertMessage = `${this.keyPath} :: ${stringify(this.keyValue)}`;
+        const assertMessage = `${this.keyPath} :: ${stringifyJson(this.keyValue)}`;
         console.assert(assertBool, assertMessage);
         return this.parent;
     }

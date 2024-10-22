@@ -1,6 +1,6 @@
 import { verbose } from "../../console/loggers/verbose.js";
-import { stringify } from "../../json/bigint/stringify.js";
+import { stringifyJson } from "../../json/stringifyJson.js";
 export function logAndReturn(key, value) {
-    verbose(`Environment Variable: ${key}=${stringify(value)}`);
+    verbose(`Environment Variable: ${key}=${stringifyJson(value)}`);
     return value;
 }

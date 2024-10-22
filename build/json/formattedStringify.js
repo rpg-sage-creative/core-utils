@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from "../types/index.js";
-import { stringify } from "./bigint/stringify.js";
+import { stringifyJson } from "./stringifyJson.js";
 function cleanWhitespaceIfShort(value, maxLineLength) {
     return value.length > maxLineLength
         ? value
@@ -15,6 +15,6 @@ export function formattedStringify(object, maxLineLength = 250) {
     if (isNullOrUndefined(object)) {
         return String(object);
     }
-    const stringified = stringify(object, null, "\t");
+    const stringified = stringifyJson(object, null, "\t");
     return inlineCurlyBraces(inlineSquareBrackets(stringified, maxLineLength), maxLineLength);
 }

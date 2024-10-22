@@ -1,5 +1,5 @@
 import { isDate } from "util/types";
-import { stringify as jsonStringify } from "../../../json/index.js";
+import { stringifyJson } from "../../../json/stringifyJson.js";
 import { isNullOrUndefined } from "../../../types/index.js";
 import { incrementAssertData } from "../AssertData.js";
 import { getAssertPrefix } from "./getAssertPrefix.js";
@@ -11,7 +11,7 @@ function stringify(value: any): string {
 	}
 	return typeof(value) === "function"
 		? `function ${value.name || "/lambda/"}`
-		: jsonStringify(value);
+		: stringifyJson(value);
 }
 
 /**
@@ -34,7 +34,7 @@ function compareValues(expected: unknown, actual: unknown): boolean {
 		return expected.every((v, i) => compareValues(v, actual[i]));
 	}
 	if (typeof(expected) === "object" && typeof(actual) === "object") {
-		return jsonStringify(expected) === jsonStringify(actual);
+		return stringifyJson(expected) === stringifyJson(actual);
 	}
 	if (isNaN(expected as number) && isNaN(actual as number)) {
 		return true;

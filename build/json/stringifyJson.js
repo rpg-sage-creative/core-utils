@@ -1,4 +1,5 @@
-export function stringify(value, replacer, space) {
+import { isDate } from "util/types";
+export function stringifyJson(value, replacer, space) {
     return JSON.stringify(value, function (key, value) {
         let retVal = value;
         if (replacer) {
@@ -9,6 +10,10 @@ export function stringify(value, replacer, space) {
                 retVal = undefined;
             }
         }
-        return typeof (retVal) === "bigint" ? { $bigint: value.toString() } : retVal;
+        if (isDate(retVal))
+            return { $date: String(retVal) };
+        if (typeof (retVal) === "bigint")
+            return { $bigint: value.toString() };
+        return retVal;
     }, space);
 }
