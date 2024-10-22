@@ -10,7 +10,9 @@
 		"test": "bash ./scripts/sh/test.sh"
 	},
 	"devDependencies": {
-		"@types/node": "18.19.42"
+		"@types/jest": "^29.5.13",
+		"@types/node": "18.19.42",
+		"jest": "^29.7.0"
 	},
 	"dependencies": {
 		"@sapphire/snowflake": "3.5.3",
