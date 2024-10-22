@@ -9,17 +9,23 @@ export function stringifyJson(value: any, replacer?: (string | number)[] | null,
 
 export function stringifyJson(value: any, replacer?: Function | (string | number)[] | null, space?: string | number): string {
 	return JSON.stringify(value, function(this: any, key: string, value: any) {
-		let retVal = value;
+		// we are handling bigint and date values
+		const cleanValue = this[key];
+		if (isDate(cleanValue)) return { $date:cleanValue.toISOString() };
+		if (typeof(cleanValue) === "bigint") return { $bigint:cleanValue.toString() };
+
+		// if they passed in a replacer, then let's use it
 		if (replacer) {
+			// call a function
 			if (typeof(replacer) === "function") {
-				retVal = replacer.call(this, key, value);
+				return replacer.call(this, key, value);
+
+			// check an array to ensure the key was given
 			}else if (Array.isArray(replacer) && !replacer.some(_key => String(_key) === key)) {
-				retVal = undefined!;
+				return undefined;
 			}
 		}
 
-		if (isDate(retVal)) return { $date:String(retVal) };
-		if (typeof(retVal) === "bigint") return { $bigint:value.toString() };
-		return retVal;
+		return value;
 	}, space);
 }
