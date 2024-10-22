@@ -12,5 +12,5 @@ type NavigateResults<ValueType = any, ObjectType = any, IsFull extends boolean =
     /** the requested value; only present if isFull === true */
     value?: IsFull extends true ? ValueType : never;
 };
-export declare function navigateObject<ValueType = any, ObjectType = any>(object: unknown, path: string): NavigateResults<ValueType, ObjectType>;
+export declare function navigateJson<ValueType = any, ObjectType = any>(object: unknown, path: string): NavigateResults<ValueType, ObjectType>;
 export {};

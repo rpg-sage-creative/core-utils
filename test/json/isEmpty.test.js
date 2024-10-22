@@ -1,29 +1,17 @@
 import { isEmpty } from "../../build/index.js";
+import { getTests } from "./data.js";
 
 describe("json", () => {
 	describe("isEmpty", () => {
-		const deleted = { a:"A" };
-		delete deleted.a;
 
-		const added = {};
-		added.a = undefined;
+		/** @type {[object, boolean, boolean][]} [object, empty, keyless] */
+		const tests = getTests("isEmpty");
 
-		const tests = [
-			[{}, true],
-			[{a:undefined}, true],
-			[{a:null}, false],
-			[deleted, true],
-			[added, true],
-			[{a:""}, false],
-			[{"":""}, false],
-			[{"":null}, false],
-			[{0:null}, false],
-		];
-
-		tests.forEach(([input, output]) => {
-			test(`isEmpty(${JSON.stringify(input)}) === ${output}`, () => {
-				expect(isEmpty(input)).toBe(output);
+		tests.forEach(([object, empty, keyless]) => {
+			test(`isEmpty(${JSON.stringify(object)}) === ${empty}`, () => {
+				expect(isEmpty(object)).toBe(empty);
 			})
 		});
+
 	});
 });

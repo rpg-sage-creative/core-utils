@@ -1,25 +1,17 @@
 import { isKeyless } from "../../build/index.js";
+import { getTests } from "./data.js";
 
 describe("json", () => {
 	describe("isKeyless", () => {
-		const deleted = { a:"A" };
-		delete deleted.a;
 
-		const added = {};
-		added.a = undefined;
+		/** @type {[object, boolean, boolean][]} [object, empty, keyless] */
+		const tests = getTests("isKeyless");
 
-		const tests = [
-			[{}, true],
-			[{a:undefined}, false],
-			[{a:null}, false],
-			[deleted, true],
-			[added, false],
-		];
-
-		tests.forEach(([input, output]) => {
-			test(`isKeyless(${JSON.stringify(input)}) === ${output}`, () => {
-				expect(isKeyless(input)).toBe(output);
+		tests.forEach(([object, empty, keyless]) => {
+			test(`isKeyless(${JSON.stringify(object)}) === ${keyless}`, () => {
+				expect(isKeyless(object)).toBe(keyless);
 			})
 		});
+
 	});
 });

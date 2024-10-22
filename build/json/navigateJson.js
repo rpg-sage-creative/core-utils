@@ -1,4 +1,4 @@
-export function navigateObject(object, path) {
+export function navigateJson(object, path) {
     const inObject = (key) => object && key && key in object;
     const navigated = [];
     const keys = path.split(".");
