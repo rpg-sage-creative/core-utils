@@ -4,7 +4,7 @@ function canDeleteValueKey(value, rules) {
         || value === null && (rules === true || rules.deleteNull === true)
         || value === "" && (rules === true || rules.deleteEmptyString === true)
         || value === false && (rules === true || rules.deleteFalse === true)
-        || value === 0 && (rules === true || rules.deleteZero === true)
+        || (value === 0 || value === 0n) && (rules === true || rules.deleteZero === true)
         || typeof (value) === "number" && isNaN(value) && (rules === true || rules.deleteNaN === true)
         || (typeof (value) === "string" && value.trim() === "") && (rules === true || rules.deleteBlankString === true);
 }
