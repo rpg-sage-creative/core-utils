@@ -24,7 +24,7 @@ type TObject = { [key: string]: any; };
 //#region helpers
 
 /** Checks the rules to see if the value given can have its key deleted. */
-function canDeleteValueKey(value: boolean | number | string, rules: JsonCleanRules | true): boolean {
+function canDeleteValueKey(value: bigint | boolean | number | string, rules: JsonCleanRules | true): boolean {
 	return value === undefined && (rules === true || rules.deleteUndefined === true)
 		|| value === null && (rules === true || rules.deleteNull === true)
 		|| value === "" && (rules === true || rules.deleteEmptyString === true)
