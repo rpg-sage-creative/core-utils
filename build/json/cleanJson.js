@@ -5,7 +5,7 @@ function canDeleteValueKey(value, rules) {
         || value === "" && (rules === true || rules.deleteEmptyString === true)
         || value === false && (rules === true || rules.deleteFalse === true)
         || value === 0 && (rules === true || rules.deleteZero === true)
-        || isNaN(value) && (rules === true || rules.deleteNaN === true)
+        || typeof (value) === "number" && isNaN(value) && (rules === true || rules.deleteNaN === true)
         || (typeof (value) === "string" && value.trim() === "") && (rules === true || rules.deleteBlankString === true);
 }
 export function cleanJson(value, rulesOrScrub) {

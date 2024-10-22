@@ -30,7 +30,7 @@ function canDeleteValueKey(value: bigint | boolean | number | string, rules: Jso
 		|| value === "" && (rules === true || rules.deleteEmptyString === true)
 		|| value === false && (rules === true || rules.deleteFalse === true)
 		|| value === 0 && (rules === true || rules.deleteZero === true)
-		|| isNaN(value as number) && (rules === true || rules.deleteNaN === true)
+		|| typeof(value) === "number" && isNaN(value as number) && (rules === true || rules.deleteNaN === true)
 		|| (typeof(value) === "string" && value.trim() === "") && (rules === true || rules.deleteBlankString === true)
 		;
 }
