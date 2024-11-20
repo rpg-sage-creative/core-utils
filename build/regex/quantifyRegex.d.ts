@@ -20,6 +20,7 @@ type PossessiveQuantifier = `${GreedyQuantifier}+`;
 export type RegExpQuantifier = GreedyQuantifier | LazyQuantifier | PossessiveQuantifier;
 /**
  * Returns RegExp that is properly wrapped and quantified by the given options.
+ * Because this uses the regex library, the resulting RegExp will include the "u" flag.
  */
 export declare function quantifyRegex(regexp: RegExp, quantifier: RegExpQuantifier): RegExp;
 export {};

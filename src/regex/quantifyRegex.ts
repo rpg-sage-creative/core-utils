@@ -32,6 +32,7 @@ export type RegExpQuantifier = GreedyQuantifier | LazyQuantifier | PossessiveQua
 
 /**
  * Returns RegExp that is properly wrapped and quantified by the given options.
+ * Because this uses the regex library, the resulting RegExp will include the "u" flag.
  */
 export function quantifyRegex(regexp: RegExp, quantifier: RegExpQuantifier) {
 	const source = `(?:${regexp.source})${quantifier}`;

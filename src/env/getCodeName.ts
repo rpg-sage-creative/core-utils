@@ -1,6 +1,6 @@
 import { enableLogLevels } from "../console/logLevels/enableLogLevels.js";
 import type { Optional } from "../types/generics.js";
-import type { CodeName } from "./CodeName.js";
+import type { CodeName } from "./types.js";
 import { codeNameToEnvironmentName } from "./internal/codeNameToEnvironmentName.js";
 import { getFromProcess } from "./internal/getFromProcess.js";
 

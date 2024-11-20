@@ -5,12 +5,16 @@
 	"main": "build/index.js",
 	"type": "module",
 	"scripts": {
+		"prebuild": "bash ./scripts/sh/create-index-ts.sh",
 		"build": "bash ./scripts/sh/build.sh",
 		"release": "bash ./scripts/sh/release.sh",
-		"test": "bash ./scripts/sh/test.sh"
+		"test": "bash ./scripts/sh/test.sh",
+		"test-todos": "bash ./scripts/sh/create-test-js.sh"
 	},
 	"devDependencies": {
-		"@types/node": "18.19.42"
+		"@types/jest": "^29.5.13",
+		"@types/node": "18.19.42",
+		"jest": "^29.7.0"
 	},
 	"dependencies": {
 		"@sapphire/snowflake": "3.5.3",

@@ -1,5 +1,5 @@
 type Primitive = null | undefined | Date | "bigint" | "boolean" | "number" | "string";
-/** Checks to see if the object given is a primitive type: null, undefined, Date, number, string, boolean. */
+/** Checks to see if the object given is a primitive type: null, undefined, Date, bigint, number, string, boolean. */
 export declare function isPrimitive<T extends Primitive = Primitive>(object: unknown): object is T;
 export {};
 /**

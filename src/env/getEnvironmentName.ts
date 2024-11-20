@@ -1,4 +1,4 @@
-import type { EnvironmentName } from "./EnvironmentName.js";
+import type { EnvironmentName } from "./types.js";
 import { getCodeName } from "./getCodeName.js";
 import { codeNameToEnvironmentName } from "./internal/codeNameToEnvironmentName.js";
 
