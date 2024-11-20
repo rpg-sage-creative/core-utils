@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.0.17",
+"version":"0.1.0",
 "branch":"main",
-"commit":"973d5e2969815cbcbc5d9b198ff2d92d6aa3152d",
-"commitSubject":"add sum function to number",
-"commitTs":1729204044000,
-"commitDate":"2024-10-17-1527",
-"buildTs":1729204146000,
-"buildDate":"2024-10-17-1529",
+"commit":"6790e25530a8968e4b32a76f1c91597b0ff54778",
+"commitSubject":"Squashed commit of the following:",
+"commitTs":1732146742000,
+"commitDate":"2024-11-20-1552",
+"buildTs":1732146772000,
+"buildDate":"2024-11-20-1552",
 "author":"Randal"
 }
