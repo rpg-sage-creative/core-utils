@@ -1,7 +1,7 @@
 import { getSubscriptCharSet } from "../characters/getSubscriptCharSet.js";
 import { getSuperscriptCharSet } from "../characters/getSuperscriptCharSet.js";
 import type { ScriptedCharSet } from "../characters/internal/types.js";
-import { getNumberRegex } from "./getNumberRegex.js";
+import { getNumberRegex } from "../regex/getNumberRegex.js";
 
 type NumberResults = {
 	isBigInt: boolean;
@@ -14,17 +14,25 @@ type NumberResults = {
 /** Parses the given numeric string into a number, bigint, or NaN. */
 function _parseNumber(value: string): number | bigint {
 	const regex = getNumberRegex({ anchored:true });
-	if (!regex.test(value)) return NaN;
+	if (!regex.test(value)) {
+		return NaN;
+	}
 
 	// check integer only for BigInt
 	if (/^-?\d+$/.test(value)) {
 		const length = value.replace(/^-/, "").length;
-		if (length < 16) return Number(value);
-		if (length > 16) return BigInt(value);
+		if (length < 16) {
+			return Number(value);
+		}
+		if (length > 16) {
+			return BigInt(value);
+		}
 
 		const big = BigInt(value);
-		if (big > Number.MAX_SAFE_INTEGER) return big;
-		if (big < Number.MIN_SAFE_INTEGER) return big;
+		if (big > Number.MAX_SAFE_INTEGER || big < Number.MIN_SAFE_INTEGER) {
+			return big;
+		}
+
 		return Number(value);
 	}
 
