@@ -1,3 +1,4 @@
+export * from "./array/index.js";
 export * from "./cache/index.js";
 export * from "./characters/index.js";
 export * from "./class/index.js";
