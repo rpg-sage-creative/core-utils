@@ -1,6 +1,7 @@
 export * from "./cache/index.js";
 export * from "./characters/index.js";
 export * from "./class/index.js";
+export * from "./color/index.js";
 export * from "./console/index.js";
 export * from "./env/index.js";
 export * from "./json/index.js";
