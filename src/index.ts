@@ -12,6 +12,7 @@ export * from "./number/index.js";
 export * from "./pause/index.js";
 export * from "./progress/index.js";
 export * from "./regex/index.js";
+export * from "./render/index.js";
 export * from "./snowflake/index.js";
 export * from "./string/index.js";
 export * from "./temperature/index.js";
