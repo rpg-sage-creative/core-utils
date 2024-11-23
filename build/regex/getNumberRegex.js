@@ -1,8 +1,8 @@
 import { regex } from "regex";
 import { anchorRegex } from "./anchorRegex.js";
 import { captureRegex } from "./captureRegex.js";
-import { spoilerRegex } from "./spoilerRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
+import { spoilerRegex } from "./spoilerRegex.js";
 function createNumberRegex(options) {
     const { anchored, capture, gFlag = "", iFlag = "", spoilers } = options ?? {};
     const numberRegex = regex(iFlag) `

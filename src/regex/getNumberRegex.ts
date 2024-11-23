@@ -1,9 +1,14 @@
 import { regex } from "regex";
 import { anchorRegex } from "./anchorRegex.js";
 import { captureRegex } from "./captureRegex.js";
-import { spoilerRegex } from "./spoilerRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpSpoilerOptions } from "./RegExpOptions.js";
+import { spoilerRegex } from "./spoilerRegex.js";
 
+// Use this in the implementation to confirm we conform to our reused types.
+type RegExpOptions = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
+
+// Use this is in the docs to be more readable.
 type Options = {
 	/** require the value to be "anchored" to start/end of the string */
 	anchored?: boolean;
@@ -22,7 +27,9 @@ type Options = {
 };
 
 /** Creates a new instance of the number regex based on options. */
-function createNumberRegex(options?: Options): RegExp {
+function createNumberRegex(options?: Options): RegExp;
+
+function createNumberRegex(options?: RegExpOptions): RegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", spoilers } = options ?? {};
 
 	const numberRegex = regex(iFlag)`

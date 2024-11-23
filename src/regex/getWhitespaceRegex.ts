@@ -3,7 +3,15 @@ import { HORIZONTAL_WHITESPACE_REGEX } from "../string/consts.js";
 import { captureRegex } from "./captureRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
 import { quantifyRegex, type RegExpQuantifier } from "./quantifyRegex.js";
+import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
 
+// Use this in the implementation to confirm we conform to our reused types.
+type RegExpOptions = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
+	/** uses HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */
+	horizontalOnly?: boolean;
+};
+
+// Use this is in the docs to be more readable.
 type Options = {
 	/** capture the RegExp with a named capture group */
 	capture?: string;
@@ -22,7 +30,9 @@ type Options = {
 };
 
 /** Creates a new instance of the whitespace regex based on options. */
-function createWhitespaceRegex(options?: Options): RegExp {
+function createWhitespaceRegex(options?: Options): RegExp;
+
+function createWhitespaceRegex(options?: RegExpOptions): RegExp {
 	const { capture, gFlag = "", horizontalOnly, iFlag = "", quantifier = "+" } = options ?? {};
 
 	const whitespace = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX : "\\s";
