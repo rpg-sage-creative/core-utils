@@ -10,6 +10,7 @@ export * from "./json/index.js";
 export * from "./language/index.js";
 export * from "./number/index.js";
 export * from "./pause/index.js";
+export * from "./progress/index.js";
 export * from "./regex/index.js";
 export * from "./snowflake/index.js";
 export * from "./string/index.js";
