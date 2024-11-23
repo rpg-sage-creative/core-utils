@@ -6,27 +6,27 @@ describe("regex", () => {
 
 		const tests = [
 			// basic source tests
-			{ input:"", options:undefined, expectedSource:`(?:(?:\\s)+)`, expectedTestResults:false, expectedExecResults:null },
-			{ input:"", options:{quantifier:""}, expectedSource:`(?:\\s)`, expectedTestResults:false, expectedExecResults:null },
-			{ input:"", options:{horizontalOnly:true}, expectedSource:`(?:(?:[^\\S\\r\\n])+)`, expectedTestResults:false, expectedExecResults:null },
-			{ input:"", options:{horizontalOnly:true,quantifier:""}, expectedSource:`(?:[^\\S\\r\\n])`, expectedTestResults:false, expectedExecResults:null },
+			{ input:"", options:undefined, expectedSource:`(?:\\s)+`, expectedTestResults:false, expectedExecResults:null },
+			{ input:"", options:{quantifier:""}, expectedSource:`\\s`, expectedTestResults:false, expectedExecResults:null },
+			{ input:"", options:{horizontalOnly:true}, expectedSource:`(?:[^\\S\\r\\n])+`, expectedTestResults:false, expectedExecResults:null },
+			{ input:"", options:{horizontalOnly:true,quantifier:""}, expectedSource:`[^\\S\\r\\n]`, expectedTestResults:false, expectedExecResults:null },
 
 			// basic space tests
-			{ input:" ", options:undefined, expectedSource:`(?:(?:\\s)+)`, expectedTestResults:true, expectedExecResults:[" "] },
-			{ input:" ", options:{quantifier:""}, expectedSource:`(?:\\s)`, expectedTestResults:true, expectedExecResults:[" "] },
-			{ input:" ", options:{horizontalOnly:true}, expectedSource:`(?:(?:[^\\S\\r\\n])+)`, expectedTestResults:true, expectedExecResults:[" "] },
-			{ input:" ", options:{horizontalOnly:true,quantifier:""}, expectedSource:`(?:[^\\S\\r\\n])`, expectedTestResults:true, expectedExecResults:[" "] },
+			{ input:" ", options:undefined, expectedSource:`(?:\\s)+`, expectedTestResults:true, expectedExecResults:[" "] },
+			{ input:" ", options:{quantifier:""}, expectedSource:`\\s`, expectedTestResults:true, expectedExecResults:[" "] },
+			{ input:" ", options:{horizontalOnly:true}, expectedSource:`(?:[^\\S\\r\\n])+`, expectedTestResults:true, expectedExecResults:[" "] },
+			{ input:" ", options:{horizontalOnly:true,quantifier:""}, expectedSource:`[^\\S\\r\\n]`, expectedTestResults:true, expectedExecResults:[" "] },
 
 			// basic newline tests
-			{ input:"\n", options:undefined, expectedSource:`(?:(?:\\s)+)`, expectedTestResults:true, expectedExecResults:["\n"] },
-			{ input:"\n", options:{quantifier:""}, expectedSource:`(?:\\s)`, expectedTestResults:true, expectedExecResults:["\n"] },
-			{ input:"\n", options:{horizontalOnly:true}, expectedSource:`(?:(?:[^\\S\\r\\n])+)`, expectedTestResults:false, expectedExecResults:null },
-			{ input:"\n", options:{horizontalOnly:true,quantifier:""}, expectedSource:`(?:[^\\S\\r\\n])`, expectedTestResults:false, expectedExecResults:null },
+			{ input:"\n", options:undefined, expectedSource:`(?:\\s)+`, expectedTestResults:true, expectedExecResults:["\n"] },
+			{ input:"\n", options:{quantifier:""}, expectedSource:`\\s`, expectedTestResults:true, expectedExecResults:["\n"] },
+			{ input:"\n", options:{horizontalOnly:true}, expectedSource:`(?:[^\\S\\r\\n])+`, expectedTestResults:false, expectedExecResults:null },
+			{ input:"\n", options:{horizontalOnly:true,quantifier:""}, expectedSource:`[^\\S\\r\\n]`, expectedTestResults:false, expectedExecResults:null },
 
-			{ input:"b\n  \rb", options:undefined, expectedSource:`(?:(?:\\s)+)`, expectedTestResults:true, expectedExecResults:["\n  \r"] },
-			{ input:"b\n  \rb", options:{quantifier:""}, expectedSource:`(?:\\s)`, expectedTestResults:true, expectedExecResults:["\n"] },
-			{ input:"b\n  \rb", options:{horizontalOnly:true}, expectedSource:`(?:(?:[^\\S\\r\\n])+)`, expectedTestResults:true, expectedExecResults:["  "] },
-			{ input:"b\n  \rb", options:{horizontalOnly:true,quantifier:""}, expectedSource:`(?:[^\\S\\r\\n])`, expectedTestResults:true, expectedExecResults:[" "] },
+			{ input:"b\n  \rb", options:undefined, expectedSource:`(?:\\s)+`, expectedTestResults:true, expectedExecResults:["\n  \r"] },
+			{ input:"b\n  \rb", options:{quantifier:""}, expectedSource:`\\s`, expectedTestResults:true, expectedExecResults:["\n"] },
+			{ input:"b\n  \rb", options:{horizontalOnly:true}, expectedSource:`(?:[^\\S\\r\\n])+`, expectedTestResults:true, expectedExecResults:["  "] },
+			{ input:"b\n  \rb", options:{horizontalOnly:true,quantifier:""}, expectedSource:`[^\\S\\r\\n]`, expectedTestResults:true, expectedExecResults:[" "] },
 
 			// { input:"", options:{ }, expectedSource:"", expectedTestResults:false, expectedExecResults:[] },
 		];

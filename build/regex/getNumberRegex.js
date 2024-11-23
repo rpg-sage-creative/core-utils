@@ -1,4 +1,4 @@
-import { regex } from "regex";
+import { regex, rewrite } from "regex";
 import { anchorRegex } from "./anchorRegex.js";
 import { captureRegex } from "./captureRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
@@ -19,7 +19,8 @@ function createNumberRegex(options) {
     const anchoredRegex = anchored
         ? anchorRegex(capturedRegex)
         : capturedRegex;
-    return regex(gFlag + iFlag) `${anchoredRegex}`;
+    const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
+    return new RegExp(expression, flags);
 }
 export function getNumberRegex(options) {
     return getOrCreateRegex(createNumberRegex, options);

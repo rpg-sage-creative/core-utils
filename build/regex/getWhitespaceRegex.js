@@ -1,4 +1,4 @@
-import { regex } from "regex";
+import { rewrite } from "regex";
 import { captureRegex } from "./captureRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
 import { quantifyRegex } from "./quantifyRegex.js";
@@ -14,7 +14,8 @@ function createWhitespaceRegex(options) {
     const capturedRegex = capture
         ? captureRegex(quantifiedRegex, capture)
         : quantifiedRegex;
-    return regex(gFlag + iFlag) `${capturedRegex}`;
+    const { expression, flags } = rewrite(capturedRegex.source, { flags: gFlag + iFlag });
+    return new RegExp(expression, flags);
 }
 export function getWhitespaceRegex(options) {
     return getOrCreateRegex(createWhitespaceRegex, options);
