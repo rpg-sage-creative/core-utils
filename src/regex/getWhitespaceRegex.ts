@@ -1,44 +1,24 @@
 import { regex } from "regex";
 import { captureRegex } from "./captureRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
-import { quantifyRegex, type RegExpQuantifier } from "./quantifyRegex.js";
+import { quantifyRegex } from "./quantifyRegex.js";
 import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
 
+export const WHITESPACE_REGEX_SOURCE = `\\s`;
 export const HORIZONTAL_WHITESPACE_REGEX_SOURCE = `[^\\S\\r\\n]`;
 
-// Use this in the implementation to confirm we conform to our reused types.
-type RegExpOptions = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
-	/** uses HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */
+type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
+	/** uses HORIZONTAL_WHITESPACE_REGEX_SOURCE if true, \s otherwise */
 	horizontalOnly?: boolean;
-};
-
-// Use this is in the docs to be more readable.
-type Options = {
-	/** capture the RegExp with a named capture group */
-	capture?: string;
-
-	/** include the global flag in the regex */
-	gFlag?: "g" | "";
-
-	/** uses HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */
-	horizontalOnly?: boolean;
-
-	/** include the case insensitive flag in the regex */
-	iFlag?: "i" | "";
-
-	/** how many to capture */
-	quantifier?: RegExpQuantifier;
 };
 
 /** Creates a new instance of the whitespace regex based on options. */
-function createWhitespaceRegex(options?: Options): RegExp;
-
-function createWhitespaceRegex(options?: RegExpOptions): RegExp {
+function createWhitespaceRegex(options?: Options): RegExp {
 	const { capture, gFlag = "", horizontalOnly, iFlag = "", quantifier = "+" } = options ?? {};
 
-	const whitespace = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : "\\s";
+	const whitespace = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : WHITESPACE_REGEX_SOURCE;
 
-	const whitespaceRegex = regex(iFlag)`${whitespace}`;
+	const whitespaceRegex = new RegExp(whitespace, iFlag);
 
 	const quantifiedRegex = quantifier
 		? quantifyRegex(whitespaceRegex, quantifier)

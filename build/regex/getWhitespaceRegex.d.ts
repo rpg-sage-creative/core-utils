@@ -1,16 +1,9 @@
-import { type RegExpQuantifier } from "./quantifyRegex.js";
+import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+export declare const WHITESPACE_REGEX_SOURCE = "\\s";
 export declare const HORIZONTAL_WHITESPACE_REGEX_SOURCE = "[^\\S\\r\\n]";
-type Options = {
-    /** capture the RegExp with a named capture group */
-    capture?: string;
-    /** include the global flag in the regex */
-    gFlag?: "g" | "";
-    /** uses HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */
+type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
+    /** uses HORIZONTAL_WHITESPACE_REGEX_SOURCE if true, \s otherwise */
     horizontalOnly?: boolean;
-    /** include the case insensitive flag in the regex */
-    iFlag?: "i" | "";
-    /** how many to capture */
-    quantifier?: RegExpQuantifier;
 };
 /**
  * Returns an instance of the number regexp.
