@@ -1,7 +1,7 @@
 import { getNumberRegex } from "../../build/index.js";
 import { toString } from "../toString.mjs";
 
-describe("number", () => {
+describe("regex", () => {
 	describe("getNumberRegex", () => {
 		const values = [
 			"2",

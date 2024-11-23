@@ -5,31 +5,10 @@ import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpSpoilerOptions } from "./RegExpOptions.js";
 import { spoilerRegex } from "./spoilerRegex.js";
 
-// Use this in the implementation to confirm we conform to our reused types.
-type RegExpOptions = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
-
-// Use this is in the docs to be more readable.
-type Options = {
-	/** require the value to be "anchored" to start/end of the string */
-	anchored?: boolean;
-
-	/** capture the RegExp with a named capture group */
-	capture?: string;
-
-	/** include the global flag in the regex */
-	gFlag?: "g" | "";
-
-	/** include the case insensitive flag in the regex */
-	iFlag?: "i" | "";
-
-	/** are spoilers allowed or optional */
-	spoilers?: boolean | "optional";
-};
+type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
 
 /** Creates a new instance of the number regex based on options. */
-function createNumberRegex(options?: Options): RegExp;
-
-function createNumberRegex(options?: RegExpOptions): RegExp {
+function createNumberRegex(options?: Options): RegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", spoilers } = options ?? {};
 
 	const numberRegex = regex(iFlag)`
