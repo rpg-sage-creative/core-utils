@@ -1,4 +1,4 @@
-import { getWhitespaceRegex, quantifyRegex, WHITESPACE_REGEX_SOURCE } from "../../build/index.js";
+import { getWhitespaceRegex } from "../../build/index.js";
 import { toString } from "../toString.mjs";
 
 describe("regex", () => {
