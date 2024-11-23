@@ -31,3 +31,11 @@ export type RegExpSpoilerOptions = {
 	/** are spoilers allowed or optional */
 	spoilers?: boolean | "optional";
 };
+
+export type RegExpWrapOptions = {
+	/** the characters used to wrap the regex */
+	chars: string;
+
+	/** if the wrap characters are required or not */
+	required: "optional" | true;
+};

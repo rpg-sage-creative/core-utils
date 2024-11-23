@@ -1,4 +1,5 @@
 import { type RegExpQuantifier } from "./quantifyRegex.js";
+export declare const HORIZONTAL_WHITESPACE_REGEX_SOURCE = "[^\\S\\r\\n]";
 type Options = {
     /** capture the RegExp with a named capture group */
     capture?: string;

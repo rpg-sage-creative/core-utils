@@ -1,9 +1,10 @@
 import { regex } from "regex";
-import { HORIZONTAL_WHITESPACE_REGEX } from "../string/consts.js";
 import { captureRegex } from "./captureRegex.js";
 import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
 import { quantifyRegex, type RegExpQuantifier } from "./quantifyRegex.js";
 import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+
+export const HORIZONTAL_WHITESPACE_REGEX_SOURCE = `[^\\S\\r\\n]`;
 
 // Use this in the implementation to confirm we conform to our reused types.
 type RegExpOptions = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
@@ -35,7 +36,7 @@ function createWhitespaceRegex(options?: Options): RegExp;
 function createWhitespaceRegex(options?: RegExpOptions): RegExp {
 	const { capture, gFlag = "", horizontalOnly, iFlag = "", quantifier = "+" } = options ?? {};
 
-	const whitespace = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX : "\\s";
+	const whitespace = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : "\\s";
 
 	const whitespaceRegex = regex(iFlag)`${whitespace}`;
 
