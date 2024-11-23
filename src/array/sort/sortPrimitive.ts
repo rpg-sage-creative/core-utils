@@ -1,6 +1,6 @@
 import { isDate } from "util/types";
 import type { Optional } from "../../types/generics.js";
-import { type SortResult } from "./SortResult.js";
+import type { SortResult } from "./SortResult.js";
 
 /**
  * Sorts values in ascending order.
