@@ -1,4 +1,4 @@
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpSpoilerOptions } from "./RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpSpoilerOptions } from "../regex/RegExpOptions.js";
 type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
 /**
  * Returns an instance of the number regexp.

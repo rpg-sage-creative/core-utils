@@ -1,7 +1,7 @@
 import { getSubscriptCharSet } from "../characters/getSubscriptCharSet.js";
 import { getSuperscriptCharSet } from "../characters/getSuperscriptCharSet.js";
 import type { ScriptedCharSet } from "../characters/internal/types.js";
-import { getNumberRegex } from "../regex/getNumberRegex.js";
+import { getNumberRegex } from "./getNumberRegex.js";
 
 type NumberResults = {
 	isBigInt: boolean;

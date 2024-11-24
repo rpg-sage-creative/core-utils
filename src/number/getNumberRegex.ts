@@ -1,9 +1,9 @@
 import { regex, rewrite } from "regex";
-import { anchorRegex } from "./anchorRegex.js";
-import { captureRegex } from "./captureRegex.js";
-import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpSpoilerOptions } from "./RegExpOptions.js";
-import { spoilerRegex } from "./spoilerRegex.js";
+import { anchorRegex } from "../regex/anchorRegex.js";
+import { captureRegex } from "../regex/captureRegex.js";
+import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpSpoilerOptions } from "../regex/RegExpOptions.js";
+import { spoilerRegex } from "../regex/spoilerRegex.js";
 
 type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
 

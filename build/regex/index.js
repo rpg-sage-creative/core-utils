@@ -1,7 +1,6 @@
 export * from "./anchorRegex.js";
 export * from "./captureRegex.js";
 export * from "./escapeRegex.js";
-export * from "./getNumberRegex.js";
 export * from "./getQuotedRegex.js";
 export * from "./getWhitespaceRegex.js";
 export * from "./quantifyRegex.js";

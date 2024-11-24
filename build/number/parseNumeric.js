@@ -1,6 +1,6 @@
 import { getSubscriptCharSet } from "../characters/getSubscriptCharSet.js";
 import { getSuperscriptCharSet } from "../characters/getSuperscriptCharSet.js";
-import { getNumberRegex } from "../regex/getNumberRegex.js";
+import { getNumberRegex } from "./getNumberRegex.js";
 function _parseNumber(value) {
     const regex = getNumberRegex({ anchored: true });
     if (!regex.test(value)) {
