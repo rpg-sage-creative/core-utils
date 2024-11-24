@@ -15,12 +15,13 @@ import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, Re
  * "single-strict" limits to pure 'single' quotes
 */
 export type QuoteStyle = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
-type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & {
+export type RegExpQuoteOptions = {
     /** Specifies allowed number of characters inside the quotes. */
     quantifier?: RegExpQuantifier;
     /** Specifies limitations to the style of quotes allowed. */
     style?: QuoteStyle;
 };
+type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & RegExpQuoteOptions;
 /**
  * Returns an instance of the quoted regexp.
  * If gFlag is passed, a new regexp is created.

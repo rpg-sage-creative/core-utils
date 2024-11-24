@@ -7,14 +7,16 @@ import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions }
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
 // export const WORD_CHARACTERS_REGEX_PARTIAL_SOURCE = `\\w\\p{L}\\p{N}`;
 
-// Use this in the implementation to confirm we conform to our reused types.
-type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
+export type RegexWordCharOptions = {
 	/** determines if dashes are allowed */
 	allowDashes?: boolean;
 
 	/** determines if periods are allowed */
 	allowPeriods?: boolean;
 };
+
+// Use this in the implementation to confirm we conform to our reused types.
+type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & RegexWordCharOptions;
 
 /** Creates a new instance of the word character regex based on options. */
 function createWordCharacterRegex(options?: Options): RegExp {

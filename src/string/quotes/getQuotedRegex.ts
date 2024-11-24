@@ -26,14 +26,15 @@ export function createQuotedRegexPart([left, right]: string, quantifier: RegExpQ
 */
 export type QuoteStyle = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
 
-type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & {
-
+export type RegExpQuoteOptions = {
 	/** Specifies allowed number of characters inside the quotes. */
 	quantifier?: RegExpQuantifier;
 
 	/** Specifies limitations to the style of quotes allowed. */
 	style?: QuoteStyle;
 };
+
+type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & RegExpQuoteOptions;
 
 /** Creates a new instance of the word character regex based on options. */
 function createQuotedRegex(options?: Options): RegExp {
