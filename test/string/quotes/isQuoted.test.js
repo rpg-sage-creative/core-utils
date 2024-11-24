@@ -8,6 +8,9 @@ describe("string", () => {
 			{ input:``, style:undefined, expected:false },
 			{ input:` '‘"“„ `, style:undefined, expected:false },
 
+			{ input:`"'‘“„"`, style:undefined, expected:true },
+			{ input:`" he said \\"boo\\" "`, style:undefined, expected:true },
+
 			{ input:` 'normal single' `, style:undefined, expected:false },
 			{ input:` ‘fancy single’ `, style:undefined, expected:false },
 			{ input:` "normal double" `, style:undefined, expected:false },
