@@ -14,12 +14,12 @@ import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, Re
  *
  * "single-strict" limits to pure 'single' quotes
 */
-type Style = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
+export type QuoteStyle = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
 type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & {
     /** Specifies allowed number of characters inside the quotes. */
     quantifier?: RegExpQuantifier;
     /** Specifies limitations to the style of quotes allowed. */
-    style?: Style;
+    style?: QuoteStyle;
 };
 /**
  * Returns an instance of the quoted regexp.

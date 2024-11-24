@@ -19,7 +19,7 @@ import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, Re
  *
  * "single-strict" limits to pure 'single' quotes
 */
-type Style = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
+export type QuoteStyle = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
 
 type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & {
 
@@ -27,7 +27,7 @@ type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions 
 	quantifier?: RegExpQuantifier;
 
 	/** Specifies limitations to the style of quotes allowed. */
-	style?: Style;
+	style?: QuoteStyle;
 };
 
 /** Creates a new instance of the word character regex based on options. */
