@@ -5,6 +5,11 @@ import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
 import type { RegExpQuantifier } from "./quantifyRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
 
+/** @internal Reusable function for ensuring consistent regex creation. Exported only for testing. */
+export function createQuotedRegexPart([left, right]: string, quantifier: RegExpQuantifier): string {
+	return `${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
+}
+
 /**
  * "any" all double and single quotes, no limitations
  *
@@ -36,20 +41,31 @@ function createQuotedRegex(options?: Options): RegExp {
 
 	const parts: string[] = [];
 	if (!style.includes("double")) {
-		parts.push(`'[^']${quantifier}'`);
+		// basic single quote (tick)
+		parts.push(createQuotedRegexPart(`''`, quantifier));
+
+		// fancy single quote (curly)
 		if (!style.includes("strict")) {
-			parts.push(`‘[^’]${quantifier}’`);
+			parts.push(createQuotedRegexPart(`‘’`, quantifier));
 		}
+
 	}
 	if (!style.includes("single")) {
-		parts.push(`"[^"]${quantifier}"`);
+		// basic double quote
+		parts.push(createQuotedRegexPart(`""`, quantifier));
+
 		if (!style.includes("strict")) {
-			parts.push(`“[^”]${quantifier}”`);
+			// fancy double quote (curly)
+			parts.push(createQuotedRegexPart(`“”`, quantifier));
+
+			// extended double quotes (german/polish)
 			if (!style.includes("fancy")) {
-				parts.push(`„[^“]${quantifier}“`);
-				parts.push(`„[^”]${quantifier}”`);
+				parts.push(createQuotedRegexPart(`„“`, quantifier));
+				parts.push(createQuotedRegexPart(`„”`, quantifier));
 			}
+
 		}
+
 	}
 	const quotedRegex = new RegExp(parts.join("|"));
 

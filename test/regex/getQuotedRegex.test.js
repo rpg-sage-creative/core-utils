@@ -1,21 +1,30 @@
 import { getQuotedRegex } from "../../build/index.js";
+import { createQuotedRegexPart } from "../../build/index.js";
 import { toString } from "../toString.mjs";
 
 describe("regex", () => {
 	describe("getQuotedRegex", () => {
 
-		const sourceTests = [
-			{ options:undefined,               expected:`'[^']+'|‘[^’]+’|"[^"]+"|“[^”]+”|„[^“]+“|„[^”]+”` },
-			{ options:{style:"double"},        expected:`"[^"]+"|“[^”]+”|„[^“]+“|„[^”]+”` },
-			{ options:{style:"single"},        expected:`'[^']+'|‘[^’]+’` },
-			{ options:{style:"strict"},        expected:`'[^']+'|"[^"]+"` },
-			{ options:{style:"fancy"},         expected:`'[^']+'|‘[^’]+’|"[^"]+"|“[^”]+”` },
-			{ options:{style:"double-strict"}, expected:`"[^"]+"` },
-			{ options:{style:"double-fancy"},  expected:`"[^"]+"|“[^”]+”` },
-			{ options:{style:"single-strict"}, expected:`'[^']+'` },
+		const q1 = createQuotedRegexPart(`''`, "+");
+		const q1f = createQuotedRegexPart(`‘’`, "+");
+		const q2 = createQuotedRegexPart(`""`, "+");
+		const q2f = createQuotedRegexPart(`“”`, "+");
+		const q2e1 = createQuotedRegexPart(`„“`, "+");
+		const q2e2 = createQuotedRegexPart(`„”`, "+");
+		const join = (...args) => args.join("|");
 
-			{ options:{anchored:true}, expected:`^(?:'[^']+'|‘[^’]+’|"[^"]+"|“[^”]+”|„[^“]+“|„[^”]+”)$` },
-			{ options:{capture:"quotes"}, expected:`(?<quotes>'[^']+'|‘[^’]+’|"[^"]+"|“[^”]+”|„[^“]+“|„[^”]+”)` },
+		const sourceTests = [
+			{ options:undefined,               expected:join(q1,q1f,q2,q2f,q2e1,q2e2) },
+			{ options:{style:"double"},        expected:join(q2,q2f,q2e1,q2e2) },
+			{ options:{style:"single"},        expected:join(q1,q1f) },
+			{ options:{style:"strict"},        expected:join(q1,q2) },
+			{ options:{style:"fancy"},         expected:join(q1,q1f,q2,q2f) },
+			{ options:{style:"double-strict"}, expected:join(q2) },
+			{ options:{style:"double-fancy"},  expected:join(q2,q2f) },
+			{ options:{style:"single-strict"}, expected:join(q1) },
+
+			{ options:{anchored:true}, expected:`^(?:${join(q1,q1f,q2,q2f,q2e1,q2e2)})$` },
+			{ options:{capture:"quotes"}, expected:`(?<quotes>${join(q1,q1f,q2,q2f,q2e1,q2e2)})` },
 		];
 
 		sourceTests.forEach(({ options, expected }) => {
@@ -87,6 +96,7 @@ describe("regex", () => {
 			// anchored tests
 			{ input:`'normal single'`, options:{anchored:true}, expectedTestResults:true, expectedExecResults:[`'normal single'`] },
 			{ input:` 'normal single' `, options:{anchored:true}, expectedTestResults:false, expectedExecResults:null },
+			{ input:`"normal double"`, options:{anchored:true}, expectedTestResults:true, expectedExecResults:[`"normal double"`] },
 
 			// quantifier tests
 			{ input:`''`, options:{quantifier:"*"}, expectedTestResults:true, expectedExecResults:[`''`] },
@@ -95,6 +105,17 @@ describe("regex", () => {
 			{ input:`'ab'`, options:{quantifier:"+"}, expectedTestResults:true, expectedExecResults:[`'ab'`] },
 			{ input:`'ab'`, options:{quantifier:"{1}"}, expectedTestResults:false, expectedExecResults:null },
 			{ input:`'ab'`, options:{quantifier:"{3,}"}, expectedTestResults:false, expectedExecResults:null },
+
+			// escaped tests
+			{ input:` 'normal ' single' `, options:undefined, expectedTestResults:true, expectedExecResults:[`'normal '`] },
+			{ input:` 'normal \\' single' `, options:undefined, expectedTestResults:true, expectedExecResults:[`'normal \\' single'`] },
+			{ input:`'normal ' single'`, options:{anchored:true}, expectedTestResults:false, expectedExecResults:null },
+			{ input:`'normal \\' single'`, options:{anchored:true}, expectedTestResults:true, expectedExecResults:[`'normal \\' single'`] },
+
+			{ input:` "normal " double" `, options:undefined, expectedTestResults:true, expectedExecResults:[`"normal "`] },
+			{ input:` "normal \\" double" `, options:undefined, expectedTestResults:true, expectedExecResults:[`"normal \\" double"`] },
+			{ input:`"normal " double"`, options:{anchored:true}, expectedTestResults:false, expectedExecResults:null },
+			{ input:`"normal \\" double"`, options:{anchored:true}, expectedTestResults:true, expectedExecResults:[`"normal \\" double"`] },
 
 			// { input:``, options:undefined, expectedTestResults:false, expectedExecResults:null },
 		];
