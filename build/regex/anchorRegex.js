@@ -1,7 +1,8 @@
-import { pattern, regex } from "regex";
+import { rewrite } from "regex";
 import { copyFlags } from "./internal/copyFlags.js";
 export function anchorRegex(regexp) {
-    const flags = copyFlags(regexp);
-    const source = pattern(regexp.source);
-    return regex(flags) `^${source}$`;
+    const source = `^(?:${regexp.source})$`;
+    const options = { flags: copyFlags(regexp) };
+    const { expression, flags } = rewrite(source, options);
+    return new RegExp(expression, flags);
 }
