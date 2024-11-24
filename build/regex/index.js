@@ -4,7 +4,6 @@ export * from "./escapeRegex.js";
 export * from "./getNumberRegex.js";
 export * from "./getQuotedRegex.js";
 export * from "./getWhitespaceRegex.js";
-export * from "./getWordCharacterRegex.js";
 export * from "./quantifyRegex.js";
 export * from "./RegExpOptions.js";
 export * from "./spoilerRegex.js";

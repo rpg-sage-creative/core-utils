@@ -1,8 +1,8 @@
 import { pattern, regex, rewrite } from "regex";
-import { captureRegex } from "./captureRegex.js";
-import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
-import { quantifyRegex } from "./quantifyRegex.js";
-import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+import { captureRegex } from "../regex/captureRegex.js";
+import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
+import { quantifyRegex } from "../regex/quantifyRegex.js";
+import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
 
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
 // export const WORD_CHARACTERS_REGEX_PARTIAL_SOURCE = `\\w\\p{L}\\p{N}`;

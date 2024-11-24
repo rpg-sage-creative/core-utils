@@ -1,7 +1,7 @@
 import { pattern, regex, rewrite } from "regex";
-import { captureRegex } from "./captureRegex.js";
-import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
-import { quantifyRegex } from "./quantifyRegex.js";
+import { captureRegex } from "../regex/captureRegex.js";
+import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
+import { quantifyRegex } from "../regex/quantifyRegex.js";
 function createWordCharacterRegex(options) {
     const { capture, gFlag = "", iFlag = "", quantifier = "" } = options ?? {};
     const dash = options?.allowDashes ? "\\-" : "";

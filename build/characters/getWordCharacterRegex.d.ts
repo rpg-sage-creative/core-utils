@@ -1,4 +1,4 @@
-import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
 type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
     /** determines if dashes are allowed */
