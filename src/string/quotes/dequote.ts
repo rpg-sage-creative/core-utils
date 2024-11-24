@@ -1,4 +1,4 @@
-import type { QuoteStyle } from "../../regex/getQuotedRegex.js";
+import type { QuoteStyle } from "./getQuotedRegex.js";
 import { isQuoted } from "./isQuoted.js";
 
 /** Removes first and last character if they are both quotes. */

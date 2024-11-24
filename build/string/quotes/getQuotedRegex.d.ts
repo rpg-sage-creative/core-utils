@@ -1,5 +1,5 @@
-import type { RegExpQuantifier } from "./quantifyRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 /**
  * "any" all double and single quotes, no limitations
  *

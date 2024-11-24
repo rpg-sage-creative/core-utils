@@ -1,6 +1,5 @@
-import { getQuotedRegex } from "../../build/index.js";
-import { createQuotedRegexPart } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { createQuotedRegexPart, getQuotedRegex } from "../../../build/index.js";
+import { toString } from "../../toString.mjs";
 
 describe("regex", () => {
 	describe("getQuotedRegex", () => {

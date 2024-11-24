@@ -1,9 +1,9 @@
 import { rewrite } from "regex";
-import { anchorRegex } from "./anchorRegex.js";
-import { captureRegex } from "./captureRegex.js";
-import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
-import type { RegExpQuantifier } from "./quantifyRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+import { anchorRegex } from "../../regex/anchorRegex.js";
+import { captureRegex } from "../../regex/captureRegex.js";
+import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
+import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 
 /** @internal Reusable function for ensuring consistent regex creation. Exported only for testing. */
 export function createQuotedRegexPart([left, right]: string, quantifier: RegExpQuantifier): string {
