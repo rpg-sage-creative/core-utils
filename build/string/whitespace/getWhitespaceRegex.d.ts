@@ -1,4 +1,4 @@
-import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 export declare const WHITESPACE_REGEX_SOURCE = "\\s";
 export declare const HORIZONTAL_WHITESPACE_REGEX_SOURCE = "[^\\S\\r\\n]";
 type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {

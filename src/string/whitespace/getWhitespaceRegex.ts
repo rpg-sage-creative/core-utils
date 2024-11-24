@@ -1,8 +1,8 @@
 import { rewrite } from "regex";
-import { captureRegex } from "./captureRegex.js";
-import { getOrCreateRegex } from "./internal/getOrCreateRegex.js";
-import { quantifyRegex } from "./quantifyRegex.js";
-import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "./RegExpOptions.js";
+import { captureRegex } from "../../regex/captureRegex.js";
+import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
+import { quantifyRegex } from "../../regex/quantifyRegex.js";
+import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 
 export const WHITESPACE_REGEX_SOURCE = `\\s`;
 export const HORIZONTAL_WHITESPACE_REGEX_SOURCE = `[^\\S\\r\\n]`;

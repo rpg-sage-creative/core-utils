@@ -1,5 +1,5 @@
-import { getWhitespaceRegex } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { getWhitespaceRegex } from "../../../build/index.js";
+import { toString } from "../../toString.mjs";
 
 describe("regex", () => {
 	describe("getWhitespaceRegex", () => {
