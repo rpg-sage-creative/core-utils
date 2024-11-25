@@ -4,6 +4,7 @@ import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
 import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
+import { getQuotePairs } from "./getQuotePairs.js";
 
 /** @internal Reusable function for ensuring consistent regex creation. Exported only for testing. */
 export function createQuotedRegexPart([left, right]: string, quantifier: RegExpQuantifier): string {
@@ -41,33 +42,25 @@ function createQuotedRegex(options?: Options): RegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
 
 	const parts: string[] = [];
-	if (!style.includes("double")) {
-		// basic single quote (tick)
-		parts.push(createQuotedRegexPart(`''`, quantifier));
-
-		// fancy single quote (curly)
-		if (!style.includes("strict")) {
-			parts.push(createQuotedRegexPart(`‘’`, quantifier));
-		}
-
-	}
-	if (!style.includes("single")) {
-		// basic double quote
-		parts.push(createQuotedRegexPart(`""`, quantifier));
-
-		if (!style.includes("strict")) {
-			// fancy double quote (curly)
-			parts.push(createQuotedRegexPart(`“”`, quantifier));
-
-			// extended double quotes (german/polish)
-			if (!style.includes("fancy")) {
-				parts.push(createQuotedRegexPart(`„“`, quantifier));
-				parts.push(createQuotedRegexPart(`„”`, quantifier));
+	getQuotePairs().forEach(pair => {
+		const addSingle = pair.isSingle && !style.includes("double");
+		const addDouble = pair.isDouble && !style.includes("single");
+		if (addSingle || addDouble) {
+			if (!pair.isFancy && !pair.isExtended) {
+				parts.push(createQuotedRegexPart(pair.chars, quantifier));
 			}
-
+			if (!style.includes("strict")) {
+				if (pair.isFancy) {
+					parts.push(createQuotedRegexPart(pair.chars, quantifier));
+				}
+				if (!style.includes("fancy")) {
+					if (pair.isExtended) {
+						parts.push(createQuotedRegexPart(pair.chars, quantifier));
+					}
+				}
+			}
 		}
-
-	}
+	});
 	const quotedRegex = new RegExp(parts.join("|"));
 
 	const capturedRegex = capture
