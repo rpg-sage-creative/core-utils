@@ -1,4 +1,4 @@
 import { getQuotedRegex } from "./getQuotedRegex.js";
-export function isQuoted(value, style) {
-    return value ? getQuotedRegex({ anchored: true, style }).test(value) : false;
+export function isQuoted(value, options) {
+    return value ? getQuotedRegex({ anchored: true, ...options }).test(value) : false;
 }
