@@ -4,11 +4,11 @@ import { toString } from "../toString.mjs";
 describe("args", () => {
 	describe("getKeyValueArgRegex", () => {
 
-		const sloppyPrefix = `(?<=(?:^|\\s|'|’|"|”|“|”))`;
+		const sloppyPrefix = `(?<=(?:^|\\s|"|”|“|”|»|«|'|’))`;
 		const prefix = `(?<=(?:^|\\s))`;
 		const suffix = `(?=(?:\\s|$))`;
 
-		const noLeftQuotesNorSpace = `(?:[^\\s\\n\\r'‘"“„„])`;
+		const noLeftQuotesNorSpace = `(?:[^\\s\\n\\r"“„„«»'‘])`;
 
 		const quotePairs = getQuotePairs().map(pair => ({ ...pair, part:createQuotedRegexPart(pair.chars, "*") }));
 		const defaultQuoteValue = quotePairs.map(p => p.part).join("|");
