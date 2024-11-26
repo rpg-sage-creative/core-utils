@@ -1,7 +1,7 @@
 import { getWordCharacterRegex } from "../../build/index.js";
 import { toString } from "../toString.mjs";
 
-describe("regex", () => {
+describe("characters", () => {
 	describe("getWordCharacterRegex", () => {
 
 		const tests = [

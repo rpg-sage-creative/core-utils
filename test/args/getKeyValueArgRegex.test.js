@@ -1,7 +1,7 @@
 import { getKeyValueArgRegex, createQuotedRegexPart, getQuotePairs } from "../../build/index.js";
 import { toString } from "../toString.mjs";
 
-describe("regex", () => {
+describe("args", () => {
 	describe("getKeyValueArgRegex", () => {
 
 		const sloppyPrefix = `(?<=(?:^|\\s|'|’|"|”|“|”))`;

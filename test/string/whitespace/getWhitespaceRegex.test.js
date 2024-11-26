@@ -1,7 +1,7 @@
 import { getWhitespaceRegex } from "../../../build/index.js";
 import { toString } from "../../toString.mjs";
 
-describe("regex", () => {
+describe("quotes", () => {
 	describe("getWhitespaceRegex", () => {
 
 		const tests = [

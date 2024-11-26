@@ -1,7 +1,7 @@
 import { createQuotedRegexPart, getQuotedRegex } from "../../../build/index.js";
 import { toString } from "../../toString.mjs";
 
-describe("regex", () => {
+describe("quotes", () => {
 	describe("getQuotedRegex", () => {
 
 		const q1 = createQuotedRegexPart(`''`, "+");
