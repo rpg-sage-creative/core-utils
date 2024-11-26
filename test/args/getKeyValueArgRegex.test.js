@@ -178,5 +178,16 @@ describe("args", () => {
 			});
 		});
 
+		describe("nested tests", () => {
+			const tests = [
+				// { options:{anhcored:true}, input:``, expected:false },
+				{ options:{anhcored:true}, input:`key="\\"quoted \\"value\\"\\""`, expected:true },
+			];
+			tests.forEach(({ options, input, expected }) => {
+				test(`getKeyValueArgRegex(${toString(options)}).test(${toString(input)}) === ${expected}`, () => {
+					expect(getKeyValueArgRegex(options).test(input)).toBe(expected);
+				});
+			});
+		});
 	});
 });

@@ -6,7 +6,7 @@ import { type RegExpQuoteOptions } from "../string/index.js";
  * default: spaces around the pair: required, quotes: optional
  * sloppy:  spaces around the pair: optional, quotes: optional
  */
-type KeyValueArgMode = "default" | "strict" | "sloppy";
+export type KeyValueArgMode = "default" | "strict" | "sloppy";
 type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & {
     /** Specifiies a key literal. */
     key?: string;
