@@ -4,28 +4,12 @@ import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
 import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
-import { getQuotePairs } from "./getQuotePairs.js";
+import { getQuotePairs, type QuoteStyle } from "./getQuotePairs.js";
 
 /** @internal Reusable function for ensuring consistent regex creation. Exported only for testing. */
 export function createQuotedRegexPart([left, right]: string, quantifier: RegExpQuantifier): string {
 	return `${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
 }
-
-/**
- * "any" all double and single quotes, no limitations
- *
- * "double" limits to double quotes
- * "single" limits to single quotes
- *
- * "strict" limits to pure "double" and 'single' quotes
- * "fancy" limits to pure "double" and 'single' and curly “double” and ‘single’ quotes
- *
- * "double-strict" limits to pure "double" quotes
- * "double-fancy" limits to pure "double" and curly “double” quotes
- *
- * "single-strict" limits to pure 'single' quotes
-*/
-export type QuoteStyle = "any" | "double" | "single" | "strict" | "fancy" | "double-strict" | "double-fancy" | "single-strict";
 
 export type RegExpQuoteOptions = {
 	/** Specifies allowed number of characters inside the quotes. */
@@ -41,26 +25,7 @@ type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions 
 function createQuotedRegex(options?: Options): RegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
 
-	const parts: string[] = [];
-	getQuotePairs().forEach(pair => {
-		const addSingle = pair.isSingle && !style.includes("double");
-		const addDouble = pair.isDouble && !style.includes("single");
-		if (addSingle || addDouble) {
-			if (!pair.isFancy && !pair.isExtended) {
-				parts.push(createQuotedRegexPart(pair.chars, quantifier));
-			}
-			if (!style.includes("strict")) {
-				if (pair.isFancy) {
-					parts.push(createQuotedRegexPart(pair.chars, quantifier));
-				}
-				if (!style.includes("fancy")) {
-					if (pair.isExtended) {
-						parts.push(createQuotedRegexPart(pair.chars, quantifier));
-					}
-				}
-			}
-		}
-	});
+	const parts = getQuotePairs(style).map(pair => createQuotedRegexPart(pair.chars, quantifier));
 	const quotedRegex = new RegExp(parts.join("|"));
 
 	const capturedRegex = capture
@@ -79,7 +44,7 @@ function createQuotedRegex(options?: Options): RegExp {
  * Returns an instance of the quoted regexp.
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
- * Default options: { anchored:false, capture:undefined, extended:true, gFlag:"", iFlag:"", quantifier:"+", singleDouble:"both", strict:false }
+ * Default options: { anchored:false, capture:undefined, gFlag:"", iFlag:"", quantifier:"+", style:"any" }
  */
 export function getQuotedRegex(options?: Options): RegExp {
 	return getOrCreateRegex(createQuotedRegex, options);

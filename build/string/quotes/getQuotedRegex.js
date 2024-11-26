@@ -8,26 +8,7 @@ export function createQuotedRegexPart([left, right], quantifier) {
 }
 function createQuotedRegex(options) {
     const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
-    const parts = [];
-    getQuotePairs().forEach(pair => {
-        const addSingle = pair.isSingle && !style.includes("double");
-        const addDouble = pair.isDouble && !style.includes("single");
-        if (addSingle || addDouble) {
-            if (!pair.isFancy && !pair.isExtended) {
-                parts.push(createQuotedRegexPart(pair.chars, quantifier));
-            }
-            if (!style.includes("strict")) {
-                if (pair.isFancy) {
-                    parts.push(createQuotedRegexPart(pair.chars, quantifier));
-                }
-                if (!style.includes("fancy")) {
-                    if (pair.isExtended) {
-                        parts.push(createQuotedRegexPart(pair.chars, quantifier));
-                    }
-                }
-            }
-        }
-    });
+    const parts = getQuotePairs(style).map(pair => createQuotedRegexPart(pair.chars, quantifier));
     const quotedRegex = new RegExp(parts.join("|"));
     const capturedRegex = capture
         ? captureRegex(quotedRegex, capture)

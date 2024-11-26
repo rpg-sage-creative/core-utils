@@ -4,26 +4,28 @@ import { toString } from "../../toString.mjs";
 describe("quotes", () => {
 	describe("getQuotedRegex", () => {
 
-		const q1 = createQuotedRegexPart(`''`, "+");
-		const q1f = createQuotedRegexPart(`‘’`, "+");
 		const q2 = createQuotedRegexPart(`""`, "+");
 		const q2f = createQuotedRegexPart(`“”`, "+");
 		const q2e1 = createQuotedRegexPart(`„“`, "+");
 		const q2e2 = createQuotedRegexPart(`„”`, "+");
+		const q2a1 = createQuotedRegexPart(`«»`, "+");
+		const q2a2 = createQuotedRegexPart(`»«`, "+");
+		const q1 = createQuotedRegexPart(`''`, "+");
+		const q1f = createQuotedRegexPart(`‘’`, "+");
 		const join = (...args) => args.join("|");
 
 		const sourceTests = [
-			{ options:undefined,               expected:join(q1,q1f,q2,q2f,q2e1,q2e2) },
-			{ options:{style:"double"},        expected:join(q2,q2f,q2e1,q2e2) },
+			{ options:undefined,               expected:join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f) },
+			{ options:{style:"double"},        expected:join(q2,q2f,q2e1,q2e2,q2a1,q2a2) },
 			{ options:{style:"single"},        expected:join(q1,q1f) },
-			{ options:{style:"strict"},        expected:join(q1,q2) },
-			{ options:{style:"fancy"},         expected:join(q1,q1f,q2,q2f) },
+			{ options:{style:"strict"},        expected:join(q2,q1) },
+			{ options:{style:"fancy"},         expected:join(q2,q2f,q1,q1f) },
 			{ options:{style:"double-strict"}, expected:join(q2) },
 			{ options:{style:"double-fancy"},  expected:join(q2,q2f) },
 			{ options:{style:"single-strict"}, expected:join(q1) },
 
-			{ options:{anchored:true}, expected:`^(?:${join(q1,q1f,q2,q2f,q2e1,q2e2)})$` },
-			{ options:{capture:"quotes"}, expected:`(?<quotes>${join(q1,q1f,q2,q2f,q2e1,q2e2)})` },
+			{ options:{anchored:true}, expected:`^(?:${join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f)})$` },
+			{ options:{capture:"quotes"}, expected:`(?<quotes>${join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f)})` },
 		];
 
 		sourceTests.forEach(({ options, expected }) => {
