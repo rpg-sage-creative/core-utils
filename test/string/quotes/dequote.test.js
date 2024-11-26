@@ -24,6 +24,8 @@ describe("string", () => {
 			{ input:`“fancy double”`, style:undefined, expected:`fancy double` },
 			{ input:`„extended double“`, style:undefined, expected:`extended double` },
 			{ input:`„extended double”`, style:undefined, expected:`extended double` },
+			{ input:`«arrow double»`, style:undefined, expected:`arrow double` },
+			{ input:`»arrow double«`, style:undefined, expected:`arrow double` },
 
 			{ input:`"normal double"`, style:"double", expected:`normal double` },
 			{ input:`"normal double"`, style:"single", expected:`"normal double"` },
