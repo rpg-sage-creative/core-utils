@@ -1,14 +1,16 @@
+import type { Optional } from "../../types/generics.js";
 import { splitChars } from "./splitChars.js";
 
 /**
  * Used to wrap a piece of text, usually with (), [], {}, or <>.
- * If the chars argument is even, then they are split and used as left/right.
- * If the chars argument is odd, then they are uesd as left and then they are reversed and used as right.
+ * splitChars() is used to split/convert the given chars into left/right.
  */
-export function wrap(input: string, chars: string): string {
-	const leftRight = splitChars(chars);
-	if (leftRight) {
-		return `${leftRight.left}${input}${leftRight.right}`;
+export function wrap(input: string, chars: string): string;
+export function wrap(input: Optional<string>, chars: string): Optional<string>;
+export function wrap(input: Optional<string>, chars: string): Optional<string> {
+	if (input && chars?.length) {
+		const { left, right } = splitChars(chars);
+		return `${left}${input}${right}`;
 	}
 	return input;
 }
