@@ -1,10 +1,10 @@
 import { regex, rewrite } from "regex";
 import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
+import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions } from "../regex/RegExpOptions.js";
 import { getQuotedRegex, getQuotePairs, type RegExpQuoteOptions } from "../string/index.js";
-import { anchorRegex } from "../regex/anchorRegex.js";
 
 /**
  * strict:  spaces around the pair: required, quotes: required
@@ -13,15 +13,13 @@ import { anchorRegex } from "../regex/anchorRegex.js";
  */
 type KeyValueArgMode = "default" | "strict" | "sloppy";
 
-type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
-	/** Specifiies a key literal or a pattern based the options. */
-	key?: string | RegexWordCharOptions;
+type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & {
+	/** Specifiies a key literal. */
+	key?: string;
 
 	/** Specifies if quotes are required or if we can allow spaces around the equals (=) sign. */
 	mode?: KeyValueArgMode;
 
-	/** Specifies the options used when creating the quoted regex. */
-	quotes?: RegExpQuoteOptions;
 };
 
 type RegExpByModeOptions = {
@@ -124,19 +122,18 @@ function getRegexByMode(options: RegExpByModeOptions): RegExp {
 
 /** Creates a new instance of the KeyValueArg regex based on options. */
 function createKeyValueArgRegex(options?: Options): RegExp {
-	const { anchored, capture, gFlag = "", iFlag = "i", key, quotes } = options ?? {};
-	const { quantifier = "*", style = "any" } = quotes ?? {};
+	const { allowDashes, allowPeriods, anchored, capture, gFlag = "", iFlag = "i", key, quantifier = "*", style = "any" } = options ?? {};
 	const mode = style !== "any" ? "strict" : options?.mode;
 
 	let keyRegex: RegExp | string;
-	if (typeof(key) === "string") {
+	if (key) {
 		const tester = getWordCharacterRegex({ iFlag, quantifier:"+", allowDashes:true, allowPeriods:true });
 		if (tester.exec(key)?.[0] !== key) {
 			throw new RangeError(`Invalid keyValueArg key`);
 		}
 		keyRegex = key;
 	}else {
-		keyRegex = getWordCharacterRegex({ iFlag, quantifier:"+", ...key });
+		keyRegex = getWordCharacterRegex({ iFlag, quantifier:"+", allowDashes, allowPeriods });
 	}
 
 	const quotedRegex = getQuotedRegex({ iFlag, quantifier, style });
@@ -158,7 +155,8 @@ function createKeyValueArgRegex(options?: Options): RegExp {
  * Returns an instance of the KeyValueArg regexp.
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
- * Default options: { capture:undefined, gFlag:"", iFlag:"i", key:undefined, mode:"default", quotes:{ quantifier:"*", style:undefined } }
+ * Default options: { allowDashes:false, allowPeriods:false, capture:undefined, gFlag:"", iFlag:"i", key:undefined, mode:"default", quantifier:"*", style:undefined }
+ * Setting style to anything other than "any" forces mode to "strict".
  */
 export function getKeyValueArgRegex(options?: Options): RegExp {
 	return getOrCreateRegex(createKeyValueArgRegex, options);

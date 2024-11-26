@@ -25,7 +25,7 @@ describe("args", () => {
 				{ options:{gFlag:"g"}, flags:"giu", source:`${prefix}${defaultKey}=${defaultValue}${suffix}` },
 				{ options:{gFlag:"g",mode:"strict"}, flags:"giu", source:`${prefix}${defaultKey}=${strictValue}${suffix}` },
 				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu", source:`${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=${noLeftQuotesNorSpace}\\S+${suffix})` },
-				{ options:{gFlag:"g",mode:"strict",quotes:{style:"strict"}}, flags:"giu", source:`${prefix}${defaultKey}=${strictStrictValue}${suffix}` },
+				{ options:{gFlag:"g",style:"strict"}, flags:"giu", source:`${prefix}${defaultKey}=${strictStrictValue}${suffix}` },
 				{ options:{capture:"arg"}, flags:"iu", source:`(?<arg>${prefix}(?<argKey>${defaultKey})=(?:(?<argQuotedValue>(?:${defaultQuoteValue}))|(?<argNakedValue>${noLeftQuotesNorSpace}\\S+))${suffix})` },
 				{ options:{capture:"arg",mode:"strict"}, flags:"iu", source:`(?<arg>${prefix}(?<argKey>${defaultKey})=(?<argQuotedValue>${strictValue})${suffix})` },
 				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>${sloppyPrefix}(?<argKey>${defaultKey})(?:\\s*=\\s*(?<argQuotedValue>${strictValue})|=(?<argNakedValue>${noLeftQuotesNorSpace}\\S+)${suffix}))` },
@@ -157,12 +157,12 @@ describe("args", () => {
 				// { options:undefined, expected:null },
 				{ options:{gFlag:"g"}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`] },
 				{ options:{gFlag:"g",mode:"strict"}, expected:[`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`] },
-				{ options:{gFlag:"g",key:{allowDashes:true}}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`dash-5="value 5"`] },
-				{ options:{gFlag:"g",key:{allowPeriods:true}}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`dot.4="value 4"`] },
-				{ options:{gFlag:"g",key:{allowDashes:true,allowPeriods:true}}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`dot.4="value 4"`,`dash-5="value 5"`,`dot.dash-6="value 6"`] },
-				{ options:{gFlag:"g",mode:"strict",quotes:{style:"strict"}}, expected:[`strict2="value2"`,`single=''`] },
-				{ options:{gFlag:"g",quotes:{style:"double"}}, expected:[`strict2="value2"`,`fancy=“double”`] },
-				{ options:{gFlag:"g",mode:"strict",quotes:{style:"double"}}, expected:[`strict2="value2"`,`fancy=“double”`] },
+				{ options:{gFlag:"g",allowDashes:true}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`dash-5="value 5"`] },
+				{ options:{gFlag:"g",allowPeriods:true}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`dot.4="value 4"`] },
+				{ options:{gFlag:"g",allowDashes:true,allowPeriods:true}, expected:[`key0=val`,`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`dot.4="value 4"`,`dash-5="value 5"`,`dot.dash-6="value 6"`] },
+				{ options:{gFlag:"g",style:"strict"}, expected:[`strict2="value2"`,`single=''`] },
+				{ options:{gFlag:"g",style:"double"}, expected:[`strict2="value2"`,`fancy=“double”`] },
+				{ options:{gFlag:"g",style:"double"}, expected:[`strict2="value2"`,`fancy=“double”`] },
 			];
 			tests.forEach(({options, expected }) => {
 				test(`getKeyValueArgRegex(${toString(options)}).exec()`, () => {

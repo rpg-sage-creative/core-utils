@@ -1,9 +1,9 @@
 import { regex, rewrite } from "regex";
 import { getWordCharacterRegex } from "../characters/getWordCharacterRegex.js";
+import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
 import { getQuotedRegex, getQuotePairs } from "../string/index.js";
-import { anchorRegex } from "../regex/anchorRegex.js";
 function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }) {
     if (capture) {
         return regex(iFlag) `
@@ -88,11 +88,10 @@ function getRegexByMode(options) {
     }
 }
 function createKeyValueArgRegex(options) {
-    const { anchored, capture, gFlag = "", iFlag = "i", key, quotes } = options ?? {};
-    const { quantifier = "*", style = "any" } = quotes ?? {};
+    const { allowDashes, allowPeriods, anchored, capture, gFlag = "", iFlag = "i", key, quantifier = "*", style = "any" } = options ?? {};
     const mode = style !== "any" ? "strict" : options?.mode;
     let keyRegex;
-    if (typeof (key) === "string") {
+    if (key) {
         const tester = getWordCharacterRegex({ iFlag, quantifier: "+", allowDashes: true, allowPeriods: true });
         if (tester.exec(key)?.[0] !== key) {
             throw new RangeError(`Invalid keyValueArg key`);
@@ -100,7 +99,7 @@ function createKeyValueArgRegex(options) {
         keyRegex = key;
     }
     else {
-        keyRegex = getWordCharacterRegex({ iFlag, quantifier: "+", ...key });
+        keyRegex = getWordCharacterRegex({ iFlag, quantifier: "+", allowDashes, allowPeriods });
     }
     const quotedRegex = getQuotedRegex({ iFlag, quantifier, style });
     const keyValueArgRegex = getRegexByMode({ capture, iFlag, keyRegex, mode, quotedRegex });
