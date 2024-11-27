@@ -34,7 +34,7 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 			(
 				(?<${capture}QuotedValue>${quotedRegex})
 				|
-				(?<${capture}NakedValue>${noLeftQuoteNoSpaceRegexp}\S+)  # unquoted value that doesn't start with left quote and has no spaces
+				(?<${capture}NakedValue>${noLeftQuoteNoSpaceRegexp}\S*)  # unquoted value that doesn't start with left quote and has no spaces
 			)
 			(?=(\s|$))      # whitespace or end of line
 		`;
@@ -46,7 +46,7 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 		(
 			${quotedRegex}
 			|
-			${noLeftQuoteNoSpaceRegexp}\S+  # unquoted value that doesn't start with left quote and has no spaces
+			${noLeftQuoteNoSpaceRegexp}\S*  # unquoted value that doesn't start with left quote and has no spaces
 		)
 		(?=(\s|$))      # whitespace or end of line
 	`;
@@ -64,7 +64,7 @@ function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 			(
 				\s*=\s*(?<${capture}QuotedValue>${quotedRegex})            # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
 				|
-				=(?<${capture}NakedValue>${noLeftQuoteNoSpaceRegexp}\S+)  # allow an unquoted no-space value as long as it doesn't start with a left quote
+				=(?<${capture}NakedValue>${noLeftQuoteNoSpaceRegexp}\S*)  # allow an unquoted no-space value as long as it doesn't start with a left quote
 				(?=(\s|$))                                           # whitespace or end of line
 			)
 		`;
@@ -75,7 +75,7 @@ function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 		(
 			\s*=\s*${quotedRegex}            # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
 			|
-			=${noLeftQuoteNoSpaceRegexp}\S+  # allow an unquoted no-space value as long as it doesn't start with a left quote
+			=${noLeftQuoteNoSpaceRegexp}\S*  # allow an unquoted no-space value as long as it doesn't start with a left quote
 			(?=(\s|$))                       # whitespace or end of line
 		)
 	`;

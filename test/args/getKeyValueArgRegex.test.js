@@ -15,7 +15,7 @@ describe("args", () => {
 		const strictQuoteValue = quotePairs.filter(p => !p.isFancy && !p.isExtended).map(p => p.part).join("|");
 
 		const defaultKey = `(?:(?:[\\w\\p{L}\\p{N}])+)`;
-		const defaultValue = `(?:(?:${defaultQuoteValue})|${noLeftQuotesNorSpace}\\S+)`;
+		const defaultValue = `(?:(?:${defaultQuoteValue})|${noLeftQuotesNorSpace}\\S*)`;
 		const strictValue = `(?:${defaultQuoteValue})`;
 		const strictStrictValue = `(?:${strictQuoteValue})`;
 
@@ -24,11 +24,11 @@ describe("args", () => {
 				{ options:undefined, flags:"iu", source:`${prefix}${defaultKey}=${defaultValue}${suffix}` },
 				{ options:{gFlag:"g"}, flags:"giu", source:`${prefix}${defaultKey}=${defaultValue}${suffix}` },
 				{ options:{gFlag:"g",mode:"strict"}, flags:"giu", source:`${prefix}${defaultKey}=${strictValue}${suffix}` },
-				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu", source:`${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=${noLeftQuotesNorSpace}\\S+${suffix})` },
+				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu", source:`${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=${noLeftQuotesNorSpace}\\S*${suffix})` },
 				{ options:{gFlag:"g",style:"strict"}, flags:"giu", source:`${prefix}${defaultKey}=${strictStrictValue}${suffix}` },
-				{ options:{capture:"arg"}, flags:"iu", source:`(?<arg>(?:${prefix}(?<argKey>${defaultKey})=(?:(?<argQuotedValue>(?:${defaultQuoteValue}))|(?<argNakedValue>${noLeftQuotesNorSpace}\\S+))${suffix}))` },
+				{ options:{capture:"arg"}, flags:"iu", source:`(?<arg>(?:${prefix}(?<argKey>${defaultKey})=(?:(?<argQuotedValue>(?:${defaultQuoteValue}))|(?<argNakedValue>${noLeftQuotesNorSpace}\\S*))${suffix}))` },
 				{ options:{capture:"arg",mode:"strict"}, flags:"iu", source:`(?<arg>(?:${prefix}(?<argKey>${defaultKey})=(?<argQuotedValue>${strictValue})${suffix}))` },
-				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>(?:${sloppyPrefix}(?<argKey>${defaultKey})(?:\\s*=\\s*(?<argQuotedValue>${strictValue})|=(?<argNakedValue>${noLeftQuotesNorSpace}\\S+)${suffix})))` },
+				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>(?:${sloppyPrefix}(?<argKey>${defaultKey})(?:\\s*=\\s*(?<argQuotedValue>${strictValue})|=(?<argNakedValue>${noLeftQuotesNorSpace}\\S*)${suffix})))` },
 			];
 			sourceTests.forEach(({ options, source, flags }) => {
 				test(`getKeyValueArgRegex(${toString(options)})`, () => {
