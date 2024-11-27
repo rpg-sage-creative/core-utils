@@ -7,7 +7,7 @@ import { toString } from "../toString.mjs";
  */
 function spoiler(regexp, opt) {
 	const spoilerOn = (regexp) => ({ expected:`\\|\\|(?:${regexp.source})\\|\\|`, spoilered:spoilerRegex(regexp, true) });
-	const spoilerOptional = (regexp) => ({ expected:`\\|\\|(?:${regexp.source})\\|\\||(?:${regexp.source})`, spoilered:spoilerRegex(regexp, "optional") });
+	const spoilerOptional = (regexp) => ({ expected:`(?:\\|\\|(?:${regexp.source})\\|\\|)|(?:${regexp.source})`, spoilered:spoilerRegex(regexp, "optional") });
 	const spoiler = (regexp, opt) => opt === true ? spoilerOn(regexp) : spoilerOptional(regexp);
 	const { expected, spoilered } = spoiler(regexp, opt);
 	const expectedFlags = regexp.flags.includes("u") ? regexp.flags : regexp.flags + "u";
