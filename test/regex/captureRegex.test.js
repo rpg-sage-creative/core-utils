@@ -6,7 +6,7 @@ const captureGroup = "cgName";
 
 /** @param {RegExp} regexp */
 function capture(regexp) {
-	const expected = `(?<${captureGroup}>${regexp.source})`;
+	const expected = `(?<${captureGroup}>(?:${regexp.source}))`;
 	const expectedFlags = regexp.flags.includes("u") ? regexp.flags : regexp.flags + "u";
 	const captured = captureRegex(regexp, captureGroup);
 	return { expected, expectedFlags, captured };
