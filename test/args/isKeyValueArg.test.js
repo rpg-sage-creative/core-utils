@@ -50,6 +50,12 @@ describe("args", () => {
 			{ input:`sloppyKey= "sloppy value"`, options:{mode:"sloppy"}, expected:true },
 			{ input:`sloppyKey ="sloppy value"`, options:{mode:"sloppy"}, expected:true },
 			{ input:`sloppyKey = "sloppy value"`, options:{mode:"sloppy"}, expected:true },
+			{ input:`a=b`, options:{anchored:true}, expected:true },
+			{ input:`a=b`, options:{anchored:true,capture:"arg"}, expected:true },
+			{ input:`a=b`, options:{capture:"arg"}, expected:true },
+			{ input:`a="b"`, options:{anchored:true}, expected:true },
+			{ input:`a='b'`, options:{anchored:true,capture:"arg"}, expected:true },
+			{ input:`a="b"`, options:{capture:"arg"}, expected:true },
 		];
 		modeTests.forEach(({ input, options, expected }) => {
 			test(`isKeyValueArg(${toString(input)}, ${toString(options)}) === ${expected}`, () => {
