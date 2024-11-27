@@ -1,5 +1,11 @@
 import { type KeyValueArg } from "./KeyValueArg.js";
-/** Returns KeyValueArg if the input is a valid key/value pairing, null otherwise. */
-export declare function parseKeyValueArg(input: string): KeyValueArg | null;
-/** Returns KeyValueArg if the input is a valid key/value pairing that matches the given key, null otherwise. */
-export declare function parseKeyValueArg(input: string, key: string): KeyValueArg | null;
+type Options = {
+    key?: string;
+    mode?: "strict" | "sloppy" | "default";
+};
+/**
+ * Returns KeyValueArg if the input is a valid key/value pairing, null otherwise.
+ * If key is given then the key must match the valid key/value pair.
+ */
+export declare function parseKeyValueArg(input: string, options?: string | Options): KeyValueArg | null;
+export {};

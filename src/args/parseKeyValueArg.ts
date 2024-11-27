@@ -1,24 +1,38 @@
-import { dequote, quote } from "../string/index.js";
+import { dequote, isEmptyQuotes, quote } from "../string/index.js";
 import { type KeyValueArg } from "./KeyValueArg.js";
-import { isKeyValueArg } from "./isKeyValueArg.js";
+import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
 
-/** Returns KeyValueArg if the input is a valid key/value pairing, null otherwise. */
-export function parseKeyValueArg(input: string): KeyValueArg | null;
+type Options = {
+	key?: string;
+	mode?: "strict" | "sloppy" | "default";
+};
 
-/** Returns KeyValueArg if the input is a valid key/value pairing that matches the given key, null otherwise. */
-export function parseKeyValueArg(input: string, key: string): KeyValueArg | null;
-
-export function parseKeyValueArg(input: string, key?: string): KeyValueArg | null {
-	if (isKeyValueArg(input, { key })) {
-		const index = input.indexOf("=");
-		// Because we are currently allowing spaces around the "=" character, we need to trim the raw key
-		const key = input.slice(0, index).trim();
-		const keyLower = key.toLowerCase();
-		// Because we are currently allowing spaces around the "=" character, we need to trim the raw value
-		const value = dequote(input.slice(index + 1).trim());
-		const quoted = quote(value);
-		const clean = `${keyLower}=${quoted}`;
-		return { key, keyLower, value, clean };
+/**
+ * Returns KeyValueArg if the input is a valid key/value pairing, null otherwise.
+ * If key is given then the key must match the valid key/value pair.
+ */
+export function parseKeyValueArg(input: string, options?: string | Options): KeyValueArg | null {
+	const key = typeof(options) === "string" ? options : options?.key;
+	const mode = typeof(options) === "string" ? undefined : options?.mode;
+	const regexp = getKeyValueArgRegex({ anchored:true, capture:"arg", key, mode });
+	const groups = regexp.exec(input)?.groups;
+	if (groups) {
+		const { argKey, argQuotedValue, argNakedValue } = groups;
+		if (argQuotedValue) {
+			const value = isEmptyQuotes(argQuotedValue) ? "" : dequote(argQuotedValue);
+			return {
+				key: argKey,
+				keyLower: argKey.toLowerCase(),
+				value,
+				clean: `${argKey}=${quote(value)}`,
+			};
+		}
+		return {
+			key: argKey,
+			keyLower: argKey.toLowerCase(),
+			value: argNakedValue,
+			clean: `${argKey}=${quote(argNakedValue)}`,
+		};
 	}
 	return null;
 }
