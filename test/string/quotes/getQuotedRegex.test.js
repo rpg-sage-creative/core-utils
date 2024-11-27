@@ -25,7 +25,7 @@ describe("quotes", () => {
 			{ options:{style:"single-strict"}, expected:join(q1) },
 
 			{ options:{anchored:true}, expected:`^(?:${join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f)})$` },
-			{ options:{capture:"quotes"}, expected:`(?<quotes>${join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f)})` },
+			{ options:{capture:"quotes"}, expected:`(?<quotes>(?:${join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f)}))` },
 		];
 
 		sourceTests.forEach(({ options, expected }) => {
