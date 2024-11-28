@@ -81,8 +81,8 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByM
 
 function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
 	const quotePairs = getQuotePairs();
-	const rightQuoteChars = quotePairs.map(pair => pair.chars[1]).join("|");
-	const startBoundary = new RegExp(`^|\\s|${rightQuoteChars}`, iFlag);
+	const rightQuoteChars = quotePairs.map(pair => pair.chars[1]).join("");
+	const startBoundary = new RegExp(`[\\s${rightQuoteChars}^]`, iFlag);
 
 	const leftQuoteChars = quotePairs.map(pair => pair.chars[0]).join("");
 	const noLeftQuoteNoSpaceRegexp = new RegExp(`[^\\s\\n\\r${leftQuoteChars}]`, iFlag);

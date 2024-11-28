@@ -1,38 +1,29 @@
-import { dequote, isEmptyQuotes, quote } from "../string/index.js";
+import { dequote, quote } from "../string/index.js";
 import { type KeyValueArg } from "./KeyValueArg.js";
-import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
+import { type KeyValueArgMode } from "./getKeyValueArgRegex.js";
+import { isKeyValueArg } from "./isKeyValueArg.js";
 
 type Options = {
 	key?: string;
-	mode?: "strict" | "sloppy" | "default";
+	mode?: KeyValueArgMode;
 };
 
 /**
  * Returns KeyValueArg if the input is a valid key/value pairing, null otherwise.
  * If key is given then the key must match the valid key/value pair.
  */
-export function parseKeyValueArg(input: string, options?: string | Options): KeyValueArg | null {
-	const key = typeof(options) === "string" ? options : options?.key;
-	const mode = typeof(options) === "string" ? undefined : options?.mode;
-	const regexp = getKeyValueArgRegex({ anchored:true, capture:"arg", key, mode });
-	const groups = regexp.exec(input)?.groups;
-	if (groups) {
-		const { argKey, argQuotedValue, argNakedValue } = groups;
-		if (argQuotedValue) {
-			const value = isEmptyQuotes(argQuotedValue) ? "" : dequote(argQuotedValue);
-			return {
-				key: argKey,
-				keyLower: argKey.toLowerCase(),
-				value,
-				clean: `${argKey}=${quote(value)}`,
-			};
-		}
-		return {
-			key: argKey,
-			keyLower: argKey.toLowerCase(),
-			value: argNakedValue,
-			clean: `${argKey}=${quote(argNakedValue)}`,
-		};
+export function parseKeyValueArg(input: string, options?: Options): KeyValueArg | null {
+	if (isKeyValueArg(input, options)) {
+		const index = input.indexOf("=");
+		// Because we are currently allowing spaces around the "=" character, we need to trim the raw key
+		const key = input.slice(0, index).trim();
+		const keyLower = key.toLowerCase();
+		// Because we are currently allowing spaces around the "=" character, we need to trim the raw value
+		const trimmed = input.slice(index + 1).trim();
+		const value = dequote(trimmed, { quantifier:"*"});
+		const quoted = quote(value);
+		const clean = `${keyLower}=${quoted}`;
+		return { key, keyLower, value, clean };
 	}
 	return null;
 }

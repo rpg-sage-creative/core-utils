@@ -1,13 +1,16 @@
-import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
+import { getKeyValueArgRegex, type KeyValueArgMode } from "./getKeyValueArgRegex.js";
 import { type KeyValueArg } from "./KeyValueArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
 
-export function parseKeyValueArgs(input: string): KeyValueArg[] {
-	return (input?.match(getKeyValueArgRegex()) ?? [])
-		.map(match => parseKeyValueArg(match))
-		.filter(arg => arg) as KeyValueArg[]
-	// const regexp = getKeyValueArgRegex();
-	// const matches = regexp.exec(input);
-	// const args = matches?.map(match => parseKeyValueArg(match)) ?? [];
-	// return args.filter(arg => arg) as KeyValueArg[];
+type Options = {
+	key?: string;
+	mode?: KeyValueArgMode;
+};
+
+
+export function parseKeyValueArgs(input: string, options?: Options): KeyValueArg[] {
+	const regexp = getKeyValueArgRegex({ ...options, gFlag:"g" });
+	const matches = input?.match(regexp) ?? [];
+	const args = matches.map(match => parseKeyValueArg(match));
+	return args.filter(arg => arg) as KeyValueArg[];
 }

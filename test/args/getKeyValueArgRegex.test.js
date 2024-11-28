@@ -4,7 +4,7 @@ import { toString } from "../toString.mjs";
 describe("args", () => {
 	describe("getKeyValueArgRegex", () => {
 
-		const sloppyPrefix = `(?<=(?:^|\\s|"|”|“|”|»|«|'|’))`;
+		const sloppyPrefix = `(?<=(?:[\\s"”“”»«'’\\^]))`;
 		const prefix = `(?<=(?:^|\\s))`;
 		const suffix = `(?=(?:\\s|$))`;
 
