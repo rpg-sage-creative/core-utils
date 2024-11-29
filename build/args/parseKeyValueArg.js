@@ -1,6 +1,4 @@
 import { dequote, quote } from "../string/index.js";
-import {} from "./KeyValueArg.js";
-import {} from "./getKeyValueArgRegex.js";
 import { isKeyValueArg } from "./isKeyValueArg.js";
 export function parseKeyValueArg(input, options) {
     if (isKeyValueArg(input, options)) {
@@ -13,5 +11,5 @@ export function parseKeyValueArg(input, options) {
         const clean = `${keyLower}=${quoted}`;
         return { key, keyLower, value, clean };
     }
-    return null;
+    return undefined;
 }

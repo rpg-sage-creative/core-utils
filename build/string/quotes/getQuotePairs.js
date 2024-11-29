@@ -11,16 +11,21 @@ export function getQuotePairs(style) {
     ];
     if (style && style !== "any") {
         return pairs.filter(pair => {
-            if (pair.isSingle && style.includes("double"))
+            if (pair.isSingle && style.includes("double")) {
                 return false;
-            if (pair.isDouble && style.includes("single"))
+            }
+            if (pair.isDouble && style.includes("single")) {
                 return false;
-            if ((pair.isFancy || pair.isExtended || pair.isArrow) && style.includes("strict"))
+            }
+            if ((pair.isFancy || pair.isExtended || pair.isArrow) && style.includes("strict")) {
                 return false;
-            if ((pair.isExtended || pair.isArrow) && style.includes("fancy"))
+            }
+            if ((pair.isExtended || pair.isArrow) && style.includes("fancy")) {
                 return false;
-            if (pair.isArrow && style.includes("extended"))
+            }
+            if (pair.isArrow && style.includes("extended")) {
                 return false;
+            }
             return true;
         });
     }

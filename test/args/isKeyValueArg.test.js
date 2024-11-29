@@ -16,12 +16,12 @@ describe("args", () => {
 
 		const emptyTests = goodKeys.map(key => empties.map(val => `${key}=${val}`)).flat();
 		emptyTests.forEach(value => {
-			// test(`isKeyValueArg(${toString(value)}, ${toString(options)}) === true`, () => {
-			// 	expect(isKeyValueArg(value, options)).toBe(true);
-			// });
-			// test(`isKeyValueArg(${toString(value)}, ${toString(nonEmptyOptions)}) === false`, () => {
-			// 	expect(isKeyValueArg(value, options)).toBe(false);
-			// })
+			test(`isKeyValueArg(${toString(value)}, ${toString(options)}) === true`, () => {
+				expect(isKeyValueArg(value, options)).toBe(true);
+			});
+			test(`isKeyValueArg(${toString(value)}, ${toString(nonEmptyOptions)}) === false`, () => {
+				expect(isKeyValueArg(value, nonEmptyOptions)).toBe(false);
+			})
 		});
 
 		const goodValues = values.concat(quotedValues).concat(doubleQuotedValues);

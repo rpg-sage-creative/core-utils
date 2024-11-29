@@ -37,8 +37,13 @@ type QuotePair = {
 	isArrow: boolean;
 };
 
+type QuotePairs = QuotePair[] & {
+	leftChars: string[];
+	rightChars: string[]
+};
+
 /** Creates and returns an array of quote pairs and their attributes. */
-export function getQuotePairs(style?: QuoteStyle): QuotePair[] {
+export function getQuotePairs(style?: QuoteStyle): QuotePairs {
 	// create pairs
 	const pairs = [
 		{ chars:`""`, isSingle:false, isDouble:true,  isFancy:false, isExtended:false, isArrow:false },
@@ -51,18 +56,28 @@ export function getQuotePairs(style?: QuoteStyle): QuotePair[] {
 
 		{ chars:`''`, isSingle:true,  isDouble:false, isFancy:false, isExtended:false, isArrow:false },
 		{ chars:`‘’`,   isSingle:true,  isDouble:false, isFancy:true,  isExtended:false, isArrow:false },
-	];
+	] as QuotePairs;
 
 	// filter on style
 	if (style && style !== "any") {
 		return pairs.filter(pair => {
-			if (pair.isSingle && style.includes("double")) return false;
-			if (pair.isDouble && style.includes("single")) return false;
-			if ((pair.isFancy || pair.isExtended || pair.isArrow) && style.includes("strict")) return false;
-			if ((pair.isExtended || pair.isArrow) && style.includes("fancy")) return false;
-			if (pair.isArrow && style.includes("extended")) return false;
+			if (pair.isSingle && style.includes("double")) {
+				return false;
+			}
+			if (pair.isDouble && style.includes("single")) {
+				return false;
+			}
+			if ((pair.isFancy || pair.isExtended || pair.isArrow) && style.includes("strict")) {
+				return false;
+			}
+			if ((pair.isExtended || pair.isArrow) && style.includes("fancy")) {
+				return false;
+			}
+			if (pair.isArrow && style.includes("extended")) {
+				return false;
+			}
 			return true;
-		});
+		}) as QuotePairs;
 	}
 
 	return pairs;

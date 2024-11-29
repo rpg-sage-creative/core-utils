@@ -7,12 +7,13 @@ import { type RegExpQuoteOptions } from "../string/index.js";
  * sloppy:  spaces around the pair: optional, quotes: optional
  */
 export type KeyValueArgMode = "default" | "strict" | "sloppy";
-type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & {
+export type RegExpKeyValueArgOptions = {
     /** Specifiies a key literal. */
     key?: string;
     /** Specifies if quotes are required or if we can allow spaces around the equals (=) sign. */
     mode?: KeyValueArgMode;
 };
+type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 /**
  * Returns an instance of the KeyValueArg regexp.
  * If gFlag is passed, a new regexp is created.

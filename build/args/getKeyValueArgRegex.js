@@ -1,4 +1,4 @@
-import { regex, rewrite } from "regex";
+import { pattern, regex, rewrite } from "regex";
 import { getWordCharacterRegex } from "../characters/getWordCharacterRegex.js";
 import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
@@ -23,49 +23,50 @@ function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 	`;
 }
 function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
-    const quotePairs = getQuotePairs();
-    const leftQuoteChars = quotePairs.map(pair => pair.chars[0]).join("");
-    const noLeftQuoteNoSpaceRegexp = new RegExp(`[^\\s\\n\\r${leftQuoteChars}]`, iFlag);
+    const leftChars = getQuotePairs().map(({ chars }) => chars[0]).join("");
+    const nakedRegex = pattern `[^\s\n\r${leftChars}]\S*`;
     if (capture) {
         return regex(iFlag) `
-			(?<=(^|\s))     # start of line or whitespace
+			(?<=(^|\s))    # start of line or whitespace
 			(?<${capture}Key>${keyRegex})
 			=
 			(
 				(?<${capture}QuotedValue>${quotedRegex})
 				|
-				(?<${capture}NakedValue>${noLeftQuoteNoSpaceRegexp}\S*)  # unquoted value that doesn't start with left quote and has no spaces
+				(?<${capture}NakedValue>${nakedRegex})  # unquoted value that doesn't start with left quote and has no spaces
 			)
-			(?=(\s|$))      # whitespace or end of line
+			(?=(\s|$))     # whitespace or end of line
 		`;
     }
     return regex(iFlag) `
-		(?<=(^|\s))     # start of line or whitespace
+		(?<=(^|\s))        # start of line or whitespace
 		${keyRegex}
 		=
 		(
 			${quotedRegex}
 			|
-			${noLeftQuoteNoSpaceRegexp}\S*  # unquoted value that doesn't start with left quote and has no spaces
+			${nakedRegex}  # unquoted value that doesn't start with left quote and has no spaces
 		)
-		(?=(\s|$))      # whitespace or end of line
+		(?=(\s|$))         # whitespace or end of line
 	`;
 }
 function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }) {
-    const quotePairs = getQuotePairs();
-    const rightQuoteChars = quotePairs.map(pair => pair.chars[1]).join("");
-    const startBoundary = new RegExp(`[\\s${rightQuoteChars}^]`, iFlag);
-    const leftQuoteChars = quotePairs.map(pair => pair.chars[0]).join("");
-    const noLeftQuoteNoSpaceRegexp = new RegExp(`[^\\s\\n\\r${leftQuoteChars}]`, iFlag);
+    const { leftChars, rightChars } = getQuotePairs().reduce((pairs, pair) => {
+        pairs.leftChars += pair.chars[0];
+        pairs.rightChars += pair.chars[1];
+        return pairs;
+    }, { leftChars: "", rightChars: "" });
+    const startBoundary = pattern `^|[\s${rightChars}]`;
+    const nakedRegex = pattern `[^\s\n\r${leftChars}]\S*`;
     if (capture) {
         return regex(iFlag) `
-			(?<=${startBoundary})                                    # start of line or whitespace or a right quote
+			(?<=${startBoundary})                                # start of line or whitespace or a right quote
 			(?<${capture}Key>${keyRegex})
 			(
-				\s*=\s*(?<${capture}QuotedValue>${quotedRegex})            # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
+				\s*=\s*(?<${capture}QuotedValue>${quotedRegex})  # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
 				|
-				=(?<${capture}NakedValue>${noLeftQuoteNoSpaceRegexp}\S*)  # allow an unquoted no-space value as long as it doesn't start with a left quote
-				(?=(\s|$))                                           # whitespace or end of line
+				=(?<${capture}NakedValue>${nakedRegex})          # allow an unquoted no-space value as long as it doesn't start with a left quote
+				(?=(\s|$))                                       # whitespace or end of line
 			)
 		`;
     }
@@ -73,10 +74,10 @@ function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 		(?<=${startBoundary})                # start of line or whitespace or a right quote
 		${keyRegex}
 		(
-			\s*=\s*${quotedRegex}            # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
+			\s*=\s*${quotedRegex}  # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
 			|
-			=${noLeftQuoteNoSpaceRegexp}\S*  # allow an unquoted no-space value as long as it doesn't start with a left quote
-			(?=(\s|$))                       # whitespace or end of line
+			=${nakedRegex}         # allow an unquoted no-space value as long as it doesn't start with a left quote
+			(?=(\s|$))             # whitespace or end of line
 		)
 	`;
 }

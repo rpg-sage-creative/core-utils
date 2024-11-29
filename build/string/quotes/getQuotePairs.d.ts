@@ -30,6 +30,10 @@ type QuotePair = {
     /** Specifies if this pair is valid but uses arrows. Ex: „” */
     isArrow: boolean;
 };
+type QuotePairs = QuotePair[] & {
+    leftChars: string[];
+    rightChars: string[];
+};
 /** Creates and returns an array of quote pairs and their attributes. */
-export declare function getQuotePairs(style?: QuoteStyle): QuotePair[];
+export declare function getQuotePairs(style?: QuoteStyle): QuotePairs;
 export {};

@@ -1,5 +1,4 @@
 import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
-import {} from "./KeyValueArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
 export function parseKeyValueArgs(input, options) {
     const regexp = getKeyValueArgRegex({ ...options, gFlag: "g" });
