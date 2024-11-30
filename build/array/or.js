@@ -1,5 +1,3 @@
-import {} from "./filter/Filter.js";
-import {} from "./sort/Sorter.js";
 export function or(...testers) {
     return (value, index, array) => {
         let result;

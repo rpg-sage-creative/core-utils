@@ -1,5 +1,3 @@
-import {} from "./Comparable.js";
-import {} from "./SortResult.js";
 export function sortComparable(a, b) {
     if (a === undefined) {
         return 1;

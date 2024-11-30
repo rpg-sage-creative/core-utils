@@ -1,4 +1,4 @@
-import { type Collection } from "./Collection.js";
+import type { Collection } from "./Collection.js";
 /** Remove the value at the given index using .splice(). */
 export declare function removeAt<T>(array: Array<T>, index: number): T | undefined;
 /** Remove the value at the given index using .splice(). */

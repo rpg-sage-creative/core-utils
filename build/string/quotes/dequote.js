@@ -1,4 +1,3 @@
-import {} from "./getQuotePairs.js";
 import { isQuoted } from "./isQuoted.js";
 export function dequote(value, options) {
     if (isQuoted(value, options)) {

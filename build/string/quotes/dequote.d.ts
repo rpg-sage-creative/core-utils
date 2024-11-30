@@ -1,5 +1,5 @@
 import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
-import { type QuoteStyle } from "./getQuotePairs.js";
+import type { QuoteStyle } from "./getQuotePairs.js";
 type Options = {
     style?: QuoteStyle;
     quantifier?: RegExpQuantifier;

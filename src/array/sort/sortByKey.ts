@@ -1,6 +1,6 @@
 import type { Optional } from "../../types/generics.js";
-import { type SortResult } from "./SortResult.js";
-import { type Sorter } from "./Sorter.js";
+import type { SortResult } from "./SortResult.js";
+import type { Sorter } from "./Sorter.js";
 import { sortPrimitive } from "./sortPrimitive.js";
 
 /** Creates a sorter that will sort objects by the values of the given keys. */

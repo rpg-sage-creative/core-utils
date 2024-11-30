@@ -1,4 +1,4 @@
-import { type Collection } from "./Collection.js";
+import type { Collection } from "./Collection.js";
 /**
  * Filters and maps an array using a single pass through the array.
  * Only values that return "truthy" to the predicate will be sent to the callbackfn.

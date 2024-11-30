@@ -1,4 +1,3 @@
-import {} from "./Collection.js";
 export function partition(arrayLike, partitionfn, thisArg) {
     const arrayConstructor = arrayLike.constructor;
     const partitioned = new arrayConstructor();

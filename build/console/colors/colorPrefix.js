@@ -1,4 +1,3 @@
-import {} from "../logLevels/LogLevel.js";
 import { isColorLevelEnabled } from "./isColorLevelEnabled.js";
 function getColorCode(logLevel) {
     if (isColorLevelEnabled(logLevel)) {

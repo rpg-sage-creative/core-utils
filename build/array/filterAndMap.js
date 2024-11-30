@@ -1,4 +1,3 @@
-import {} from "./Collection.js";
 export function filterAndMap(arrayLike, predicate, callbackfn, thisArg) {
     let newIndex = 0;
     const arrayConstructor = arrayLike.constructor;

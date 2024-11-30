@@ -1,4 +1,4 @@
-import { type Sorter } from "./Sorter.js";
+import type { Sorter } from "./Sorter.js";
 /** Creates a sorter that sorts values in ascending order as Date objects using new Date() to convert them. */
 export declare function sortAsPrimitive<T>(dataType: "date"): Sorter<T>;
 /** Creates a sorter that sorts values in ascending order as numbers using Number() to convert them. */

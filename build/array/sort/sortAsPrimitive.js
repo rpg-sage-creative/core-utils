@@ -1,5 +1,4 @@
 import { isDefined } from "../../types/index.js";
-import {} from "./Sorter.js";
 import { getDataConverter } from "./internal/getDataConverter.js";
 import { sortPrimitive } from "./sortPrimitive.js";
 export function sortAsPrimitive(dataType) {

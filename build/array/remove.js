@@ -1,5 +1,4 @@
 import { isDefined } from "../types/typeGuards/isDefined.js";
-import {} from "./Collection.js";
 import { removeAt } from "./removeAt.js";
 export function remove(array, predicate, thisArg) {
     const indexes = [];

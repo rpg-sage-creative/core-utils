@@ -1,5 +1,5 @@
 import { isDefined } from "../../types/index.js";
-import { type Sorter } from "./Sorter.js";
+import type { Sorter } from "./Sorter.js";
 import { getDataConverter } from "./internal/getDataConverter.js";
 import { sortPrimitive } from "./sortPrimitive.js";
 

@@ -1,4 +1,4 @@
-import { type ColorData, type HexColorString } from "../ColorData.js";
+import type { ColorData, HexColorString } from "../ColorData.js";
 import { getNamedColor } from "../namedColors.js";
 import { parseHexColor } from "../parseHexColor.js";
 import { hexToAlpha } from "./hexToAlpha.js";
