@@ -23,7 +23,7 @@ function findNext(content: string, startIndex: number): CodeBlockMatch | undefin
 	// let's work with a shorter string
 	const sliced = content.slice(startIndex);
 
-	// we only want ticks that aren't followed by slashes, min 1 max 3
+	// we only want ticks that aren't following slashes, min 1 max 3
 	const leftRegex = getTickRegexp();
 	const leftMatch = leftRegex.exec(sliced);
 	if (!leftMatch) {
