@@ -8,7 +8,7 @@ import { getQuotePairs, type QuoteStyle } from "./getQuotePairs.js";
 
 /** @internal Reusable function for ensuring consistent regex creation. Exported only for testing. */
 export function createQuotedRegexPart([left, right]: string, quantifier: RegExpQuantifier): string {
-	return `${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
+	return `(?!\\\\)${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
 }
 
 export type RegExpQuoteOptions = {
