@@ -2,10 +2,10 @@ import { regex } from "regex";
 import { anchorRegex } from "../../regex/anchorRegex.js";
 import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions } from "../../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../../regex/RegExpOptions.js";
 import { wrapRegex } from "../../regex/wrapRegex.js";
 
-type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & {
+type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & {
 	/** use ^ and $ to anchor the url to the start/end of the string */
 	anchored?: boolean;
 

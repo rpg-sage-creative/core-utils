@@ -1,5 +1,5 @@
 import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 import { type QuoteStyle } from "./getQuotePairs.js";
 export type RegExpQuoteOptions = {
     /** Specifies allowed number of characters inside the quotes. */
@@ -7,7 +7,7 @@ export type RegExpQuoteOptions = {
     /** Specifies limitations to the style of quotes allowed. */
     style?: QuoteStyle;
 };
-type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & RegExpQuoteOptions;
+type Options = RegExpFlagOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & RegExpQuoteOptions;
 /**
  * Returns an instance of the quoted regexp.
  * If gFlag is passed, a new regexp is created.

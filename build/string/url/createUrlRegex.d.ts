@@ -1,5 +1,5 @@
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions } from "../../regex/RegExpOptions.js";
-type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & {
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../../regex/RegExpOptions.js";
+type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & {
     /** use ^ and $ to anchor the url to the start/end of the string */
     anchored?: boolean;
     /** expects the two characters used to wrap the url, ex: <> for discord */

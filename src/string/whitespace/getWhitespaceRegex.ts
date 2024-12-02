@@ -2,12 +2,12 @@ import { rewrite } from "regex";
 import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
 import { quantifyRegex } from "../../regex/quantifyRegex.js";
-import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
+import type { RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 
 export const WHITESPACE_REGEX_SOURCE = `\\s`;
 export const HORIZONTAL_WHITESPACE_REGEX_SOURCE = `[^\\S\\r\\n]`;
 
-type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
+type Options = RegExpFlagOptions & RegExpCaptureOptions & RegExpQuantifyOptions & {
 	/** uses HORIZONTAL_WHITESPACE_REGEX_SOURCE if true, \s otherwise */
 	horizontalOnly?: boolean;
 };

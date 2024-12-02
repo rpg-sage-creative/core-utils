@@ -1,4 +1,4 @@
-import type { RegExpCreateOptions } from "../RegExpOptions.js";
+import type { RegExpFlagOptions } from "../RegExpOptions.js";
 
 /**
  * Stores each unique instance to avoid duplicating regex when not needed.
@@ -8,20 +8,20 @@ import type { RegExpCreateOptions } from "../RegExpOptions.js";
 const cache: { [key: string]: { [key: string]: RegExp; }; } = {};
 
 /** Creates the unique key for each variant based on options. */
-function createCacheKey<T extends RegExpCreateOptions>(options: T = {} as T): string {
+function createCacheKey<T extends RegExpFlagOptions>(options: T = {} as T): string {
 	const pairs = Object.entries(options).sort(([aKey], [bKey]) => aKey < bKey ? -1 : 1);
 	const parts = pairs.map(([key, value]) => `${key}=${value ?? false}`);
 	return parts.join("|");
 }
 
-type CreateRegexFunction<T extends RegExpCreateOptions> = (options?: T) => RegExp;
+type CreateRegexFunction<T extends RegExpFlagOptions> = (options?: T) => RegExp;
 
 /**
  * @internal
  * Returns a cached instance of the given regex if the gFlag is not set.
  * This allows us to cache non-global regex values where we don't need to worry about lastIndex.
  */
-export function getOrCreateRegex<T extends RegExpCreateOptions>(createRegex: CreateRegexFunction<T>, options?: T): RegExp {
+export function getOrCreateRegex<T extends RegExpFlagOptions>(createRegex: CreateRegexFunction<T>, options?: T): RegExp {
 	if (options?.gFlag) {
 		return createRegex(options);
 	}

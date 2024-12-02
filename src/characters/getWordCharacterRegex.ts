@@ -2,7 +2,7 @@ import { pattern, regex, rewrite } from "regex";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
 import { quantifyRegex } from "../regex/quantifyRegex.js";
-import type { RegExpCaptureOptions, RegExpCreateOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
+import type { RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
 
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
 // export const WORD_CHARACTERS_REGEX_PARTIAL_SOURCE = `\\w\\p{L}\\p{N}`;
@@ -16,7 +16,7 @@ export type RegexWordCharOptions = {
 };
 
 // Use this in the implementation to confirm we conform to our reused types.
-type Options = RegExpCreateOptions & RegExpCaptureOptions & RegExpQuantifyOptions & RegexWordCharOptions;
+type Options = RegExpFlagOptions & RegExpCaptureOptions & RegExpQuantifyOptions & RegexWordCharOptions;
 
 /** Creates a new instance of the word character regex based on options. */
 function createWordCharacterRegex(options?: Options): RegExp {

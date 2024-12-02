@@ -1,11 +1,7 @@
 import type { RegExpQuantifier } from "./quantifyRegex.js";
-/** These options exclude global because they are for getting cached RegExp objects used for .test(). */
-export type RegExpGetOptions = {
+export type RegExpFlagOptions = {
     /** include the case insensitive flag in the regex */
     iFlag?: "i" | "";
-};
-/** These options are intended for creating a new RegExp option each time to preserve the .lastIndex of each instance. */
-export type RegExpCreateOptions = RegExpGetOptions & {
     /** include the global flag in the regex */
     gFlag?: "g" | "";
 };

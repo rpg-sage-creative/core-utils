@@ -3,7 +3,7 @@ import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/
 import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpCreateOptions } from "../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
 import { getQuotedRegex, getQuotePairs, type RegExpQuoteOptions } from "../string/index.js";
 
 /**
@@ -21,7 +21,7 @@ export type RegExpKeyValueArgOptions = {
 	mode?: KeyValueArgMode;
 };
 
-type Options = RegExpCreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
+type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 
 type RegExpByModeOptions = {
 	capture?: string;
