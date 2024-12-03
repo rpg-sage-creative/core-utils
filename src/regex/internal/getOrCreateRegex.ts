@@ -17,7 +17,6 @@ function createCacheKey<T extends RegExpFlagOptions>(options: T = {} as T): stri
 type CreateRegexFunction<T extends RegExpFlagOptions, U extends RegExp> = (options?: T) => U;
 
 /**
- * @internal
  * Returns a cached instance of the given regex if the gFlag is not set.
  * This allows us to cache non-global regex values where we don't need to worry about lastIndex.
  */
