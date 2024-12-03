@@ -1,7 +1,7 @@
 import { regex } from "regex";
 import { anchorRegex } from "../../regex/anchorRegex.js";
 import { captureRegex } from "../../regex/captureRegex.js";
-import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
+import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../../regex/RegExpOptions.js";
 import { wrapRegex } from "../../regex/wrapRegex.js";
 

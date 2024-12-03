@@ -2,7 +2,7 @@ import { pattern, regex, rewrite } from "regex";
 import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
 import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
-import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
+import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
 import { getQuotedRegex, type QuotedRegexRegExp, type RegExpQuoteOptions } from "../string/index.js";
 

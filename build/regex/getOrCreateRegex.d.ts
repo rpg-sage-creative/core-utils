@@ -1,4 +1,4 @@
-import type { RegExpFlagOptions } from "../RegExpOptions.js";
+import type { RegExpFlagOptions } from "./RegExpOptions.js";
 type CreateRegexFunction<T extends RegExpFlagOptions, U extends RegExp> = (options?: T) => U;
 /**
  * Returns a cached instance of the given regex if the gFlag is not set.

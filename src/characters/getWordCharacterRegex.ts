@@ -1,6 +1,6 @@
 import { pattern, regex, rewrite } from "regex";
 import { captureRegex } from "../regex/captureRegex.js";
-import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
+import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import { quantifyRegex } from "../regex/quantifyRegex.js";
 import type { RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
 

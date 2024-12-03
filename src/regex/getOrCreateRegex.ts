@@ -1,4 +1,4 @@
-import type { RegExpFlagOptions } from "../RegExpOptions.js";
+import type { RegExpFlagOptions } from "./RegExpOptions.js";
 
 /**
  * Stores each unique instance to avoid duplicating regex when not needed.

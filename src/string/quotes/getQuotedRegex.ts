@@ -1,7 +1,7 @@
 import { rewrite } from "regex";
 import { anchorRegex } from "../../regex/anchorRegex.js";
 import { captureRegex } from "../../regex/captureRegex.js";
-import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
+import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 import { getQuotePairs, type QuoteStyle } from "./getQuotePairs.js";

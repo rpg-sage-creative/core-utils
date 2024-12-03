@@ -1,7 +1,7 @@
 import { rewrite } from "regex";
 import { anchorRegex } from "../../regex/anchorRegex.js";
 import { captureRegex } from "../../regex/captureRegex.js";
-import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
+import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import { getQuotePairs } from "./getQuotePairs.js";
 export function createQuotedRegexPart([left, right], quantifier) {
     return `${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
