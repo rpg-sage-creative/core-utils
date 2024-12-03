@@ -1,8 +1,7 @@
 import { pattern, regex, rewrite } from "regex";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
-import { quantifyRegex } from "../regex/quantifyRegex.js";
-import type { RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
 
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
 // export const WORD_CHARACTERS_REGEX_PARTIAL_SOURCE = `\\w\\p{L}\\p{N}`;
@@ -16,26 +15,30 @@ export type RegexWordCharOptions = {
 };
 
 // Use this in the implementation to confirm we conform to our reused types.
-type Options = RegExpFlagOptions & RegExpCaptureOptions & RegExpQuantifyOptions & RegexWordCharOptions;
+type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpQuantifyOptions & RegexWordCharOptions;
 
 /** Creates a new instance of the word character regex based on options. */
 function createWordCharacterRegex(options?: Options): RegExp {
-	const { capture, gFlag = "", iFlag = "", quantifier = "" } = options ?? {};
+	const { allowDashes, allowPeriods, anchored, capture, gFlag = "", iFlag = "", quantifier = "" } = options ?? {};
 
-	const dash = options?.allowDashes ? "\\-" : "";
-	const period = options?.allowPeriods ? "\\." : "";
+	const dash = allowDashes ? "\\-" : "";
+	const period = allowPeriods ? "\\." : "";
 
 	const wordCharacterRegex = regex`[\w\p{L}\p{N}${pattern(dash)}${pattern(period)}]`;
 
 	const quantifiedRegex = quantifier
-		? quantifyRegex(wordCharacterRegex, quantifier)
+		? new RegExp(`(?:${wordCharacterRegex.source})${quantifier}`, wordCharacterRegex.flags)
 		: wordCharacterRegex;
 
 	const capturedRegex = capture
 		? captureRegex(quantifiedRegex, capture)
 		: quantifiedRegex;
 
-	const { expression, flags } = rewrite(capturedRegex.source, { flags:gFlag + iFlag });
+	const anchoredRegex = anchored
+		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
+		: capturedRegex;
+
+	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });
 	return new RegExp(expression, flags);
 }
 
@@ -43,7 +46,7 @@ function createWordCharacterRegex(options?: Options): RegExp {
  * Returns an instance of the word character regexp.
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
- * Default options: { allowDashes:false, allowPeriods:false, capture:undefined, gFlag:false, iFlag:false, quantifier:"" }
+ * Default options: { allowDashes:false, allowPeriods:false, anchored:false, capture:undefined, gFlag:false, iFlag:false, quantifier:"" }
  */
 export function getWordCharacterRegex(options?: Options): RegExp {
 	return getOrCreateRegex(createWordCharacterRegex, options);

@@ -1,4 +1,31 @@
-import type { RegExpQuantifier } from "./quantifyRegex.js";
+/** Matches as many as possible, giving back as needed. */
+type GreedyQuantifier =
+	/** match zero or one */
+	"?"
+
+	/** match zero or more */
+	| "*"
+
+	/** match one or more */
+	| "+"
+
+	/** match exact count */
+	| `{${number}}`
+
+	/** match x or more */
+	| `{${number},}`
+
+	/** match x to y */
+	| `{${number},${number}}`;
+
+/** Matches as few as possible, expanding as needed. */
+type LazyQuantifier = `${GreedyQuantifier}?`;
+
+/** Matches as many as possible, without giving back. */
+type PossessiveQuantifier = `${GreedyQuantifier}+`;
+
+/** How many tokens to match with a particular RegExp expression. */
+export type RegExpQuantifier = GreedyQuantifier | LazyQuantifier | PossessiveQuantifier;
 
 export type RegExpFlagOptions = {
 	/** include the case insensitive flag in the regex */

@@ -1,4 +1,4 @@
-import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
+import type { RegExpQuantifier } from "../../regex/RegExpOptions.js";
 import type { QuoteStyle } from "./getQuotePairs.js";
 import { isQuoted } from "./isQuoted.js";
 

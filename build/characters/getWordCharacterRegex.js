@@ -1,19 +1,21 @@
 import { pattern, regex, rewrite } from "regex";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
-import { quantifyRegex } from "../regex/quantifyRegex.js";
 function createWordCharacterRegex(options) {
-    const { capture, gFlag = "", iFlag = "", quantifier = "" } = options ?? {};
-    const dash = options?.allowDashes ? "\\-" : "";
-    const period = options?.allowPeriods ? "\\." : "";
+    const { allowDashes, allowPeriods, anchored, capture, gFlag = "", iFlag = "", quantifier = "" } = options ?? {};
+    const dash = allowDashes ? "\\-" : "";
+    const period = allowPeriods ? "\\." : "";
     const wordCharacterRegex = regex `[\w\p{L}\p{N}${pattern(dash)}${pattern(period)}]`;
     const quantifiedRegex = quantifier
-        ? quantifyRegex(wordCharacterRegex, quantifier)
+        ? new RegExp(`(?:${wordCharacterRegex.source})${quantifier}`, wordCharacterRegex.flags)
         : wordCharacterRegex;
     const capturedRegex = capture
         ? captureRegex(quantifiedRegex, capture)
         : quantifiedRegex;
-    const { expression, flags } = rewrite(capturedRegex.source, { flags: gFlag + iFlag });
+    const anchoredRegex = anchored
+        ? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
+        : capturedRegex;
+    const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
     return new RegExp(expression, flags);
 }
 export function getWordCharacterRegex(options) {

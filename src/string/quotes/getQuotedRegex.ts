@@ -1,8 +1,7 @@
 import { rewrite } from "regex";
 import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
-import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifier, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 import { getQuotePairs, type QuoteStyle } from "./getQuotePairs.js";
 
 /** @internal Reusable function for ensuring consistent regex creation. Exported only for testing. */

@@ -1,5 +1,4 @@
-import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
-import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
+import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifier, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 import { type QuoteStyle } from "./getQuotePairs.js";
 export type RegExpQuoteOptions = {
     /** Specifies allowed number of characters inside the quotes. */
