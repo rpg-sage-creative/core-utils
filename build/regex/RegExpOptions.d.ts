@@ -18,12 +18,6 @@ type LazyQuantifier = `${GreedyQuantifier}?`;
 type PossessiveQuantifier = `${GreedyQuantifier}+`;
 /** How many tokens to match with a particular RegExp expression. */
 export type RegExpQuantifier = GreedyQuantifier | LazyQuantifier | PossessiveQuantifier;
-export type RegExpFlagOptions = {
-    /** include the case insensitive flag in the regex */
-    iFlag?: "i" | "";
-    /** include the global flag in the regex */
-    gFlag?: "g" | "";
-};
 export type RegExpAnchorOptions = {
     /** require the value to be "anchored" to start/end of the string */
     anchored?: boolean;
@@ -31,6 +25,12 @@ export type RegExpAnchorOptions = {
 export type RegExpCaptureOptions = {
     /** capture the RegExp with a named capture group */
     capture?: string;
+};
+export type RegExpFlagOptions = {
+    /** include the case insensitive flag in the regex */
+    iFlag?: "i" | "";
+    /** include the global flag in the regex */
+    gFlag?: "g" | "";
 };
 export type RegExpQuantifyOptions = {
     /** how many to capture */
@@ -42,8 +42,8 @@ export type RegExpSpoilerOptions = {
 };
 export type RegExpWrapOptions = {
     /** the characters used to wrap the regex */
-    chars: string;
+    wrapChars?: string;
     /** if the wrap characters are required or not */
-    required: "optional" | true;
+    wrapOptional?: boolean;
 };
 export {};

@@ -5,7 +5,7 @@ export function parseValidKeyValueArg(input) {
     const key = input.slice(0, index).trim();
     const keyLower = key.toLowerCase();
     const trimmed = input.slice(index + 1).trim();
-    const value = dequote(trimmed, { quantifier: "*" });
+    const value = dequote(trimmed, { contents: "*" });
     const quoted = quote(value);
     const clean = `${keyLower}=${quoted}`;
     return { key, keyLower, value, clean };

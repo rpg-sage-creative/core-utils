@@ -1,5 +1,5 @@
 const quoteTests = [
-	{ unquoted:``,         quoted:`""`,             style:undefined, quantifier:"*" },
+	{ unquoted:``,         quoted:`""`,             style:undefined, contents:"*" },
 	{ unquoted:` `,        quoted:`" "`,            style:undefined },
 	{ unquoted:`simple`,   quoted:`"simple"`,       style:undefined },
 	{ unquoted:`simple`,   quoted:`"simple"`,       style:"double" },
@@ -20,7 +20,7 @@ const quoteTests = [
 ];
 
 const dequoteTests = [
-	{ quoted:`""`,                  unquoted:`""`,                  style:undefined, isQuoted:false }, // dequote fails due to default quantifier "+"
+	{ quoted:`""`,                  unquoted:`""`,                  style:undefined, isQuoted:false }, // dequote fails due to default contents/quantifier "+"
 	{ quoted:` '‘"“„ `,             unquoted:` '‘"“„ `,             style:undefined, isQuoted:false },
 	{ quoted:`"'‘“„"`,              unquoted:`'‘“„`,                style:undefined, isQuoted:true },
 

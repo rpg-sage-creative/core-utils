@@ -1,35 +1,13 @@
-import { regex, rewrite } from "regex";
-import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpSpoilerOptions } from "../regex/RegExpOptions.js";
-import { spoilerRegex } from "../regex/spoilerRegex.js";
 
-type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
+type CreateOptions = RegExpFlagOptions;
+type GetOptions = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpSpoilerOptions;
 
 /** Creates a new instance of the number regex based on options. */
-function createNumberRegex(options?: Options): RegExp {
-	const { anchored, capture, gFlag = "", iFlag = "", spoilers } = options ?? {};
-
-	const numberRegex = regex(iFlag)`
-		[\-+]?    # optional pos/neg sign
-		\d+       # integer portion
-		(\.\d+)?  # optional decimal portion
-	`;
-
-	const spoileredRegex = spoilers
-		? spoilerRegex(numberRegex, spoilers)
-		: numberRegex;
-
-	const capturedRegex = capture
-		? captureRegex(spoileredRegex, capture)
-		: spoileredRegex;
-
-	const anchoredRegex = anchored
-		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
-		: capturedRegex;
-
-	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });
-	return new RegExp(expression, flags);
+function createNumberRegex(options?: CreateOptions): RegExp {
+	const { gFlag = "", iFlag = "" } = options ?? {};
+	return new RegExp(`[\\-+]?\\d+(\\.\\d+)?`, gFlag + iFlag);
 }
 
 /**
@@ -37,6 +15,6 @@ function createNumberRegex(options?: Options): RegExp {
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
  */
-export function getNumberRegex(options?: Options): RegExp {
+export function getNumberRegex(options?: GetOptions): RegExp {
 	return getOrCreateRegex(createNumberRegex, options);
 }

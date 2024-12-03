@@ -6,8 +6,8 @@ describe("string", () => {
 	describe("dequote", () => {
 
 		const tests = getTests("dequote");
-		tests.forEach(({ quoted, style, quantifier, unquoted }) => {
-			const options = { style, quantifier };
+		tests.forEach(({ quoted, style, contents, unquoted }) => {
+			const options = { style, contents };
 			test(`dequote(${toString(quoted)}, ${toString(options)}) === ${unquoted}`, () => {
 				expect(dequote(quoted, options)).toBe(unquoted);
 			});

@@ -4,7 +4,7 @@ import { isQuoted } from "./isQuoted.js";
 
 type Options = {
 	style?: QuoteStyle;
-	quantifier?: RegExpQuantifier;
+	contents?: RegExpQuantifier;
 };
 
 /** Removes first and last character if they are both quotes. */

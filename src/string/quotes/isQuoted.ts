@@ -5,7 +5,7 @@ import type { QuoteStyle } from "./getQuotePairs.js";
 
 type Options = {
 	style?: QuoteStyle;
-	quantifier?: RegExpQuantifier;
+	contents?: RegExpQuantifier;
 };
 
 /** Returns true if the value is properly quoted, false otherwise. */

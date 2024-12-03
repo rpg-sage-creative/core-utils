@@ -28,9 +28,9 @@ describe("args", () => {
 				{ options:{gFlag:"g"}, flags:"giu", source:`${prefix}${defaultKey}=${defaultValue}${suffix}` },
 				{ options:{gFlag:"g",mode:"strict"}, flags:"giu", source:`${prefix}${defaultKey}=${strictValue}${suffix}` },
 				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu", source:`${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=(?:${nakedValue})${suffix})` },
-				{ options:{capture:"arg"}, flags:"iu", source:`(?<arg>(?:${prefix}(?<argKey>${defaultKey})=(?:(?<argQuotedValue>(?:${defaultQuoteValue}))|(?<argNakedValue>(?:${nakedValue})))${suffix}))` },
-				{ options:{capture:"arg",mode:"strict"}, flags:"iu", source:`(?<arg>(?:${prefix}(?<argKey>${defaultKey})=(?<argQuotedValue>${strictValue})${suffix}))` },
-				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>(?:${sloppyPrefix}(?<argKey>${defaultKey})(?:\\s*=\\s*(?<argQuotedValue>${strictValue})|=(?<argNakedValue>(?:${nakedValue}))${suffix})))` },
+				{ options:{capture:"arg"}, flags:"iu", source:`(?<arg>${prefix}${defaultKey}=(?:(?:${defaultQuoteValue})|(?:${nakedValue}))${suffix})` },
+				{ options:{capture:"arg",mode:"strict"}, flags:"iu", source:`(?<arg>${prefix}${defaultKey}=${strictValue}${suffix})` },
+				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=(?:${nakedValue})${suffix}))` },
 			];
 			sourceTests.forEach(({ options, source, flags }) => {
 				test(`getKeyValueArgRegex(${toString(options)})`, () => {
@@ -57,9 +57,9 @@ describe("args", () => {
 			const input = `sloppyKey= "sloppy value" defaultKey=defaultValue nakedSloppyKey = nakedSloppyValue strictKey="strict value"`;
 			const tests = [
 				{ options:undefined, groups:undefined },
-				{ options:{capture:"kva"}, groups:{ kva:`defaultKey=defaultValue`, kvaKey:`defaultKey`, kvaNakedValue:`defaultValue` } },
-				{ options:{capture:"kva",mode:"strict"}, groups:{ kva:`strictKey="strict value"`, kvaKey:`strictKey`, kvaQuotedValue:`"strict value"`} },
-				{ options:{capture:"kva",mode:"sloppy"}, groups:{ kva:`sloppyKey= "sloppy value"`, kvaKey:`sloppyKey`, kvaQuotedValue:`"sloppy value"` } },
+				{ options:{capture:"kva"}, groups:{ kva:`defaultKey=defaultValue` } },
+				{ options:{capture:"kva",mode:"strict"}, groups:{ kva:`strictKey="strict value"`} },
+				{ options:{capture:"kva",mode:"sloppy"}, groups:{ kva:`sloppyKey= "sloppy value"` } },
 				{ options:{capture:"kva",key:"nakeySloppyKey",mode:"sloppy"}, groups:undefined },
 			];
 			tests.forEach(({ options, groups }) => {

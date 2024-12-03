@@ -13,7 +13,7 @@ describe("args", () => {
 		const doubleQuotedValues = quotedValues.map(value => quote(value));
 
 		const options = { allowDashes:true, allowPeriods:true };
-		const nonEmptyOptions = { allowDashes:true, allowPeriods:true, quantifier:"+" };
+		const nonEmptyOptions = { allowDashes:true, allowPeriods:true, contents:"+" };
 
 		const emptyTests = goodKeys.map(key => empties.map(val => `${key}=${val}`)).flat();
 		emptyTests.forEach(value => {

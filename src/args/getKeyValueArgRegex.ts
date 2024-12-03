@@ -1,6 +1,6 @@
-import { pattern, regex, rewrite } from "regex";
+import { pattern, regex } from "regex";
 import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
-import { captureRegex } from "../regex/captureRegex.js";
+import { escapeRegex } from "../regex/escapeRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
 import { getQuotedRegex, type QuotedRegexRegExp, type RegExpQuoteOptions } from "../string/index.js";
@@ -20,51 +20,29 @@ export type RegExpKeyValueArgOptions = {
 	mode?: KeyValueArgMode;
 };
 
-type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
+type CreateOptions = RegExpFlagOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 
 type RegExpByModeOptions = {
-	capture?: string;
-	iFlag?: "" | "i";
-	keyRegex: string | RegExp;
+	flags?: `${"g"|""}${"i"|""}${"u"|""}`;
+	keyRegex: RegExp;
 	mode?: KeyValueArgMode;
 	quotedRegex: QuotedRegexRegExp;
 };
 
-function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
-	if (capture) {
-		return regex(iFlag)`
-			(?<=(^|\s))         # start of line or whitespace
-			(?<${capture}Key>${keyRegex})
-			=
-			(?<${capture}QuotedValue>${quotedRegex})
-			(?=(\s|$))      # whitespace or end of line
-		`;
-	}
-	return regex(iFlag)`
-		(?<=(^|\s))     # start of line or whitespace
-		${keyRegex}
-		=
-		${quotedRegex}
-		(?=(\s|$))      # whitespace or end of line
-	`;
+function createStrictRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
+	return new RegExp(`(?<=(?:^|\\s))(?:${keyRegex.source})=(?:${quotedRegex.source})(?=(?:\\s|$))`, flags + "u");
+	// return regex(flags)`
+	// 	(?<=(^|\s))     # start of line or whitespace
+	// 	${keyRegex}
+	// 	=
+	// 	${quotedRegex}
+	// 	(?=(\s|$))      # whitespace or end of line
+	// `;
 }
 
-function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
+function createDefaultRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
 	const nakedRegex = pattern`[^\s\n\r${quotedRegex.leftChars}]\S*`;
-	if (capture) {
-		return regex(iFlag)`
-			(?<=(^|\s))    # start of line or whitespace
-			(?<${capture}Key>${keyRegex})
-			=
-			(
-				(?<${capture}QuotedValue>${quotedRegex})
-				|
-				(?<${capture}NakedValue>${nakedRegex})  # unquoted value that doesn't start with left quote and has no spaces
-			)
-			(?=(\s|$))     # whitespace or end of line
-		`;
-	}
-	return regex(iFlag)`
+	return regex(flags)`
 		(?<=(^|\s))        # start of line or whitespace
 		${keyRegex}
 		=
@@ -77,24 +55,10 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByM
 	`;
 }
 
-function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
+function createSloppyRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
 	const startBoundary = pattern`^|[\s${quotedRegex.rightChars}]`;
 	const nakedRegex = pattern`[^\s\n\r${quotedRegex.leftChars}]\S*`;
-
-	if (capture) {
-		return regex(iFlag)`
-			(?<=${startBoundary})                                # start of line or whitespace or a right quote
-			(?<${capture}Key>${keyRegex})
-			(
-				\s*=\s*(?<${capture}QuotedValue>${quotedRegex})  # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
-				|
-				=(?<${capture}NakedValue>${nakedRegex})          # allow an unquoted no-space value as long as it doesn't start with a left quote
-				(?=(\s|$))                                       # whitespace or end of line
-			)
-		`;
-	}
-
-	return regex(iFlag)`
+	return regex(flags)`
 		(?<=${startBoundary})                # start of line or whitespace or a right quote
 		${keyRegex}
 		(
@@ -115,43 +79,36 @@ function getRegexByMode(options: RegExpByModeOptions): RegExp {
 }
 
 /** Creates a new instance of the KeyValueArg regex based on options. */
-function createKeyValueArgRegex(options?: Options): RegExp {
-	const { allowDashes, allowPeriods, anchored, capture, gFlag = "", iFlag = "i", key, quantifier = "*", style = "any" } = options ?? {};
+function createKeyValueArgRegex(options?: CreateOptions): RegExp {
+	const { allowDashes, allowPeriods, gFlag = "", iFlag = "i", key, contents = "*", style = "any" } = options ?? {};
 	const mode = style !== "any" ? "strict" : options?.mode;
+	const flags = gFlag + iFlag as "gi";
 
-	let keyRegex: RegExp | string;
+	let keyRegex: RegExp;
 	if (key) {
 		const tester = getWordCharacterRegex({ iFlag, quantifier:"+", allowDashes:true, allowPeriods:true });
 		if (tester.exec(key)?.[0] !== key) {
 			throw new RangeError(`Invalid keyValueArg key`);
 		}
-		keyRegex = key;
+		keyRegex = new RegExp(escapeRegex(key), iFlag + "u");
 	}else {
 		keyRegex = getWordCharacterRegex({ iFlag, quantifier:"+", allowDashes, allowPeriods });
 	}
 
-	const quotedRegex = getQuotedRegex({ iFlag, quantifier, style });
-	const keyValueArgRegex = getRegexByMode({ capture, iFlag, keyRegex, mode, quotedRegex });
-
-	const capturedRegex = capture
-		? captureRegex(keyValueArgRegex, capture)
-		: keyValueArgRegex;
-
-	const anchoredRegex = anchored
-		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
-		: capturedRegex;
-
-	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });
-	return new RegExp(expression, flags);
+	const quotedRegex = getQuotedRegex({ iFlag, contents, style });
+	const keyValueArgRegex = getRegexByMode({ flags, keyRegex, mode, quotedRegex });
+	return keyValueArgRegex;
 }
+
+type GetOptions = CreateOptions & RegExpAnchorOptions & RegExpCaptureOptions;
 
 /**
  * Returns an instance of the KeyValueArg regexp.
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
- * Default options: { allowDashes:false, allowPeriods:false, capture:undefined, gFlag:"", iFlag:"i", key:undefined, mode:"default", quantifier:"*", style:undefined }
+ * Default options: { allowDashes:false, allowPeriods:false, contents:"*", iFlag:"i", mode:"default", style:"any" }
  * Setting style to anything other than "any" forces mode to "strict".
  */
-export function getKeyValueArgRegex(options?: Options): RegExp {
+export function getKeyValueArgRegex(options?: GetOptions): RegExp {
 	return getOrCreateRegex(createKeyValueArgRegex, options);
 }

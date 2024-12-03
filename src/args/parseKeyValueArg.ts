@@ -14,7 +14,7 @@ export function parseValidKeyValueArg(input: string): KeyValueArg | undefined {
 	const keyLower = key.toLowerCase();
 	// Because we are currently allowing spaces around the "=" character, we need to trim the raw value
 	const trimmed = input.slice(index + 1).trim();
-	const value = dequote(trimmed, { quantifier:"*"});
+	const value = dequote(trimmed, { contents:"*"});
 	const quoted = quote(value);
 	const clean = `${keyLower}=${quoted}`;
 	return { key, keyLower, value, clean };

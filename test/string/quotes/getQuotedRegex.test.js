@@ -100,12 +100,12 @@ describe("quotes", () => {
 			{ input:`"normal double"`, options:{anchored:true}, expectedTestResults:true, expectedExecResults:[`"normal double"`] },
 
 			// quantifier tests
-			{ input:`''`, options:{quantifier:"*"}, expectedTestResults:true, expectedExecResults:[`''`] },
-			{ input:`''`, options:{quantifier:"+"}, expectedTestResults:false, expectedExecResults:null },
-			{ input:`'ab'`, options:{quantifier:"*"}, expectedTestResults:true, expectedExecResults:[`'ab'`] },
-			{ input:`'ab'`, options:{quantifier:"+"}, expectedTestResults:true, expectedExecResults:[`'ab'`] },
-			{ input:`'ab'`, options:{quantifier:"{1}"}, expectedTestResults:false, expectedExecResults:null },
-			{ input:`'ab'`, options:{quantifier:"{3,}"}, expectedTestResults:false, expectedExecResults:null },
+			{ input:`''`, options:{contents:"*"}, expectedTestResults:true, expectedExecResults:[`''`] },
+			{ input:`''`, options:{contents:"+"}, expectedTestResults:false, expectedExecResults:null },
+			{ input:`'ab'`, options:{contents:"*"}, expectedTestResults:true, expectedExecResults:[`'ab'`] },
+			{ input:`'ab'`, options:{contents:"+"}, expectedTestResults:true, expectedExecResults:[`'ab'`] },
+			{ input:`'ab'`, options:{contents:"{1}"}, expectedTestResults:false, expectedExecResults:null },
+			{ input:`'ab'`, options:{contents:"{3,}"}, expectedTestResults:false, expectedExecResults:null },
 
 			// escaped tests
 			{ input:` 'normal ' single' `, options:undefined, expectedTestResults:true, expectedExecResults:[`'normal '`] },

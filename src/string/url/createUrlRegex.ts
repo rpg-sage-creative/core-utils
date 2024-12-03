@@ -1,12 +1,8 @@
 import { regex } from "regex";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../../regex/RegExpOptions.js";
-import { wrapRegex } from "../../regex/wrapRegex.js";
 
-type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & {
-	/** use ^ and $ to anchor the url to the start/end of the string */
-	anchored?: boolean;
-
+type WrapOptions = {
 	/** expects the two characters used to wrap the url, ex: <> for discord */
 	wrapChars?: string;
 
@@ -14,12 +10,14 @@ type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & 
 	wrapOptional?: boolean;
 };
 
-function createUrlRegex(options?: Options): RegExp {
-	const { anchored, capture, gFlag = "", iFlag = "", wrapChars, wrapOptional } = options ?? {};
-	const wrapRequired = wrapOptional ? "optional" : true;
+type CreateOptions = RegExpFlagOptions;
+type GetOptions = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & WrapOptions;
+
+function createUrlRegex(options?: CreateOptions): RegExp {
+	const { gFlag = "", iFlag = "" } = options ?? {};
 	const flags = gFlag + iFlag;
 
-	const urlRegex = regex(flags)`
+	return regex(flags)`
 		# protocol
 		(s?ftp|https?)://
 
@@ -57,22 +55,6 @@ function createUrlRegex(options?: Options): RegExp {
 		# anchor
 		(\#[\-\w]*)?
 	`;
-
-	const wrappedRegex = wrapChars
-		? wrapRegex(urlRegex, wrapChars, wrapRequired)
-		: urlRegex;
-
-	const capturedRegex = capture
-		? new RegExp(`(?<${capture}>${wrappedRegex.source})`, flags)
-		: wrappedRegex;
-
-	const anchoredRegex = anchored
-		? new RegExp(`^(?:${capturedRegex.source})$`, flags)
-		: capturedRegex;
-
-	return anchoredRegex;
-	// const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });
-	// return new RegExp(expression, flags);
 }
 
 /**
@@ -80,6 +62,6 @@ function createUrlRegex(options?: Options): RegExp {
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
  */
-export function getUrlRegex(options?: Options): RegExp {
+export function getUrlRegex(options?: GetOptions): RegExp {
 	return getOrCreateRegex(createUrlRegex, options);
 }

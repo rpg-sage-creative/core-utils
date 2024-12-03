@@ -1,42 +1,14 @@
-import { pattern, regex, rewrite } from "regex";
+import { pattern, regex } from "regex";
 import { getWordCharacterRegex } from "../characters/getWordCharacterRegex.js";
-import { captureRegex } from "../regex/captureRegex.js";
+import { escapeRegex } from "../regex/escapeRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import { getQuotedRegex } from "../string/index.js";
-function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }) {
-    if (capture) {
-        return regex(iFlag) `
-			(?<=(^|\s))         # start of line or whitespace
-			(?<${capture}Key>${keyRegex})
-			=
-			(?<${capture}QuotedValue>${quotedRegex})
-			(?=(\s|$))      # whitespace or end of line
-		`;
-    }
-    return regex(iFlag) `
-		(?<=(^|\s))     # start of line or whitespace
-		${keyRegex}
-		=
-		${quotedRegex}
-		(?=(\s|$))      # whitespace or end of line
-	`;
+function createStrictRegex({ flags, keyRegex, quotedRegex }) {
+    return new RegExp(`(?<=(?:^|\\s))(?:${keyRegex.source})=(?:${quotedRegex.source})(?=(?:\\s|$))`, flags + "u");
 }
-function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
+function createDefaultRegex({ flags, keyRegex, quotedRegex }) {
     const nakedRegex = pattern `[^\s\n\r${quotedRegex.leftChars}]\S*`;
-    if (capture) {
-        return regex(iFlag) `
-			(?<=(^|\s))    # start of line or whitespace
-			(?<${capture}Key>${keyRegex})
-			=
-			(
-				(?<${capture}QuotedValue>${quotedRegex})
-				|
-				(?<${capture}NakedValue>${nakedRegex})  # unquoted value that doesn't start with left quote and has no spaces
-			)
-			(?=(\s|$))     # whitespace or end of line
-		`;
-    }
-    return regex(iFlag) `
+    return regex(flags) `
 		(?<=(^|\s))        # start of line or whitespace
 		${keyRegex}
 		=
@@ -48,22 +20,10 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 		(?=(\s|$))         # whitespace or end of line
 	`;
 }
-function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }) {
+function createSloppyRegex({ flags, keyRegex, quotedRegex }) {
     const startBoundary = pattern `^|[\s${quotedRegex.rightChars}]`;
     const nakedRegex = pattern `[^\s\n\r${quotedRegex.leftChars}]\S*`;
-    if (capture) {
-        return regex(iFlag) `
-			(?<=${startBoundary})                                # start of line or whitespace or a right quote
-			(?<${capture}Key>${keyRegex})
-			(
-				\s*=\s*(?<${capture}QuotedValue>${quotedRegex})  # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
-				|
-				=(?<${capture}NakedValue>${nakedRegex})          # allow an unquoted no-space value as long as it doesn't start with a left quote
-				(?=(\s|$))                                       # whitespace or end of line
-			)
-		`;
-    }
-    return regex(iFlag) `
+    return regex(flags) `
 		(?<=${startBoundary})                # start of line or whitespace or a right quote
 		${keyRegex}
 		(
@@ -82,29 +42,23 @@ function getRegexByMode(options) {
     }
 }
 function createKeyValueArgRegex(options) {
-    const { allowDashes, allowPeriods, anchored, capture, gFlag = "", iFlag = "i", key, quantifier = "*", style = "any" } = options ?? {};
+    const { allowDashes, allowPeriods, gFlag = "", iFlag = "i", key, contents = "*", style = "any" } = options ?? {};
     const mode = style !== "any" ? "strict" : options?.mode;
+    const flags = gFlag + iFlag;
     let keyRegex;
     if (key) {
         const tester = getWordCharacterRegex({ iFlag, quantifier: "+", allowDashes: true, allowPeriods: true });
         if (tester.exec(key)?.[0] !== key) {
             throw new RangeError(`Invalid keyValueArg key`);
         }
-        keyRegex = key;
+        keyRegex = new RegExp(escapeRegex(key), iFlag + "u");
     }
     else {
         keyRegex = getWordCharacterRegex({ iFlag, quantifier: "+", allowDashes, allowPeriods });
     }
-    const quotedRegex = getQuotedRegex({ iFlag, quantifier, style });
-    const keyValueArgRegex = getRegexByMode({ capture, iFlag, keyRegex, mode, quotedRegex });
-    const capturedRegex = capture
-        ? captureRegex(keyValueArgRegex, capture)
-        : keyValueArgRegex;
-    const anchoredRegex = anchored
-        ? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
-        : capturedRegex;
-    const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
-    return new RegExp(expression, flags);
+    const quotedRegex = getQuotedRegex({ iFlag, contents, style });
+    const keyValueArgRegex = getRegexByMode({ flags, keyRegex, mode, quotedRegex });
+    return keyValueArgRegex;
 }
 export function getKeyValueArgRegex(options) {
     return getOrCreateRegex(createKeyValueArgRegex, options);
