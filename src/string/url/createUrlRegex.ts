@@ -1,5 +1,4 @@
 import { regex } from "regex";
-import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../../regex/RegExpOptions.js";
 import { wrapRegex } from "../../regex/wrapRegex.js";
@@ -18,8 +17,9 @@ type Options = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions & 
 function createUrlRegex(options?: Options): RegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", wrapChars, wrapOptional } = options ?? {};
 	const wrapRequired = wrapOptional ? "optional" : true;
+	const flags = gFlag + iFlag;
 
-	const urlRegex = regex(gFlag + iFlag)`
+	const urlRegex = regex(flags)`
 		# protocol
 		(s?ftp|https?)://
 
@@ -63,11 +63,11 @@ function createUrlRegex(options?: Options): RegExp {
 		: urlRegex;
 
 	const capturedRegex = capture
-		? captureRegex(wrappedRegex, capture)
+		? new RegExp(`(?<${capture}>${wrappedRegex.source})`, flags)
 		: wrappedRegex;
 
 	const anchoredRegex = anchored
-		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
+		? new RegExp(`^(?:${capturedRegex.source})$`, flags)
 		: capturedRegex;
 
 	return anchoredRegex;

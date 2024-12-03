@@ -4,34 +4,65 @@ import { toString } from "../../toString.mjs";
 describe("string", () => {
 	describe("url", () => {
 
-		const regex = getUrlRegex({ anchored:true });
+		const tests = [
 
-		const goodUrls = [
-			"http://google.com/q?word=text#marked",
-			"https://google.com:80/q?word=text#marked",
-			"ftp://google.com:80/q?word=text#marked",
-			"sftp://google.com:80/q?word=text#marked",
-		];
-		goodUrls.forEach(url => {
-			test(`${toString(regex)}.test(${url}) === true`, () => {
-				expect(regex.test(url)).toBe(true);
-				expect(regex.exec(url)[0]).toBe(url);
-			});
-		});
+			// basic
+			{ options:undefined, input:"http://google.com/q?word=text#marked", testResult:true, execResult:["http://google.com/q?word=text#marked"], captureGroup:undefined, captureValue:undefined },
+			{ options:undefined, input:"https://google.com:80/q?word=text#marked", testResult:true, execResult:["https://google.com:80/q?word=text#marked"], captureGroup:undefined, captureValue:undefined },
+			{ options:undefined, input:"ftp://google.com:80/q?word=text#marked", testResult:true, execResult:["ftp://google.com:80/q?word=text#marked"], captureGroup:undefined, captureValue:undefined },
+			{ options:undefined, input:"sftp://google.com:80/q?word=text#marked", testResult:true, execResult:["sftp://google.com:80/q?word=text#marked"], captureGroup:undefined, captureValue:undefined },
 
-		const badUrls = [
+			// basic capture
+			{ options:{capture:"url"}, input:"http://google.com/q?word=text#marked", testResult:true, execResult:["http://google.com/q?word=text#marked"], captureGroup:"url", captureValue:"http://google.com/q?word=text#marked" },
+			{ options:{capture:"url"}, input:"https://google.com:80/q?word=text#marked", testResult:true, execResult:["https://google.com:80/q?word=text#marked"], captureGroup:"url", captureValue:"https://google.com:80/q?word=text#marked" },
+			{ options:{capture:"url"}, input:"ftp://google.com:80/q?word=text#marked", testResult:true, execResult:["ftp://google.com:80/q?word=text#marked"], captureGroup:"url", captureValue:"ftp://google.com:80/q?word=text#marked" },
+			{ options:{capture:"url"}, input:"sftp://google.com:80/q?word=text#marked", testResult:true, execResult:["sftp://google.com:80/q?word=text#marked"], captureGroup:"url", captureValue:"sftp://google.com:80/q?word=text#marked" },
+
+			// port too long; but without anchor the valid host/port is a valid url
+			{ options:undefined, input:"https://google.com:655350/q?word=text#marked", testResult:true, execResult:["https://google.com:65535"], captureGroup:undefined, captureValue:undefined },
 			// port too long
-			"https://google.com:655350/q?word=text#marked",
+			{ options:{anchored:true}, input:"https://google.com:655350/q?word=text#marked", testResult:false, execResult:null, captureGroup:undefined, captureValue:undefined },
+			// shttp not valid; but without anchor input.slice(1) is a valid url
+			{ options:undefined, input:"shttp://google.com:80/q?word=text#marked", testResult:true, execResult:["http://google.com:80/q?word=text#marked"], captureGroup:undefined, captureValue:undefined },
 			// shttp not valid
-			"shttp://google.com:80/q?word=text#marked",
+			{ options:{anchored:true}, input:"shttp://google.com:80/q?word=text#marked", testResult:false, execResult:null, captureGroup:undefined, captureValue:undefined },
 			// ftps not valid
-			"ftps://google.com:80/q?word=text#marked",
+			{ options:undefined, input:"ftps://google.com:80/q?word=text#marked", testResult:false, execResult:null, captureGroup:undefined, captureValue:undefined },
+
+			// { options:undefined, input:"STRING", testResult:true, execResult:null, captureGroup:undefined, captureValue:undefined },
 		];
-		badUrls.forEach(url => {
-			test(`${toString(regex)}.test(${url}) === false`, () => {
-				expect(regex.test(url)).toBe(false);
-				expect(regex.exec(url)).toBeNull();
+		tests.forEach(({ options, input, testResult, execResult, captureGroup, captureValue }) => {
+			// simple test
+			test(`getUrlRegex(${toString(options)}).test(${input}) === ${toString(testResult)}`, () => {
+				expect(getUrlRegex(options).test(input)).toBe(testResult);
 			});
+			// if failed, we expect null
+			if (execResult === null) {
+				test(`getUrlRegex(${toString(options)}).exec(${input}) === null`, () => {
+					expect(getUrlRegex(options).exec(input)).toBeNull();
+				});
+
+			}else {
+				// compare exec results
+				test(`getUrlRegex(${toString(options)}).exec(${input}) equals ${toString(execResult)}`, () => {
+					// full match is index 0, capture value is index 1
+					const expected = captureValue ? execResult.concat([captureValue]) : execResult;
+					expect(String(getUrlRegex(options).exec(input))).toBe(String(expected));
+				});
+
+				if (captureGroup || captureValue) {
+					// get capture group results
+					test(`getUrlRegex(${toString(options)}).exec(${input}) equals ${toString(execResult)}`, () => {
+						expect(getUrlRegex(options).exec(input).groups[captureGroup]).toBe(captureValue);
+					});
+
+				}else {
+					// ensure capture group is undefined
+					test(`getUrlRegex(${toString(options)}).exec(${input}).groups === undefined`, () => {
+						expect(getUrlRegex(options).exec(input).groups).toBeUndefined();
+					});
+				}
+			}
 		});
 
 		const wrapRegex = getUrlRegex({ wrapChars:"<>" });
