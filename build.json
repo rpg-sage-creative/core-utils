@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.1.0",
+"version":"0.1.1",
 "branch":"main",
-"commit":"6790e25530a8968e4b32a76f1c91597b0ff54778",
-"commitSubject":"Squashed commit of the following:",
-"commitTs":1732146742000,
-"commitDate":"2024-11-20-1552",
-"buildTs":1732146772000,
-"buildDate":"2024-11-20-1552",
+"commit":"9c26bf5c1087233e9fd8d6ea22da70784657bd8b",
+"commitSubject":"version updates",
+"commitTs":1733206704000,
+"commitDate":"2024-12-02-2218",
+"buildTs":1733206733000,
+"buildDate":"2024-12-02-2218",
 "author":"Randal"
 }
