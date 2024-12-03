@@ -1,5 +1,6 @@
 import { isKeyValueArg, quote, wrap } from "../../build/index.js";
 import { toString } from "../toString.mjs";
+import { getTests } from "./data.js";
 
 describe("args", () => {
 	describe("isKeyValueArg", () => {
@@ -63,5 +64,11 @@ describe("args", () => {
 			});
 		});
 
+		const tests = getTests("isKeyValueArg");
+		tests.forEach(({ input, options, expected }) => {
+			test(`isKeyValueArg(${toString(input)}, ${toString(options)}) === ${expected}`, () => {
+				expect(isKeyValueArg(input, options)).toBe(expected);
+			});
+		});
 	});
 });

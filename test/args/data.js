@@ -41,8 +41,13 @@ const parseKeyValueArgsTests = [
 
 ].concat(parseKeyValueArgTests.map(({ input, options, expected }) => ({ input, options, expected:expected?[expected]:[] })));
 
+const isKeyValueArgTests = [
+
+].concat(parseKeyValueArgTests.map(({ input, options, expected }) => ({ input, options, expected:!!expected })));
+
 export function getTests(which) {
 	switch(which) {
+		case "isKeyValueArg": return isKeyValueArgTests;
 		case "parseKeyValueArg": return parseKeyValueArgTests;
 		case "parseKeyValueArgs": return parseKeyValueArgsTests;
 		default: return [];
