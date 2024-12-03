@@ -1,4 +1,3 @@
-import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 export const WHITESPACE_REGEX_SOURCE = `\\s`;
 export const HORIZONTAL_WHITESPACE_REGEX_SOURCE = `[^\\S\\r\\n]`;
@@ -11,7 +10,7 @@ function createWhitespaceRegex(options) {
         ? new RegExp(`(?:${whitespaceRegex.source})${quantifier}`, flags)
         : whitespaceRegex;
     const capturedRegex = capture
-        ? captureRegex(quantifiedRegex, capture)
+        ? new RegExp(`(?<${capture}>${quantifiedRegex.source})`, flags)
         : quantifiedRegex;
     const anchoredRegex = anchored
         ? new RegExp(`^(?:${capturedRegex.source})$`, flags)

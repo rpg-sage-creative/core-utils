@@ -1,4 +1,3 @@
-import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 
@@ -23,7 +22,7 @@ function createWhitespaceRegex(options?: Options): RegExp {
 		: whitespaceRegex;
 
 	const capturedRegex = capture
-		? captureRegex(quantifiedRegex, capture)
+		? new RegExp(`(?<${capture}>${quantifiedRegex.source})`, flags)
 		: quantifiedRegex;
 
 	const anchoredRegex = anchored
