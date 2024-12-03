@@ -4,12 +4,13 @@ import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/internal/getOrCreateRegex.js";
 import { getQuotePairs } from "./getQuotePairs.js";
 export function createQuotedRegexPart([left, right], quantifier) {
-    return `(?!\\\\)${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
+    return `${left}(?:[^${right}\\\\]|\\\\.)${quantifier}${right}`;
 }
 function createQuotedRegex(options) {
     const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
     const parts = getQuotePairs(style).map(pair => createQuotedRegexPart(pair.chars, quantifier));
-    const quotedRegex = new RegExp(parts.join("|"));
+    const joined = parts.join("|");
+    const quotedRegex = new RegExp(`(?<!\\\\)(?:${joined})`);
     const capturedRegex = capture
         ? captureRegex(quotedRegex, capture)
         : quotedRegex;

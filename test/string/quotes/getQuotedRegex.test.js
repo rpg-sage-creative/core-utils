@@ -12,7 +12,7 @@ describe("quotes", () => {
 		const q2a2 = createQuotedRegexPart(`»«`, "+");
 		const q1 = createQuotedRegexPart(`''`, "+");
 		const q1f = createQuotedRegexPart(`‘’`, "+");
-		const join = (...args) => args.join("|");
+		const join = (...args) => `(?<!\\\\)(?:${args.join("|")})`;
 
 		const sourceTests = [
 			{ options:undefined,               expected:join(q2,q2f,q2e1,q2e2,q2a1,q2a2,q1,q1f) },
