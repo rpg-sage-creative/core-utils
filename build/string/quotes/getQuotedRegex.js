@@ -1,5 +1,3 @@
-import { rewrite } from "regex";
-import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import { getQuotePairs } from "./getQuotePairs.js";
 export function createQuotedRegexPart([left, right], quantifier) {
@@ -7,6 +5,7 @@ export function createQuotedRegexPart([left, right], quantifier) {
 }
 function createQuotedRegex(options) {
     const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
+    const flags = gFlag + iFlag;
     const leftChars = [];
     const rightChars = [];
     const parts = [];
@@ -15,15 +14,14 @@ function createQuotedRegex(options) {
         rightChars.push(pair.chars[1]);
         parts.push(createQuotedRegexPart(pair.chars, quantifier));
     });
-    const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`);
+    const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`, flags);
     const capturedRegex = capture
-        ? captureRegex(quotedRegex, capture)
+        ? new RegExp(`(?<${capture}>${quotedRegex.source})`, flags)
         : quotedRegex;
     const anchoredRegex = anchored
-        ? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
+        ? new RegExp(`^(?:${capturedRegex.source})$`, flags)
         : capturedRegex;
-    const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
-    const regexp = new RegExp(expression, flags);
+    const regexp = anchoredRegex;
     regexp.leftChars = leftChars.join("");
     regexp.rightChars = rightChars.join("");
     return regexp;

@@ -1,5 +1,3 @@
-import { rewrite } from "regex";
-import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifier, RegExpQuantifyOptions } from "../../regex/RegExpOptions.js";
 import { getQuotePairs, type QuoteStyle } from "./getQuotePairs.js";
@@ -27,6 +25,7 @@ export type QuotedRegexRegExp = RegExp & {
 /** Creates a new instance of the word character regex based on options. */
 function createQuotedRegex(options?: Options): QuotedRegexRegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
+	const flags = gFlag + iFlag;
 
 	const leftChars: string[] = [];
 	const rightChars: string[] = [];
@@ -37,18 +36,17 @@ function createQuotedRegex(options?: Options): QuotedRegexRegExp {
 		parts.push(createQuotedRegexPart(pair.chars, quantifier));
 	});
 
-	const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`);
+	const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`, flags);
 
 	const capturedRegex = capture
-		? captureRegex(quotedRegex, capture)
+		? new RegExp(`(?<${capture}>${quotedRegex.source})`, flags)
 		: quotedRegex;
 
 	const anchoredRegex = anchored
-		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
+		? new RegExp(`^(?:${capturedRegex.source})$`, flags)
 		: capturedRegex;
 
-	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });
-	const regexp = new RegExp(expression, flags) as QuotedRegexRegExp;
+	const regexp = anchoredRegex as QuotedRegexRegExp;
 	regexp.leftChars = leftChars.join("");
 	regexp.rightChars = rightChars.join("");
 	return regexp;
