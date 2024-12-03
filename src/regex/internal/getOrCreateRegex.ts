@@ -14,14 +14,14 @@ function createCacheKey<T extends RegExpFlagOptions>(options: T = {} as T): stri
 	return parts.join("|");
 }
 
-type CreateRegexFunction<T extends RegExpFlagOptions> = (options?: T) => RegExp;
+type CreateRegexFunction<T extends RegExpFlagOptions, U extends RegExp> = (options?: T) => U;
 
 /**
  * @internal
  * Returns a cached instance of the given regex if the gFlag is not set.
  * This allows us to cache non-global regex values where we don't need to worry about lastIndex.
  */
-export function getOrCreateRegex<T extends RegExpFlagOptions>(createRegex: CreateRegexFunction<T>, options?: T): RegExp {
+export function getOrCreateRegex<T extends RegExpFlagOptions, U extends RegExp>(createRegex: CreateRegexFunction<T, U>, options?: T): RegExp {
 	if (options?.gFlag) {
 		return createRegex(options);
 	}

@@ -4,7 +4,7 @@ import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
-import { getQuotedRegex, getQuotePairs, type RegExpQuoteOptions } from "../string/index.js";
+import { getQuotedRegex, type QuotedRegexRegExp, type RegExpQuoteOptions } from "../string/index.js";
 
 /**
  * strict:  spaces around the pair: required, quotes: required
@@ -28,7 +28,7 @@ type RegExpByModeOptions = {
 	iFlag?: "" | "i";
 	keyRegex: string | RegExp;
 	mode?: KeyValueArgMode;
-	quotedRegex: RegExp;
+	quotedRegex: QuotedRegexRegExp;
 };
 
 function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
@@ -51,8 +51,7 @@ function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByMo
 }
 
 function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
-	const leftChars = getQuotePairs().map(({ chars }) => chars[0]).join("");
-	const nakedRegex = pattern`[^\s\n\r${leftChars}]\S*`;
+	const nakedRegex = pattern`[^\s\n\r${quotedRegex.leftChars}]\S*`;
 	if (capture) {
 		return regex(iFlag)`
 			(?<=(^|\s))    # start of line or whitespace
@@ -80,13 +79,8 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByM
 }
 
 function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
-	const { leftChars, rightChars } = getQuotePairs().reduce((pairs, pair) => {
-		pairs.leftChars += pair.chars[0];
-		pairs.rightChars += pair.chars[1];
-		return pairs;
-	}, { leftChars:"", rightChars:"" });
-	const startBoundary = pattern`^|[\s${rightChars}]`;
-	const nakedRegex = pattern`[^\s\n\r${leftChars}]\S*`;
+	const startBoundary = pattern`^|[\s${quotedRegex.rightChars}]`;
+	const nakedRegex = pattern`[^\s\n\r${quotedRegex.leftChars}]\S*`;
 
 	if (capture) {
 		return regex(iFlag)`

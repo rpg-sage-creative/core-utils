@@ -8,11 +8,15 @@ export type RegExpQuoteOptions = {
     style?: QuoteStyle;
 };
 type Options = RegExpFlagOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & RegExpQuoteOptions;
+export type QuotedRegexRegExp = RegExp & {
+    leftChars: string;
+    rightChars: string;
+};
 /**
  * Returns an instance of the quoted regexp.
  * If gFlag is passed, a new regexp is created.
  * If gFlag is not passed, a cached version of the regexp is used.
  * Default options: { anchored:false, capture:undefined, gFlag:"", iFlag:"", quantifier:"+", style:"any" }
  */
-export declare function getQuotedRegex(options?: Options): RegExp;
+export declare function getQuotedRegex(options?: Options): QuotedRegexRegExp;
 export {};

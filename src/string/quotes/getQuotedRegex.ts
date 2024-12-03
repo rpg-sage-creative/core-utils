@@ -21,13 +21,25 @@ export type RegExpQuoteOptions = {
 
 type Options = RegExpFlagOptions & RegExpCaptureOptions & RegExpAnchorOptions & RegExpQuantifyOptions & RegExpQuoteOptions;
 
+export type QuotedRegexRegExp = RegExp & {
+	leftChars: string;
+	rightChars: string;
+};
+
 /** Creates a new instance of the word character regex based on options. */
-function createQuotedRegex(options?: Options): RegExp {
+function createQuotedRegex(options?: Options): QuotedRegexRegExp {
 	const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
 
-	const parts = getQuotePairs(style).map(pair => createQuotedRegexPart(pair.chars, quantifier));
-	const joined = parts.join("|");
-	const quotedRegex = new RegExp(`(?<!\\\\)(?:${joined})`);
+	const leftChars: string[] = [];
+	const rightChars: string[] = [];
+	const parts: string[] = [];
+	getQuotePairs(style).forEach(pair => {
+		leftChars.push(pair.chars[0]);
+		rightChars.push(pair.chars[1]);
+		parts.push(createQuotedRegexPart(pair.chars, quantifier));
+	});
+
+	const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`);
 
 	const capturedRegex = capture
 		? captureRegex(quotedRegex, capture)
@@ -38,7 +50,10 @@ function createQuotedRegex(options?: Options): RegExp {
 		: capturedRegex;
 
 	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });
-	return new RegExp(expression, flags);
+	const regexp = new RegExp(expression, flags) as QuotedRegexRegExp;
+	regexp.leftChars = leftChars.join("");
+	regexp.rightChars = rightChars.join("");
+	return regexp;
 }
 
 /**
@@ -47,6 +62,6 @@ function createQuotedRegex(options?: Options): RegExp {
  * If gFlag is not passed, a cached version of the regexp is used.
  * Default options: { anchored:false, capture:undefined, gFlag:"", iFlag:"", quantifier:"+", style:"any" }
  */
-export function getQuotedRegex(options?: Options): RegExp {
-	return getOrCreateRegex(createQuotedRegex, options);
+export function getQuotedRegex(options?: Options): QuotedRegexRegExp {
+	return getOrCreateRegex(createQuotedRegex, options) as QuotedRegexRegExp;
 }

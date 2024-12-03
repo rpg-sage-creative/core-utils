@@ -8,9 +8,15 @@ export function createQuotedRegexPart([left, right], quantifier) {
 }
 function createQuotedRegex(options) {
     const { anchored, capture, gFlag = "", iFlag = "", quantifier = "+", style = "any" } = options ?? {};
-    const parts = getQuotePairs(style).map(pair => createQuotedRegexPart(pair.chars, quantifier));
-    const joined = parts.join("|");
-    const quotedRegex = new RegExp(`(?<!\\\\)(?:${joined})`);
+    const leftChars = [];
+    const rightChars = [];
+    const parts = [];
+    getQuotePairs(style).forEach(pair => {
+        leftChars.push(pair.chars[0]);
+        rightChars.push(pair.chars[1]);
+        parts.push(createQuotedRegexPart(pair.chars, quantifier));
+    });
+    const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`);
     const capturedRegex = capture
         ? captureRegex(quotedRegex, capture)
         : quotedRegex;
@@ -18,7 +24,10 @@ function createQuotedRegex(options) {
         ? anchorRegex(capturedRegex)
         : capturedRegex;
     const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
-    return new RegExp(expression, flags);
+    const regexp = new RegExp(expression, flags);
+    regexp.leftChars = leftChars.join("");
+    regexp.rightChars = rightChars.join("");
+    return regexp;
 }
 export function getQuotedRegex(options) {
     return getOrCreateRegex(createQuotedRegex, options);

@@ -3,7 +3,7 @@ import { getWordCharacterRegex } from "../characters/getWordCharacterRegex.js";
 import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/internal/getOrCreateRegex.js";
-import { getQuotedRegex, getQuotePairs } from "../string/index.js";
+import { getQuotedRegex } from "../string/index.js";
 function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }) {
     if (capture) {
         return regex(iFlag) `
@@ -23,8 +23,7 @@ function createStrictRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 	`;
 }
 function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
-    const leftChars = getQuotePairs().map(({ chars }) => chars[0]).join("");
-    const nakedRegex = pattern `[^\s\n\r${leftChars}]\S*`;
+    const nakedRegex = pattern `[^\s\n\r${quotedRegex.leftChars}]\S*`;
     if (capture) {
         return regex(iFlag) `
 			(?<=(^|\s))    # start of line or whitespace
@@ -51,13 +50,8 @@ function createDefaultRegex({ capture, iFlag, keyRegex, quotedRegex }) {
 	`;
 }
 function createSloppyRegex({ capture, iFlag, keyRegex, quotedRegex }) {
-    const { leftChars, rightChars } = getQuotePairs().reduce((pairs, pair) => {
-        pairs.leftChars += pair.chars[0];
-        pairs.rightChars += pair.chars[1];
-        return pairs;
-    }, { leftChars: "", rightChars: "" });
-    const startBoundary = pattern `^|[\s${rightChars}]`;
-    const nakedRegex = pattern `[^\s\n\r${leftChars}]\S*`;
+    const startBoundary = pattern `^|[\s${quotedRegex.rightChars}]`;
+    const nakedRegex = pattern `[^\s\n\r${quotedRegex.leftChars}]\S*`;
     if (capture) {
         return regex(iFlag) `
 			(?<=${startBoundary})                                # start of line or whitespace or a right quote
