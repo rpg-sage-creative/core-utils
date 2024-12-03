@@ -10,7 +10,7 @@ function spoiler(regexp, opt) {
 	const spoilerOptional = (regexp) => ({ expected:`(?:\\|\\|(?:${regexp.source})\\|\\|)|(?:${regexp.source})`, spoilered:spoilerRegex(regexp, "optional") });
 	const spoiler = (regexp, opt) => opt === true ? spoilerOn(regexp) : spoilerOptional(regexp);
 	const { expected, spoilered } = spoiler(regexp, opt);
-	const expectedFlags = regexp.flags.includes("u") ? regexp.flags : regexp.flags + "u";
+	const expectedFlags = regexp.flags;
 	return { expected, spoilered, expectedFlags };
 }
 

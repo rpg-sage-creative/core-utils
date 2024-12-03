@@ -1,12 +1,10 @@
-import { regex } from "regex";
 import { splitChars } from "../string/wrap/splitChars.js";
-import { copyFlags } from "./internal/copyFlags.js";
+import { escapeRegex } from "./escapeRegex.js";
 export function wrapRegex(regexp, chars, required) {
     const { left, right } = splitChars(chars);
-    const flags = copyFlags(regexp);
-    const wrappedRegex = regex(flags) `${left} ${regexp} ${right}`;
-    if (required === "optional") {
-        return regex(flags) `${wrappedRegex} | ${regexp}`;
-    }
-    return wrappedRegex;
+    const lPattern = escapeRegex(left);
+    const rPattern = escapeRegex(right);
+    return required === "optional"
+        ? new RegExp(`(?:${lPattern}(?:${regexp.source})${rPattern})|(?:${regexp.source})`, regexp.flags)
+        : new RegExp(`${lPattern}(?:${regexp.source})${rPattern}`, regexp.flags);
 }
