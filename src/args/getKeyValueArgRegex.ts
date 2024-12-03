@@ -1,6 +1,5 @@
 import { pattern, regex, rewrite } from "regex";
 import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
-import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
@@ -139,7 +138,7 @@ function createKeyValueArgRegex(options?: Options): RegExp {
 		: keyValueArgRegex;
 
 	const anchoredRegex = anchored
-		? anchorRegex(capturedRegex)
+		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
 		: capturedRegex;
 
 	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });

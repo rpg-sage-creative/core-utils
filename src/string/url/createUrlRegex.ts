@@ -1,5 +1,4 @@
 import { regex } from "regex";
-import { anchorRegex } from "../../regex/anchorRegex.js";
 import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../../regex/RegExpOptions.js";
@@ -68,7 +67,7 @@ function createUrlRegex(options?: Options): RegExp {
 		: wrappedRegex;
 
 	const anchoredRegex = anchored
-		? anchorRegex(capturedRegex)
+		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
 		: capturedRegex;
 
 	return anchoredRegex;

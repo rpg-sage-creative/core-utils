@@ -1,5 +1,4 @@
 import { regex, rewrite } from "regex";
-import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import { spoilerRegex } from "../regex/spoilerRegex.js";
@@ -17,7 +16,7 @@ function createNumberRegex(options) {
         ? captureRegex(spoileredRegex, capture)
         : spoileredRegex;
     const anchoredRegex = anchored
-        ? anchorRegex(capturedRegex)
+        ? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
         : capturedRegex;
     const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
     return new RegExp(expression, flags);

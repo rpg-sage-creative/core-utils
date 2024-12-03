@@ -1,5 +1,4 @@
 import { rewrite } from "regex";
-import { anchorRegex } from "../../regex/anchorRegex.js";
 import { captureRegex } from "../../regex/captureRegex.js";
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 import type { RegExpQuantifier } from "../../regex/quantifyRegex.js";
@@ -46,7 +45,7 @@ function createQuotedRegex(options?: Options): QuotedRegexRegExp {
 		: quotedRegex;
 
 	const anchoredRegex = anchored
-		? anchorRegex(capturedRegex)
+		? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
 		: capturedRegex;
 
 	const { expression, flags } = rewrite(anchoredRegex.source, { flags:gFlag + iFlag });

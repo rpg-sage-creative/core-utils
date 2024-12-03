@@ -1,4 +1,3 @@
-export * from "./anchorRegex.js";
 export * from "./captureRegex.js";
 export * from "./escapeRegex.js";
 export * from "./getOrCreateRegex.js";

@@ -1,6 +1,5 @@
 import { pattern, regex, rewrite } from "regex";
 import { getWordCharacterRegex } from "../characters/getWordCharacterRegex.js";
-import { anchorRegex } from "../regex/anchorRegex.js";
 import { captureRegex } from "../regex/captureRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import { getQuotedRegex } from "../string/index.js";
@@ -102,7 +101,7 @@ function createKeyValueArgRegex(options) {
         ? captureRegex(keyValueArgRegex, capture)
         : keyValueArgRegex;
     const anchoredRegex = anchored
-        ? anchorRegex(capturedRegex)
+        ? new RegExp(`^(?:${capturedRegex.source})$`, capturedRegex.flags)
         : capturedRegex;
     const { expression, flags } = rewrite(anchoredRegex.source, { flags: gFlag + iFlag });
     return new RegExp(expression, flags);
