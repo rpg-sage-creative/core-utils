@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.1",
+"version":"0.2.2",
 "branch":"main",
-"commit":"a802259b16527020c67e479d241d65f10f7e4ee4",
-"commitSubject":"separate namedColors from code; add tests for initializing namedColors",
-"commitTs":1733418585000,
-"commitDate":"2024-12-05-0909",
-"buildTs":1733418605000,
-"buildDate":"2024-12-05-0910",
+"commit":"436be63b5d0c18ef319df2ba5218f048a2d7c2df",
+"commitSubject":"implement toLiteral, start updating tests to use it",
+"commitTs":1733425876000,
+"commitDate":"2024-12-05-1111",
+"buildTs":1733425914000,
+"buildDate":"2024-12-05-1111",
 "author":"Randal"
 }
