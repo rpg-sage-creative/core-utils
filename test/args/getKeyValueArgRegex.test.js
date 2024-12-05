@@ -1,5 +1,4 @@
-import { getKeyValueArgRegex, createQuotedRegexPart, getQuotePairs } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { createQuotedRegexPart, getKeyValueArgRegex, getQuotePairs, toLiteral } from "../../build/index.js";
 
 describe("args", () => {
 	describe("getKeyValueArgRegex", () => {
@@ -33,7 +32,7 @@ describe("args", () => {
 				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=(?:${nakedValue})${suffix}))` },
 			];
 			sourceTests.forEach(({ options, source, flags }) => {
-				test(`getKeyValueArgRegex(${toString(options)})`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)})`, () => {
 					const regexp = getKeyValueArgRegex(options);
 					// compare source to expected
 					expect(regexp.source).toBe(String(source));
@@ -44,7 +43,7 @@ describe("args", () => {
 						// make sure we DO NOT have a cached value
 						expect(regexp2).not.toBe(regexp);
 						// make sure they are the same signature
-						expect(toString(regexp2)).toBe(toString(regexp));
+						expect(toLiteral(regexp2)).toBe(toLiteral(regexp));
 					}else {
 						// make sure we DO have a cached value
 						expect(getKeyValueArgRegex(options)).toBe(regexp);
@@ -63,7 +62,7 @@ describe("args", () => {
 				{ options:{capture:"kva",key:"nakeySloppyKey",mode:"sloppy"}, groups:undefined },
 			];
 			tests.forEach(({ options, groups }) => {
-				test(`getKeyValueArgRegex(${toString(options)})`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)})`, () => {
 					const regexp = getKeyValueArgRegex(options);
 					const match = regexp.exec(input);
 					expect(match?.groups).toEqual(groups);
@@ -83,7 +82,7 @@ describe("args", () => {
 					{ options:{key:"dot.dash-6"}, expected:[`dot.dash-6="value 6"`] },
 				];
 				tests.forEach(({options, expected }) => {
-					test(`getKeyValueArgRegex(${toString(options)}).exec(${toString(input)}) equals ${toString(expected)}`, () => {
+					test(`getKeyValueArgRegex(${toLiteral(options)}).exec(${toLiteral(input)}) equals ${toLiteral(expected)}`, () => {
 						const regexp = getKeyValueArgRegex(options);
 						expect(regexp.test(input)).toBe(true);
 						expect(String(regexp.exec(input))).toBe(String(expected));
@@ -100,7 +99,7 @@ describe("args", () => {
 				{ options:{mode:"sloppy",key:`together,is`}, expected:null },
 			];
 			tests.forEach(({options }) => {
-				test(`getKeyValueArgRegex(${toString(options)}) should throw`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)}) should throw`, () => {
 					expect(() => getKeyValueArgRegex(options)).toThrow(`Invalid keyValueArg key`);
 				});
 			});
@@ -120,7 +119,7 @@ describe("args", () => {
 				{ options:{key:"is"}, expected:null },
 			];
 			tests.forEach(({options, expected }) => {
-				test(`getKeyValueArgRegex(${toString(options)}).exec()`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)}).exec()`, () => {
 					const regexp = getKeyValueArgRegex(options);
 					expect(regexp.test(input)).toBe(!!expected);
 					expect(String(regexp.exec(input))).toBe(String(expected));
@@ -141,7 +140,7 @@ describe("args", () => {
 				{ options:{gFlag:"g",mode:"sloppy"}, expected:[`key1=value1`,`strict2="value2"`,`single=''`,`curly=‘single’`,`fancy=“double”`,`space3 = "value3"`,`mashed="together"`,`is=bad`] },
 			];
 			tests.forEach(({options, expected }) => {
-				test(`getKeyValueArgRegex(${toString(options)}).exec()`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)}).exec()`, () => {
 					const regexp = getKeyValueArgRegex(options);
 					expect(regexp.test(input)).toBe(!!expected);
 					if (options?.gFlag==="g") {
@@ -167,7 +166,7 @@ describe("args", () => {
 				{ options:{gFlag:"g",style:"double"}, expected:[`strict2="value2"`,`fancy=“double”`] },
 			];
 			tests.forEach(({options, expected }) => {
-				test(`getKeyValueArgRegex(${toString(options)}).exec()`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)}).exec()`, () => {
 					// make sure that string.match returns the array we are expecting
 					expect(String(input.match(getKeyValueArgRegex(options)))).toBe(String(expected));
 					// make sure that regexp.exec matches each result of the expected array
@@ -186,7 +185,7 @@ describe("args", () => {
 				{ options:{anhcored:true}, input:`key="\\"quoted \\"value\\"\\""`, expected:true },
 			];
 			tests.forEach(({ options, input, expected }) => {
-				test(`getKeyValueArgRegex(${toString(options)}).test(${toString(input)}) === ${expected}`, () => {
+				test(`getKeyValueArgRegex(${toLiteral(options)}).test(${toLiteral(input)}) === ${expected}`, () => {
 					expect(getKeyValueArgRegex(options).test(input)).toBe(expected);
 				});
 			});

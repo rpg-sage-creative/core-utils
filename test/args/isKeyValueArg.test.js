@@ -1,5 +1,4 @@
-import { isKeyValueArg, quote, wrap } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { isKeyValueArg, quote, toLiteral, wrap } from "../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("args", () => {
@@ -17,10 +16,10 @@ describe("args", () => {
 
 		const emptyTests = goodKeys.map(key => empties.map(val => `${key}=${val}`)).flat();
 		emptyTests.forEach(value => {
-			test(`isKeyValueArg(${toString(value)}, ${toString(options)}) === true`, () => {
+			test(`isKeyValueArg(${toLiteral(value)}, ${toLiteral(options)}) === true`, () => {
 				expect(isKeyValueArg(value, options)).toBe(true);
 			});
-			test(`isKeyValueArg(${toString(value)}, ${toString(nonEmptyOptions)}) === false`, () => {
+			test(`isKeyValueArg(${toLiteral(value)}, ${toLiteral(nonEmptyOptions)}) === false`, () => {
 				expect(isKeyValueArg(value, nonEmptyOptions)).toBe(false);
 			})
 		});
@@ -28,7 +27,7 @@ describe("args", () => {
 		const goodValues = values.concat(quotedValues).concat(doubleQuotedValues);
 		const goodTests = goodKeys.map(key => goodValues.map(val => `${key}=${val}`)).flat();
 		goodTests.forEach(value => {
-			test(`isKeyValueArg(${toString(value)}, ${toString(options)}) === true`, () => {
+			test(`isKeyValueArg(${toLiteral(value)}, ${toLiteral(options)}) === true`, () => {
 				expect(isKeyValueArg(value, options)).toBe(true);
 			});
 		});
@@ -36,7 +35,7 @@ describe("args", () => {
 		const badValues = [``, `=`, `= `, `=" '`];
 		const badTests = goodKeys.map(key => badValues.map(val => key+val)).flat();
 		badTests.forEach(value => {
-			test(`isKeyValueArg(${toString(value)}, ${toString(options)}) === false`, () => {
+			test(`isKeyValueArg(${toLiteral(value)}, ${toLiteral(options)}) === false`, () => {
 				expect(isKeyValueArg(value, options)).toBe(false);
 			});
 		});
@@ -59,14 +58,14 @@ describe("args", () => {
 			{ input:`a="b"`, options:{capture:"arg"}, expected:true },
 		];
 		modeTests.forEach(({ input, options, expected }) => {
-			test(`isKeyValueArg(${toString(input)}, ${toString(options)}) === ${expected}`, () => {
+			test(`isKeyValueArg(${toLiteral(input)}, ${toLiteral(options)}) === ${expected}`, () => {
 				expect(isKeyValueArg(input, options)).toBe(expected);
 			});
 		});
 
 		const tests = getTests("isKeyValueArg");
 		tests.forEach(({ input, options, expected }) => {
-			test(`isKeyValueArg(${toString(input)}, ${toString(options)}) === ${expected}`, () => {
+			test(`isKeyValueArg(${toLiteral(input)}, ${toLiteral(options)}) === ${expected}`, () => {
 				expect(isKeyValueArg(input, options)).toBe(expected);
 			});
 		});
