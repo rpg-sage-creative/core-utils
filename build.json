@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.0",
+"version":"0.2.1",
 "branch":"main",
-"commit":"0d83860de59624b2e1e6ce081b01c37173726655",
-"commitSubject":"revamp to capture, anchor, wrap, and quantify inside getOrCreateRegex",
-"commitTs":1733268257000,
-"commitDate":"2024-12-03-1524",
-"buildTs":1733268275000,
-"buildDate":"2024-12-03-1524",
+"commit":"a802259b16527020c67e479d241d65f10f7e4ee4",
+"commitSubject":"separate namedColors from code; add tests for initializing namedColors",
+"commitTs":1733418585000,
+"commitDate":"2024-12-05-0909",
+"buildTs":1733418605000,
+"buildDate":"2024-12-05-0910",
 "author":"Randal"
 }
