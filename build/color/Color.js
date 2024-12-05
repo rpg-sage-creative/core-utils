@@ -4,7 +4,7 @@ import { isRgbColorString } from "./isRgbColorString.js";
 import { hasNamedColor } from "./namedColors.js";
 export class Color {
     data;
-    get name() { return this.data.name; }
+    get names() { return this.data.names; }
     get hex() { return this.data.hex; }
     get hexa() { return this.data.hexa; }
     get rgb() { return this.data.rgb; }

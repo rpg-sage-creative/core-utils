@@ -6,6 +6,7 @@ describe("color", () => {
 
 		const tests = [
 			["#80FF00", {
+				names: [],
 				hexa: '#80ff00ff',
 				hex: '#80ff00',
 				rgba: 'rgba(128,255,0,1)',
@@ -16,6 +17,7 @@ describe("color", () => {
 				alpha: 1
 			}],
 			["rgb(128,255,0)", {
+				names: [],
 				hexa: '#80ff00ff',
 				hex: '#80ff00',
 				rgba: 'rgba(128,255,0,1)',
@@ -26,6 +28,7 @@ describe("color", () => {
 				alpha: 1
 			}],
 			["#80FF0080", {
+				names: [],
 				hexa: '#80ff0080',
 				hex: '#80ff00',
 				rgba: 'rgba(128,255,0,0.5)',

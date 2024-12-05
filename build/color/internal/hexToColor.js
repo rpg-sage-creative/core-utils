@@ -19,6 +19,7 @@ export function hexToColor(value, newAlpha) {
     const alpha = hexToAlpha(hexa.slice(-2));
     const red = parseInt(hexa.slice(1, 3), 16), green = parseInt(hexa.slice(3, 5), 16), blue = parseInt(hexa.slice(5, 7), 16);
     return {
+        names: [],
         hexa,
         hex,
         rgba: `rgba(${red},${green},${blue},${alpha})`,

@@ -7,8 +7,7 @@ export type RgbString = RgbColorString | RgbaColorString;
 
 /** Stores all the information we know about a color */
 export type ColorData = {
-	name?: string;
-	lower?: string;
+	names: string[];
 	hex: HexColorString;
 	hexa: HexColorString;
 	rgb: RgbColorString;

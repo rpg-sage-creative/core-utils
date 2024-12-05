@@ -2,7 +2,7 @@ import type { Optional } from "../types/generics.js";
 import type { ColorData, HexColorString, RgbaColorString, RgbColorString } from "./ColorData.js";
 export declare class Color {
     data: ColorData;
-    get name(): string | undefined;
+    get names(): string[];
     get hex(): HexColorString;
     get hexa(): HexColorString;
     get rgb(): RgbColorString;

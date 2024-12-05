@@ -1,9 +1,9 @@
 import { existsSync, readFileSync } from "fs";
-export function readFile(filePath, orFileName) {
+export function readDataFile(filePath, orFileName) {
     const paths = [
         filePath,
-        `./node_modules/@rsc-utils/core-utils/data/language/${orFileName}`,
-        `../node_modules/@rsc-utils/core-utils/data/language/${orFileName}`
+        `./node_modules/@rsc-utils/core-utils/data/${orFileName}`,
+        `../node_modules/@rsc-utils/core-utils/data/${orFileName}`
     ];
     for (const path of paths) {
         try {

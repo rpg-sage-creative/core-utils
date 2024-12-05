@@ -5,11 +5,11 @@ import { existsSync, readFileSync } from "fs";
  * Tries to read the given filePath.
  * If it fails, it reads the orFileName from node_modules.
  */
-export function readFile(filePath: string | undefined, orFileName: string): string | null {
+export function readDataFile(filePath: string | undefined, orFileName: string): string | null {
 	const paths = [
 		filePath,
-		`./node_modules/@rsc-utils/core-utils/data/language/${orFileName}`,
-		`../node_modules/@rsc-utils/core-utils/data/language/${orFileName}`
+		`./node_modules/@rsc-utils/core-utils/data/${orFileName}`,
+		`../node_modules/@rsc-utils/core-utils/data/${orFileName}`
 	];
 	for (const path of paths) {
 		try {

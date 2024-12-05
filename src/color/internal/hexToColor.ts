@@ -30,7 +30,7 @@ export function hexToColor(value: HexColorString, newAlpha?: number): ColorData 
 		blue = parseInt(hexa.slice(5, 7), 16);
 
 	return {
-		// name: undefined,
+		names: [],
 		// lower: undefined,
 		hexa,
 		hex,

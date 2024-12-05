@@ -7,7 +7,7 @@ import { hasNamedColor } from "./namedColors.js";
 
 export class Color {
 	// #region public properties
-	public get name(): string | undefined { return this.data.name; }
+	public get names(): string[] { return this.data.names; }
 	public get hex(): HexColorString { return this.data.hex; }
 	public get hexa(): HexColorString { return this.data.hexa; }
 	public get rgb(): RgbColorString { return this.data.rgb; }
