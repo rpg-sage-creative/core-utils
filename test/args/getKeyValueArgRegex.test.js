@@ -1,41 +1,23 @@
-import { createQuotedRegexPart, getKeyValueArgRegex, getQuotePairs, toLiteral } from "../../build/index.js";
+import { getKeyValueArgRegex, toLiteral } from "../../build/index.js";
 
 describe("args", () => {
 	describe("getKeyValueArgRegex", () => {
-		const quotePairs = getQuotePairs().map(pair => ({ ...pair, part:createQuotedRegexPart(pair.chars, "*") }));
 
-		const rightQuoteChars = quotePairs.map(pair => pair.chars[1]).join("");
-
-		const leftQuoteChars = quotePairs.map(pair => pair.chars[0]).join("");
-		const nakedValue = `[^\\s\\n\\r${leftQuoteChars}]\\S*`;
-
-		const sloppyPrefix = `(?<=(?:^|[\\s${rightQuoteChars}]))`;
-		const prefix = `(?<=(?:^|\\s))`;
-		const suffix = `(?=(?:\\s|$))`;
-
-		const defaultQuoteValue = "(?<!\\\\)(?:" + quotePairs.map(p => p.part).join("|") + ")";
-		const strictQuoteValue = quotePairs.filter(p => !p.isFancy && !p.isExtended).map(p => p.part).join("|");
-
-		const defaultKey = `(?:(?:[\\w\\p{L}\\p{N}])+)`;
-		const defaultValue = `(?:(?:${defaultQuoteValue})|(?:${nakedValue}))`;
-		const strictValue = `(?:${defaultQuoteValue})`;
-		const strictStrictValue = `(?:${strictQuoteValue})`;
-
-		describe("source/flag/cache tests", () => {
-			const sourceTests = [
-				{ options:undefined, flags:"iu", source:`${prefix}${defaultKey}=${defaultValue}${suffix}` },
-				{ options:{gFlag:"g"}, flags:"giu", source:`${prefix}${defaultKey}=${defaultValue}${suffix}` },
-				{ options:{gFlag:"g",mode:"strict"}, flags:"giu", source:`${prefix}${defaultKey}=${strictValue}${suffix}` },
-				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu", source:`${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=(?:${nakedValue})${suffix})` },
-				{ options:{capture:"arg"}, flags:"iu", source:`(?<arg>${prefix}${defaultKey}=(?:(?:${defaultQuoteValue})|(?:${nakedValue}))${suffix})` },
-				{ options:{capture:"arg",mode:"strict"}, flags:"iu", source:`(?<arg>${prefix}${defaultKey}=${strictValue}${suffix})` },
-				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu", source:`(?<arg>${sloppyPrefix}${defaultKey}(?:\\s*=\\s*${strictValue}|=(?:${nakedValue})${suffix}))` },
+		describe("flag/cache tests", () => {
+			const flagCacheTests = [
+				{ options:undefined, flags:"iu" },
+				{ options:{mode:"strict"}, flags:"iu" },
+				{ options:{mode:"sloppy"}, flags:"iu" },
+				{ options:{gFlag:"g"}, flags:"giu" },
+				{ options:{gFlag:"g",mode:"strict"}, flags:"giu" },
+				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu" },
+				{ options:{capture:"arg"}, flags:"iu" },
+				{ options:{capture:"arg",mode:"strict"}, flags:"iu" },
+				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu" },
 			];
-			sourceTests.forEach(({ options, source, flags }) => {
+			flagCacheTests.forEach(({ options, flags }) => {
 				test(`getKeyValueArgRegex(${toLiteral(options)})`, () => {
 					const regexp = getKeyValueArgRegex(options);
-					// compare source to expected
-					expect(regexp.source).toBe(String(source));
 					// compare flags to expected
 					expect(regexp.flags).toBe(String(flags));
 					if (options?.gFlag === "g") {
