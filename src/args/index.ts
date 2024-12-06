@@ -1,3 +1,4 @@
+export * from "./ArgsManager.js";
 export * from "./getKeyValueArgRegex.js";
 export * from "./isKeyValueArg.js";
 export * from "./KeyValueArg.js";
