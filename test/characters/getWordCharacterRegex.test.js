@@ -18,6 +18,7 @@ describe("characters", () => {
 			{ input:"a1_а-", options:{quantifier:"+",allowDashes:true}, expectedSource:`(?:[\\w\\p{L}\\p{N}\\-])+`, expectedTestResults:true, expectedExecResults:["a1_а-"] },
 			{ input:"a1_а-.", options:{quantifier:"+",allowDashes:true,allowPeriods:true}, expectedSource:`(?:[\\w\\p{L}\\p{N}\\-\\.])+`, expectedTestResults:true, expectedExecResults:["a1_а-."] },
 
+			{ input:"Кортез", options:{quantifier:"+"}, expectedSource:`(?:[\\w\\p{L}\\p{N}])+`, expectedTestResults:true, expectedExecResults:["Кортез"] },
 
 			// { input:"", options:{ }, expectedSource:"", expectedTestResults:false, expectedExecResults:[] },
 		];
