@@ -25,14 +25,21 @@ export class Cache {
         this._cache?.clear();
         this._cache = null;
     }
-    async fetch(key, fn) {
+    get(key) {
+        const map = this.getOrCreateCache();
+        if (!map.has(key)) {
+            return undefined;
+        }
+        return map.get(key);
+    }
+    async getOrFetch(key, fn) {
         const map = this.getOrCreateCache();
         if (!map.has(key)) {
             map.set(key, await fn());
         }
         return map.get(key);
     }
-    get(key, fn) {
+    getOrSet(key, fn) {
         const map = this.getOrCreateCache();
         if (!map.has(key)) {
             map.set(key, fn());

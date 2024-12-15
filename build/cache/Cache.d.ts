@@ -33,15 +33,20 @@ export declare class Cache {
     destroy(): void;
     /**
      * Returns the value for the key.
+     * If it hasn't been cached yet, undefined is returned instead.
+     */
+    get<T>(key: string): T | undefined;
+    /**
+     * Returns the value for the key.
      * If it hasn't been cached yet, the function is called to cache and return the value.
      * Asynchronous version of get.
      */
-    fetch<T>(key: string, fn: () => Awaitable<T>): Promise<T>;
+    getOrFetch<T>(key: string, fn: () => Awaitable<T>): Promise<T>;
     /**
      * Returns the value for the key.
      * If it hasn't been cached yet, the function is called to cache and return the value.
      */
-    get<T>(key: string, fn: () => T): T;
+    getOrSet<T>(key: string, fn: () => T): T;
     /** Gets the internal cache map, creating it if needed. */
     protected getOrCreateCache(): Map<string, any>;
     /** Clears all the caches for all the ClassCache objects. */
