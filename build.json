@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.3",
+"version":"0.2.4",
 "branch":"main",
-"commit":"0c568fa6b8321e0645d2d8f6b79338bcb0ea49be",
-"commitSubject":"comment out old tests",
-"commitTs":1733491719000,
-"commitDate":"2024-12-06-0528",
-"buildTs":1733491732000,
-"buildDate":"2024-12-06-0528",
+"commit":"79cab9b1e2573e2ed37218e0ca1b2e49bbdcab91",
+"commitSubject":"modify cache to use get(key), getOrSet(key, fn), and getOrFertch(key, async fn)",
+"commitTs":1734226073000,
+"commitDate":"2024-12-14-1727",
+"buildTs":1734226089000,
+"buildDate":"2024-12-14-1728",
 "author":"Randal"
 }
