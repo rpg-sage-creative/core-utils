@@ -5,7 +5,7 @@ export type Args<T> = {
 /** Represents an object or a promise to get that object. */
 export type Awaitable<T> = T | PromiseLike<T>;
 /** Represents an unknown class constructor. */
-export type Constructable<T> = new (...args: any[]) => T;
+export type Constructable<T extends {} = {}> = new (...args: any[]) => T;
 /** Represents an enum with string key and number value. */
 export type EnumLike<K extends string = string, V extends number = number> = Record<K, V>;
 /** Represents a conditional data type. */
