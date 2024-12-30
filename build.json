@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.4",
+"version":"0.2.5",
 "branch":"main",
-"commit":"79cab9b1e2573e2ed37218e0ca1b2e49bbdcab91",
-"commitSubject":"modify cache to use get(key), getOrSet(key, fn), and getOrFertch(key, async fn)",
-"commitTs":1734226073000,
-"commitDate":"2024-12-14-1727",
-"buildTs":1734226089000,
-"buildDate":"2024-12-14-1728",
+"commit":"6619ee4cbdd00f1d52ae23727308f9d34015f4cb",
+"commitSubject":"implement deepFreeze",
+"commitTs":1735587601000,
+"commitDate":"2024-12-30-1140",
+"buildTs":1735587646000,
+"buildDate":"2024-12-30-1140",
 "author":"Randal"
 }
