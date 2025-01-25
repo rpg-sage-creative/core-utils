@@ -20,4 +20,5 @@ export * from "./string/index.js";
 export * from "./temperature/index.js";
 export * from "./types/index.js";
 export * from "./uuid/index.js";
+export * from "./id.js";
 export * from "./initializeConsoleUtilsByEnvironment.js";

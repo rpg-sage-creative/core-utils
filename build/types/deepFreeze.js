@@ -20,9 +20,7 @@ export function deepFreeze(object) {
                     freeze(value);
                 }
             }
-            if (!Object.isFrozen(obj)) {
-                Object.freeze(obj);
-            }
+            Object.freeze(obj);
         }
         return obj;
     };
