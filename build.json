@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.5",
+"version":"0.2.6",
 "branch":"main",
-"commit":"6619ee4cbdd00f1d52ae23727308f9d34015f4cb",
-"commitSubject":"implement deepFreeze",
-"commitTs":1735587601000,
-"commitDate":"2024-12-30-1140",
-"buildTs":1735587646000,
-"buildDate":"2024-12-30-1140",
+"commit":"7a85ff33569c2fcb4824947de032da72c43d1062",
+"commitSubject":"add compressId, decompressId, stringToBigInt",
+"commitTs":1737785792000,
+"commitDate":"2025-01-24-2216",
+"buildTs":1737785814000,
+"buildDate":"2025-01-24-2216",
 "author":"Randal"
 }
