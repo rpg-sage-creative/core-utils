@@ -4,8 +4,8 @@ import { stringifyJson } from "../json/stringifyJson.js";
 import type { Optional } from "../types/generics.js";
 import type { Renderable, RenderableContentSection, RenderableContentSectionColumn } from "./types.js";
 
-function createSection(index = 0, title: string | null = null, content = <string[]>[], columns = <RenderableContentSectionColumn[]>[]): RenderableContentSection {
-	return { index, title:title, content, columns };
+function createSection(index = 0, title?: string, content = <string[]>[], columns = <RenderableContentSectionColumn[]>[]): RenderableContentSection {
+	return { index, title, content, columns };
 }
 
 type HexColorString = `#${string}`;
@@ -57,7 +57,7 @@ export class RenderableContent implements Renderable {
 
 	/** Creates, appends, and returns a columned section. */
 	public appendColumnedSection(...columns: RenderableContentSectionColumn[]): RenderableContentSection {
-		return this._appendSection(createSection(this._sections.length, null, [], columns));
+		return this._appendSection(createSection(this._sections.length, undefined, [], columns));
 	}
 
 	/** Creates, appends, and returns a titled section. */
@@ -67,7 +67,7 @@ export class RenderableContent implements Renderable {
 
 	/** Creates, appends, and returns a section. */
 	public appendSection(...content: string[]): RenderableContentSection {
-		return this._appendSection(createSection(this._sections.length, null, content));
+		return this._appendSection(createSection(this._sections.length, undefined, content));
 	}
 
 	/** Append the given sections. */
@@ -128,9 +128,9 @@ export class RenderableContent implements Renderable {
 	}
 
 	/** Resolve the given value to a RenderableContent. */
-	public static resolve(resolvable: string | Renderable): RenderableContent | null {
+	public static resolve(resolvable: string | Renderable): RenderableContent | undefined {
 		if (!resolvable) {
-			return null;
+			return undefined;
 		}
 
 		if (typeof(resolvable) === "string") {
@@ -148,7 +148,7 @@ export class RenderableContent implements Renderable {
 			}
 		}
 
-		return null;
+		return undefined;
 	}
 
 }

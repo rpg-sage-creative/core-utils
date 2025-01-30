@@ -14,7 +14,7 @@ type TArgIndexRet<T> = {
 type TKeyValuePair<T extends string = string> = {
 	/** The value on the left of the first equals sign. */
 	key: string;
-	/** This value is null if they value was an empty string. */
+	/** This value is null if the value was an empty string. */
 	value: T | null;
 };
 

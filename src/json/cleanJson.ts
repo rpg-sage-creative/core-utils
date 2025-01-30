@@ -25,14 +25,28 @@ type TObject = { [key: string]: any; };
 
 /** Checks the rules to see if the value given can have its key deleted. */
 function canDeleteValueKey(value: bigint | boolean | number | string, rules: JsonCleanRules | true): boolean {
-	return value === undefined && (rules === true || rules.deleteUndefined === true)
-		|| value === null && (rules === true || rules.deleteNull === true)
-		|| value === "" && (rules === true || rules.deleteEmptyString === true)
-		|| value === false && (rules === true || rules.deleteFalse === true)
-		|| (value === 0 || value === 0n) && (rules === true || rules.deleteZero === true)
-		|| typeof(value) === "number" && isNaN(value as number) && (rules === true || rules.deleteNaN === true)
-		|| (typeof(value) === "string" && value.trim() === "") && (rules === true || rules.deleteBlankString === true)
-		;
+	const testKey = (key: keyof JsonCleanRules) => rules === true || rules[key] === true;
+	if (value === undefined) {
+		return testKey("deleteUndefined");
+
+	}else if (value === null) {
+		return testKey("deleteNull");
+
+	}else if (value === false) {
+		return testKey("deleteFalse");
+
+	}else if (value === 0 || value === 0n) {
+		return testKey("deleteZero");
+
+	}else if (typeof(value) === "number" && isNaN(value as number)) {
+		return testKey("deleteNaN");
+
+	}else if (typeof(value) === "string") {
+		if (value === "" && testKey("deleteEmptyString")) return true;
+		if (value.trim() === "" && testKey("deleteBlankString")) return true;
+
+	}
+	return false;
 }
 
 //#endregion

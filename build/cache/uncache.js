@@ -5,8 +5,9 @@ function attempt(object, fnName) {
     }
 }
 export function uncache(object, options) {
+    const retVal = options?.undefine ? undefined : null;
     if (isPrimitive(object)) {
-        return null;
+        return retVal;
     }
     attempt(object, "clear");
     attempt(object, "destroy");
@@ -20,5 +21,5 @@ export function uncache(object, options) {
             delete object[key];
         }
     });
-    return null;
+    return retVal;
 }

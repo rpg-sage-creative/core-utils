@@ -5,7 +5,7 @@ import { Cache } from "./Cache.js";
  */
 export abstract class HasCache {
 
-	private _cache?: Cache | null;
+	private _cache?: Cache;
 	private _msToLive?: number;
 
 	protected constructor();
@@ -27,6 +27,6 @@ export abstract class HasCache {
 	/** Destroy's this class' cache. */
 	public destroy(): void {
 		this._cache?.destroy();
-		this._cache = null;
+		delete this._cache;
 	}
 }

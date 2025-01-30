@@ -28,7 +28,7 @@ export declare class Cache {
      */
     delete(key: string): boolean;
     /**
-     * Clears this cache's values, nulls out the cache map, and removes the instance from the set of all caches.
+     * Clears this cache's values, deletes the cache map, and removes the instance from the set of all caches.
     */
     destroy(): void;
     /**

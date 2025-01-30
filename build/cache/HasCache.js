@@ -15,6 +15,6 @@ export class HasCache {
     }
     destroy() {
         this._cache?.destroy();
-        this._cache = null;
+        delete this._cache;
     }
 }

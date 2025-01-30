@@ -44,12 +44,12 @@ export class HasCategorizedSearchables<T extends Searchable> {
 
 	// #region properties
 
-	private _categories: string[] | null = null;
+	private _categories?: string[];
 	public get categories(): string[] {
 		return this._categories ?? (this._categories = this.categorizedSearchables.map(cat => cat.label));
 	}
 
-	private _categorizedSearchables: TCategorizedSearchables<T>[] | null = null;
+	private _categorizedSearchables?: TCategorizedSearchables<T>[];
 	public get categorizedSearchables(): TCategorizedSearchables<T>[] {
 		if (!this._categorizedSearchables) {
 			this._categorizedSearchables = partitionCategorizedSearchables(this._unsortedSearchables, searchable => searchable.searchResultCategory);
@@ -70,7 +70,7 @@ export class HasCategorizedSearchables<T extends Searchable> {
 		return !this._unsortedSearchables.length;
 	}
 
-	private _searchables: T[] | null = null;
+	private _searchables?: T[];
 	public get searchables(): T[] {
 		return this._searchables ?? (this._searchables = this.categorizedSearchables.reduce((array, category) => array.concat(category.searchables), <T[]>[]));
 	}
@@ -79,8 +79,8 @@ export class HasCategorizedSearchables<T extends Searchable> {
 		return this._unsortedSearchables.length;
 	}
 
-	public get theOne(): T | null {
-		return this._unsortedSearchables.length === 1 ? this._unsortedSearchables[0] : null;
+	public get theOne(): T | undefined {
+		return this._unsortedSearchables.length === 1 ? this._unsortedSearchables[0] : undefined;
 	}
 
 	// #endregion
@@ -89,9 +89,9 @@ export class HasCategorizedSearchables<T extends Searchable> {
 
 	public add(...searchables: T[]) {
 		this._unsortedSearchables.push(...searchables);
-		this._searchables = null;
-		this._categorizedSearchables = null;
-		this._categories = null;
+		delete this._searchables;
+		delete this._categorizedSearchables;
+		delete this._categories;
 	}
 
 	// #endregion

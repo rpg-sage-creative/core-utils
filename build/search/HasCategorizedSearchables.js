@@ -28,11 +28,11 @@ function sortByCountThenLabel(a, b) {
 }
 export class HasCategorizedSearchables {
     _unsortedSearchables = [];
-    _categories = null;
+    _categories;
     get categories() {
         return this._categories ?? (this._categories = this.categorizedSearchables.map(cat => cat.label));
     }
-    _categorizedSearchables = null;
+    _categorizedSearchables;
     get categorizedSearchables() {
         if (!this._categorizedSearchables) {
             this._categorizedSearchables = partitionCategorizedSearchables(this._unsortedSearchables, searchable => searchable.searchResultCategory);
@@ -50,7 +50,7 @@ export class HasCategorizedSearchables {
     get isEmpty() {
         return !this._unsortedSearchables.length;
     }
-    _searchables = null;
+    _searchables;
     get searchables() {
         return this._searchables ?? (this._searchables = this.categorizedSearchables.reduce((array, category) => array.concat(category.searchables), []));
     }
@@ -58,12 +58,12 @@ export class HasCategorizedSearchables {
         return this._unsortedSearchables.length;
     }
     get theOne() {
-        return this._unsortedSearchables.length === 1 ? this._unsortedSearchables[0] : null;
+        return this._unsortedSearchables.length === 1 ? this._unsortedSearchables[0] : undefined;
     }
     add(...searchables) {
         this._unsortedSearchables.push(...searchables);
-        this._searchables = null;
-        this._categorizedSearchables = null;
-        this._categories = null;
+        delete this._searchables;
+        delete this._categorizedSearchables;
+        delete this._categories;
     }
 }

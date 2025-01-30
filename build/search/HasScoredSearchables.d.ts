@@ -5,6 +5,6 @@ export declare class HasScoredSearchables<T extends Searchable> {
     get isEmpty(): boolean;
     scores: SearchScore<T>[];
     get searchables(): T[];
-    get theOne(): T | null;
+    get theOne(): T | undefined;
     add(...scores: SearchScore<T>[]): void;
 }

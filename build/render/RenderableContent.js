@@ -1,8 +1,8 @@
 import { toUnique } from "../array/index.js";
 import { error } from "../console/index.js";
 import { stringifyJson } from "../json/stringifyJson.js";
-function createSection(index = 0, title = null, content = [], columns = []) {
-    return { index, title: title, content, columns };
+function createSection(index = 0, title, content = [], columns = []) {
+    return { index, title, content, columns };
 }
 export class RenderableContent {
     title;
@@ -37,13 +37,13 @@ export class RenderableContent {
         }
     }
     appendColumnedSection(...columns) {
-        return this._appendSection(createSection(this._sections.length, null, [], columns));
+        return this._appendSection(createSection(this._sections.length, undefined, [], columns));
     }
     appendTitledSection(title, ...content) {
         return this._appendSection(createSection(this._sections.length, title, content));
     }
     appendSection(...content) {
-        return this._appendSection(createSection(this._sections.length, null, content));
+        return this._appendSection(createSection(this._sections.length, undefined, content));
     }
     appendSections(...sections) {
         const _sections = this._sections;
@@ -84,7 +84,7 @@ export class RenderableContent {
     }
     static resolve(resolvable) {
         if (!resolvable) {
-            return null;
+            return undefined;
         }
         if (typeof (resolvable) === "string") {
             const renderableContent = new RenderableContent();
@@ -101,6 +101,6 @@ export class RenderableContent {
                 error(`Unable to resolve Renderable: ${toStringValue} (${constructorName}); "toRenderableContent in resolvable === ${"toRenderableContent" in resolvable}`, stringifyJson(resolvable));
             }
         }
-        return null;
+        return undefined;
     }
 }

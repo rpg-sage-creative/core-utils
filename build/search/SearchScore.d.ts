@@ -1,7 +1,7 @@
 import type { Searchable } from "./Searchable.js";
 export type SearchTermData = {
     term: string;
-    regex: RegExp | null;
+    regex?: RegExp;
     plus: boolean;
     minus: boolean;
 };

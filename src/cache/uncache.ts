@@ -1,12 +1,22 @@
 import { isPrimitive } from "../types/index.js";
 
-type UncacheOptions = {
+type NullifyOption = {
 	/** set all keys to null */
-	nullify?: boolean;
+	nullify: true;
 
 	/** set all keys to undefined using delete */
-	undefine?: boolean;
+	undefine?: never;
 };
+
+type UndefineOption = {
+	/** set all keys to null */
+	nullify?: never;
+
+	/** set all keys to undefined using delete */
+	undefine: true;
+};
+
+type UncacheOptions = NullifyOption | UndefineOption;
 
 /** attempt to call the named function on the given object. */
 function attempt(object: any, fnName: "clear" | "destroy"): void {
@@ -19,22 +29,25 @@ function attempt(object: any, fnName: "clear" | "destroy"): void {
  * Proactive memory management helper.
  * Calls .clear() and .destroy() on the given object if they exist.
  * The object is then iterated using Object.entries() where .clear() and .destroy() are attempted on each value.
+ * If options.nullify is true, then each key of object is set to null after attempting to clear/destroy them.
  * @returns null for convenience, example: cache = uncache(cache);
  */
-export function uncache(object: any): null;
+export function uncache(object: any, options?: NullifyOption): null;
 
 /**
  * Proactive memory management helper.
  * Calls .clear() and .destroy() on the given object if they exist.
  * The object is then iterated using Object.entries() where .clear() and .destroy() are attempted on each value.
- * If options.nullify is true, then each key of object is set to null after attempting to clear/destroy them.
- * @returns null for convenience, example: cache = uncache(cache);
+ * If options.undefine is true, then each key of object is deleted after attempting to clear/destroy them.
+ * @returns undefined for convenience, example: cache = uncache(cache);
  */
-export function uncache(object: any, options: UncacheOptions): null;
+export function uncache(object: any, options: UndefineOption): undefined;
 
-export function uncache(object: any, options?: UncacheOptions): null {
+export function uncache(object: any, options?: UncacheOptions): null | undefined {
+	const retVal = options?.undefine ? undefined : null;
+
 	if (isPrimitive(object)) {
-		return null;
+		return retVal;
 	}
 
 	attempt(object, "clear");
@@ -51,5 +64,5 @@ export function uncache(object: any, options?: UncacheOptions): null {
 		}
 	});
 
-	return null;
+	return retVal;
 }

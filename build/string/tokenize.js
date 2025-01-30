@@ -2,7 +2,7 @@ export function tokenize(input, parsers, defaultKey = "unknown") {
     const tokens = [];
     let matchIndex, token;
     while (input) {
-        token = null;
+        token = undefined;
         matchIndex = input.length;
         for (const key in parsers) {
             const regExpMatchArray = parsers[key].exec(input);

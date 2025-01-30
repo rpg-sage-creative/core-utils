@@ -14,5 +14,5 @@ export function readDataFile(filePath, orFileName) {
         catch (ex) {
         }
     }
-    return null;
+    return undefined;
 }

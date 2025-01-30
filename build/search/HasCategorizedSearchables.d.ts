@@ -6,16 +6,16 @@ type TCategorizedSearchables<T extends Searchable> = {
 };
 export declare class HasCategorizedSearchables<T extends Searchable> {
     protected _unsortedSearchables: T[];
-    private _categories;
+    private _categories?;
     get categories(): string[];
-    private _categorizedSearchables;
+    private _categorizedSearchables?;
     get categorizedSearchables(): TCategorizedSearchables<T>[];
     get categoryCount(): number;
     get isEmpty(): boolean;
-    private _searchables;
+    private _searchables?;
     get searchables(): T[];
     get searchableCount(): number;
-    get theOne(): T | null;
+    get theOne(): T | undefined;
     add(...searchables: T[]): void;
 }
 export {};

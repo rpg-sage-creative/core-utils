@@ -35,8 +35,8 @@ export class HasScoredSearchables<T extends Searchable> {
 		return this.scores.map(score => score.searchable);
 	}
 
-	public get theOne(): T | null {
-		return this.scores.length === 1 ? this.scores[0].searchable : null;
+	public get theOne(): T | undefined {
+		return this.scores.length === 1 ? this.scores[0].searchable : undefined;
 	}
 
 	// #endregion

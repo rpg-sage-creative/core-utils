@@ -13,8 +13,8 @@ describe("cache", () => {
 
 		tests.forEach(([input, args, output]) => {
 			test(`uncache(${toString(input)}, ${toString(args)}) equals ${toString(output)}`, () => {
-				const NULL = uncache(input, args);
-				expect(NULL).toBe(null);
+				const ret = uncache(input, args);
+				expect(ret).toBe(args?.undefine ? undefined : null);
 				expect(input).toEqual(output);
 			});
 		});

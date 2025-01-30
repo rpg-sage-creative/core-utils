@@ -13,7 +13,7 @@ export class Cache {
 	//#region instance
 
 	/** The cache */
-	private _cache?: Map<string, any> | null;
+	private _cache?: Map<string, any>;
 
 	/** The msToLive for EphemeralMap */
 	private _msToLive?: number;
@@ -57,12 +57,12 @@ export class Cache {
 	}
 
 	/**
-	 * Clears this cache's values, nulls out the cache map, and removes the instance from the set of all caches.
+	 * Clears this cache's values, deletes the cache map, and removes the instance from the set of all caches.
 	*/
 	public destroy(): void {
 		_cacheSet?.delete(this);
 		this._cache?.clear();
-		this._cache = null;
+		delete this._cache;
 	}
 
 	/**

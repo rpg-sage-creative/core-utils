@@ -9,7 +9,7 @@ export type RenderableContentResolvable = string | Renderable | RenderableConten
 export type RenderableContentSection = {
 	content: string[];
 	index: number;
-	title: string | null;
+	title?: string;
 	columns: RenderableContentSectionColumn[];
 };
 

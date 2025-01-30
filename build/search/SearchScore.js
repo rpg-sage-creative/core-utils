@@ -88,6 +88,6 @@ export class SearchScore {
         return newScore;
     }
     fail() {
-        this.add({ term: "!FAIL!", regex: null, plus: false, minus: true }, 1);
+        this.add({ term: "!FAIL!", regex: undefined, plus: false, minus: true }, 1);
     }
 }

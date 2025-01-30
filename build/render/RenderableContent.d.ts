@@ -51,6 +51,6 @@ export declare class RenderableContent implements Renderable {
     /** Renders all contents to html. */
     toString(): string;
     /** Resolve the given value to a RenderableContent. */
-    static resolve(resolvable: string | Renderable): RenderableContent | null;
+    static resolve(resolvable: string | Renderable): RenderableContent | undefined;
 }
 export {};

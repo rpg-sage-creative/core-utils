@@ -1,8 +1,7 @@
-import { error } from "../loggers/error.js";
-import { warn } from "../loggers/warn.js";
+import { getLogger } from "../loggers/getLogger.js";
 export function createCatcher(handler, returnValue) {
     return (err) => {
-        handler(err);
+        getLogger()[handler](err);
         return returnValue;
     };
 }

@@ -23,7 +23,7 @@ export class Cache {
     destroy() {
         _cacheSet?.delete(this);
         this._cache?.clear();
-        this._cache = null;
+        delete this._cache;
     }
     get(key) {
         const map = this.getOrCreateCache();

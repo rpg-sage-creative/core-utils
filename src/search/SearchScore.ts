@@ -2,7 +2,7 @@ import type { Searchable } from "./Searchable.js";
 
 export type SearchTermData = {
 	term: string;
-	regex: RegExp | null;
+	regex?: RegExp;
 	plus: boolean;
 	minus: boolean;
 };
@@ -111,6 +111,6 @@ export class SearchScore<T extends Searchable> {
 	}
 
 	public fail(): void {
-		this.add({ term:"!FAIL!", regex:null, plus:false, minus:true }, 1);
+		this.add({ term:"!FAIL!", regex:undefined, plus:false, minus:true }, 1);
 	}
 }
