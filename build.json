@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.6",
+"version":"0.2.7",
 "branch":"main",
-"commit":"7a85ff33569c2fcb4824947de032da72c43d1062",
-"commitSubject":"add compressId, decompressId, stringToBigInt",
-"commitTs":1737785792000,
-"commitDate":"2025-01-24-2216",
-"buildTs":1737785814000,
-"buildDate":"2025-01-24-2216",
+"commit":"1077f26d3c9fe5a7c34e1e8d46420a0b9f48dba3",
+"commitSubject":"use undefined instead of null",
+"commitTs":1738200031000,
+"commitDate":"2025-01-29-1720",
+"buildTs":1738200059000,
+"buildDate":"2025-01-29-1720",
 "author":"Randal"
 }
