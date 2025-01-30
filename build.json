@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.7",
+"version":"0.2.8",
 "branch":"main",
-"commit":"1077f26d3c9fe5a7c34e1e8d46420a0b9f48dba3",
-"commitSubject":"use undefined instead of null",
-"commitTs":1738200031000,
-"commitDate":"2025-01-29-1720",
-"buildTs":1738200059000,
-"buildDate":"2025-01-29-1720",
+"commit":"1e448fd59e7a7e865c9afa4e5b93f9933f4f2832",
+"commitSubject":"fix internal type dependency that was exposed",
+"commitTs":1738255777000,
+"commitDate":"2025-01-30-0849",
+"buildTs":1738255792000,
+"buildDate":"2025-01-30-0849",
 "author":"Randal"
 }
