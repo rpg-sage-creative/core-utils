@@ -1,4 +1,3 @@
-/** @internal */
 export type ScriptedCharSet = {
 	/** "=" */
 	equals: string;

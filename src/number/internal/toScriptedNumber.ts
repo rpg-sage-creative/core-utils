@@ -1,4 +1,4 @@
-import type { ScriptedCharSet } from "../../characters/internal/types.js";
+import type { ScriptedCharSet } from "../../characters/types.js";
 
 /** @internal Converts the given number to a string of scripted numbers. */
 export function toScriptedNumber(value: number | bigint, characters: ScriptedCharSet): string {
