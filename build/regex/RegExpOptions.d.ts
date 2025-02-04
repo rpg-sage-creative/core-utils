@@ -36,9 +36,9 @@ export type RegExpQuantifyOptions = {
     /** how many to capture */
     quantifier?: RegExpQuantifier;
 };
-export type RegExpSpoilerOptions = {
+export type RegExpSpoilerOptions<T extends boolean | "optional" = boolean | "optional"> = {
     /** are spoilers allowed or optional */
-    spoilers?: boolean | "optional";
+    spoilers?: T;
 };
 export type RegExpWrapOptions = {
     /** the characters used to wrap the regex */
