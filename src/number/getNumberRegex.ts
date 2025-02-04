@@ -7,7 +7,7 @@ type GetOptions = RegExpFlagOptions & RegExpAnchorOptions & RegExpCaptureOptions
 /** Creates a new instance of the number regex based on options. */
 function createNumberRegex(options?: CreateOptions): RegExp {
 	const { gFlag = "", iFlag = "" } = options ?? {};
-	return new RegExp(`[\\-+]?\\d+(\\.\\d+)?`, gFlag + iFlag);
+	return new RegExp(`[\\-+]?\\d+(?:\\.\\d+)?`, gFlag + iFlag);
 }
 
 /**
