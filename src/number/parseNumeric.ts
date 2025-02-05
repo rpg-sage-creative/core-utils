@@ -130,6 +130,7 @@ function scriptedToUnscripted(value: string): { charSet:ScriptedCharSet; stringV
 	return { stringValue, charSet };
 }
 
+/** @internal exported only for testing */
 export function parseNumericString(value: string): NumericResults {
 	const numberRegex = getNumberRegex({ anchored:true });
 
