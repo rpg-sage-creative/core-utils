@@ -1,8 +1,50 @@
-import { getNumberRegex } from "../../build/index.js";
+import { getNumberRegex, toLiteral } from "../../build/index.js";
 import { toString } from "../toString.mjs";
 
 describe("number", () => {
 	describe("getNumberRegex", () => {
+
+		const signTypeTests = [
+			{ input:"2", options:{ }, expected:"2" },
+			{ input:"-2", options:{ }, expected:"-2" },
+			{ input:"+2", options:{ }, expected:"+2" },
+
+			{ input:"2", options:{ sign:"none" }, expected:"2" },
+			{ input:"-2", options:{ sign:"none" }, expected:"2" },
+			{ input:"+2", options:{ sign:"none" }, expected:"2" },
+			{ input:"-2", options:{ sign:"none", anchored:true }, expected:undefined },
+			{ input:"+2", options:{ sign:"none", anchored:true }, expected:undefined },
+
+			{ input:"2", options:{ sign:"required" }, expected:undefined },
+			{ input:"-2", options:{ sign:"required" }, expected:"-2" },
+			{ input:"+2", options:{ sign:"required" }, expected:"+2" },
+
+			{ input:"2.01", options:{ }, expected:"2.01" },
+			{ input:"-2.01", options:{ }, expected:"-2.01" },
+			{ input:"+2.01", options:{ }, expected:"+2.01" },
+
+			{ input:"2", options:{ type:"decimal" }, expected:undefined },
+			{ input:"-2", options:{ type:"decimal" }, expected:undefined },
+			{ input:"+2", options:{ type:"decimal" }, expected:undefined },
+
+			{ input:"2.01", options:{ type:"decimal" }, expected:"2.01" },
+			{ input:"-2.01", options:{ type:"decimal" }, expected:"-2.01" },
+			{ input:"+2.01", options:{ type:"decimal" }, expected:"+2.01" },
+
+			{ input:"2", options:{ type:"integer" }, expected:"2" },
+			{ input:"-2", options:{ type:"integer" }, expected:"-2" },
+			{ input:"+2", options:{ type:"integer" }, expected:"+2" },
+
+			{ input:"2.01", options:{ type:"integer" }, expected:undefined },
+			{ input:"-2.01", options:{ type:"integer" }, expected:undefined },
+			{ input:"+2.01", options:{ type:"integer" }, expected:undefined },
+		];
+		signTypeTests.forEach(({ input, options, expected }) => {
+			test(`getNumberRegex(${toLiteral(options)}).exec(${toLiteral(input)})?.[0] === ${toLiteral(expected)}`, () => {
+				expect(getNumberRegex(options).exec(input)?.[0]).toBe(expected);
+			});
+		});
+
 		const values = [
 			"2",
 			"+2",
