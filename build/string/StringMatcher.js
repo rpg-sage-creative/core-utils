@@ -1,9 +1,11 @@
-import { isDefined } from "../types/index.js";
+import { escapeRegex } from "../regex/escapeRegex.js";
+import { isDefined, isNullOrUndefined } from "../types/index.js";
 import { isBlank } from "./blank/isBlank.js";
 import { isNotBlank } from "./blank/isNotBlank.js";
 import { normalizeAscii } from "./normalize/normalizeAscii.js";
 import { removeAccents } from "./normalize/removeAccents.js";
 import { cleanWhitespace } from "./whitespace/cleanWhitespace.js";
+import { getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/getWhitespaceRegex.js";
 export class StringMatcher {
     constructor(value) {
         this.value = value;
@@ -26,7 +28,7 @@ export class StringMatcher {
     }
     value;
     matches(other) {
-        if (!this.isValid || other === null || other === undefined) {
+        if (!this.isValid || isNullOrUndefined(other)) {
             return false;
         }
         if (typeof (other) === "string") {
@@ -43,6 +45,37 @@ export class StringMatcher {
     matchesAny(...args) {
         return args.flat(1).some(value => this.matches(value));
     }
+    toRegex({ asterisk, horizontalOnly, whitespace } = {}) {
+        const whitespaceRegex = getWhitespaceRegex({ horizontalOnly, quantifier: undefined });
+        const whitespaceSource = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : WHITESPACE_REGEX_SOURCE;
+        const whitespaceQuantifier = whitespace === "optional" ? "*" : "+";
+        let lastCharWasWhitespace = false;
+        const regex = this.value?.split("").map(char => {
+            if (char === "*" && asterisk) {
+                return ".*?";
+            }
+            if (whitespaceRegex.test(char)) {
+                if (!lastCharWasWhitespace) {
+                    lastCharWasWhitespace = true;
+                    return whitespaceSource + whitespaceQuantifier;
+                }
+                return "";
+            }
+            lastCharWasWhitespace = false;
+            const cleaned = StringMatcher.clean(char);
+            const escaped = escapeRegex(cleaned);
+            if (char !== cleaned && char !== cleaned.toUpperCase()) {
+                if (char.length === 1 && cleaned.length === 1 && cleaned === escaped) {
+                    return `[${char}${cleaned}]`;
+                }
+                else {
+                    return `(?:${char}|${escaped})`;
+                }
+            }
+            return escaped;
+        }).join("") ?? "";
+        return new RegExp(`^${regex}$`, "i");
+    }
     toString() {
         return this.value;
     }
@@ -56,6 +89,9 @@ export class StringMatcher {
         return StringMatcher.from(value).matchesAny(others);
     }
     static from(value) {
-        return new StringMatcher(typeof (value) === "string" ? value : value?.value);
+        if (isDefined(value)) {
+            return new StringMatcher(typeof (value) === "string" ? value : value?.value);
+        }
+        return new StringMatcher(value);
     }
 }

@@ -1,5 +1,13 @@
 import type { Optional } from "../types/generics.js";
 import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
+type StringMatcherToRegExpOptions = {
+    /** if set to true, then a * in the value is treated as .*? in the regexp */
+    asterisk?: boolean;
+    /** if set to "optional" then a whitespace charater in the value is treated as \s* in the regexp */
+    whitespace?: "optional";
+    /** if set to true then only horizontal whitespace will be made optional */
+    horizontalOnly?: boolean;
+};
 /** A reusable object for comparing a string without the need to repeatedly manipulate the value. */
 export declare class StringMatcher implements Matcher {
     constructor(value: Optional<string>);
@@ -25,6 +33,8 @@ export declare class StringMatcher implements Matcher {
     matchesAny<T extends MatcherResolvable>(values: T[]): boolean;
     /** Returns true if any of the given values are considered a match. */
     matchesAny<T extends MatcherResolvable>(...values: T[]): boolean;
+    /** Converts the matchValue into a regular expression. */
+    toRegex({ asterisk, horizontalOnly, whitespace }?: StringMatcherToRegExpOptions): RegExp;
     /** Returns the original value. */
     toString(): Optional<string>;
     /**
@@ -39,3 +49,4 @@ export declare class StringMatcher implements Matcher {
     /** Convenience for new StringMatcher(value) */
     static from(value: Optional<MatcherResolvable>): StringMatcher;
 }
+export {};

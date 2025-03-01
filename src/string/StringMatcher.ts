@@ -1,11 +1,22 @@
+import { escapeRegex } from "../regex/escapeRegex.js";
 import type { Optional } from "../types/generics.js";
-import { isDefined } from "../types/index.js";
+import { isDefined, isNullOrUndefined } from "../types/index.js";
 import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
 import { isBlank } from "./blank/isBlank.js";
 import { isNotBlank } from "./blank/isNotBlank.js";
 import { normalizeAscii } from "./normalize/normalizeAscii.js";
 import { removeAccents } from "./normalize/removeAccents.js";
 import { cleanWhitespace } from "./whitespace/cleanWhitespace.js";
+import { getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/getWhitespaceRegex.js";
+
+type StringMatcherToRegExpOptions = {
+	/** if set to true, then a * in the value is treated as .*? in the regexp */
+	asterisk?: boolean;
+	/** if set to "optional" then a whitespace charater in the value is treated as \s* in the regexp */
+	whitespace?: "optional";
+	/** if set to true then only horizontal whitespace will be made optional */
+	horizontalOnly?: boolean;
+};
 
 /** A reusable object for comparing a string without the need to repeatedly manipulate the value. */
 export class StringMatcher implements Matcher {
@@ -47,7 +58,7 @@ export class StringMatcher implements Matcher {
 
 	/** Compares the clean values. */
 	public matches<T extends MatcherResolvable>(other: T): boolean {
-		if (!this.isValid || other === null || other === undefined) {
+		if (!this.isValid || isNullOrUndefined(other)) {
 			return false;
 		}
 		if (typeof(other) === "string") {
@@ -70,6 +81,59 @@ export class StringMatcher implements Matcher {
 
 	public matchesAny<T extends MatcherResolvable>(...args: T[]): boolean {
 		return args.flat(1).some(value => this.matches(value));
+	}
+
+	/** Converts the matchValue into a regular expression. */
+	public toRegex({ asterisk, horizontalOnly, whitespace }: StringMatcherToRegExpOptions = {}): RegExp {
+		// reuse cached regex for whitespace
+		const whitespaceRegex = getWhitespaceRegex({ horizontalOnly, quantifier:undefined });
+		const whitespaceSource = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : WHITESPACE_REGEX_SOURCE;
+		const whitespaceQuantifier = whitespace === "optional" ? "*" : "+";
+
+		let lastCharWasWhitespace = false;
+		const regex = this.value?.split("").map(char => {
+			// don't be greedy
+			if (char === "*" && asterisk) {
+				return ".*?";
+			}
+
+			// deal with whitespace options
+			if (whitespaceRegex.test(char)) {
+				// we only include whitespace char class once
+				if (!lastCharWasWhitespace) {
+					// toggle the flag to true
+					lastCharWasWhitespace = true;
+					// add char class and quantifier
+					return whitespaceSource + whitespaceQuantifier;
+				}
+				return "";
+			}
+
+			// toggle the flag to false
+			lastCharWasWhitespace = false;
+
+			// clean the character
+			const cleaned = StringMatcher.clean(char);
+
+			// escape the character
+			const escaped = escapeRegex(cleaned);
+
+			// something changed, so lets do a character class or non-capture group
+			// ex: ë gets cleaned to e, so we want our regex to match [eë]
+			if (char !== cleaned && char !== cleaned.toUpperCase()) {
+				// if 1 char is cleaned to 1 char and it doesn't get escaped, use a character class
+				if (char.length === 1 && cleaned.length === 1 && cleaned === escaped) {
+					return `[${char}${cleaned}]`;
+				}else {
+					return `(?:${char}|${escaped})`;
+				}
+			}
+
+			// finally, return the escaped character
+			return escaped;
+		}).join("") ?? "";
+
+		return new RegExp(`^${regex}$`, "i");
 	}
 
 	/** Returns the original value. */
@@ -97,6 +161,9 @@ export class StringMatcher implements Matcher {
 
 	/** Convenience for new StringMatcher(value) */
 	public static from(value: Optional<MatcherResolvable>): StringMatcher {
-		return new StringMatcher(typeof(value) === "string" ? value : value?.value);
+		if (isDefined(value)) {
+			return new StringMatcher(typeof(value) === "string" ? value : value?.value);
+		}
+		return new StringMatcher(value);
 	}
 }
