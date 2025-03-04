@@ -1,14 +1,44 @@
 import Collection from "../array/Collection.js";
-import { isKeyValueArg } from "./isKeyValueArg.js";
+import { dequote } from "../string/index.js";
+import { isDefined } from "../types/index.js";
+import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
-function parseKeyValuePair(input, index) {
-    const keyValueArg = parseKeyValueArg(input);
-    if (keyValueArg) {
-        const key = keyValueArg.key;
-        const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-        return { key, value, index };
+function _parseFlagArg(arg, index) {
+    if (/^\-+\w+$/.test(arg)) {
+        const key = arg.replace(/^\-+/, "");
+        const keyLower = key.toLowerCase();
+        return { arg, index, isFlag: true, key, keyLower };
     }
     return undefined;
+}
+function _parseIncrementArg(arg, index) {
+    const incrementArg = parseIncrementArg(arg);
+    if (incrementArg) {
+        const value = incrementArg.value === "" ? null : incrementArg.value ?? null;
+        return { arg, index, isIncrement: true, ...incrementArg, value };
+    }
+    return undefined;
+}
+function _parseKeyValueArg(arg, index) {
+    const keyValueArg = parseKeyValueArg(arg);
+    if (keyValueArg) {
+        const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
+        return { arg, index, isKeyValue: true, ...keyValueArg, value };
+    }
+    return undefined;
+}
+function _parseValueArg(arg, index) {
+    if (isDefined(arg)) {
+        const value = arg === "" ? null : dequote(arg);
+        return { arg, index, isValue: true, value };
+    }
+    return undefined;
+}
+function parseArg(arg, index) {
+    return _parseKeyValueArg(arg, index)
+        ?? _parseIncrementArg(arg, index)
+        ?? _parseFlagArg(arg, index)
+        ?? _parseValueArg(arg, index);
 }
 export class ArgsManager extends Collection {
     constructor(...args) {
@@ -16,27 +46,42 @@ export class ArgsManager extends Collection {
         this.initialArgs = Array.from(this);
     }
     initialArgs;
-    parseKeyValuePairs() {
-        return this.map(parseKeyValuePair);
+    parseArgs() {
+        return this.map(parseArg);
     }
-    keyValuePairs() {
-        const pairs = this.parseKeyValuePairs();
-        return pairs.filter(kvp => kvp);
+    findKeyValueArg(key) {
+        for (let index = 0; index < this.length; index++) {
+            const arg = this[index];
+            const keyValueArg = parseKeyValueArg(arg, { key });
+            if (keyValueArg) {
+                const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
+                return { arg, index, isKeyValue: true, ...keyValueArg, value };
+            }
+        }
+        return undefined;
     }
-    findKeyValueArgIndex(key) {
-        return this.findArgIndexRet(arg => parseKeyValueArg(arg, { key }));
+    keyValueArgs() {
+        return this.map(_parseKeyValueArg).filter(isDefined);
     }
-    findArgIndexNonArgs() {
-        return this
-            .map((arg, index) => { return { arg: arg, index: index, ret: null }; })
-            .filter(withIndex => !isKeyValueArg(withIndex.arg));
+    incrementArgs() {
+        return this.map(_parseIncrementArg).filter(isDefined);
     }
-    findArgIndexRet(predicate, thisArg) {
+    flagArgs() {
+        return this.map(_parseFlagArg).filter(isDefined);
+    }
+    valueArgs() {
+        return this.map(_parseValueArg).filter(isDefined);
+    }
+    findMap(predicate, thisArg) {
         const length = this.length;
         for (let index = 0; index < length; index++) {
-            const arg = this[index], ret = predicate.call(thisArg, arg, index, this);
-            if (ret) {
-                return { arg: arg, index: index, ret: ret };
+            const arg = this[index];
+            const argData = parseArg(arg, index);
+            if (argData) {
+                const mappedValue = predicate.call(thisArg, argData, index, this);
+                if (isDefined(mappedValue)) {
+                    return { ...argData, mappedValue };
+                }
             }
         }
         return undefined;

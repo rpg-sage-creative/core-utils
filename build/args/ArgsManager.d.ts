@@ -1,36 +1,119 @@
 import Collection from "../array/Collection.js";
 import type { OrUndefined } from "../types/generics.js";
-import type { KeyValueArg } from "./KeyValueArg.js";
-type TArgIndexRet<T> = {
-    arg: string;
+type FlagArg<T extends string> = {
+    /** raw arg text */
+    arg: T;
+    /** index of the arg in the args array */
     index: number;
-    ret: T | null;
-};
-/** Represents an argument that was 'key=value'. If value is an empty string, it will be set as NULL. */
-type TKeyValuePair<T extends string = string> = {
-    /** The value on the left of the first equals sign. */
+    /** does the arg start with a dash? */
+    isFlag: true;
+    /** is the arg key+= or key-= or key++ or key-- */
+    isIncrement?: never;
+    /** is the arg a value key/value pair? */
+    isKeyValue?: never;
+    /** is the arg a raw value arg */
+    isValue?: never;
+    /** key for the flag or pair */
     key: string;
-    /** This value is null if the value was an empty string. */
+    /** key.toLowerCase() */
+    keyLower: string;
+    /** how to increment/decrement */
+    modifier?: never;
+    /** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
+    value?: never;
+};
+type IncrementArg<T extends string, U extends string> = {
+    /** raw arg text */
+    arg: T;
+    /** index of the arg in the args array */
+    index: number;
+    /** does the arg start with a dash? */
+    isFlag?: never;
+    /** is the arg key+= or key-= or key++ or key-- */
+    isIncrement: true;
+    /** is the arg a value key/value pair? */
+    isKeyValue?: never;
+    /** is the arg a raw value arg */
+    isValue?: never;
+    /** key for the flag or pair */
+    key: string;
+    /** key.toLowerCase() */
+    keyLower: string;
+    /** how to increment/decrement */
+    operator: "+" | "-";
+    /** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
+    value: U | null;
+};
+type KeyValueArg<T extends string, U extends string> = {
+    /** raw arg text */
+    arg: T;
+    /** index of the arg in the args array */
+    index: number;
+    /** does the arg start with a dash? */
+    isFlag?: never;
+    /** is the arg key+= or key-= or key++ or key-- */
+    isIncrement?: never;
+    /** is the arg a value key/value pair? */
+    isKeyValue?: true;
+    /** is the arg a raw value arg */
+    isValue?: never;
+    /** key for the flag or pair */
+    key: string;
+    /** key.toLowerCase() */
+    keyLower: string;
+    /** how to increment/decrement */
+    modifier?: never;
+    /** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
+    value: U | null;
+};
+type ValueArg<T extends string> = {
+    /** raw arg text */
+    arg: T;
+    /** index of the arg in the args array */
+    index: number;
+    /** does the arg start with a dash? */
+    isFlag?: never;
+    /** is the arg key+= or key-= or key++ or key-- */
+    isIncrement?: never;
+    /** is the arg a value key/value pair? */
+    isKeyValue?: never;
+    /** is the arg a raw value arg */
+    isValue?: true;
+    /** key for the flag or pair */
+    key?: never;
+    /** key.toLowerCase() */
+    keyLower?: never;
+    /** how to increment/decrement */
+    modifier?: never;
+    /** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
     value: T | null;
 };
-/** Used to enable simpler removal of key value pairs from the ArgsManager. */
-type TKeyValueIndex<T extends string = string> = TKeyValuePair<T> & {
-    index: number;
+type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
+type MappedArg<T extends string, U extends string, V> = Arg<T, U> & {
+    mappedValue: V | null;
 };
 export declare class ArgsManager<T extends string> extends Collection<T> {
     constructor();
     constructor(arrayLength: number);
     constructor(...items: T[]);
     initialArgs: T[];
-    /** Maps each value to a key/value pair or null if the value isn't a key/value pair. */
-    protected parseKeyValuePairs<U extends string = string>(): OrUndefined<TKeyValueIndex<U>>[];
-    /** Returns all values that are key/value pairs, as a key/value pair. */
-    keyValuePairs<U extends string = string, V extends TKeyValuePair<U> = TKeyValuePair<U>>(): V[];
-    /**  */
-    protected findKeyValueArgIndex(key: string): OrUndefined<TArgIndexRet<KeyValueArg>>;
-    /** Returns all value/index pairs that are not key/value "arg" pairs. */
-    protected findArgIndexNonArgs(): TArgIndexRet<string>[];
-    /** Undefined if arg not found. */
-    protected findArgIndexRet<U = any>(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): OrUndefined<TArgIndexRet<U>>;
+    /** Maps each arg to an ArgData appropriate for the arg value. */
+    parseArgs<U extends string = string>(): OrUndefined<Arg<T, U>>[];
+    /** Returns PairData for the given key. */
+    findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>>;
+    /** Returns all PairData from .parseArgs() where .isPair is true. */
+    keyValueArgs<U extends string = string>(): Collection<KeyValueArg<T, U>>;
+    /** Returns all PairData from .parseArgs() where .isIncrement is true. */
+    incrementArgs<U extends string = string>(): Collection<IncrementArg<T, U>>;
+    /** Returns all PairData from .parseArgs() where .isFlag is true. */
+    flagArgs(): Collection<FlagArg<T>>;
+    /** Returns all PairData from .parseArgs() where .isValue is true. */
+    valueArgs(): Collection<ValueArg<T>>;
+    /**
+     * Calls the given predicate for each arg that successfully parses to an ArgData object.
+     * The first arg to return a defined value is returned with that value as .ret.
+     * Undefined if arg not found.
+     */
+    findMap<U extends string = string, V = any>(predicate: (value: Arg<T, U>, index: number, obj: T[]) => unknown, thisArg?: any): OrUndefined<MappedArg<T, U, V>>;
 }
 export {};
