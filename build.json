@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.8",
+"version":"0.2.9",
 "branch":"main",
-"commit":"1e448fd59e7a7e865c9afa4e5b93f9933f4f2832",
-"commitSubject":"fix internal type dependency that was exposed",
-"commitTs":1738255777000,
-"commitDate":"2025-01-30-0849",
-"buildTs":1738255792000,
-"buildDate":"2025-01-30-0849",
+"commit":"2102dba317daedf26219fcbbc1e763b5d653ca57",
+"commitSubject":"ArgsManager overhaul",
+"commitTs":1741053259000,
+"commitDate":"2025-03-03-1754",
+"buildTs":1741053394000,
+"buildDate":"2025-03-03-1756",
 "author":"Randal"
 }
