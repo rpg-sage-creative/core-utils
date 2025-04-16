@@ -16,9 +16,12 @@ function createRegex(creator, options) {
         const { left, right } = splitChars(spoilers ? "||||" : wrapChars);
         const lPattern = escapeRegex(left);
         const rPattern = escapeRegex(right);
-        regexp = spoilers === "optional" || wrapOptional === true
-            ? new RegExp(`(?:${lPattern}(?:${regexp.source})${rPattern})|(?:${regexp.source})`, regexp.flags)
-            : new RegExp(`${lPattern}(?:${regexp.source})${rPattern}`, regexp.flags);
+        const optional = spoilers === "optional" || wrapOptional === true;
+        const { source, flags } = regexp;
+        const wrappedSource = optional ? source.replace(/\(\?<\w+>/g, captureGroup => captureGroup.slice(0, -1) + "Wrapped>") : source;
+        regexp = optional
+            ? new RegExp(`(?:${lPattern}(?:${wrappedSource})${rPattern})|(?:${source})`, flags)
+            : new RegExp(`${lPattern}(?:${source})${rPattern}`, flags);
     }
     if (capture) {
         regexp = new RegExp(`(?<${capture}>${regexp.source})`, regexp.flags);

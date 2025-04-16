@@ -35,9 +35,12 @@ function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: Crea
 		const lPattern = escapeRegex(left);
 		const rPattern = escapeRegex(right);
 
-		regexp = spoilers === "optional" || wrapOptional === true
-			? new RegExp(`(?:${lPattern}(?:${regexp.source})${rPattern})|(?:${regexp.source})`, regexp.flags) as U
-			: new RegExp(`${lPattern}(?:${regexp.source})${rPattern}`, regexp.flags) as U;
+		const optional = spoilers === "optional" || wrapOptional === true;
+		const { source, flags } = regexp;
+		const wrappedSource = optional ? source.replace(/\(\?<\w+>/g, captureGroup => captureGroup.slice(0, -1) + "Wrapped>") : source;
+		regexp = optional
+			? new RegExp(`(?:${lPattern}(?:${wrappedSource})${rPattern})|(?:${source})`, flags) as U
+			: new RegExp(`${lPattern}(?:${source})${rPattern}`, flags) as U;
 	}
 
 	// wrap in a capture group
