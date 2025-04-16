@@ -1,12 +1,12 @@
 import { getCodeName } from "./getCodeName.js";
-import { getFromProcess } from "./internal/getFromProcess.js";
+import { getFromProcess } from "./getFromProcess.js";
 import { logAndReturn } from "./internal/logAndReturn.js";
-function isValid(value) {
-    return /^\d+$/.test(String(value));
-}
 function getByName(name) {
+    const numberValidator = (value) => {
+        return /^\d+$/.test(String(value));
+    };
     const key = `${name.toLowerCase()}Port`;
-    const value = getFromProcess(isValid, key);
+    const value = getFromProcess(numberValidator, key);
     return +value;
 }
 function getBotDelta() {

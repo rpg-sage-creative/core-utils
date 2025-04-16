@@ -1,12 +1,12 @@
 import { existsSync, mkdirSync } from "fs";
-import { getFromProcess } from "./internal/getFromProcess.js";
-function isValid(value) {
-    return !!value && existsSync(String(value));
-}
+import { getFromProcess } from "./getFromProcess.js";
 let _dataRoot;
 export function getDataRoot(childPath, ensureExists) {
     if (!_dataRoot) {
-        _dataRoot = getFromProcess(isValid, "dataRoot");
+        const dirValidator = (value) => {
+            return !!value && existsSync(String(value));
+        };
+        _dataRoot = getFromProcess(dirValidator, "dataRoot");
     }
     if (!childPath) {
         return _dataRoot;

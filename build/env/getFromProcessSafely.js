@@ -1,7 +1,7 @@
-import { getFromProcessArgv } from "./getFromProcessArgv.js";
-import { getFromProcessEnv } from "./getFromProcessEnv.js";
-import { logAndReturn } from "./logAndReturn.js";
-export function getFromProcess(test, ...keys) {
+import { getFromProcessArgv } from "./internal/getFromProcessArgv.js";
+import { getFromProcessEnv } from "./internal/getFromProcessEnv.js";
+import { logAndReturn } from "./internal/logAndReturn.js";
+export function getFromProcessSafely(test, ...keys) {
     for (const key of keys) {
         const envValue = getFromProcessEnv(key);
         if (test(envValue)) {
@@ -12,5 +12,5 @@ export function getFromProcess(test, ...keys) {
             return logAndReturn(key, argValue);
         }
     }
-    throw new Error(`Environment Variable Missing: ${keys}`);
+    return undefined;
 }
