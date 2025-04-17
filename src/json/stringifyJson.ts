@@ -29,3 +29,6 @@ export function stringifyJson(value: any, replacer?: Function | (string | number
 		return value;
 	}, space);
 }
+
+/** @deprecated use stringifyJson() */
+export const stringify = stringifyJson;

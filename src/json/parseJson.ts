@@ -20,3 +20,6 @@ export function parseJson<T = any>(text: string, reviver?: (this: any, key: stri
 		return value;
 	});
 }
+
+/** @deprecated use parseJson() */
+export const parse = parseJson;

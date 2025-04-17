@@ -17,3 +17,4 @@ export function stringifyJson(value, replacer, space) {
         return value;
     }, space);
 }
+export const stringify = stringifyJson;
