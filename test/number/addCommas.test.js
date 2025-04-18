@@ -1,18 +1,16 @@
-import { addCommas } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { addCommas, toLiteral } from "../../build/index.js";
 
 describe("number", () => {
 	describe("addCommas", () => {
-		/** @type {[number, string][]} [input, output] */
 		const tests = [
-			[12345, "12,345"],
-			[12345, "12,345"],
-			[12345, "12,345"],
+			{ input:12345, expected:"12,345" },
+			{ input:12345678, expected:"12,345,678" },
+			{ input:12345678901, expected:"12,345,678,901" },
 		];
 
-		tests.forEach(([input, output]) => {
-			test(`addCommas(${input}) === ${toString(output)}`, () => {
-				expect(addCommas(input)).toBe(output);
+		tests.forEach(({ input, expected }) => {
+			test(`addCommas(${toLiteral(input)}) === ${toLiteral(expected)}`, () => {
+				expect(addCommas(input)).toBe(expected);
 			});
 		});
 	});
