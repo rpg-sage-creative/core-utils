@@ -1,6 +1,6 @@
+import type { HexColorString } from "../color/ColorData.js";
 import type { Optional } from "../types/generics.js";
 import type { Renderable, RenderableContentSection, RenderableContentSectionColumn } from "./types.js";
-type HexColorString = `#${string}`;
 /**
  * @todo make the default html output a bootstrap card.
  * make the tostring accept "html" | "markdown" | "discord-markdown"
@@ -53,4 +53,3 @@ export declare class RenderableContent implements Renderable {
     /** Resolve the given value to a RenderableContent. */
     static resolve(resolvable: string | Renderable): RenderableContent | undefined;
 }
-export {};
