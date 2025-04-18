@@ -21,9 +21,9 @@ export declare abstract class HasIdCore<TypedCore extends IdCore<ObjectType>, Ob
     private _idMatcher?;
     /** Used to cache the SnowflakeMatcher or UuidMatcher used for .equals(). */
     protected get idMatcher(): Matcher;
-    /** @deprecated Used to cache the UuidMatcher used for .equals(). */
+    /** @deprecated Used to cache the SnowflakeMatcher used for .equals(). */
     private _didMatcher?;
-    /** @deprecated Used to cache the UuidMatcher used for .equals(). */
+    /** @deprecated Used to cache the SnowflakeMatcher used for .equals(). */
     protected get didMatcher(): Matcher;
     /** @deprecated Used to cache the UuidMatcher used for .equals(). */
     private _uuidMatcher?;
