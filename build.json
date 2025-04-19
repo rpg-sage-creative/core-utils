@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.9",
+"version":"0.2.10",
 "branch":"main",
-"commit":"2102dba317daedf26219fcbbc1e763b5d653ca57",
-"commitSubject":"ArgsManager overhaul",
-"commitTs":1741053259000,
-"commitDate":"2025-03-03-1754",
-"buildTs":1741053394000,
-"buildDate":"2025-03-03-1756",
+"commit":"4ac8282b481e3382d78619caaa62eeb816ca19b1",
+"commitSubject":"fix htmlToMarkdown",
+"commitTs":1745100124000,
+"commitDate":"2025-04-19-1502",
+"buildTs":1745100282000,
+"buildDate":"2025-04-19-1504",
 "author":"Randal"
 }
