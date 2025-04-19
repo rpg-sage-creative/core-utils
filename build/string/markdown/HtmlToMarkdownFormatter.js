@@ -1,3 +1,4 @@
+import { pattern } from "regex";
 import { HORIZONTAL_TAB } from "../consts.js";
 import { htmlToMarkdown } from "./htmlToMarkdown.js";
 export class HtmlToMarkdownFormatter {
@@ -6,11 +7,12 @@ export class HtmlToMarkdownFormatter {
         this.text = text;
     }
     formatBlockQuote() {
-        this.text = htmlToMarkdown(this.text, "blockquote", innerHtml => innerHtml.split("\n").map(s => "> " + s).join("\n"));
+        const newLine = `\n`;
+        this.text = htmlToMarkdown(this.text, "blockquote", innerHtml => newLine + innerHtml.split(newLine).map(s => "> " + s).join(newLine) + newLine);
         return this;
     }
     formatBold() {
-        this.text = htmlToMarkdown(this.text, "b|strong", "**");
+        this.text = htmlToMarkdown(this.text, pattern `b|strong`, "**");
         return this;
     }
     formatCode() {
@@ -21,7 +23,7 @@ export class HtmlToMarkdownFormatter {
         this.text = htmlToMarkdown(this.text, "h1", innerHtml => `\n# ` + innerHtml);
         this.text = htmlToMarkdown(this.text, "h2", innerHtml => `\n## ` + innerHtml);
         this.text = htmlToMarkdown(this.text, "h3", innerHtml => `\n### ` + innerHtml);
-        this.text = htmlToMarkdown(this.text, "h\\d", "\n__**");
+        this.text = htmlToMarkdown(this.text, pattern `h\d`, `\n__**`);
         return this;
     }
     formatHorizontalTab() {
@@ -31,7 +33,7 @@ export class HtmlToMarkdownFormatter {
         return this;
     }
     formatItalics() {
-        this.text = htmlToMarkdown(this.text, "i|em", "*");
+        this.text = htmlToMarkdown(this.text, pattern `i|em`, "*");
         return this;
     }
     formatLinks() {
@@ -62,7 +64,7 @@ export class HtmlToMarkdownFormatter {
         return this;
     }
     formatStrikethrough() {
-        this.text = htmlToMarkdown(this.text, "s|strike", "~~");
+        this.text = htmlToMarkdown(this.text, pattern `s|strike`, "~~");
         return this;
     }
     formatTable() {
