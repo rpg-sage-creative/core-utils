@@ -1,3 +1,7 @@
+type Options = {
+    /** key paths to match for displaying "..." instead of content */
+    ellipses?: string[];
+};
 /**
  * Returns the given value as it would look in code.
  * This function is designed to facilitate displaying values in test output.
@@ -9,4 +13,5 @@
  * Null is null.
  * Undefined is undefined.
  */
-export declare function toLiteral(value: unknown): string;
+export declare function toLiteral(value: unknown, options?: Options): string;
+export {};

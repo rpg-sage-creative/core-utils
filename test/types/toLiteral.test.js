@@ -23,11 +23,16 @@ describe("types", () => {
 			{ input:"", expected:`""` },
 			{ input:undefined, expected:`undefined` },
 			{ input:null, expected:`null` },
+			{ input:{a:"b",c:{d:1,e:2,f:3}}, options:{ellipses:["c"]}, expected:`{"a":"b","c":{...}}`},
+			{ input:{a:"b",c:{d:[1],e:2,f:{g:3}}}, options:{ellipses:["c.d","c.f"]}, expected:`{"a":"b","c":{"d":[...],"e":2,"f":{...}}}`},
+			{ input:{a:"b",c:[1,2,3]}, options:{ellipses:["c"]}, expected:`{"a":"b","c":[...]}`},
+			{ input:{a:"b",c:new Set([1,2,3])}, options:{ellipses:["c"]}, expected:`{"a":"b","c":Set([...])}`},
+			{ input:{a:"b",c:new Map([["d",1],["e",2]])}, options:{ellipses:["c"]}, expected:`{"a":"b","c":Map([...])}`},
 		];
 
-		tests.forEach(({ input, expected }) => {
-			test(`toLiteral(${toLiteral(input)}) === ${expected}`, () => {
-				expect(toLiteral(input)).toStrictEqual(expected);
+		tests.forEach(({ input, options, expected }) => {
+			test(`toLiteral(${toLiteral(input)}, ${toLiteral(options)}) === ${expected}`, () => {
+				expect(toLiteral(input, options)).toStrictEqual(expected);
 			});
 		});
 
