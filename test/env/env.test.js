@@ -1,4 +1,5 @@
-import { getBuildInfo, getCodeName, getDataRoot, getEnvironmentName, getId } from "../../build/index.js";
+import { readFileSync } from "fs";
+import { getBuildInfo, getCodeName, getDataRoot, getEnvironmentName, getId, parseJson } from "../../build/index.js";
 
 const hasArgs = process.argv.slice(3).length > 0;
 
@@ -14,8 +15,8 @@ describe("env", () => {
 			expect(getCodeName).toThrow("Environment Variable Missing: codeName,NODE_ENV");
 		});
 
-		test(`getBuildInfo()`, () => {
-			expect(getBuildInfo).toThrow();
+		test(`getBuildInfo()`, async () => {
+			expect(await getBuildInfo()).toStrictEqual({rscLibs:[],...parseJson(readFileSync("./build.json").toString())});
 		});
 
 		test(`getDataRoot()`, () => {

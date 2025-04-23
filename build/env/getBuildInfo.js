@@ -1,40 +1,33 @@
-import { existsSync, readFileSync, readdirSync } from "fs";
+import { exists, readFile, readdir } from "fs";
 import { parseJson } from "../json/parseJson.js";
-let _rootPath;
-function getRootPath() {
-    if (!_rootPath) {
-        _rootPath = ".";
-        if (!existsSync(_rootPath + "/node_modules")) {
-            _rootPath = "..";
-        }
+async function readBuildInfo(repoPath, utilName) {
+    const raw = await new Promise(resolve => readFile(`${repoPath}/build.json`, null, (error, buffer) => resolve(error ? undefined : String(buffer)))).catch(() => undefined);
+    if (!raw)
+        return undefined;
+    const buildInfo = parseJson(raw);
+    if (!buildInfo.name && utilName) {
+        buildInfo.name = utilName;
     }
-    return _rootPath;
+    return buildInfo;
 }
-function readBuildInfo(repoPath, utilName) {
-    try {
-        const buildInfo = parseJson(readFileSync(`${repoPath}/build.json`).toString());
-        if (!buildInfo.name && utilName) {
-            buildInfo.name = utilName;
-        }
-        return buildInfo;
-    }
-    catch (ex) {
-    }
-    return undefined;
-}
-function getRscLibsBuildInfo() {
-    const rootPath = getRootPath();
+async function getRscLibsBuildInfo(rootPath) {
+    const buildInfos = [];
     const utilPath = `${rootPath}/node_modules/@rsc-utils`;
-    const allNames = readdirSync(utilPath);
+    const allNames = await new Promise(resolve => readdir(utilPath, (err, files) => resolve(err ? [] : files))).catch(() => []);
     const utilNames = allNames.filter(dirName => dirName.endsWith("-utils"));
-    const buildInfos = utilNames.map(utilName => readBuildInfo(`${utilPath}/${utilName}`, `@rsc-utils/${utilName}`));
-    return buildInfos.filter(info => !!info);
-}
-let buildInfo;
-export function getBuildInfo() {
-    if (!buildInfo) {
-        buildInfo = readBuildInfo(getRootPath());
+    for (const utilName of utilNames) {
+        const buildInfo = await readBuildInfo(`${utilPath}/${utilName}`, `@rsc-utils/${utilName}`).catch(() => undefined);
+        ;
+        if (buildInfo) {
+            buildInfos.push(buildInfo);
+        }
     }
+    return buildInfos;
+}
+export async function getBuildInfo() {
+    const useCurrent = await new Promise(resolve => exists(`./node_modules`, resolve)).catch(() => false);
+    const rootPath = useCurrent ? "." : "..";
+    let buildInfo = await readBuildInfo(rootPath).catch(() => undefined);
     if (!buildInfo) {
         buildInfo = {
             name: "no-name",
@@ -43,13 +36,13 @@ export function getBuildInfo() {
             commit: "",
             commitSubject: "unknown",
             commitTs: 0,
-            commitDate: "1978-12-24-1945",
+            commitDate: "2022-08-22-0000",
             buildTs: 0,
-            buildDate: "1978-12-24-1945",
-            author: "Randal T Meyer",
+            buildDate: "2022-08-22-0000",
+            author: "RPG Sage Creative, LLC",
             rscLibs: []
         };
     }
-    buildInfo.rscLibs = getRscLibsBuildInfo();
+    buildInfo.rscLibs = await getRscLibsBuildInfo(rootPath);
     return buildInfo;
 }

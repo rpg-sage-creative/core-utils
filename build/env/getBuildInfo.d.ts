@@ -11,5 +11,5 @@ type BuildInfo = {
     author: string;
     rscLibs: BuildInfo[];
 };
-export declare function getBuildInfo(): BuildInfo;
+export declare function getBuildInfo(): Promise<BuildInfo>;
 export {};
