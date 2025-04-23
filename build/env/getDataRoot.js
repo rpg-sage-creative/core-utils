@@ -1,29 +1,23 @@
 import { existsSync, mkdirSync } from "fs";
 import { getFromProcess } from "./getFromProcess.js";
-let _dataRoot;
-export function getDataRoot(childPath, ensureExists) {
-    if (!_dataRoot) {
-        const dirValidator = (value) => {
-            return !!value && existsSync(String(value));
-        };
-        _dataRoot = getFromProcess(dirValidator, "dataRoot");
+const pathMap = new Map();
+export function getDataRoot(childPath, ensureChildExists) {
+    let dataRoot = pathMap.get("");
+    if (!dataRoot) {
+        const dirValidator = (value) => value ? existsSync(String(value)) : false;
+        dataRoot = getFromProcess(dirValidator, "dataRoot");
+        pathMap.set("", dataRoot);
     }
     if (!childPath) {
-        return _dataRoot;
+        return dataRoot;
     }
-    const dataPath = `${_dataRoot}/${childPath}`;
-    if (existsSync(dataPath)) {
-        return dataPath;
-    }
-    if (ensureExists) {
-        try {
+    let dataPath = pathMap.get(childPath);
+    if (!dataPath) {
+        dataPath = `${dataRoot}/${childPath}`;
+        if (ensureChildExists) {
             mkdirSync(dataPath, { recursive: true });
         }
-        catch {
-        }
+        pathMap.set(childPath, dataPath);
     }
-    if (existsSync(dataPath)) {
-        return dataPath;
-    }
-    throw new Error(`Unable to create dataRoot child: ${dataPath}`);
+    return dataPath;
 }
