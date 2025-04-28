@@ -1,4 +1,3 @@
-import { info } from "../console/loggers/info.js";
 import { getAwsRegion } from "./getAwsRegion.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 import { getPort } from "./getPort.js";
@@ -22,7 +21,6 @@ export function getEndpoint(server) {
         const valid = hostname && port ? true : false;
         const endpoint = { secure, hostname, port, region, valid };
         _endpoints[server] = endpoint;
-        info({ server, ...endpoint });
     }
     return _endpoints[server];
 }

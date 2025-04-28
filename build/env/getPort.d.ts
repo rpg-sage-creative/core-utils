@@ -1,1 +1,1 @@
-export declare function getPort(server: string | number): number;
+export declare function getPort(server: string): number;
