@@ -1,4 +1,4 @@
-import { regex, } from "regex";
+import { regex } from "regex";
 import type { Pattern } from "regex/dist/cjs/pattern.js";
 import { parseKeyValueArgs } from "../../args/parseKeyValueArgs.js";
 
