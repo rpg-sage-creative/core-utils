@@ -1,4 +1,4 @@
-type Options = {
+export type Options = {
     /** key paths to match for displaying "..." instead of content */
     ellipses?: string[];
 };
@@ -14,4 +14,3 @@ type Options = {
  * Undefined is undefined.
  */
 export declare function toLiteral(value: unknown, options?: Options): string;
-export {};

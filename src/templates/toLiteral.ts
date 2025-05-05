@@ -1,7 +1,7 @@
 import { isDate } from "util/types";
 
 
-type Options = {
+export type Options = {
 	/** key paths to match for displaying "..." instead of content */
 	ellipses?: string[];
 }
