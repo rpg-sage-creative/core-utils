@@ -1,4 +1,4 @@
-import { filterAndMap, isDefined, mapFirst, toLiteral, toUnique } from "../../build/index.js";
+import { filterAndMap, isDefined, mapFirst, tagLiterals, toLiteral, toUnique } from "../../build/index.js";
 
 describe("array", () => {
 	describe("mapFirst", () => {
@@ -16,7 +16,7 @@ describe("array", () => {
 			{ callbackfn:(o,i,a) => !o?o:undefined, expected:undefined },
 		];
 		tests.forEach(({ callbackfn, expected }) => {
-			test(`mapFirst(${toLiteral(values)}, ${toLiteral(callbackfn)})`, () => {
+			test(tagLiterals`mapFirst(${values}, ${callbackfn})`, () => {
 				const output = mapFirst(values, callbackfn);
 				expect(output).toBe(expected);
 				// as this function is man

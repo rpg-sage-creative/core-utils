@@ -1,4 +1,4 @@
-import { compressId, decompressId, randomSnowflake, randomUuid, toLiteral } from "../build/index.js";
+import { compressId, decompressId, randomSnowflake, randomUuid, tagLiterals } from "../build/index.js";
 
 describe("id", () => {
 	const maxUuid  = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -14,7 +14,7 @@ describe("id", () => {
 	}
 
 	tests.forEach(value => {
-		test(`decompressId(compressId(${toLiteral(value)}))`, () => {
+		test(tagLiterals`decompressId(compressId(${value}))`, () => {
 			expect(decompressId(compressId(value))).toBe(value);
 		});
 	});

@@ -1,4 +1,4 @@
-import { parseKeyValueArg, toLiteral } from "../../build/index.js";
+import { parseKeyValueArg, tagLiterals } from "../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("args", () => {
@@ -6,7 +6,7 @@ describe("args", () => {
 
 		const tests = getTests("parseKeyValueArg");
 		tests.forEach(({ input, options, expected }) => {
-			test(`parseKeyValueArg(${toLiteral(input)}, ${toLiteral(options)})`, () => {
+			test(tagLiterals`parseKeyValueArg(${input}, ${options})`, () => {
 				expect(parseKeyValueArg(input, options)).toStrictEqual(expected);
 			});
 		});
