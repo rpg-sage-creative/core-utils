@@ -1,4 +1,4 @@
-import { regex, } from "regex";
+import { regex } from "regex";
 import { parseKeyValueArgs } from "../../args/parseKeyValueArgs.js";
 export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
     if (!text) {

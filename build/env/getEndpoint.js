@@ -17,7 +17,7 @@ export function getEndpoint(server) {
         const region = getAwsRegion(`${server.toLowerCase()}Region`);
         const secure = getFromProcessSafely(booleanValidator, `${server.toLowerCase()}Secure`) === "true";
         const hostname = getFromProcessSafely(value => hostnameValidator(value, region), `${server.toLowerCase()}Hostname`);
-        const port = getPort(server);
+        const port = getPort(server, true);
         const valid = hostname && port ? true : false;
         const endpoint = { secure, hostname, port, region, valid };
         _endpoints[server] = endpoint;
