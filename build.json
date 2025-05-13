@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.2.10",
+"version":"0.3.0",
 "branch":"main",
-"commit":"4ac8282b481e3382d78619caaa62eeb816ca19b1",
-"commitSubject":"fix htmlToMarkdown",
-"commitTs":1745100124000,
-"commitDate":"2025-04-19-1502",
-"buildTs":1745100282000,
-"buildDate":"2025-04-19-1504",
+"commit":"6cd6cc2e38f3f2af7ff0cbb0fce9006f4982684b",
+"commitSubject":"fix tests to reflect always on flag v",
+"commitTs":1747153879000,
+"commitDate":"2025-05-13-0931",
+"buildTs":1747153912000,
+"buildDate":"2025-05-13-0931",
 "author":"Randal"
 }
