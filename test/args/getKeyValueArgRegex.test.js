@@ -5,15 +5,15 @@ describe("args", () => {
 
 		describe("flag/cache tests", () => {
 			const flagCacheTests = [
-				{ options:undefined, flags:"iu" },
+				{ options:undefined, flags:"iv" },
 				{ options:{mode:"strict"}, flags:"iu" },
-				{ options:{mode:"sloppy"}, flags:"iu" },
-				{ options:{gFlag:"g"}, flags:"giu" },
+				{ options:{mode:"sloppy"}, flags:"iv" },
+				{ options:{gFlag:"g"}, flags:"giv" },
 				{ options:{gFlag:"g",mode:"strict"}, flags:"giu" },
-				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giu" },
-				{ options:{capture:"arg"}, flags:"iu" },
+				{ options:{gFlag:"g",mode:"sloppy"}, flags:"giv" },
+				{ options:{capture:"arg"}, flags:"iv" },
 				{ options:{capture:"arg",mode:"strict"}, flags:"iu" },
-				{ options:{capture:"arg",mode:"sloppy"}, flags:"iu" },
+				{ options:{capture:"arg",mode:"sloppy"}, flags:"iv" },
 			];
 			flagCacheTests.forEach(({ options, flags }) => {
 				test(`getKeyValueArgRegex(${toLiteral(options)})`, () => {
