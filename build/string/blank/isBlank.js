@@ -1,3 +1,3 @@
-export function isBlank(text) {
-    return !text?.trim().length;
+export function isBlank(value) {
+    return !value?.trim().length;
 }

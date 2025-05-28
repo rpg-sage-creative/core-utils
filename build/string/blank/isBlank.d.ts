@@ -1,2 +1,2 @@
 /** Returns true if null, undefined, or only whitespace. */
-export declare function isBlank(text: null | undefined | string): text is null | undefined | "";
+export declare function isBlank(value: null | undefined | string): value is null | undefined | "";
