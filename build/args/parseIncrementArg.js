@@ -7,9 +7,9 @@ export function parseIncrementArg(arg, options) {
         const [_, key, incrementer, modifier, value] = match;
         const keyLower = key.toLowerCase();
         if (incrementer) {
-            return { key, keyLower, operator: incrementer[0], value: "1" };
+            return { arg, index: -1, isIncrement: true, key, keyLower, operator: incrementer[0], value: "1" };
         }
-        return { key, keyLower, operator: modifier[0], value: dequote(value) };
+        return { arg, index: -1, isIncrement: true, key, keyLower, operator: modifier[0], value: dequote(value) };
     }
     return undefined;
 }

@@ -34,7 +34,7 @@ export function htmlToMarkdown(text: string, element: string | Pattern, handlerO
 	return text.replace(regexp, (outer, nodeName, attributes, inner) => {
 		// create attribute map
 		const attributeMap = parseKeyValueArgs(attributes).reduce((map, arg) => {
-			map.set(arg.key, arg.value);
+			map.set(arg.key, arg.value ?? "");
 			return map;
 		}, new Map<string, string>());
 

@@ -1,11 +1,4 @@
 import { type RegExpIncrementArgOptions } from "./getIncrementArgRegex.js";
-export type IncrementArg<T extends string = string> = {
-    /** key for the flag or pair */
-    key: string;
-    keyLower: string;
-    /** how to increment/decrement */
-    operator: "+" | "-";
-    /** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
-    value: T;
-};
-export declare function parseIncrementArg<T extends string = string>(arg: string, options?: RegExpIncrementArgOptions): IncrementArg<T> | undefined;
+import type { IncrementArg } from "./types.js";
+export declare function parseIncrementArg<ValueType extends string = string>(input: string, options?: RegExpIncrementArgOptions): IncrementArg<string, ValueType> | undefined;
+export declare function parseIncrementArg<ArgType extends string = string, ValueType extends string = string>(input: ArgType, options?: RegExpIncrementArgOptions): IncrementArg<ArgType, ValueType> | undefined;

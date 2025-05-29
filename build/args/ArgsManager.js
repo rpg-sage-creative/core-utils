@@ -15,7 +15,7 @@ function _parseIncrementArg(arg, index) {
     const incrementArg = parseIncrementArg(arg);
     if (incrementArg) {
         const value = incrementArg.value === "" ? null : incrementArg.value ?? null;
-        return { arg, index, isIncrement: true, ...incrementArg, value };
+        return { ...incrementArg, index, value };
     }
     return undefined;
 }
@@ -23,7 +23,7 @@ function _parseKeyValueArg(arg, index) {
     const keyValueArg = parseKeyValueArg(arg);
     if (keyValueArg) {
         const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-        return { arg, index, isKeyValue: true, ...keyValueArg, value };
+        return { ...keyValueArg, index, value };
     }
     return undefined;
 }
@@ -55,7 +55,7 @@ export class ArgsManager extends Collection {
             const keyValueArg = parseKeyValueArg(arg, { key });
             if (keyValueArg) {
                 const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-                return { arg, index, isKeyValue: true, ...keyValueArg, value };
+                return { ...keyValueArg, index, value };
             }
         }
         return undefined;

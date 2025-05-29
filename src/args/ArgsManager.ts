@@ -4,104 +4,10 @@ import type { OrUndefined } from "../types/generics.js";
 import { isDefined } from "../types/index.js";
 import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
-
-type FlagArg<T extends string> = {
-	/** raw arg text */
-	arg: T;
-	/** index of the arg in the args array */
-	index: number;
-	/** does the arg start with a dash? */
-	isFlag: true;
-	/** is the arg key+= or key-= or key++ or key-- */
-	isIncrement?: never;
-	/** is the arg a value key/value pair? */
-	isKeyValue?: never;
-	/** is the arg a raw value arg */
-	isValue?: never;
-	/** key for the flag or pair */
-	key: string;
-	/** key.toLowerCase() */
-	keyLower: string;
-	/** how to increment/decrement */
-	modifier?: never;
-	/** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
-	value?: never;
-};
-
-type IncrementArg<T extends string, U extends string> = {
-	/** raw arg text */
-	arg: T;
-	/** index of the arg in the args array */
-	index: number;
-	/** does the arg start with a dash? */
-	isFlag?: never;
-	/** is the arg key+= or key-= or key++ or key-- */
-	isIncrement: true;
-	/** is the arg a value key/value pair? */
-	isKeyValue?: never;
-	/** is the arg a raw value arg */
-	isValue?: never;
-	/** key for the flag or pair */
-	key: string;
-	/** key.toLowerCase() */
-	keyLower: string;
-	/** how to increment/decrement */
-	operator: "+" | "-";
-	/** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
-	value: U | null;
-};
-
-type KeyValueArg<T extends string, U extends string> = {
-	/** raw arg text */
-	arg: T;
-	/** index of the arg in the args array */
-	index: number;
-	/** does the arg start with a dash? */
-	isFlag?: never;
-	/** is the arg key+= or key-= or key++ or key-- */
-	isIncrement?: never;
-	/** is the arg a value key/value pair? */
-	isKeyValue?: true;
-	/** is the arg a raw value arg */
-	isValue?: never;
-	/** key for the flag or pair */
-	key: string;
-	/** key.toLowerCase() */
-	keyLower: string;
-	/** how to increment/decrement */
-	modifier?: never;
-	/** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
-	value: U | null;
-};
-
-type ValueArg<T extends string> = {
-	/** raw arg text */
-	arg: T;
-	/** index of the arg in the args array */
-	index: number;
-	/** does the arg start with a dash? */
-	isFlag?: never;
-	/** is the arg key+= or key-= or key++ or key-- */
-	isIncrement?: never;
-	/** is the arg a value key/value pair? */
-	isKeyValue?: never;
-	/** is the arg a raw value arg */
-	isValue?: true;
-	/** key for the flag or pair */
-	key?: never;
-	/** key.toLowerCase() */
-	keyLower?: never;
-	/** how to increment/decrement */
-	modifier?: never;
-	/** arg for ValueData, value for a PairData; null for pair with empty string, undefined for a flag */
-	value: T | null;
-};
+import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
 
 type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
-
-type MappedArg<T extends string, U extends string, V> = Arg<T, U> & {
-	mappedValue: V | null;
-};
+type MappedArg<T extends string, U extends string, V> = Arg<T, U> & { mappedValue: V | null; };
 
 function _parseFlagArg<T extends string>(arg: T, index: number): OrUndefined<FlagArg<T>> {
 	if (/^\-+\w+$/.test(arg)) {
@@ -113,19 +19,19 @@ function _parseFlagArg<T extends string>(arg: T, index: number): OrUndefined<Fla
 }
 
 function _parseIncrementArg<T extends string, U extends string>(arg: T, index: number): OrUndefined<IncrementArg<T, U>> {
-	const incrementArg = parseIncrementArg<U>(arg);
+	const incrementArg = parseIncrementArg<T, U>(arg);
 	if (incrementArg) {
 		const value = incrementArg.value === "" ? null : incrementArg.value ?? null;
-		return { arg, index, isIncrement:true, ...incrementArg, value };
+		return { ...incrementArg, index, value };
 	}
 	return undefined;
 }
 
 function _parseKeyValueArg<T extends string, U extends string>(arg: T, index: number): OrUndefined<KeyValueArg<T, U>> {
-	const keyValueArg = parseKeyValueArg<U>(arg);
+	const keyValueArg = parseKeyValueArg<T, U>(arg);
 	if (keyValueArg) {
 		const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-		return { arg, index, isKeyValue:true, ...keyValueArg, value };
+		return { ...keyValueArg, index, value };
 	}
 	return undefined;
 }
@@ -164,36 +70,36 @@ export class ArgsManager<T extends string> extends Collection<T> {
 		return this.map(parseArg) as OrUndefined<Arg<T, U>>[];
 	}
 
-	/** Returns PairData for the given key. */
+	/** Returns KeyValueArg for the given key. */
 	public findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>> {
 		// to avoid parsing every arg for every time and filtering and then finding, let's just do a single loop here
 		for (let index = 0; index < this.length; index++) {
 			const arg = this[index];
-			const keyValueArg = parseKeyValueArg<U>(arg, { key });
+			const keyValueArg = parseKeyValueArg<T, U>(arg, { key });
 			if (keyValueArg) {
 				const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-				return { arg, index, isKeyValue:true, ...keyValueArg, value }
+				return { ...keyValueArg, index, value }
 			}
 		}
 		return undefined;
 	}
 
-	/** Returns all PairData from .parseArgs() where .isPair is true. */
+	/** Returns all KeyValueArg from .parseArgs() where .isKeyValue is true. */
 	public keyValueArgs<U extends string = string>() {
 		return this.map(_parseKeyValueArg).filter(isDefined) as Collection<KeyValueArg<T, U>>;
 	}
 
-	/** Returns all PairData from .parseArgs() where .isIncrement is true. */
+	/** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
 	public incrementArgs<U extends string = string>() {
 		return this.map(_parseIncrementArg).filter(isDefined) as Collection<IncrementArg<T, U>>;
 	}
 
-	/** Returns all PairData from .parseArgs() where .isFlag is true. */
+	/** Returns all FlagArg from .parseArgs() where .isFlag is true. */
 	public flagArgs() {
 		return this.map(_parseFlagArg).filter(isDefined) as Collection<FlagArg<T>>;
 	}
 
-	/** Returns all PairData from .parseArgs() where .isValue is true. */
+	/** Returns all ValueArg from .parseArgs() where .isValue is true. */
 	public valueArgs() {
 		return this.map(_parseValueArg).filter(isDefined) as Collection<ValueArg<T>>;
 	}
