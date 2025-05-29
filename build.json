@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.4.0",
+"version":"0.5.0",
 "branch":"main",
-"commit":"dacdeb7e1eae1f170c35684b2137fb24e58bd4eb",
-"commitSubject":"put stringOrUndefined back and add trimOrUndefined",
-"commitTs":1748472374000,
-"commitDate":"2025-05-28-1546",
-"buildTs":1748551994000,
-"buildDate":"2025-05-29-1353",
+"commit":"2be2d0d186c86e190c2cbbd0657ecdadba04fcc9",
+"commitSubject":"redo args logic to have a single KeyValueArg and IncrementArg",
+"commitTs":1748561811000,
+"commitDate":"2025-05-29-1636",
+"buildTs":1748561831000,
+"buildDate":"2025-05-29-1637",
 "author":"Randal"
 }
