@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.3.0",
+"version":"0.4.0",
 "branch":"main",
-"commit":"6cd6cc2e38f3f2af7ff0cbb0fce9006f4982684b",
-"commitSubject":"fix tests to reflect always on flag v",
-"commitTs":1747153879000,
-"commitDate":"2025-05-13-0931",
-"buildTs":1747153912000,
-"buildDate":"2025-05-13-0931",
+"commit":"dacdeb7e1eae1f170c35684b2137fb24e58bd4eb",
+"commitSubject":"put stringOrUndefined back and add trimOrUndefined",
+"commitTs":1748472374000,
+"commitDate":"2025-05-28-1546",
+"buildTs":1748551994000,
+"buildDate":"2025-05-29-1353",
 "author":"Randal"
 }
