@@ -7,8 +7,20 @@ import { isBlank } from "./blank/isBlank.js";
  */
 export function capitalize<T extends string = string>(value: T): Capitalize<T>;
 
+/**
+ * Capitalizes the first letter of the given string.
+ * If the value is undefined, then undefined is returned instead.
+ * @param {Optional<T>} value The string to be capitalized or returned.
+ */
 export function capitalize<T extends string = string>(value: OrUndefined<T>): OrUndefined<Capitalize<T>>;
+
+/**
+ * Capitalizes the first letter of the given string.
+ * If the value is null, then null is returned instead.
+ * @param {Optional<T>} value The string to be capitalized or returned.
+ */
 export function capitalize<T extends string = string>(value: OrNull<T>): OrNull<Capitalize<T>>;
+
 /**
  * Capitalizes the first letter of the given string.
  * If null or undefined are passed, they are returned instead.

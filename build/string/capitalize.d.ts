@@ -4,7 +4,17 @@ import type { Optional, OrNull, OrUndefined } from "../types/generics.js";
  * @param {T} value The string to be capitalized.
  */
 export declare function capitalize<T extends string = string>(value: T): Capitalize<T>;
+/**
+ * Capitalizes the first letter of the given string.
+ * If the value is undefined, then undefined is returned instead.
+ * @param {Optional<T>} value The string to be capitalized or returned.
+ */
 export declare function capitalize<T extends string = string>(value: OrUndefined<T>): OrUndefined<Capitalize<T>>;
+/**
+ * Capitalizes the first letter of the given string.
+ * If the value is null, then null is returned instead.
+ * @param {Optional<T>} value The string to be capitalized or returned.
+ */
 export declare function capitalize<T extends string = string>(value: OrNull<T>): OrNull<Capitalize<T>>;
 /**
  * Capitalizes the first letter of the given string.
