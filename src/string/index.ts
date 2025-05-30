@@ -4,7 +4,6 @@ export * from "./codeBlocks/index.js";
 export * from "./markdown/index.js";
 export * from "./normalize/index.js";
 export * from "./quotes/index.js";
-export * from "./url/index.js";
 export * from "./whitespace/index.js";
 export * from "./wrap/index.js";
 export * from "./capitalize.js";
