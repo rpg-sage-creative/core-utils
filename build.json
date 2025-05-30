@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.5.0",
+"version":"0.6.0",
 "branch":"main",
-"commit":"2be2d0d186c86e190c2cbbd0657ecdadba04fcc9",
-"commitSubject":"redo args logic to have a single KeyValueArg and IncrementArg",
-"commitTs":1748561811000,
-"commitDate":"2025-05-29-1636",
-"buildTs":1748561831000,
-"buildDate":"2025-05-29-1637",
+"commit":"b8a39a2139d4277caeb49f0d1702ce6c33c8208b",
+"commitSubject":"remove url logic (moved to io-utils)",
+"commitTs":1748625117000,
+"commitDate":"2025-05-30-1011",
+"buildTs":1748625136000,
+"buildDate":"2025-05-30-1012",
 "author":"Randal"
 }
