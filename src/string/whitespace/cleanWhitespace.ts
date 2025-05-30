@@ -1,3 +1,4 @@
+import type { Optional, OrNull, OrUndefined } from "../../types/generics.js";
 import { getWhitespaceRegex } from "./getWhitespaceRegex.js";
 
 type Options = {
@@ -12,7 +13,30 @@ type Options = {
  * Reduces adjacent whitespace characters to the options.replacement (default is a single space), then trims the string.
  * If options.horizontalOnly is true, then \n and \r are excluded from the whitespace replaced.
  */
-export function cleanWhitespace(value: string, options?: Options): string {
+export function cleanWhitespace(value: string, options?: Options): string;
+
+/**
+ * Reduces adjacent whitespace characters to the options.replacement (default is a single space), then trims the string.
+ * If options.horizontalOnly is true, then \n and \r are excluded from the whitespace replaced.
+ * If undefined is given, then undefined is returned.
+ */
+export function cleanWhitespace(value: OrUndefined<string>, options?: Options): OrUndefined<string>;
+
+/**
+ * Reduces adjacent whitespace characters to the options.replacement (default is a single space), then trims the string.
+ * If options.horizontalOnly is true, then \n and \r are excluded from the whitespace replaced.
+ * If null is given, then null is returned.
+ */
+export function cleanWhitespace(value: OrNull<string>, options?: Options): OrNull<string>;
+
+/**
+ * Reduces adjacent whitespace characters to the options.replacement (default is a single space), then trims the string.
+ * If options.horizontalOnly is true, then \n and \r are excluded from the whitespace replaced.
+ * If null or undefined are given, then the given value is returned.
+ */
+export function cleanWhitespace(value: Optional<string>, options?: Options): Optional<string>;
+
+export function cleanWhitespace(value: Optional<string>, options?: Options): Optional<string> {
 	if (!value) return value;
 	const { horizontalOnly, replacement = " " } = options ?? {};
 	const regexp = getWhitespaceRegex({ gFlag:"g", quantifier:"+", horizontalOnly });
