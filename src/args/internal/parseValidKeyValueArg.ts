@@ -11,7 +11,7 @@ export function parseValidKeyValueArg<ValueType extends string = string>(arg: Va
 
 export function parseValidKeyValueArg<ArgType extends string = string, ValueType extends string = string>(arg: ArgType): KeyValueArg<ArgType, ValueType>;
 
-export function parseValidKeyValueArg(arg: string): KeyValueArg<string, string> {
+export function parseValidKeyValueArg(arg: string): KeyValueArg {
 	const index = arg.indexOf("=");
 	// Because we are currently allowing spaces around the "=" character, we need to trim the raw key
 	const key = arg.slice(0, index).trim();

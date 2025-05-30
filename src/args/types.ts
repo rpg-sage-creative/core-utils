@@ -1,4 +1,4 @@
-export type FlagArg<T extends string> = {
+export type FlagArg<T extends string = string> = {
 	/** raw arg text */
 	arg: T;
 	/** index of the arg in the args array */
@@ -21,7 +21,7 @@ export type FlagArg<T extends string> = {
 	value?: never;
 };
 
-export type IncrementArg<T extends string, U extends string> = {
+export type IncrementArg<T extends string = string, U extends string = string> = {
 	/** raw arg text */
 	arg: T;
 	/** index of the arg in the args array */
@@ -44,7 +44,7 @@ export type IncrementArg<T extends string, U extends string> = {
 	value: U | null;
 };
 
-export type KeyValueArg<T extends string, U extends string> = {
+export type KeyValueArg<T extends string = string, U extends string = string> = {
 	/** raw arg text */
 	arg: T;
 	/** index of the arg in the args array */
@@ -67,7 +67,7 @@ export type KeyValueArg<T extends string, U extends string> = {
 	value: U | null;
 };
 
-export type ValueArg<T extends string> = {
+export type ValueArg<T extends string = string> = {
 	/** raw arg text */
 	arg: T;
 	/** index of the arg in the args array */

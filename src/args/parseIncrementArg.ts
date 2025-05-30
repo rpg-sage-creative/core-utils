@@ -6,7 +6,7 @@ export function parseIncrementArg<ValueType extends string = string>(input: stri
 
 export function parseIncrementArg<ArgType extends string = string, ValueType extends string = string>(input: ArgType, options?: RegExpIncrementArgOptions): IncrementArg<ArgType, ValueType> | undefined;
 
-export function parseIncrementArg(arg: string, options?: RegExpIncrementArgOptions): IncrementArg<string, string> | undefined {
+export function parseIncrementArg(arg: string, options?: RegExpIncrementArgOptions): IncrementArg | undefined {
 	const regex = getIncrementArgRegex(options);
 	const match = regex.exec(arg);
 	if (match) {
