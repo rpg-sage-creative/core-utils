@@ -1,7 +1,8 @@
 import Collection from "../array/Collection.js";
-import { dequote } from "../string/index.js";
+import { dequote, getQuotedRegex, getWhitespaceRegex, quote, tokenize, type TokenParsers } from "../string/index.js";
 import type { OrUndefined } from "../types/generics.js";
 import { isDefined } from "../types/index.js";
+import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
 import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
 import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
@@ -54,16 +55,7 @@ function parseArg<T extends string, U extends string>(arg: T, index: number): Or
 
 // type MappedValueArg<T extends string, U> = ValueArg<T> & { value:U; };
 
-export class ArgsManager<T extends string> extends Collection<T> {
-	public constructor();
-	public constructor(arrayLength: number);
-	public constructor(...items: T[]);
-	public constructor(...args: any[]) {
-		super(...args);
-		this.initialArgs = Array.from(this);
-	}
-
-	public initialArgs: T[];
+export class ArgsManager<T extends string = string> extends Collection<T> {
 
 	//#region parsed args
 
@@ -122,7 +114,6 @@ export class ArgsManager<T extends string> extends Collection<T> {
 
 	//#endregion
 
-
 	//#region Synchronous find
 
 	/**
@@ -147,4 +138,43 @@ export class ArgsManager<T extends string> extends Collection<T> {
 
 	//#endregion
 
+	public static from<T extends string = string>(value: T): ArgsManager<T>;
+	public static from<T extends string = string>(arrayLike: ArrayLike<T> | Iterable<T> | ArgsManager<T>): ArgsManager<T>;
+	public static from<T extends string = string>(value: ArrayLike<T> | Iterable<T> | ArgsManager<T>): ArgsManager<T> {
+		return new ArgsManager(...ArgsManager.tokenize(value) as T[]);
+	}
+
+	public static tokenize(content: string | ArrayLike<string> | Iterable<string>, additionalParsers: TokenParsers = {}): string[] {
+		if (!content) {
+			return [];
+		}
+
+		if (typeof(content) !== "string") {
+			return Array.from(content);
+		}
+
+		const trimmed = content.trim();
+		if (!trimmed.length) {
+			return [];
+		}
+
+		const parsers: TokenParsers = {
+			arg: getKeyValueArgRegex(),
+			spaces: getWhitespaceRegex(),
+			quotes: getQuotedRegex({ contents:"*" }),
+			...additionalParsers
+		};
+
+		return tokenize(trimmed, parsers).map(token => {
+			const value = token.token.trim();
+			if (value.length) {
+				const arg = parseKeyValueArg(value);
+				if (arg) {
+					return `${arg.key}="${quote(arg.value ?? "")}"`;
+				}
+				return dequote(value);
+			}
+			return undefined;
+		}).filter(isDefined);
+	}
 }

@@ -1,6 +1,7 @@
 import Collection from "../array/Collection.js";
-import { dequote } from "../string/index.js";
+import { dequote, getQuotedRegex, getWhitespaceRegex, quote, tokenize } from "../string/index.js";
 import { isDefined } from "../types/index.js";
+import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
 import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
 function _parseFlagArg(arg, index) {
@@ -41,11 +42,6 @@ function parseArg(arg, index) {
         ?? _parseValueArg(arg, index);
 }
 export class ArgsManager extends Collection {
-    constructor(...args) {
-        super(...args);
-        this.initialArgs = Array.from(this);
-    }
-    initialArgs;
     parseArgs() {
         return this.map(parseArg);
     }
@@ -85,5 +81,37 @@ export class ArgsManager extends Collection {
             }
         }
         return undefined;
+    }
+    static from(value) {
+        return new ArgsManager(...ArgsManager.tokenize(value));
+    }
+    static tokenize(content, additionalParsers = {}) {
+        if (!content) {
+            return [];
+        }
+        if (typeof (content) !== "string") {
+            return Array.from(content);
+        }
+        const trimmed = content.trim();
+        if (!trimmed.length) {
+            return [];
+        }
+        const parsers = {
+            arg: getKeyValueArgRegex(),
+            spaces: getWhitespaceRegex(),
+            quotes: getQuotedRegex({ contents: "*" }),
+            ...additionalParsers
+        };
+        return tokenize(trimmed, parsers).map(token => {
+            const value = token.token.trim();
+            if (value.length) {
+                const arg = parseKeyValueArg(value);
+                if (arg) {
+                    return `${arg.key}="${quote(arg.value ?? "")}"`;
+                }
+                return dequote(value);
+            }
+            return undefined;
+        }).filter(isDefined);
     }
 }

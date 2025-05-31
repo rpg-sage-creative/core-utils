@@ -1,15 +1,12 @@
 import Collection from "../array/Collection.js";
+import { type TokenParsers } from "../string/index.js";
 import type { OrUndefined } from "../types/generics.js";
 import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
 type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
 type MappedArg<T extends string, U extends string, V> = Arg<T, U> & {
     mappedValue: V | null;
 };
-export declare class ArgsManager<T extends string> extends Collection<T> {
-    constructor();
-    constructor(arrayLength: number);
-    constructor(...items: T[]);
-    initialArgs: T[];
+export declare class ArgsManager<T extends string = string> extends Collection<T> {
     /** Maps each arg to an Arg type appropriate for the arg value. */
     parseArgs<U extends string = string>(): OrUndefined<Arg<T, U>>[];
     /** Returns KeyValueArg for the given key. */
@@ -28,5 +25,8 @@ export declare class ArgsManager<T extends string> extends Collection<T> {
      * Undefined if arg not found.
      */
     findMap<U extends string = string, V = any>(predicate: (value: Arg<T, U>, index: number, obj: T[]) => unknown, thisArg?: any): OrUndefined<MappedArg<T, U, V>>;
+    static from<T extends string = string>(value: T): ArgsManager<T>;
+    static from<T extends string = string>(arrayLike: ArrayLike<T> | Iterable<T> | ArgsManager<T>): ArgsManager<T>;
+    static tokenize(content: string | ArrayLike<string> | Iterable<string>, additionalParsers?: TokenParsers): string[];
 }
 export {};
