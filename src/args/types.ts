@@ -1,3 +1,10 @@
+export type KeyValuePair<T extends string = string, U extends string = string> = {
+	/** key for the flag or pair */
+	key: T;
+	/** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
+	value: U | null;
+}
+
 export type FlagArg<T extends string = string> = {
 	/** raw arg text */
 	arg: T;
@@ -44,7 +51,7 @@ export type IncrementArg<T extends string = string, U extends string = string> =
 	value: U | null;
 };
 
-export type KeyValueArg<T extends string = string, U extends string = string> = {
+export type KeyValueArg<T extends string = string, U extends string = string> = KeyValuePair<T, U> & {
 	/** raw arg text */
 	arg: T;
 	/** index of the arg in the args array */

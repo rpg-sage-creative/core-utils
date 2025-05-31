@@ -52,6 +52,8 @@ function parseArg<T extends string, U extends string>(arg: T, index: number): Or
 		?? _parseValueArg<T>(arg, index);
 }
 
+// type MappedValueArg<T extends string, U> = ValueArg<T> & { value:U; };
+
 export class ArgsManager<T extends string> extends Collection<T> {
 	public constructor();
 	public constructor(arrayLength: number);
@@ -65,7 +67,7 @@ export class ArgsManager<T extends string> extends Collection<T> {
 
 	//#region parsed args
 
-	/** Maps each arg to an ArgData appropriate for the arg value. */
+	/** Maps each arg to an Arg type appropriate for the arg value. */
 	public parseArgs<U extends string = string>(): OrUndefined<Arg<T, U>>[] {
 		return this.map(parseArg) as OrUndefined<Arg<T, U>>[];
 	}
@@ -103,6 +105,20 @@ export class ArgsManager<T extends string> extends Collection<T> {
 	public valueArgs() {
 		return this.map(_parseValueArg).filter(isDefined) as Collection<ValueArg<T>>;
 	}
+
+	// public valueArgs(options?: { filter?: (arg: ValueArg<T>) => unknown; }): Collection<ValueArg<T>>;
+	// public valueArgs<U>(options?: { filter?: (arg: ValueArg<T>) => unknown; mapper: (arg: ValueArg<T>) => U; }): Collection<MappedValueArg<T, U>>;
+	// public valueArgs<U>(options?: { filter?: (arg: ValueArg<T>) => unknown; mapper?: (arg: ValueArg<T>) => U; }) {
+	// 	const { filter, mapper } = options ?? { };
+	// 	return this.map((value, index) => {
+	// 		const valueArg = _parseValueArg(value, index);
+	// 		if (valueArg) {
+	// 			if (filter && !filter(valueArg)) return undefined;
+	// 			return mapper ? mapper(valueArg) : valueArg;
+	// 		}
+	// 		return undefined;
+	// 	}).filter(isDefined);
+	// }
 
 	//#endregion
 

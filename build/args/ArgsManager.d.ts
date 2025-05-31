@@ -10,7 +10,7 @@ export declare class ArgsManager<T extends string> extends Collection<T> {
     constructor(arrayLength: number);
     constructor(...items: T[]);
     initialArgs: T[];
-    /** Maps each arg to an ArgData appropriate for the arg value. */
+    /** Maps each arg to an Arg type appropriate for the arg value. */
     parseArgs<U extends string = string>(): OrUndefined<Arg<T, U>>[];
     /** Returns KeyValueArg for the given key. */
     findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>>;
