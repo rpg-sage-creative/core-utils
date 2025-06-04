@@ -2,7 +2,7 @@ import { isDefined } from "../types/typeGuards/isDefined.js";
 import { removeAt } from "./removeAt.js";
 
 /** Removes the values that return a truthy value, returning values that are defined (!null && !undefined). */
-export function remove<T, U extends T[] = T[]>(array: U, predicate: (value: T, index: number, obj: U) => unknown, thisArg?: any): U {
+export function remove<T, U extends T[] = T[]>(array: T[], predicate: (value: T, index: number, obj: U) => unknown, thisArg?: any): U {
 	// test each value against the predicate and store the index of those that are truthy
 	const indexes: number[] = [];
 	array.forEach((value, index, obj) => {

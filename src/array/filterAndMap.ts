@@ -3,8 +3,8 @@
  * Only values that return "truthy" to the predicate will be sent to the callbackfn.
  */
 export function filterAndMap
-		<T, U, V extends T[], W extends U[]>
-		(arrayLike: V, predicate: (value: T, index: number, values: V) => unknown, callbackfn: (value: T, newIndex: number) => U, thisArg?: any)
+		<T, U, V extends T[] = T[], W extends U[] = U[]>
+		(arrayLike: T[], predicate: (value: T, index: number, values: V) => unknown, callbackfn: (value: T, newIndex: number) => U, thisArg?: any)
 		: W {
 	let newIndex = 0;
 	const arrayConstructor = arrayLike.constructor as ArrayConstructor;

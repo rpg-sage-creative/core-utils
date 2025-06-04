@@ -2,12 +2,12 @@ import type { OrUndefined } from "../types/generics.js";
 import { sortPrimitive } from "./sort/sortPrimitive.js";
 
 /** Remove the value at the given index using .splice(). */
-export function removeAt<T, U extends T[] = T[]>(array: U, index: number): OrUndefined<T>;
+export function removeAt<T>(array: T[], index: number): OrUndefined<T>;
 
 /** Remove the values at the given indexes using .splice(). */
-export function removeAt<T, U extends T[] = T[], V extends OrUndefined<T>[] = OrUndefined<T>[]>(array: U, indexes: number[]): OrUndefined<T>[];
+export function removeAt<T, U extends OrUndefined<T>[] = OrUndefined<T>[]>(array: T[], indexes: number[]): U[];
 
-export function removeAt<T, U extends T[], V extends OrUndefined<T>[]>(values: U, indexOrIndexes: number | number[]): T | undefined | V {
+export function removeAt<T, U extends OrUndefined<T>[] = OrUndefined<T>[]>(values: T[], indexOrIndexes: number | number[]): OrUndefined<T> | U {
 	if (Array.isArray(indexOrIndexes)) {
 		// get all the values to be removed
 		const removed = indexOrIndexes.map(index => values[index]);
@@ -20,7 +20,7 @@ export function removeAt<T, U extends T[], V extends OrUndefined<T>[]>(values: U
 
 		// create an array from the one given to return the same type
 		const arrayConstructor = values.constructor as ArrayConstructor;
-		const indexes = new arrayConstructor() as V;
+		const indexes = new arrayConstructor() as U;
 
 		// push the values removed into the typed array
 		indexes.push(...removed);
