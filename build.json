@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.7.0",
+"version":"0.7.1",
 "branch":"main",
-"commit":"27c3735696f55fab92cd0a232c369bb9f8bc0676",
-"commitSubject":"ArgsManager overhaul; Collection removed",
-"commitTs":1749064648000,
-"commitDate":"2025-06-04-1217",
-"buildTs":1749064777000,
-"buildDate":"2025-06-04-1219",
+"commit":"b49470161a3513cf14a40b5dd416812b9d30ca59",
+"commitSubject":"typing improvements",
+"commitTs":1749066109000,
+"commitDate":"2025-06-04-1241",
+"buildTs":1749066124000,
+"buildDate":"2025-06-04-1242",
 "author":"Randal"
 }
