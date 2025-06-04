@@ -5,11 +5,11 @@ export function parseIncrementArg(arg, options) {
     const match = regex.exec(arg);
     if (match) {
         const [_, key, incrementer, modifier, value] = match;
-        const keyLower = key.toLowerCase();
+        const keyRegex = new RegExp(`^${key}$`, "i");
         if (incrementer) {
-            return { arg, index: -1, isIncrement: true, key, keyLower, operator: incrementer[0], value: "1" };
+            return { arg, index: -1, isIncrement: true, key, keyRegex, operator: incrementer[0], value: "1" };
         }
-        return { arg, index: -1, isIncrement: true, key, keyLower, operator: modifier[0], value: dequote(value) };
+        return { arg, index: -1, isIncrement: true, key, keyRegex, operator: modifier[0], value: dequote(value) };
     }
     return undefined;
 }

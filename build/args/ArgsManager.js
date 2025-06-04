@@ -1,14 +1,13 @@
-import Collection from "../array/Collection.js";
-import { dequote, getQuotedRegex, getWhitespaceRegex, quote, tokenize } from "../string/index.js";
-import { isDefined } from "../types/index.js";
+import { dequote, getQuotedRegex, getWhitespaceRegex, tokenize } from "../string/index.js";
+import { isDefined, parseEnum } from "../types/index.js";
 import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
 import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
 function _parseFlagArg(arg, index) {
     if (/^\-+\w+$/.test(arg)) {
         const key = arg.replace(/^\-+/, "");
-        const keyLower = key.toLowerCase();
-        return { arg, index, isFlag: true, key, keyLower };
+        const keyRegex = new RegExp(`^${key}$`, "i");
+        return { arg, index, isFlag: true, key, keyRegex };
     }
     return undefined;
 }
@@ -30,7 +29,7 @@ function _parseKeyValueArg(arg, index) {
 }
 function _parseValueArg(arg, index) {
     if (isDefined(arg)) {
-        const value = arg === "" ? null : dequote(arg);
+        const value = arg === "" ? null : dequote(arg, { contents: "*" });
         return { arg, index, isValue: true, value };
     }
     return undefined;
@@ -41,60 +40,62 @@ function parseArg(arg, index) {
         ?? _parseFlagArg(arg, index)
         ?? _parseValueArg(arg, index);
 }
-export class ArgsManager extends Collection {
-    parseArgs() {
-        return this.map(parseArg);
+export class ArgsManager {
+    _args;
+    _flagArgs;
+    _incrementArgs;
+    _keyValueArgs;
+    _strings;
+    _valueArgs;
+    constructor(raw) {
+        this._strings = raw?.slice() ?? [];
+        this._args = raw?.map(parseArg).filter(isDefined) ?? [];
+    }
+    get length() {
+        return this._args.length;
+    }
+    args() {
+        return this._args.slice();
+    }
+    enumValues(enumLike) {
+        return this.valueArgs().map(arg => parseEnum(enumLike, arg.value)).filter(isDefined);
     }
     findKeyValueArg(key) {
-        for (let index = 0; index < this.length; index++) {
-            const arg = this[index];
-            const keyValueArg = parseKeyValueArg(arg, { key });
-            if (keyValueArg) {
-                const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-                return { ...keyValueArg, index, value };
-            }
-        }
-        return undefined;
-    }
-    keyValueArgs() {
-        return this.map(_parseKeyValueArg).filter(isDefined);
-    }
-    incrementArgs() {
-        return this.map(_parseIncrementArg).filter(isDefined);
+        return this._args.find(arg => arg.isKeyValue && arg.keyRegex.test(key));
     }
     flagArgs() {
-        return this.map(_parseFlagArg).filter(isDefined);
+        this._flagArgs ??= this._args.filter(arg => arg.isFlag);
+        return this._flagArgs.slice();
+    }
+    incrementArgs() {
+        this._incrementArgs ??= this._args.filter(arg => arg.isIncrement);
+        return this._incrementArgs.slice();
+    }
+    keyValueArgs(...keys) {
+        this._keyValueArgs ??= this._args.filter(arg => arg.isKeyValue);
+        if (keys.length) {
+            return this._keyValueArgs.filter(arg => keys.some(key => arg.keyRegex.test(key)));
+        }
+        return this._keyValueArgs.slice();
+    }
+    raw() {
+        return this._strings.slice();
     }
     valueArgs() {
-        return this.map(_parseValueArg).filter(isDefined);
+        this._valueArgs ??= this._args.filter(arg => arg.isValue);
+        return this._valueArgs.slice();
     }
-    findMap(predicate, thisArg) {
-        const length = this.length;
-        for (let index = 0; index < length; index++) {
-            const arg = this[index];
-            const argData = parseArg(arg, index);
-            if (argData) {
-                const mappedValue = predicate.call(thisArg, argData, index, this);
-                if (isDefined(mappedValue)) {
-                    return { ...argData, mappedValue };
-                }
-            }
-        }
-        return undefined;
-    }
-    static from(value) {
-        return new ArgsManager(...ArgsManager.tokenize(value));
-    }
-    static tokenize(content, additionalParsers = {}) {
+    static from(content, additionalParsers = {}) {
         if (!content) {
-            return [];
+            return new ArgsManager();
         }
         if (typeof (content) !== "string") {
-            return Array.from(content);
+            const values = Array.from("args" in content ? content._strings : content);
+            return new ArgsManager(values);
         }
         const trimmed = content.trim();
         if (!trimmed.length) {
-            return [];
+            return new ArgsManager();
         }
         const parsers = {
             arg: getKeyValueArgRegex(),
@@ -102,16 +103,7 @@ export class ArgsManager extends Collection {
             quotes: getQuotedRegex({ contents: "*" }),
             ...additionalParsers
         };
-        return tokenize(trimmed, parsers).map(token => {
-            const value = token.token.trim();
-            if (value.length) {
-                const arg = parseKeyValueArg(value);
-                if (arg) {
-                    return `${arg.key}="${quote(arg.value ?? "")}"`;
-                }
-                return dequote(value);
-            }
-            return undefined;
-        }).filter(isDefined);
+        const raw = tokenize(trimmed, parsers).map(token => token.token);
+        return new ArgsManager(raw);
     }
 }

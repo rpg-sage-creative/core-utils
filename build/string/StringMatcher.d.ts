@@ -1,7 +1,9 @@
 import type { Optional } from "../types/generics.js";
 import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
 type StringMatcherToRegExpOptions = {
-    /** if set to true, then a * in the value is treated as .*? in the regexp */
+    /** if set to true then the regex begins with ^ and ends with $; default value is true */
+    anchored?: boolean;
+    /** if set to true then a * in the value is treated as .*? in the regexp */
     asterisk?: boolean;
     /** if set to "optional" then a whitespace charater in the value is treated as \s* in the regexp */
     whitespace?: "optional";
@@ -28,13 +30,13 @@ export declare class StringMatcher implements Matcher {
     /** Stores the raw value. */
     value: Optional<string>;
     /** Compares the clean values. */
-    matches<T extends MatcherResolvable>(other: T): boolean;
+    matches(other: MatcherResolvable): boolean;
     /** Returns true if any of the given values are considered a match. */
-    matchesAny<T extends MatcherResolvable>(values: T[]): boolean;
+    matchesAny(values: MatcherResolvable[]): boolean;
     /** Returns true if any of the given values are considered a match. */
-    matchesAny<T extends MatcherResolvable>(...values: T[]): boolean;
+    matchesAny(...values: MatcherResolvable[]): boolean;
     /** Converts the matchValue into a regular expression. */
-    toRegex({ asterisk, horizontalOnly, whitespace }?: StringMatcherToRegExpOptions): RegExp;
+    toRegex({ anchored, asterisk, horizontalOnly, whitespace }?: StringMatcherToRegExpOptions): RegExp;
     /** Returns the original value. */
     toString(): Optional<string>;
     /**

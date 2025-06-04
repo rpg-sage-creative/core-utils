@@ -10,7 +10,9 @@ import { cleanWhitespace } from "./whitespace/cleanWhitespace.js";
 import { getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/getWhitespaceRegex.js";
 
 type StringMatcherToRegExpOptions = {
-	/** if set to true, then a * in the value is treated as .*? in the regexp */
+	/** if set to true then the regex begins with ^ and ends with $; default value is true */
+	anchored?: boolean;
+	/** if set to true then a * in the value is treated as .*? in the regexp */
 	asterisk?: boolean;
 	/** if set to "optional" then a whitespace charater in the value is treated as \s* in the regexp */
 	whitespace?: "optional";
@@ -57,7 +59,7 @@ export class StringMatcher implements Matcher {
 	public value: Optional<string>;
 
 	/** Compares the clean values. */
-	public matches<T extends MatcherResolvable>(other: T): boolean {
+	public matches(other: MatcherResolvable): boolean {
 		if (!this.isValid || isNullOrUndefined(other)) {
 			return false;
 		}
@@ -74,17 +76,17 @@ export class StringMatcher implements Matcher {
 	}
 
 	/** Returns true if any of the given values are considered a match. */
-	public matchesAny<T extends MatcherResolvable>(values: T[]): boolean;
+	public matchesAny(values: MatcherResolvable[]): boolean;
 
 	/** Returns true if any of the given values are considered a match. */
-	public matchesAny<T extends MatcherResolvable>(...values: T[]): boolean;
+	public matchesAny(...values: MatcherResolvable[]): boolean;
 
-	public matchesAny<T extends MatcherResolvable>(...args: T[]): boolean {
+	public matchesAny(...args: MatcherResolvable[] | MatcherResolvable[][]): boolean {
 		return args.flat(1).some(value => this.matches(value));
 	}
 
 	/** Converts the matchValue into a regular expression. */
-	public toRegex({ asterisk, horizontalOnly, whitespace }: StringMatcherToRegExpOptions = {}): RegExp {
+	public toRegex({ anchored = true, asterisk, horizontalOnly, whitespace }: StringMatcherToRegExpOptions = {}): RegExp {
 		// reuse cached regex for whitespace
 		const whitespaceRegex = getWhitespaceRegex({ horizontalOnly, quantifier:undefined });
 		const whitespaceSource = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : WHITESPACE_REGEX_SOURCE;
@@ -133,7 +135,7 @@ export class StringMatcher implements Matcher {
 			return escaped;
 		}).join("") ?? "";
 
-		return new RegExp(`^${regex}$`, "i");
+		return new RegExp(anchored ? `^${regex}$` : regex, "i");
 	}
 
 	/** Returns the original value. */

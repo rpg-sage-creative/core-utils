@@ -9,7 +9,7 @@ import type { KeyValueArg } from "./types.js";
  */
 export function parseKeyValueArg<ValueType extends string = string>(input: string, options?: RegExpKeyValueArgOptions): KeyValueArg<string, ValueType> | undefined;
 
-export function parseKeyValueArg<ArgType extends string = string, ValueType extends string = string>(input: ArgType, options?: RegExpKeyValueArgOptions): KeyValueArg<ArgType, ValueType> | undefined;
+export function parseKeyValueArg<KeyType extends string = string, ValueType extends string = string>(input: string, options?: RegExpKeyValueArgOptions): KeyValueArg<KeyType, ValueType> | undefined;
 
 export function parseKeyValueArg(input: string, options?: RegExpKeyValueArgOptions): KeyValueArg | undefined {
 	if (isKeyValueArg(input, options)) {

@@ -1,9 +1,5 @@
-import type { Collection } from "./Collection.js";
+import type { OrUndefined } from "../types/generics.js";
 /** Remove the value at the given index using .splice(). */
-export declare function removeAt<T>(array: Array<T>, index: number): T | undefined;
-/** Remove the value at the given index using .splice(). */
-export declare function removeAt<T>(collection: Collection<T>, index: number): T | undefined;
+export declare function removeAt<T, U extends T[] = T[]>(array: U, index: number): OrUndefined<T>;
 /** Remove the values at the given indexes using .splice(). */
-export declare function removeAt<T>(array: Array<T>, indexes: number[]): Array<T | undefined>;
-/** Remove the values at the given indexes using .splice(). */
-export declare function removeAt<T>(collection: Collection<T>, indexes: number[]): Collection<T | undefined>;
+export declare function removeAt<T, U extends T[] = T[], V extends OrUndefined<T>[] = OrUndefined<T>[]>(array: U, indexes: number[]): OrUndefined<T>[];

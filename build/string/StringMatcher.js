@@ -45,7 +45,7 @@ export class StringMatcher {
     matchesAny(...args) {
         return args.flat(1).some(value => this.matches(value));
     }
-    toRegex({ asterisk, horizontalOnly, whitespace } = {}) {
+    toRegex({ anchored = true, asterisk, horizontalOnly, whitespace } = {}) {
         const whitespaceRegex = getWhitespaceRegex({ horizontalOnly, quantifier: undefined });
         const whitespaceSource = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : WHITESPACE_REGEX_SOURCE;
         const whitespaceQuantifier = whitespace === "optional" ? "*" : "+";
@@ -74,7 +74,7 @@ export class StringMatcher {
             }
             return escaped;
         }).join("") ?? "";
-        return new RegExp(`^${regex}$`, "i");
+        return new RegExp(anchored ? `^${regex}$` : regex, "i");
     }
     toString() {
         return this.value;

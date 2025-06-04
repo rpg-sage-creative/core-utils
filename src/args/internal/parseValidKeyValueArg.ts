@@ -9,15 +9,15 @@ import type { KeyValueArg } from "../types.js";
 
 export function parseValidKeyValueArg<ValueType extends string = string>(arg: ValueType): KeyValueArg<string, ValueType>;
 
-export function parseValidKeyValueArg<ArgType extends string = string, ValueType extends string = string>(arg: ArgType): KeyValueArg<ArgType, ValueType>;
+export function parseValidKeyValueArg<KeyType extends string = string, ValueType extends string = string>(arg: string): KeyValueArg<KeyType, ValueType>;
 
 export function parseValidKeyValueArg(arg: string): KeyValueArg {
 	const index = arg.indexOf("=");
 	// Because we are currently allowing spaces around the "=" character, we need to trim the raw key
 	const key = arg.slice(0, index).trim();
-	const keyLower = key.toLowerCase();
+	const keyRegex = new RegExp(`^${key}$`, "i");
 	// Because we are currently allowing spaces around the "=" character, we need to trim the raw value
 	const trimmed = arg.slice(index + 1).trim();
 	const value = dequote(trimmed, { contents:"*"});
-	return { arg, index:-1, isKeyValue:true, key, keyLower, value };
+	return { arg, index:-1, isKeyValue:true, key, keyRegex, value };
 }

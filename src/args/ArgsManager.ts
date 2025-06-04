@@ -1,20 +1,18 @@
-import Collection from "../array/Collection.js";
-import { dequote, getQuotedRegex, getWhitespaceRegex, quote, tokenize, type TokenParsers } from "../string/index.js";
-import type { OrUndefined } from "../types/generics.js";
-import { isDefined } from "../types/index.js";
+import { dequote, getQuotedRegex, getWhitespaceRegex, tokenize, type TokenParsers } from "../string/index.js";
+import type { EnumLike, OrUndefined } from "../types/generics.js";
+import { isDefined, parseEnum } from "../types/index.js";
 import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
 import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
 import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
 
 type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
-type MappedArg<T extends string, U extends string, V> = Arg<T, U> & { mappedValue: V | null; };
 
-function _parseFlagArg<T extends string>(arg: T, index: number): OrUndefined<FlagArg<T>> {
+function _parseFlagArg<T extends string>(arg: string, index: number): OrUndefined<FlagArg<T>> {
 	if (/^\-+\w+$/.test(arg)) {
-		const key = arg.replace(/^\-+/, "");
-		const keyLower = key.toLowerCase();
-		return { arg, index, isFlag:true, key, keyLower };
+		const key = arg.replace(/^\-+/, "") as T;
+		const keyRegex = new RegExp(`^${key}$`, "i");
+		return { arg, index, isFlag:true, key, keyRegex };
 	}
 	return undefined;
 }
@@ -39,7 +37,7 @@ function _parseKeyValueArg<T extends string, U extends string>(arg: T, index: nu
 
 function _parseValueArg<T extends string>(arg: T, index: number): OrUndefined<ValueArg<T>> {
 	if (isDefined(arg)) {
-		const value = arg === "" ? null : dequote(arg) as T;
+		const value = arg === "" ? null : dequote(arg, { contents:"*" }) as T;
 		return { arg, index, isValue:true, value }
 	}
 	return undefined;
@@ -53,109 +51,93 @@ function parseArg<T extends string, U extends string>(arg: T, index: number): Or
 		?? _parseValueArg<T>(arg, index);
 }
 
-// type MappedValueArg<T extends string, U> = ValueArg<T> & { value:U; };
+export class ArgsManager<T extends string = string> {
+	private _args: Arg<T, string>[];
+	private _flagArgs?: FlagArg<T>[];
+	private _incrementArgs?: IncrementArg<T, any>[];
+	private _keyValueArgs?: KeyValueArg<T, any>[];
+	private _strings: string[];
+	private _valueArgs?: ValueArg<T>[];
 
-export class ArgsManager<T extends string = string> extends Collection<T> {
+	public constructor(raw?: string[]) {
+		this._strings = raw?.slice() ?? [];
+		this._args = raw?.map(parseArg).filter(isDefined) as Arg<T, any>[] ?? [];
+	}
 
-	//#region parsed args
+	/** Returns the count of defined Args. This may differ from the count of the original (raw) string array. */
+	public get length(): number {
+		return this._args.length;
+	}
 
-	/** Maps each arg to an Arg type appropriate for the arg value. */
-	public parseArgs<U extends string = string>(): OrUndefined<Arg<T, U>>[] {
-		return this.map(parseArg) as OrUndefined<Arg<T, U>>[];
+	/** Returns an array of all the Args. */
+	public args(): Arg<T, string>[] {
+		return this._args.slice();
+	}
+
+	/** Sends all ValueArgs to parseEnum and returns only valid (defined) results. */
+	public enumValues<K extends string = string, V extends number = number>(enumLike: EnumLike<K, V>): V[] {
+		return this.valueArgs().map(arg => parseEnum<EnumLike<K, V>>(enumLike, arg.value)).filter(isDefined) as V[];
 	}
 
 	/** Returns KeyValueArg for the given key. */
 	public findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>> {
-		// to avoid parsing every arg for every time and filtering and then finding, let's just do a single loop here
-		for (let index = 0; index < this.length; index++) {
-			const arg = this[index];
-			const keyValueArg = parseKeyValueArg<T, U>(arg, { key });
-			if (keyValueArg) {
-				const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-				return { ...keyValueArg, index, value }
-			}
-		}
-		return undefined;
-	}
-
-	/** Returns all KeyValueArg from .parseArgs() where .isKeyValue is true. */
-	public keyValueArgs<U extends string = string>() {
-		return this.map(_parseKeyValueArg).filter(isDefined) as Collection<KeyValueArg<T, U>>;
-	}
-
-	/** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
-	public incrementArgs<U extends string = string>() {
-		return this.map(_parseIncrementArg).filter(isDefined) as Collection<IncrementArg<T, U>>;
+		return this._args.find(arg => arg.isKeyValue && arg.keyRegex.test(key)) as OrUndefined<KeyValueArg<T, U>>;
 	}
 
 	/** Returns all FlagArg from .parseArgs() where .isFlag is true. */
-	public flagArgs() {
-		return this.map(_parseFlagArg).filter(isDefined) as Collection<FlagArg<T>>;
+	public flagArgs(): FlagArg<T>[] {
+		this._flagArgs ??= this._args.filter(arg => arg.isFlag) as FlagArg<T>[];
+		return this._flagArgs.slice();
+	}
+
+	/** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
+	public incrementArgs<U extends string = string>(): IncrementArg<T, U>[] {
+		this._incrementArgs ??= this._args.filter(arg => arg.isIncrement) as IncrementArg<T, U>[];
+		return this._incrementArgs.slice();
+	}
+
+	/** Returns all KeyValueArg, optionally filtering by the given KeyResolvables. */
+	public keyValueArgs<U extends string = string>(...keys: string[]): KeyValueArg<T, U>[] {
+		this._keyValueArgs ??= this._args.filter(arg => arg.isKeyValue) as KeyValueArg<T, U>[];
+		if (keys.length) {
+			return this._keyValueArgs.filter(arg => keys.some(key => arg.keyRegex.test(key)));
+		}
+		return this._keyValueArgs.slice();
+	}
+
+	/** Returns the original (raw) string array. */
+	public raw(): string[] {
+		return this._strings.slice();
 	}
 
 	/** Returns all ValueArg from .parseArgs() where .isValue is true. */
-	public valueArgs() {
-		return this.map(_parseValueArg).filter(isDefined) as Collection<ValueArg<T>>;
+	public valueArgs(): ValueArg<T>[] {
+		this._valueArgs ??= this._args.filter(arg => arg.isValue) as ValueArg<T>[];
+		return this._valueArgs.slice();
 	}
 
-	// public valueArgs(options?: { filter?: (arg: ValueArg<T>) => unknown; }): Collection<ValueArg<T>>;
-	// public valueArgs<U>(options?: { filter?: (arg: ValueArg<T>) => unknown; mapper: (arg: ValueArg<T>) => U; }): Collection<MappedValueArg<T, U>>;
-	// public valueArgs<U>(options?: { filter?: (arg: ValueArg<T>) => unknown; mapper?: (arg: ValueArg<T>) => U; }) {
-	// 	const { filter, mapper } = options ?? { };
-	// 	return this.map((value, index) => {
-	// 		const valueArg = _parseValueArg(value, index);
-	// 		if (valueArg) {
-	// 			if (filter && !filter(valueArg)) return undefined;
-	// 			return mapper ? mapper(valueArg) : valueArg;
-	// 		}
-	// 		return undefined;
-	// 	}).filter(isDefined);
-	// }
+	/** Splits the given value into arguments by tokenizing it and then creating an ArgsManager from the resulting array. */
+	public static from<T extends string = string>(value: string, additionalParsers?: TokenParsers): ArgsManager<T>;
 
-	//#endregion
+	/** Creates an ArgsManager with a copy of the given values. */
+	public static from<T extends string = string>(values: ArrayLike<string> | Iterable<string>): ArgsManager<T>;
 
-	//#region Synchronous find
+	/** Creates a copy of the given ArgsManager. */
+	public static from<T extends string = string>(other: ArgsManager<T>): ArgsManager<T>;
 
-	/**
-	 * Calls the given predicate for each arg that successfully parses to an ArgData object.
-	 * The first arg to return a defined value is returned with that value as .ret.
-	 * Undefined if arg not found.
-	 */
-	public findMap<U extends string = string, V = any>(predicate: (value: Arg<T, U>, index: number, obj: T[]) => unknown, thisArg?: any): OrUndefined<MappedArg<T, U, V>> {
-		const length = this.length;
-		for (let index = 0; index < length; index++) {
-			const arg = this[index];
-			const argData = parseArg<T, U>(arg, index);
-			if (argData) {
-				const mappedValue = predicate.call(thisArg, argData, index, this) as V;
-				if (isDefined(mappedValue)) {
-					return { ... argData, mappedValue };
-				}
-			}
-		}
-		return undefined;
-	}
-
-	//#endregion
-
-	public static from<T extends string = string>(value: T): ArgsManager<T>;
-	public static from<T extends string = string>(arrayLike: ArrayLike<T> | Iterable<T> | ArgsManager<T>): ArgsManager<T>;
-	public static from<T extends string = string>(value: ArrayLike<T> | Iterable<T> | ArgsManager<T>): ArgsManager<T> {
-		return new ArgsManager(...ArgsManager.tokenize(value) as T[]);
-	}
-
-	public static tokenize(content: string | ArrayLike<string> | Iterable<string>, additionalParsers: TokenParsers = {}): string[] {
+	public static from<T extends string = string>(content: string | ArrayLike<string> | Iterable<string> | ArgsManager<T>, additionalParsers: TokenParsers = {}): ArgsManager<T> {
 		if (!content) {
-			return [];
+			return new ArgsManager<T>();
 		}
 
 		if (typeof(content) !== "string") {
-			return Array.from(content);
+			const values = Array.from("args" in content ? content._strings : content);
+			return new ArgsManager<T>(values);
 		}
 
 		const trimmed = content.trim();
 		if (!trimmed.length) {
-			return [];
+			return new ArgsManager<T>();
 		}
 
 		const parsers: TokenParsers = {
@@ -165,16 +147,8 @@ export class ArgsManager<T extends string = string> extends Collection<T> {
 			...additionalParsers
 		};
 
-		return tokenize(trimmed, parsers).map(token => {
-			const value = token.token.trim();
-			if (value.length) {
-				const arg = parseKeyValueArg(value);
-				if (arg) {
-					return `${arg.key}="${quote(arg.value ?? "")}"`;
-				}
-				return dequote(value);
-			}
-			return undefined;
-		}).filter(isDefined);
+		const raw = tokenize(trimmed, parsers).map(token => token.token);
+		return new ArgsManager(raw);
 	}
+
 }

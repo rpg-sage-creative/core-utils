@@ -5,4 +5,4 @@ import type { KeyValueArg } from "./types.js";
  * If key is given then the key must match the valid key/value pair.
  */
 export declare function parseKeyValueArg<ValueType extends string = string>(input: string, options?: RegExpKeyValueArgOptions): KeyValueArg<string, ValueType> | undefined;
-export declare function parseKeyValueArg<ArgType extends string = string, ValueType extends string = string>(input: ArgType, options?: RegExpKeyValueArgOptions): KeyValueArg<ArgType, ValueType> | undefined;
+export declare function parseKeyValueArg<KeyType extends string = string, ValueType extends string = string>(input: string, options?: RegExpKeyValueArgOptions): KeyValueArg<KeyType, ValueType> | undefined;

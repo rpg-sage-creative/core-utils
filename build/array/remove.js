@@ -7,5 +7,6 @@ export function remove(array, predicate, thisArg) {
             indexes.push(index);
         }
     });
-    return removeAt(array, indexes).filter(isDefined);
+    return removeAt(array, indexes)
+        .filter(isDefined);
 }
