@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.6.1",
+"version":"0.7.0",
 "branch":"main",
-"commit":"d8032290c25491827635e26daed45014727eee07",
-"commitSubject":"add from and tokenize to ArgsManager",
-"commitTs":1748670051000,
-"commitDate":"2025-05-30-2240",
-"buildTs":1748670071000,
-"buildDate":"2025-05-30-2241",
+"commit":"27c3735696f55fab92cd0a232c369bb9f8bc0676",
+"commitSubject":"ArgsManager overhaul; Collection removed",
+"commitTs":1749064648000,
+"commitDate":"2025-06-04-1217",
+"buildTs":1749064777000,
+"buildDate":"2025-06-04-1219",
 "author":"Randal"
 }
