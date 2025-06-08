@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.7.1",
+"version":"0.7.2",
 "branch":"main",
-"commit":"b49470161a3513cf14a40b5dd416812b9d30ca59",
-"commitSubject":"typing improvements",
-"commitTs":1749066109000,
-"commitDate":"2025-06-04-1241",
-"buildTs":1749066124000,
-"buildDate":"2025-06-04-1242",
+"commit":"2f606880a38dc468afdde5ce75a77deae063cde4",
+"commitSubject":"add mapper option to sum; expand tests accordingly",
+"commitTs":1749363804000,
+"commitDate":"2025-06-07-2323",
+"buildTs":1749363927000,
+"buildDate":"2025-06-07-2325",
 "author":"Randal"
 }
