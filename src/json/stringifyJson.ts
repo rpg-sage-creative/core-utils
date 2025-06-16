@@ -3,12 +3,15 @@ import { isDate } from "util/types";
 /**
  * BigInt and Date friendly replacement for JSON.stringify().
  */
-export function stringifyJson(value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
+export function stringifyJson(value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number, maxLineLength?: number): string;
 
-export function stringifyJson(value: any, replacer?: (string | number)[] | null, space?: string | number): string;
+export function stringifyJson(value: any, replacer?: (string | number)[] | null, space?: string | number, maxLineLength?: number): string;
 
-export function stringifyJson(value: any, replacer?: Function | (string | number)[] | null, space?: string | number): string {
-	return JSON.stringify(value, function(this: any, key: string, value: any) {
+export function stringifyJson(value: any, replacer?: Function | (string | number)[] | null, space?: string | number, maxLineLength = 0): string {
+	// if we have a maxLineLength, we need to make sure we have "space" character(s)
+	if (maxLineLength > 0 && !space) space = "\t";
+
+	const stringified = JSON.stringify(value, function(this: any, key: string, value: any) {
 		// we are handling bigint and date values
 		const cleanValue = this[key];
 		if (isDate(cleanValue)) return { $date:cleanValue.toISOString() };
@@ -28,6 +31,16 @@ export function stringifyJson(value: any, replacer?: Function | (string | number
 
 		return value;
 	}, space);
+
+	// if we have a maxLineLength, process the json
+	if (maxLineLength > 0) {
+		const cleanWhitespaceIfShort = (value: string, maxLineLength: number) => value.length > maxLineLength ? value : value.replace(/\s+/g, " ");
+		const inlineCurlyBraces = (value: string, maxLineLength: number) => value.replace(/\{[^{[]*?\}/g, match => cleanWhitespaceIfShort(match, maxLineLength));
+		const inlineSquareBrackets = (value: string, maxLineLength: number) => value.replace(/\[((,\s*)?)("[^"]*"|[\w",\s-.])*?\]/g, match => cleanWhitespaceIfShort(match, maxLineLength));
+		return inlineCurlyBraces(inlineSquareBrackets(stringified, maxLineLength), maxLineLength);
+	}
+
+	return stringified;
 }
 
 /** @deprecated use stringifyJson() */

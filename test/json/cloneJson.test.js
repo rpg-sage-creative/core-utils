@@ -4,10 +4,10 @@ import { getTests } from "./data.js";
 describe("json", () => {
 	describe("cloneJson", () => {
 
-		/** @type {[object, string, string][]} [object, string, label] */
+		/** @type {{ object:object; string:string; label:string; }[]} */
 		const tests = getTests("cloneJson");
 
-		tests.forEach(([object, label]) => {
+		tests.forEach(({ object, label }) => {
 			test(`cloneJson(${label}) equals ${label}`, () => {
 				// this does the cloning
 				const cloned = cloneJson(object);

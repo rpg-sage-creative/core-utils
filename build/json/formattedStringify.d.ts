@@ -4,6 +4,7 @@ type Options = {
     tabSize?: number;
 };
 /**
+ * @deprecated use stringifyJson(object, null, "\t", 250)
  * Formats JSON as readable, while trying to keep {} or [] on a single line.
  * Default maxLineLength is 250.
  * Default spacer is a tab "\t".

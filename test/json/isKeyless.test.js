@@ -1,15 +1,14 @@
-import { isKeyless } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { isKeyless, tagLiterals } from "../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("json", () => {
 	describe("isKeyless", () => {
 
-		/** @type {[object, boolean, boolean][]} [object, empty, keyless] */
+		/** @type {{ object:object; empty:boolean; keyless:boolean; }[]} */
 		const tests = getTests("isKeyless");
 
-		tests.forEach(([object, empty, keyless]) => {
-			test(`isKeyless(${toString(object)}) === ${keyless}`, () => {
+		tests.forEach(({ object, empty, keyless }) => {
+			test(tagLiterals`isKeyless(${object}) === ${keyless}`, () => {
 				expect(isKeyless(object)).toBe(keyless);
 			})
 		});

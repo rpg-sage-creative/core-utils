@@ -1,6 +1,8 @@
 import { isDate } from "util/types";
-export function stringifyJson(value, replacer, space) {
-    return JSON.stringify(value, function (key, value) {
+export function stringifyJson(value, replacer, space, maxLineLength = 0) {
+    if (maxLineLength > 0 && !space)
+        space = "\t";
+    const stringified = JSON.stringify(value, function (key, value) {
         const cleanValue = this[key];
         if (isDate(cleanValue))
             return { $date: cleanValue.toISOString() };
@@ -16,5 +18,12 @@ export function stringifyJson(value, replacer, space) {
         }
         return value;
     }, space);
+    if (maxLineLength > 0) {
+        const cleanWhitespaceIfShort = (value, maxLineLength) => value.length > maxLineLength ? value : value.replace(/\s+/g, " ");
+        const inlineCurlyBraces = (value, maxLineLength) => value.replace(/\{[^{[]*?\}/g, match => cleanWhitespaceIfShort(match, maxLineLength));
+        const inlineSquareBrackets = (value, maxLineLength) => value.replace(/\[((,\s*)?)("[^"]*"|[\w",\s-.])*?\]/g, match => cleanWhitespaceIfShort(match, maxLineLength));
+        return inlineCurlyBraces(inlineSquareBrackets(stringified, maxLineLength), maxLineLength);
+    }
+    return stringified;
 }
 export const stringify = stringifyJson;
