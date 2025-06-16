@@ -76,7 +76,7 @@ export class HtmlToMarkdownFormatter {
 	}
 
 	public formatStrikethrough(): this {
-		this.text = htmlToMarkdown(this.text, pattern`s|strike`, "~~");
+		this.text = htmlToMarkdown(this.text, pattern`del|s|strike`, "~~");
 		return this;
 	}
 
