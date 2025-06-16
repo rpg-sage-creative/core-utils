@@ -12,7 +12,7 @@ describe("cache", () => {
 		const b = { b:"B" };
 
 		const ms = 250;
-		const pms = ms / 2;
+		const pms = ms / 2 + 5;
 		const set = new EphemeralSet(ms);
 
 		test(`The set should be empty ('a' and 'b' NOT present).`, () => {
