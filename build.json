@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.7.2",
+"version":"0.7.3",
 "branch":"main",
-"commit":"2f606880a38dc468afdde5ce75a77deae063cde4",
-"commitSubject":"add mapper option to sum; expand tests accordingly",
-"commitTs":1749363804000,
-"commitDate":"2025-06-07-2323",
-"buildTs":1749363927000,
-"buildDate":"2025-06-07-2325",
+"commit":"d81a714411e98eec31347509baca1f027c1e0626",
+"commitSubject":"move json formatting into stringifyJson",
+"commitTs":1750114379000,
+"commitDate":"2025-06-16-1552",
+"buildTs":1750114419000,
+"buildDate":"2025-06-16-1553",
 "author":"Randal"
 }
