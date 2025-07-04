@@ -17,7 +17,7 @@ export type JsonCleanRules = {
 };
 
 /** Used to simplify casting objects to let us get key/values from them. */
-type TObject = { [key: string]: any; };
+type TObject = Record<string, any>;
 
 //#endregion
 

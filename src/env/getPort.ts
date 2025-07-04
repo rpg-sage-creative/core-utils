@@ -2,7 +2,7 @@ import type { Optional } from "../types/generics.js";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 
-const _ports: { [key:string|number]: number; } = { };
+const _ports: Record<string | number, number> = { };
 
 export function getPort(server: string, ignoreMissing?: boolean): number {
 	if (!_ports[server]) {

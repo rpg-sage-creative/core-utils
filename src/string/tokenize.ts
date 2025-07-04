@@ -1,8 +1,6 @@
 
 /** A group of regular expressions used for Tokenizer.tokenize() */
-export type TokenParsers = {
-	[key: string]: RegExp;
-};
+export type TokenParsers = Record<string, RegExp>;
 
 /** A token returned from Tokenizer.tokenize() */
 export type TokenData<Key extends string = string> = {

@@ -3,7 +3,7 @@ import type { Snowflake } from "../snowflake/types.js";
 import type { Optional } from "../types/generics.js";
 import { getFromProcess } from "./getFromProcess.js";
 
-const _ids: { [key:string]:Snowflake; } = { };
+const _ids: Record<string, Snowflake> = { };
 
 export function getId(name: string): Snowflake {
 	if (!_ids[name]) {

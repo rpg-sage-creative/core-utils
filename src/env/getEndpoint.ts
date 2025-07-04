@@ -14,7 +14,7 @@ export type AppServerEndpoint = {
 	valid: boolean;
 };
 
-const _endpoints: { [key:string]: Partial<AppServerEndpoint>; } = { };
+const _endpoints: Record<string, Partial<AppServerEndpoint>> = { };
 
 export function getEndpoint(server: string): Partial<AppServerEndpoint> {
 	if (!_endpoints[server]) {
