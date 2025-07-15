@@ -1,10 +1,15 @@
+import { isWholeNumberString } from "../types/index.js";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 const _ports = {};
 export function getPort(server, ignoreMissing) {
     if (!_ports[server]) {
         const numberValidator = (value) => {
-            return /^\d+$/.test(String(value));
+            if (isWholeNumberString(String(value))) {
+                const port = +value;
+                return port > 1023 && port <= 65535;
+            }
+            return false;
         };
         const getter = ignoreMissing ? getFromProcessSafely : getFromProcess;
         const key = `${server.toLowerCase()}Port`;
