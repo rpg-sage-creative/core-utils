@@ -10,3 +10,4 @@ export * from "./isNumeric.js";
 export * from "./isPrimitive.js";
 export * from "./isString.js";
 export * from "./isUndefined.js";
+export * from "./isWholeNumberString.js";
