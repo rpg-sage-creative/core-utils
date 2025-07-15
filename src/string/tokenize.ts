@@ -1,13 +1,14 @@
-
 /** A group of regular expressions used for Tokenizer.tokenize() */
 export type TokenParsers = Record<string, RegExp>;
 
 /** A token returned from Tokenizer.tokenize() */
-export type TokenData<Key extends string = string> = {
+export type TokenData<Key extends string = string, Group extends string = string> = {
 	/** the TokenParsers key of the RegExp that matched */
 	key: Key;
-	/** the match groups captured by the RegExp */
-	matches: string[]
+	/** string[] match groups captured by the RegExp */
+	matches: string[];
+	/** Record<Group, string | undefined> match groups captured by the RegExp */
+	groups: Record<Group, string>;
 	/** the substring that matched the RegExp */
 	token: string;
 };
@@ -37,6 +38,7 @@ export function tokenize(input: string, parsers: TokenParsers, defaultKey = "unk
 			// where "best" is the closest to the current starting point
 			if (regExpMatchArray?.index !== undefined && regExpMatchArray.index < matchIndex) {
 				token = {
+					groups: { ...regExpMatchArray.groups },
 					key,
 					matches: regExpMatchArray.slice(1),
 					token: regExpMatchArray[0]
@@ -48,6 +50,7 @@ export function tokenize(input: string, parsers: TokenParsers, defaultKey = "unk
 			// there is text between last token and currently
 			// matched token - push that out as default or "unknown"
 			tokens.push({
+				groups: {},
 				key: defaultKey,
 				matches: [],
 				token: input.slice(0, matchIndex)

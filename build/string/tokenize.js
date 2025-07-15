@@ -8,6 +8,7 @@ export function tokenize(input, parsers, defaultKey = "unknown") {
             const regExpMatchArray = parsers[key].exec(input);
             if (regExpMatchArray?.index !== undefined && regExpMatchArray.index < matchIndex) {
                 token = {
+                    groups: { ...regExpMatchArray.groups },
                     key,
                     matches: regExpMatchArray.slice(1),
                     token: regExpMatchArray[0]
@@ -17,6 +18,7 @@ export function tokenize(input, parsers, defaultKey = "unknown") {
         }
         if (matchIndex) {
             tokens.push({
+                groups: {},
                 key: defaultKey,
                 matches: [],
                 token: input.slice(0, matchIndex)
