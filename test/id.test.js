@@ -15,7 +15,11 @@ describe("id", () => {
 
 	tests.forEach(value => {
 		test(tagLiterals`decompressId(compressId(${value}))`, () => {
-			expect(decompressId(compressId(value))).toBe(value);
+			const compressed = compressId(value);
+			const decompressed = decompressId(compressed);
+			expect(compressed.length).toBeLessThan(value.length);
+			expect(decompressed.length).toBeGreaterThan(compressed.length);
+			expect(decompressed).toBe(value);
 		});
 	});
 
