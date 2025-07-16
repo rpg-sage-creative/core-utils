@@ -5,6 +5,8 @@ type Results = {
 	hasAlpha: boolean;
 };
 
+const hexRegex = /^(0x|#)(?<digits>[0-9a-f]{3,8})$/i;
+
 /**
  * @internal
  * Gets a RegExpMatchArray from the value that includes color and alpha.
@@ -12,8 +14,7 @@ type Results = {
 export function matchHex(value: Optional<string>): Results | undefined {
 	if (!value) return undefined; // NOSONAR
 
-	const regex = /^(0x|#)(?<digits>[0-9a-f]{3,8})$/i;
-	const match = regex.exec(value.trim());
+	const match = hexRegex.exec(value.trim());
 	const digits = match?.groups?.digits;
 	if (!digits) return undefined; // NOSONAR
 

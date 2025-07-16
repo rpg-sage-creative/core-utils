@@ -1,8 +1,8 @@
+const hexRegex = /^(0x|#)(?<digits>[0-9a-f]{3,8})$/i;
 export function matchHex(value) {
     if (!value)
         return undefined;
-    const regex = /^(0x|#)(?<digits>[0-9a-f]{3,8})$/i;
-    const match = regex.exec(value.trim());
+    const match = hexRegex.exec(value.trim());
     const digits = match?.groups?.digits;
     if (!digits)
         return undefined;
