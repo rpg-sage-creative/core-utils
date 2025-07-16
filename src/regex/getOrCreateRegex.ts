@@ -1,5 +1,8 @@
-import { splitChars } from "../string/index.js";
+import { warn } from "../console/index.js";
+import { splitChars } from "../string/wrap/splitChars.js";
+import { isError } from "../types/typeGuards/isError.js";
 import { escapeRegex } from "./escapeRegex.js";
+import { indexCaptureGroups } from "./internal/indexCaptureGroups.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions, RegExpSpoilerOptions, RegExpWrapOptions } from "./RegExpOptions.js";
 
 export type RegExpGetOptions = RegExpAnchorOptions & RegExpCaptureOptions & RegExpFlagOptions & RegExpQuantifyOptions & RegExpSpoilerOptions & RegExpWrapOptions;
@@ -9,7 +12,7 @@ export type RegExpGetOptions = RegExpAnchorOptions & RegExpCaptureOptions & RegE
  * The map key is the regex create function name.
  * The map value is an object containing each permutation of the regexp based on options.
  */
-const cache: { [key: string]: { [key: string]: RegExp; }; } = {};
+const cache: Record<string, Record<string, RegExp>> = {};
 
 /** Creates the unique key for each variant based on options. */
 function createCacheKey<T extends RegExpGetOptions>(options: T = {} as T): string {
@@ -20,14 +23,14 @@ function createCacheKey<T extends RegExpGetOptions>(options: T = {} as T): strin
 
 type CreateRegexFunction<T extends RegExpGetOptions, U extends RegExp> = (options?: T) => U;
 
-function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: CreateRegexFunction<T, U>, options?: T): RegExp {
+function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: CreateRegexFunction<T, U>, options?: T, cacheKey?: string): RegExp {
 	const { anchored, capture, spoilers, quantifier, wrapChars, wrapOptional } = options ?? {};
 
-	// create the base regexp
-	let regexp = creator(options);
+	// create the base regexp source
+	let { source, flags } = creator(options);
 
 	if (quantifier) {
-		regexp = new RegExp(`(?:${regexp.source})${quantifier}`, regexp.flags) as U;
+		source = `(?:${source})${quantifier}`;
 	}
 
 	if (spoilers || wrapChars) {
@@ -35,21 +38,42 @@ function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: Crea
 		const lPattern = escapeRegex(left);
 		const rPattern = escapeRegex(right);
 
-		regexp = spoilers === "optional" || wrapOptional === true
-			? new RegExp(`(?:${lPattern}(?:${regexp.source})${rPattern})|(?:${regexp.source})`, regexp.flags) as U
-			: new RegExp(`${lPattern}(?:${regexp.source})${rPattern}`, regexp.flags) as U;
+		if (spoilers === "optional" || wrapOptional === true) {
+			// create base spoilerized regex
+			source = `(?:${lPattern}(?:${source})${rPattern})|(?:${source})`;
+
+		}else {
+			source = `${lPattern}(?:${source})${rPattern}`;
+		}
 	}
 
 	// wrap in a capture group
 	if (capture) {
-		regexp = new RegExp(`(?<${capture}>${regexp.source})`, regexp.flags) as U;
+		source = `(?<${capture}>${source})`;
 	}
 
 	// wrap to anchor
 	if (anchored) {
-		regexp = new RegExp(`^(?:${regexp.source})$`, regexp.flags) as U;
+		source = `^(?:${source})$`;
 	}
-	return regexp;
+
+	try {
+		return new RegExp(source, flags);
+
+	}catch(ex) {
+		const isDuplicateCaptureGroup = isError(ex, err =>
+			err.name === "SyntaxError"
+			&& err.message.startsWith("Invalid regular expression")
+			&& err.message.endsWith("Duplicate capture group name")
+		);
+
+		if (isDuplicateCaptureGroup) {
+			warn(`isDuplicateCaptureGroup: ${cacheKey ?? createCacheKey(options)}`);
+			return new RegExp(indexCaptureGroups(source), flags);
+		}
+
+		throw ex;
+	}
 }
 
 /**
@@ -61,8 +85,8 @@ export function getOrCreateRegex<T extends RegExpGetOptions, U extends RegExp>(c
 	if (options?.gFlag !== "g") {
 		const { name } = creator;
 		const cacheItem = cache[name] ?? (cache[name] = {});
-		const key = createCacheKey(options);
-		return cacheItem[key] ?? (cacheItem[key] = createRegex(creator, options));
+		const cacheKey = createCacheKey(options);
+		return cacheItem[cacheKey] ??= createRegex(creator, options, cacheKey);
 	}
 
 	// return a unique regexp
