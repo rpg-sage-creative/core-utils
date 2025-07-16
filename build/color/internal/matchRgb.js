@@ -1,8 +1,8 @@
+const rgbRegex = /rgb(?<rgba>a)?\((?<r>\d{1,3}),(?<g>\d{1,3}),(?<b>\d{1,3})(?:,(?<a>1(?:\.0+)?|0\.\d+))?\)/i;
 export function matchRgb(value) {
     if (!value)
         return undefined;
-    const regex = /rgb(?<rgba>a)?\((?<r>\d{1,3}),(?<g>\d{1,3}),(?<b>\d{1,3})(?:,(?<a>1(?:\.0+)?|0\.\d+))?\)/i;
-    const groups = regex.exec(value.replace(/\s/g, ""))?.groups;
+    const groups = rgbRegex.exec(value.replace(/\s/g, ""))?.groups;
     if (!groups)
         return undefined;
     const { rgba, r, g, b, a } = groups;

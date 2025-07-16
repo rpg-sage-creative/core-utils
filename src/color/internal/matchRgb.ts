@@ -7,6 +7,8 @@ type Results = {
 	alpha?: number;
 };
 
+const rgbRegex = /rgb(?<rgba>a)?\((?<r>\d{1,3}),(?<g>\d{1,3}),(?<b>\d{1,3})(?:,(?<a>1(?:\.0+)?|0\.\d+))?\)/i;
+
 /**
  * @internal
  * Gets a RegExpMatchArray from the value that includes colors and alpha.
@@ -14,8 +16,7 @@ type Results = {
 export function matchRgb(value: Optional<string>): Results | undefined {
 	if (!value) return undefined; // NOSONAR
 
-	const regex = /rgb(?<rgba>a)?\((?<r>\d{1,3}),(?<g>\d{1,3}),(?<b>\d{1,3})(?:,(?<a>1(?:\.0+)?|0\.\d+))?\)/i;
-	const groups = regex.exec(value.replace(/\s/g, ""))?.groups;
+	const groups = rgbRegex.exec(value.replace(/\s/g, ""))?.groups;
 	if (!groups) return undefined; // NOSONAR
 
 	const { rgba, r, g, b, a } = groups;
