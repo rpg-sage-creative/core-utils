@@ -3,9 +3,11 @@ import { isDefined, parseEnum } from "../types/index.js";
 import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
 import { parseIncrementArg } from "./parseIncrementArg.js";
 import { parseKeyValueArg } from "./parseKeyValueArg.js";
+const flagRegex = /^\-+\w+$/;
+const flagDashRegex = /^\-+/;
 function _parseFlagArg(arg, index) {
-    if (/^\-+\w+$/.test(arg)) {
-        const key = arg.replace(/^\-+/, "");
+    if (flagRegex.test(arg)) {
+        const key = arg.replace(flagDashRegex, "");
         const keyRegex = new RegExp(`^${key}$`, "i");
         return { arg, index, isFlag: true, key, keyRegex };
     }

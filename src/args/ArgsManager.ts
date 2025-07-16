@@ -8,9 +8,12 @@ import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
 
 type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
 
+const flagRegex = /^\-+\w+$/;
+const flagDashRegex = /^\-+/;
+
 function _parseFlagArg<T extends string>(arg: string, index: number): OrUndefined<FlagArg<T>> {
-	if (/^\-+\w+$/.test(arg)) {
-		const key = arg.replace(/^\-+/, "") as T;
+	if (flagRegex.test(arg)) {
+		const key = arg.replace(flagDashRegex, "") as T;
 		const keyRegex = new RegExp(`^${key}$`, "i");
 		return { arg, index, isFlag:true, key, keyRegex };
 	}
