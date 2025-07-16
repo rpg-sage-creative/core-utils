@@ -4,7 +4,13 @@ import { escapeRegex } from "../regex/escapeRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import { getQuotedRegex } from "../string/index.js";
 function createStrictRegex({ flags, keyRegex, quotedRegex }) {
-    return new RegExp(`(?<=(?:^|\\s))(?:${keyRegex.source})=(?:${quotedRegex.source})(?=(?:\\s|$))`, flags + "u");
+    return regex(flags) `
+		(?<=(^|\s))     # start of line or whitespace
+		${keyRegex}
+		=
+		${quotedRegex}
+		(?=(\s|$))      # whitespace or end of line
+	`;
 }
 function createDefaultRegex({ flags, keyRegex, quotedRegex }) {
     const nakedRegex = pattern `[^\s\n\r${quotedRegex.leftChars}]\S*`;
@@ -24,7 +30,7 @@ function createSloppyRegex({ flags, keyRegex, quotedRegex }) {
     const startBoundary = pattern `^|[\s${quotedRegex.rightChars}]`;
     const nakedRegex = pattern `[^\s\n\r${quotedRegex.leftChars}]\S*`;
     return regex(flags) `
-		(?<=${startBoundary})                # start of line or whitespace or a right quote
+		(?<=${startBoundary})      # start of line or whitespace or a right quote
 		${keyRegex}
 		(
 			\s*=\s*${quotedRegex}  # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values

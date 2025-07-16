@@ -30,14 +30,13 @@ type RegExpByModeOptions = {
 };
 
 function createStrictRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
-	return new RegExp(`(?<=(?:^|\\s))(?:${keyRegex.source})=(?:${quotedRegex.source})(?=(?:\\s|$))`, flags + "u");
-	// return regex(flags)`
-	// 	(?<=(^|\s))     # start of line or whitespace
-	// 	${keyRegex}
-	// 	=
-	// 	${quotedRegex}
-	// 	(?=(\s|$))      # whitespace or end of line
-	// `;
+	return regex(flags)`
+		(?<=(^|\s))     # start of line or whitespace
+		${keyRegex}
+		=
+		${quotedRegex}
+		(?=(\s|$))      # whitespace or end of line
+	`;
 }
 
 function createDefaultRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
@@ -59,7 +58,7 @@ function createSloppyRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions
 	const startBoundary = pattern`^|[\s${quotedRegex.rightChars}]`;
 	const nakedRegex = pattern`[^\s\n\r${quotedRegex.leftChars}]\S*`;
 	return regex(flags)`
-		(?<=${startBoundary})                # start of line or whitespace or a right quote
+		(?<=${startBoundary})      # start of line or whitespace or a right quote
 		${keyRegex}
 		(
 			\s*=\s*${quotedRegex}  # allow spaces around = only if the value is quoted; also captures the only quoted ("strict") values
