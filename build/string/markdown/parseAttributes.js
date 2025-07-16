@@ -1,19 +1,13 @@
+const attrRegex = /(?<key>\w+)="(?<value>[^"]+)"/gi;
 export function parseAttributes(attributesString) {
     const attributes = new Map();
     if (!attributesString) {
         return attributes;
     }
-    const attsRegex = /\w+="[^"]+"/gi;
-    const matches = attsRegex.exec(attributesString);
-    if (!matches) {
-        return attributes;
+    const matches = attributesString.matchAll(attrRegex);
+    for (const match of matches) {
+        const { key, value } = match.groups;
+        attributes.set(key, value);
     }
-    matches.forEach(pair => {
-        const pairRegex = /(\w+)="([^"]+)"/i;
-        const match = pairRegex.exec(pair);
-        if (match) {
-            attributes.set(match[1], match[2]);
-        }
-    });
     return attributes;
 }
