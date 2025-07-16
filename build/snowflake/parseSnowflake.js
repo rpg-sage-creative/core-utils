@@ -1,5 +1,5 @@
+const snowflakeRegex = /(?<id>\d{16,})/;
 export function parseSnowflake(value) {
-    const regex = /(?<id>\d{16,})/;
-    const match = regex.exec(value ?? "");
+    const match = snowflakeRegex.exec(value ?? "");
     return match?.groups?.id ?? undefined;
 }
