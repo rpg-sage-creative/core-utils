@@ -1,5 +1,5 @@
 import type { Optional } from "../types/generics.js";
-import { isWholeNumberString } from "../types/index.js";
+import { isNumber, isWholeNumberString } from "../types/index.js";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 
@@ -8,8 +8,8 @@ const _ports: Record<string, number> = { };
 /** Gets the port for the server by looking for key: `${server.toLowerCase()}Port` */
 export function getPort(server: string, ignoreMissing?: boolean): number {
 	if (!_ports[server]) {
-		const numberValidator = (value: Optional<string | number>): value is `${number}` => {
-			if (isWholeNumberString(String(value))) {
+		const numberValidator = (value: Optional<string | number | boolean>): value is number | `${number}` => {
+			if (isNumber(value) || isWholeNumberString(String(value))) {
 				const port = +value!;
 				// system ports are 0 - 1023; 65535 is unsigned 16-bit int max
 				// https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
@@ -21,7 +21,7 @@ export function getPort(server: string, ignoreMissing?: boolean): number {
 		const getter = ignoreMissing ? getFromProcessSafely : getFromProcess;
 
 		const key = `${server.toLowerCase()}Port`;
-		const value = getter<string>(numberValidator, key);
+		const value = getter<number | `${number}`>(numberValidator, key);
 		_ports[server] = value ? +value : 0;
 	}
 	return _ports[server];

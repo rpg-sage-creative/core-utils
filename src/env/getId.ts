@@ -1,14 +1,15 @@
 import { isNonNilSnowflake } from "../snowflake/isNonNilSnowflake.js";
 import type { Snowflake } from "../snowflake/types.js";
 import type { Optional } from "../types/generics.js";
+import { isString } from "../types/index.js";
 import { getFromProcess } from "./getFromProcess.js";
 
 const _ids: Record<string, Snowflake> = { };
 
 export function getId(name: string): Snowflake {
 	if (!_ids[name]) {
-		const snowflakeValidator = (value: Optional<string | number>): value is Snowflake => {
-			return isNonNilSnowflake(String(value));
+		const snowflakeValidator = (value: Optional<string | number | boolean>): value is Snowflake => {
+			return isString(value) && isNonNilSnowflake(value);
 		};
 
 		_ids[name] = getFromProcess(snowflakeValidator, `${name}Id`);

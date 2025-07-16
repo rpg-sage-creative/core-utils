@@ -1,3 +1,4 @@
+import { parseBoolean } from "../boolean/parseBoolean.js";
 import type { Optional } from "../types/generics.js";
 import { getAwsRegion } from "./getAwsRegion.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
@@ -18,10 +19,10 @@ const _endpoints: Record<string, Partial<AppServerEndpoint>> = { };
 
 export function getEndpoint(server: string): Partial<AppServerEndpoint> {
 	if (!_endpoints[server]) {
-		const booleanValidator = (value: Optional<string | number>): value is `${boolean}` => {
-			return /^(true|false)$/.test(String(value));
+		const booleanValidator = (value: Optional<string | number | boolean>): value is boolean | `${boolean}` => {
+			return parseBoolean(value) !== undefined;
 		};
-		const hostnameValidator = (value: Optional<string | number>, region?: Region): value is string => {
+		const hostnameValidator = (value: Optional<string | number | boolean>, region?: Region): value is string => {
 			const stringValue = String(value);
 			return /^\d+(\.\d+){3}$/.test(stringValue)
 				|| stringValue.includes(`.lambda-url.${region}.on.aws`)
@@ -29,9 +30,11 @@ export function getEndpoint(server: string): Partial<AppServerEndpoint> {
 				|| stringValue.includes("localhost");
 		};
 
-		const region = getAwsRegion(`${server.toLowerCase()}Region`);
-		const secure = getFromProcessSafely<string>(booleanValidator, `${server.toLowerCase()}Secure`) === "true";
-		const hostname = getFromProcessSafely<string>(value => hostnameValidator(value, region), `${server.toLowerCase()}Hostname`);
+		const serverLower = server.toLowerCase();
+
+		const region = getAwsRegion(`${serverLower}Region`);
+		const secure = parseBoolean(getFromProcessSafely(booleanValidator, `${serverLower}Secure`));
+		const hostname = getFromProcessSafely<string>(value => hostnameValidator(value, region), `${serverLower}Hostname`);
 		const port = getPort(server, true);
 
 		const valid = hostname && port ? true : false;

@@ -5,7 +5,7 @@ let _codeName;
 export function getCodeName(registerLogLevels) {
     if (!_codeName) {
         const codeNameValidator = (value) => {
-            return ["dev", "beta", "stable"].includes(String(value));
+            return ["dev", "beta", "stable"].includes(value);
         };
         if (registerLogLevels) {
             const enableLogLevelsIfValid = (value) => {

@@ -1,5 +1,6 @@
 export * from "./args/index.js";
 export * from "./array/index.js";
+export * from "./boolean/index.js";
 export * from "./cache/index.js";
 export * from "./characters/index.js";
 export * from "./class/index.js";

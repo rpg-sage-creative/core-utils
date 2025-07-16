@@ -4,7 +4,7 @@
  * @param key the key to check
  * @returns
  */
-export function getFromProcessEnv(key: string): string | number | undefined {
+export function getFromProcessEnv(key: string): string | undefined {
 	if (key in process.env) {
 		return process.env[key];
 	}

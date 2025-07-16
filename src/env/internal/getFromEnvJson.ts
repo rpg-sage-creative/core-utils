@@ -10,7 +10,7 @@ let _json: Record<string, string | number>;
  * @param key the key to check
  * @returns
  */
-export function getFromEnvJson(key: string): string | number | undefined {
+export function getFromEnvJson(key: string): string | number | boolean | undefined {
 	if (!_json) {
 		const path = "./config/env.json";
 		try {
