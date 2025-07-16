@@ -40,6 +40,7 @@ function createStrictRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions
 }
 
 function createDefaultRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOptions): RegExp {
+	// unquoted value that doesn't start with left quote and has no spaces
 	const nakedRegex = pattern`[^\s\n\r${quotedRegex.leftChars}]\S*`;
 	return regex(flags)`
 		(?<=(^|\s))        # start of line or whitespace
@@ -48,7 +49,7 @@ function createDefaultRegex({ flags, keyRegex, quotedRegex }: RegExpByModeOption
 		(
 			${quotedRegex}
 			|
-			${nakedRegex}  # unquoted value that doesn't start with left quote and has no spaces
+			${nakedRegex}
 		)
 		(?=(\s|$))         # whitespace or end of line
 	`;

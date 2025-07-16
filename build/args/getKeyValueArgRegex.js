@@ -21,7 +21,7 @@ function createDefaultRegex({ flags, keyRegex, quotedRegex }) {
 		(
 			${quotedRegex}
 			|
-			${nakedRegex}  # unquoted value that doesn't start with left quote and has no spaces
+			${nakedRegex}
 		)
 		(?=(\s|$))         # whitespace or end of line
 	`;
