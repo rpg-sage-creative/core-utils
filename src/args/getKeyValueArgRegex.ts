@@ -23,7 +23,7 @@ export type RegExpKeyValueArgOptions = {
 type CreateOptions = RegExpFlagOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 
 type RegExpByModeOptions = {
-	flags?: `${"g"|""}${"i"|""}${"u"|""}`;
+	flags?: `${"g"|""}${"i"|""}${"u"|""}` | `${"g"|""}${"i"|""}${"v"|""}`;
 	keyRegex: RegExp;
 	mode?: KeyValueArgMode;
 	quotedRegex: QuotedRegexRegExp;
