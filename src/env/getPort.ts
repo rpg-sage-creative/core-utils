@@ -1,5 +1,5 @@
 import type { Optional } from "../types/generics.js";
-import { isNumber, isWholeNumberString } from "../types/index.js";
+import { isWholeNumberString } from "../types/index.js";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 
@@ -9,7 +9,7 @@ const _ports: Record<string, number> = { };
 export function getPort(server: string, ignoreMissing?: boolean): number {
 	if (!_ports[server]) {
 		const numberValidator = (value: Optional<string | number | boolean>): value is number | `${number}` => {
-			if (isNumber(value) || isWholeNumberString(String(value))) {
+			if (typeof(value) === "number" || isWholeNumberString(value)) {
 				const port = +value!;
 				// system ports are 0 - 1023; 65535 is unsigned 16-bit int max
 				// https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers

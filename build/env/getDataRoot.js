@@ -1,11 +1,10 @@
 import { existsSync, mkdirSync } from "fs";
-import { isString } from "../types/index.js";
 import { getFromProcess } from "./getFromProcess.js";
 const pathMap = new Map();
 export function getDataRoot(childPath, ensureChildExists) {
     let dataRoot = pathMap.get("");
     if (!dataRoot) {
-        const dirValidator = (value) => isString(value) ? existsSync(value) : false;
+        const dirValidator = (value) => typeof (value) === "string" ? existsSync(value) : false;
         dataRoot = getFromProcess(dirValidator, "dataRoot");
         pathMap.set("", dataRoot);
     }

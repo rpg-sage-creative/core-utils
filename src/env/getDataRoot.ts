@@ -1,6 +1,5 @@
 import { existsSync, mkdirSync } from "fs";
 import type { Optional } from "../types/generics.js";
-import { isString } from "../types/index.js";
 import { getFromProcess } from "./getFromProcess.js";
 
 const pathMap = new Map<string, string>();
@@ -17,7 +16,7 @@ export function getDataRoot(childPath?: string, ensureChildExists?: boolean): st
 
 	// initialize it
 	if (!dataRoot) {
-		const dirValidator = (value: Optional<string | number | boolean>): value is string => isString(value) ? existsSync(value) : false;
+		const dirValidator = (value: Optional<string | number | boolean>): value is string => typeof(value) === "string" ? existsSync(value) : false;
 
 		// get from settings
 		dataRoot = getFromProcess<string>(dirValidator, "dataRoot");
