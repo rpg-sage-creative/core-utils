@@ -1,6 +1,6 @@
 import { warn } from "../console/index.js";
 import { splitChars } from "../string/wrap/splitChars.js";
-import { isError } from "../types/typeGuards/isError.js";
+import { isErrorLike } from "../types/typeGuards/isErrorLike.js";
 import { escapeRegex } from "./escapeRegex.js";
 import { indexCaptureGroups } from "./internal/indexCaptureGroups.js";
 const cache = {};
@@ -36,7 +36,7 @@ function createRegex(creator, options, cacheKey) {
         return new RegExp(source, flags);
     }
     catch (ex) {
-        const isDuplicateCaptureGroup = isError(ex, err => err.name === "SyntaxError"
+        const isDuplicateCaptureGroup = isErrorLike(ex, err => err.name === "SyntaxError"
             && err.message.startsWith("Invalid regular expression")
             && err.message.endsWith("Duplicate capture group name"));
         if (isDuplicateCaptureGroup) {
