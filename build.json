@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.7.3",
+"version":"0.8.0",
 "branch":"main",
-"commit":"d81a714411e98eec31347509baca1f027c1e0626",
-"commitSubject":"move json formatting into stringifyJson",
-"commitTs":1750114379000,
-"commitDate":"2025-06-16-1552",
-"buildTs":1750114419000,
-"buildDate":"2025-06-16-1553",
+"commit":"d44e58ebc075d93c4f6fe2953a214dad51efcfd6",
+"commitSubject":"reuse and export isErrorLike",
+"commitTs":1752719875000,
+"commitDate":"2025-07-16-1937",
+"buildTs":1752719911000,
+"buildDate":"2025-07-16-1938",
 "author":"Randal"
 }
