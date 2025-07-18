@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.8.0",
+"version":"0.9.0",
 "branch":"main",
-"commit":"d44e58ebc075d93c4f6fe2953a214dad51efcfd6",
-"commitSubject":"reuse and export isErrorLike",
-"commitTs":1752719875000,
-"commitDate":"2025-07-16-1937",
-"buildTs":1752719911000,
-"buildDate":"2025-07-16-1938",
+"commit":"f3c3f2502e30648971afffa328a11649ca5a5eb6",
+"commitSubject":"improved duplicate capture group name detection; improved isErrorLike; improved isPrimitive; add json areEqual",
+"commitTs":1752878190000,
+"commitDate":"2025-07-18-1536",
+"buildTs":1752878218000,
+"buildDate":"2025-07-18-1536",
 "author":"Randal"
 }
