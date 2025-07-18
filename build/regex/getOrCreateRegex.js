@@ -1,8 +1,8 @@
-import { warn } from "../console/index.js";
+import { debug, error, isLogLevelEnabled } from "../console/index.js";
 import { splitChars } from "../string/wrap/splitChars.js";
-import { isErrorLike } from "../types/typeGuards/isErrorLike.js";
 import { escapeRegex } from "./escapeRegex.js";
-import { indexCaptureGroups } from "./internal/indexCaptureGroups.js";
+import { indexCaptureGroups } from "./indexCaptureGroups.js";
+import { isDuplicateCaptureGroupError, retryDuplicateCaptureGroupName } from "./isDuplicateCaptureGroupError.js";
 const cache = {};
 function createCacheKey(options = {}) {
     const pairs = Object.entries(options).sort(([aKey], [bKey]) => aKey < bKey ? -1 : 1);
@@ -11,7 +11,18 @@ function createCacheKey(options = {}) {
 }
 function createRegex(creator, options, cacheKey) {
     const { anchored, capture, spoilers, quantifier, wrapChars, wrapOptional } = options ?? {};
-    let { source, flags } = creator(options);
+    let source;
+    let flags;
+    try {
+        ({ source, flags } = creator(options));
+    }
+    catch (ex) {
+        if (isDuplicateCaptureGroupError(ex)) {
+            error(`isDuplicateCaptureGroup(creator): ${cacheKey ?? createCacheKey(options)}`);
+            return retryDuplicateCaptureGroupName(ex);
+        }
+        throw ex;
+    }
     if (quantifier) {
         source = `(?:${source})${quantifier}`;
     }
@@ -36,11 +47,8 @@ function createRegex(creator, options, cacheKey) {
         return new RegExp(source, flags);
     }
     catch (ex) {
-        const isDuplicateCaptureGroup = isErrorLike(ex, err => err.name === "SyntaxError"
-            && err.message.startsWith("Invalid regular expression")
-            && err.message.endsWith("Duplicate capture group name"));
-        if (isDuplicateCaptureGroup) {
-            warn(`isDuplicateCaptureGroup: ${cacheKey ?? createCacheKey(options)}`);
+        if (isDuplicateCaptureGroupError(ex)) {
+            error(`isDuplicateCaptureGroup(createRegex): ${cacheKey ?? createCacheKey(options)}`);
             return new RegExp(indexCaptureGroups(source), flags);
         }
         throw ex;
@@ -51,6 +59,15 @@ export function getOrCreateRegex(creator, options) {
         const { name } = creator;
         const cacheItem = cache[name] ?? (cache[name] = {});
         const cacheKey = createCacheKey(options);
+        if (isLogLevelEnabled("debug")) {
+            const existing = cacheItem[cacheKey];
+            if (existing) {
+                const updated = createRegex(creator, options, cacheKey);
+                if (existing.source !== updated.source || existing.flags !== updated.flags) {
+                    debug(`regex.cache[${name}][${cacheKey}] differs`);
+                }
+            }
+        }
         return cacheItem[cacheKey] ??= createRegex(creator, options, cacheKey);
     }
     return createRegex(creator, options);

@@ -1,6 +1,7 @@
-type Primitive = null | undefined | Date | "bigint" | "boolean" | "number" | "string";
+import type { Optional } from "../generics.js";
+type Primitive = Date | "bigint" | "boolean" | "number" | "string";
 /** Checks to see if the object given is a primitive type: null, undefined, Date, bigint, number, string, boolean. */
-export declare function isPrimitive<T extends Primitive = Primitive>(object: unknown): object is T;
+export declare function isPrimitive(object: unknown): object is Optional<Primitive>;
 export {};
 /**
  * @todo take a long look at why i consider Date a primitive

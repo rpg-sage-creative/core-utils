@@ -39,7 +39,7 @@ function _parseKeyValueArg<T extends string, U extends string>(arg: T, index: nu
 }
 
 function _parseValueArg<T extends string>(arg: T, index: number): OrUndefined<ValueArg<T>> {
-	if (isDefined(arg)) {
+	if (typeof(arg) === "string") {
 		const value = arg === "" ? null : dequote(arg, { contents:"*" }) as T;
 		return { arg, index, isValue:true, value }
 	}
@@ -64,7 +64,7 @@ export class ArgsManager<T extends string = string> {
 
 	public constructor(raw?: string[]) {
 		this._strings = raw?.slice() ?? [];
-		this._args = raw?.map(parseArg).filter(isDefined) as Arg<T, any>[] ?? [];
+		this._args = raw?.map(parseArg).filter(arg => arg !== undefined) as Arg<T, any>[] ?? [];
 	}
 
 	/** Returns the count of defined Args. This may differ from the count of the original (raw) string array. */

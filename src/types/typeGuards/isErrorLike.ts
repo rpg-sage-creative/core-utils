@@ -1,11 +1,19 @@
 
-export type ErrorLike = {
+export type ErrorLike<Name extends string = string> = {
+	cause?: ErrorLike;
 	message: string;
-	name: string;
-	stack: string;
+	name: Name;
+	stack?: string;
 };
 
-function _isErrorLike(err: unknown): err is ErrorLike {
+function checkProperties(err: ErrorLike) {
+	return typeof(err.message) === "string"
+		&& typeof(err.name) === "string"
+		&& (err.cause === undefined || _isErrorLike(err.cause))
+		&& (err.stack === undefined || typeof(err.stack) === "string");
+}
+
+function _isErrorLike<Name extends string>(err: unknown): err is ErrorLike<Name> {
 	if (err) {
 		if (err instanceof Error) {
 			return true;
@@ -17,16 +25,16 @@ function _isErrorLike(err: unknown): err is ErrorLike {
 		}
 
 		if (type === "[object Object]") {
-			return ["message", "name", "stack"].some(key => key in (err as any));
+			return checkProperties(err as ErrorLike);
 		}
 	}
 	return false;
 }
 
-type ErrorTester<T extends Error = Error> = (err: T) => boolean;
+type ErrorTester<Name extends string = string, Err extends ErrorLike<Name> = ErrorLike<Name>> = (err: Err) => boolean;
 
-export function isErrorLike(err: unknown, arg?: string | ErrorTester): err is ErrorLike {
-	if (_isErrorLike(err)) {
+export function isErrorLike<Name extends string = string>(err: unknown, arg?: string | ErrorTester<Name>): err is ErrorLike<Name> {
+	if (_isErrorLike<Name>(err)) {
 
 		if (typeof(arg) === "string") {
 			return err.message === arg || err.name === arg;

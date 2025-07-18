@@ -1,3 +1,9 @@
+function checkProperties(err) {
+    return typeof (err.message) === "string"
+        && typeof (err.name) === "string"
+        && (err.cause === undefined || _isErrorLike(err.cause))
+        && (err.stack === undefined || typeof (err.stack) === "string");
+}
 function _isErrorLike(err) {
     if (err) {
         if (err instanceof Error) {
@@ -8,7 +14,7 @@ function _isErrorLike(err) {
             return true;
         }
         if (type === "[object Object]") {
-            return ["message", "name", "stack"].some(key => key in err);
+            return checkProperties(err);
         }
     }
     return false;

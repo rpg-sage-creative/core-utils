@@ -30,7 +30,7 @@ function _parseKeyValueArg(arg, index) {
     return undefined;
 }
 function _parseValueArg(arg, index) {
-    if (isDefined(arg)) {
+    if (typeof (arg) === "string") {
         const value = arg === "" ? null : dequote(arg, { contents: "*" });
         return { arg, index, isValue: true, value };
     }
@@ -51,7 +51,7 @@ export class ArgsManager {
     _valueArgs;
     constructor(raw) {
         this._strings = raw?.slice() ?? [];
-        this._args = raw?.map(parseArg).filter(isDefined) ?? [];
+        this._args = raw?.map(parseArg).filter(arg => arg !== undefined) ?? [];
     }
     get length() {
         return this._args.length;

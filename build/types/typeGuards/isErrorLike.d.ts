@@ -1,8 +1,9 @@
-export type ErrorLike = {
+export type ErrorLike<Name extends string = string> = {
+    cause?: ErrorLike;
     message: string;
-    name: string;
-    stack: string;
+    name: Name;
+    stack?: string;
 };
-type ErrorTester<T extends Error = Error> = (err: T) => boolean;
-export declare function isErrorLike(err: unknown, arg?: string | ErrorTester): err is ErrorLike;
+type ErrorTester<Name extends string = string, Err extends ErrorLike<Name> = ErrorLike<Name>> = (err: Err) => boolean;
+export declare function isErrorLike<Name extends string = string>(err: unknown, arg?: string | ErrorTester<Name>): err is ErrorLike<Name>;
 export {};
