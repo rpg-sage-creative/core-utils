@@ -83,10 +83,11 @@ function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: Crea
 /**
  * Returns a cached instance of the given regex if the gFlag is not set.
  * This allows us to cache non-global regex values where we don't need to worry about lastIndex.
+ * Because String.replace(RegExp, ...) safely manages the lastIndex of the RegExp, the cacheGlobal param allows us to create and reuse global regexes.
  */
-export function getOrCreateRegex<T extends RegExpGetOptions, U extends RegExp>(creator: CreateRegexFunction<T, U>, options?: T): RegExp {
+export function getOrCreateRegex<T extends RegExpGetOptions, U extends RegExp>(creator: CreateRegexFunction<T, U>, options?: T, cacheGlobal?: true): RegExp {
 	// we check the cache if not using a global regexp
-	if (options?.gFlag !== "g") {
+	if (options?.gFlag !== "g" || cacheGlobal) {
 		const { name } = creator;
 		const cacheItem = cache[name] ?? (cache[name] = {});
 		const cacheKey = createCacheKey(options);
@@ -96,7 +97,7 @@ export function getOrCreateRegex<T extends RegExpGetOptions, U extends RegExp>(c
 			if (existing) {
 				const updated = createRegex(creator, options, cacheKey);
 				if (existing.source !== updated.source || existing.flags !== updated.flags) {
-					debug(`regex.cache[${name}][${cacheKey}] differs`)
+					debug(`regex.cache[${name}][${cacheKey}] differs`);
 				}
 			}
 		}

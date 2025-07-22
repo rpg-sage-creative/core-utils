@@ -44,6 +44,18 @@ describe("regex", () => {
 				expect(regex.source).toBe(`(?:\\|\\|(?:(?<first>second) (?<first1>second))\\|\\|)|(?:(?<first2>second) (?<first3>second))`);
 			});
 
+			test(`#4: getOrCreateRegex caches correctly`, () => {
+				function creator({ gFlag = "", iFlag = "" }) { return new RegExp("simple", gFlag + iFlag); }
+				const [first, second, third, fourth, fifth, sixth, seventh, eighth] = [{}, {}, {iFlag:"i"}, {iFlag:"i"}, {gFlag:"g"}, {gFlag:"g"}, {gFlag:"g"}, {gFlag:"g"}].map((flags, i) => getOrCreateRegex(creator, flags, i > 5));
+				expect(first === second).toBe(true);
+				expect(second !== third).toBe(true);
+				expect(third === fourth).toBe(true);
+				expect(fourth !== fifth).toBe(true);
+				expect(fifth !== sixth).toBe(true);
+				expect(sixth !== seventh).toBe(true);
+				expect(seventh === eighth).toBe(true);
+			});
+
 		});
 
 

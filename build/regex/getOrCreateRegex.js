@@ -54,8 +54,8 @@ function createRegex(creator, options, cacheKey) {
         throw ex;
     }
 }
-export function getOrCreateRegex(creator, options) {
-    if (options?.gFlag !== "g") {
+export function getOrCreateRegex(creator, options, cacheGlobal) {
+    if (options?.gFlag !== "g" || cacheGlobal) {
         const { name } = creator;
         const cacheItem = cache[name] ?? (cache[name] = {});
         const cacheKey = createCacheKey(options);
