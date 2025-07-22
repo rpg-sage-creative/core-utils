@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.0",
+"version":"0.9.1",
 "branch":"main",
-"commit":"f3c3f2502e30648971afffa328a11649ca5a5eb6",
-"commitSubject":"improved duplicate capture group name detection; improved isErrorLike; improved isPrimitive; add json areEqual",
-"commitTs":1752878190000,
-"commitDate":"2025-07-18-1536",
-"buildTs":1752878218000,
-"buildDate":"2025-07-18-1536",
+"commit":"76e0802a89b73f8dc56c99e4b1d581fab7c590e5",
+"commitSubject":"allow caching of global regex",
+"commitTs":1753142649000,
+"commitDate":"2025-07-21-1704",
+"buildTs":1753142852000,
+"buildDate":"2025-07-21-1707",
 "author":"Randal"
 }
