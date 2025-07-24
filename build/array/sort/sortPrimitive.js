@@ -1,5 +1,7 @@
 import { isDate } from "util/types";
 export function sortPrimitive(a, b) {
+    if (a === b)
+        return 0;
     if (a === undefined) {
         return 1;
     }

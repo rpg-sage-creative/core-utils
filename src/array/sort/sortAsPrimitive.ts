@@ -1,7 +1,7 @@
 import { isDefined } from "../../types/index.js";
-import type { Sorter } from "./Sorter.js";
 import { getDataConverter } from "./internal/getDataConverter.js";
 import { sortPrimitive } from "./sortPrimitive.js";
+import type { Sorter } from "./types.js";
 
 /** Creates a sorter that sorts values in ascending order as Date objects using new Date() to convert them. */
 export function sortAsPrimitive<T>(dataType: "date"): Sorter<T>;

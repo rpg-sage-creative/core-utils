@@ -1,6 +1,6 @@
 import { isDate } from "util/types";
 import type { Optional } from "../../types/generics.js";
-import type { SortResult } from "./SortResult.js";
+import type { SortResult } from "./types.js";
 
 /**
  * Sorts values in ascending order.
@@ -9,6 +9,9 @@ import type { SortResult } from "./SortResult.js";
  * string vs string comparison is first done ignoring case.
  */
 export function sortPrimitive<T extends boolean | Date | number | string>(a: Optional<T>, b: Optional<T>): SortResult {
+	// identical items should always return 0
+	if (a === b) return 0;
+
 	// undefined is the "greatest" value
 	if (a === undefined) {
 		return 1;

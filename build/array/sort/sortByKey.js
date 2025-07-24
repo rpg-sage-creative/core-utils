@@ -1,6 +1,8 @@
 import { sortPrimitive } from "./sortPrimitive.js";
 export function sortByKey(...keys) {
     return (a, b) => {
+        if (a === b)
+            return 0;
         if (a === undefined) {
             return 1;
         }

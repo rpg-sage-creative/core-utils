@@ -1,5 +1,5 @@
 import type { Optional } from "../../types/generics.js";
-import type { SortResult } from "./SortResult.js";
+import type { SortResult } from "./types.js";
 /**
  * Sorts values in ascending order.
  * undefined is considered the "greatest" value.

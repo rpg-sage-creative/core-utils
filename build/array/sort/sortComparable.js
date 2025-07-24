@@ -1,4 +1,6 @@
 export function sortComparable(a, b) {
+    if (a === b)
+        return 0;
     if (a === undefined) {
         return 1;
     }

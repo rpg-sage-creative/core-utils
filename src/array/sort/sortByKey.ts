@@ -1,11 +1,13 @@
 import type { Optional } from "../../types/generics.js";
-import type { SortResult } from "./SortResult.js";
-import type { Sorter } from "./Sorter.js";
 import { sortPrimitive } from "./sortPrimitive.js";
+import type { Sorter, SortResult } from "./types.js";
 
 /** Creates a sorter that will sort objects by the values of the given keys. */
 export function sortByKey<T>(...keys: (keyof T)[]): Sorter<T> {
 	return (a: Optional<T>, b: Optional<T>) => {
+		// identical items should always return 0
+		if (a === b) return 0;
+
 		// undefined is the "greatest" value
 		if (a === undefined) {
 			return 1;
