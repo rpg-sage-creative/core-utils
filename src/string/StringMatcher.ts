@@ -1,13 +1,10 @@
 import { escapeRegex } from "../regex/escapeRegex.js";
 import type { Optional } from "../types/generics.js";
-import { isDefined, isNullOrUndefined } from "../types/index.js";
+import { isDefined, isNullOrUndefined, isString } from "../types/index.js";
 import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
-import { isBlank } from "./blank/isBlank.js";
-import { isNotBlank } from "./blank/isNotBlank.js";
-import { normalizeAscii } from "./normalize/normalizeAscii.js";
-import { removeAccents } from "./normalize/removeAccents.js";
-import { cleanWhitespace } from "./whitespace/cleanWhitespace.js";
-import { getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/getWhitespaceRegex.js";
+import { isNotBlank } from "./blank/index.js";
+import { normalizeAscii, removeAccents } from "./normalize/index.js";
+import { cleanWhitespace, getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/index.js";
 
 type StringMatcherToRegExpOptions = {
 	/** if set to true then the regex begins with ^ and ends with $; default value is true */
@@ -31,7 +28,7 @@ export class StringMatcher implements Matcher {
 
 	/** Returns isNotBlank(value) */
 	public get isNonNil(): boolean {
-		return this._isNonNil ?? (this._isNonNil = isNotBlank(this.value));
+		return this._isNonNil ??= isNotBlank(this.value);
 	}
 
 	/** Stores isDefined(value) */
@@ -39,12 +36,14 @@ export class StringMatcher implements Matcher {
 
 	/** Returns isDefined(value) */
 	public get isValid(): boolean {
-		return this._isValid ?? (this._isValid = isDefined(this.value));
+		return this._isValid ??= isDefined(this.value);
 	}
 
+	/** Stores value?.toLowerCase() ?? "" */
 	private _lower?: string;
+
 	public get lower(): string {
-		return this._lower ?? (this._lower = this.value?.toLowerCase() ?? "");
+		return this._lower ??= this.value?.toLowerCase() ?? "";
 	}
 
 	/** The value used to compare to other values. */
@@ -52,7 +51,7 @@ export class StringMatcher implements Matcher {
 
 	/** The value used to compare to other values. */
 	public get matchValue(): string {
-		return this._matchValue ?? (this._matchValue = StringMatcher.clean(this.value));
+		return this._matchValue ??= StringMatcher.clean(this.value);
 	}
 
 	/** Stores the raw value. */
@@ -63,11 +62,8 @@ export class StringMatcher implements Matcher {
 		if (!this.isValid || isNullOrUndefined(other)) {
 			return false;
 		}
-		if (typeof(other) === "string") {
-			if (this.isNonNil) {
-				return this.matchValue === StringMatcher.clean(other);
-			}
-			return isBlank(other);
+		if (isString(other)) {
+			other = new StringMatcher(other);
 		}
 		if (!other.isValid || this.isNonNil !== other.isNonNil) {
 			return false;
@@ -164,7 +160,9 @@ export class StringMatcher implements Matcher {
 	/** Convenience for new StringMatcher(value) */
 	public static from(value: Optional<MatcherResolvable>): StringMatcher {
 		if (isDefined(value)) {
-			return new StringMatcher(typeof(value) === "string" ? value : value?.value);
+			return value instanceof StringMatcher
+				? value
+				: new StringMatcher(typeof(value) === "string" ? value : value?.value);
 		}
 		return new StringMatcher(value);
 	}

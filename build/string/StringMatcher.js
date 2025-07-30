@@ -1,41 +1,35 @@
 import { escapeRegex } from "../regex/escapeRegex.js";
-import { isDefined, isNullOrUndefined } from "../types/index.js";
-import { isBlank } from "./blank/isBlank.js";
-import { isNotBlank } from "./blank/isNotBlank.js";
-import { normalizeAscii } from "./normalize/normalizeAscii.js";
-import { removeAccents } from "./normalize/removeAccents.js";
-import { cleanWhitespace } from "./whitespace/cleanWhitespace.js";
-import { getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/getWhitespaceRegex.js";
+import { isDefined, isNullOrUndefined, isString } from "../types/index.js";
+import { isNotBlank } from "./blank/index.js";
+import { normalizeAscii, removeAccents } from "./normalize/index.js";
+import { cleanWhitespace, getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/index.js";
 export class StringMatcher {
     constructor(value) {
         this.value = value;
     }
     _isNonNil;
     get isNonNil() {
-        return this._isNonNil ?? (this._isNonNil = isNotBlank(this.value));
+        return this._isNonNil ??= isNotBlank(this.value);
     }
     _isValid;
     get isValid() {
-        return this._isValid ?? (this._isValid = isDefined(this.value));
+        return this._isValid ??= isDefined(this.value);
     }
     _lower;
     get lower() {
-        return this._lower ?? (this._lower = this.value?.toLowerCase() ?? "");
+        return this._lower ??= this.value?.toLowerCase() ?? "";
     }
     _matchValue;
     get matchValue() {
-        return this._matchValue ?? (this._matchValue = StringMatcher.clean(this.value));
+        return this._matchValue ??= StringMatcher.clean(this.value);
     }
     value;
     matches(other) {
         if (!this.isValid || isNullOrUndefined(other)) {
             return false;
         }
-        if (typeof (other) === "string") {
-            if (this.isNonNil) {
-                return this.matchValue === StringMatcher.clean(other);
-            }
-            return isBlank(other);
+        if (isString(other)) {
+            other = new StringMatcher(other);
         }
         if (!other.isValid || this.isNonNil !== other.isNonNil) {
             return false;
@@ -90,7 +84,9 @@ export class StringMatcher {
     }
     static from(value) {
         if (isDefined(value)) {
-            return new StringMatcher(typeof (value) === "string" ? value : value?.value);
+            return value instanceof StringMatcher
+                ? value
+                : new StringMatcher(typeof (value) === "string" ? value : value?.value);
         }
         return new StringMatcher(value);
     }
