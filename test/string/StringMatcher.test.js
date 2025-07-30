@@ -1,4 +1,4 @@
-import { ELLIPSIS, isNullOrUndefined, StringMatcher, toLiteral } from "../../build/index.js";
+import { ELLIPSIS, isNullOrUndefined, StringMatcher, tagLiterals } from "../../build/index.js";
 
 describe("string", () => {
 	describe("StringMatcher", () => {
@@ -45,9 +45,9 @@ describe("string", () => {
 		});
 
 		tests.forEach(({ input, isNonNil, isValid, lower, matchValue, value, matchesDots, matchesGrey, matchesWhite }) => {
-			describe(`StringMatcher.from(${toLiteral(input)})`, () => {
+			describe(tagLiterals`StringMatcher.from(${input})`, () => {
 				const matcher = StringMatcher.from(input);
-				test(`{ isNonNil = ${toLiteral(isNonNil)}, isValid = ${toLiteral(isValid)}, lower = ${toLiteral(lower)}, matchValue = ${toLiteral(matchValue)}, value = ${toLiteral(value)} }`, () => {
+				test(tagLiterals`${{isNonNil,isValid,lower,matchValue,value}}`, () => {
 					// compare all expected values
 					expect(matcher.isNonNil).toBe(isNonNil);
 					expect(matcher.isValid).toBe(isValid);
@@ -64,27 +64,27 @@ describe("string", () => {
 				test(`matcher.matches(nullMatcher) === false`, () => {
 					expect(matcher.matches(nullMatcher)).toBe(false);
 				});
-				test(`matcher.matches(matcher) === matcher.isValid (${toLiteral(matcher.isValid)})`, () => {
+				test(tagLiterals`matcher.matches(matcher) === matcher.isValid (${matcher.isValid})`, () => {
 					expect(matcher.matches(matcher)).toBe(matcher.isValid);
 				});
-				test(`matcher.matches(theDots) === ${toLiteral(!!matchesDots)}`, () => {
+				test(tagLiterals`matcher.matches(theDots) === ${!!matchesDots}`, () => {
 					expect(matcher.matches(theDots)).toBe(!!matchesDots);
 				});
-				test(`matcher.matches(theGrey) === ${toLiteral(!!matchesGrey)}`, () => {
+				test(tagLiterals`matcher.matches(theGrey) === ${!!matchesGrey}`, () => {
 					expect(matcher.matches(theGrey)).toBe(!!matchesGrey);
 				});
-				test(`matcher.matches(theWhite) === ${toLiteral(!!matchesWhite)}`, () => {
+				test(tagLiterals`matcher.matches(theWhite) === ${!!matchesWhite}`, () => {
 					expect(matcher.matches(theWhite)).toBe(!!matchesWhite);
 				});
-				test(`matcher.matchesAny(theDots, theGrey, theWhite) === ${toLiteral(!!matchesDots || !!matchesGrey || !!matchesWhite)}`, () => {
+				test(tagLiterals`matcher.matchesAny(theDots, theGrey, theWhite) === ${!!matchesDots || !!matchesGrey || !!matchesWhite}`, () => {
 					expect(matcher.matchesAny(theDots, theGrey, theWhite)).toBe(!!matchesDots || !!matchesGrey || !!matchesWhite);
 				});
-				test(`matcher.toRegex(): ${toLiteral(matcher.toRegex())}.test(${toLiteral(matcher.value)}) === ${toLiteral(matcher.isValid)}`, () => {
+				test(tagLiterals`matcher.toRegex(): ${matcher.toRegex()}.test(${matcher.value}) === ${matcher.isValid}`, () => {
 					expect(matcher.toRegex().test(matcher.value)).toBe(matcher.isValid);
 					// match value for null/undefined is "", so we wanna test those values for invalid matchers
 					expect(matcher.toRegex().test(matcher.isValid?matcher.matchValue:matcher.value)).toBe(matcher.isValid);
 				});
-				test(`matcher.toRegex({ whitespace:"optional" }): ${toLiteral(matcher.toRegex({ whitespace:"optional" }))}.test(${toLiteral(matcher.value?.replace(/\s+/g, ""))}) === ${toLiteral(matcher.isValid)}`, () => {
+				test(tagLiterals`matcher.toRegex({ whitespace:"optional" }): ${matcher.toRegex({ whitespace:"optional" })}.test(${matcher.value?.replace(/\s+/g, "")}) === ${matcher.isValid}`, () => {
 					expect(matcher.toRegex({ whitespace:"optional" }).test(matcher.value?.replace(/\s+/g, ""))).toBe(matcher.isValid);
 					// match value for null/undefined is "", so we wanna test those values for invalid matchers
 					expect(matcher.toRegex({ whitespace:"optional" }).test(matcher.isValid?matcher.matchValue.replace(/\s+/g, ""):matcher.value)).toBe(matcher.isValid);
