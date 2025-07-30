@@ -21,7 +21,7 @@ type NavigateResults<ValueType = any, ObjectType = any, IsFull extends boolean =
 export function navigateJson<ValueType = any, ObjectType = any>(object: unknown, path: string): NavigateResults<ValueType, ObjectType>;
 
 export function navigateJson(object: any, path: string): NavigateResults {
-	const inObject = (key: string) => object && key && key in object;
+	const inObject = (key?: string): key is keyof object => object && key && Object.hasOwn(object, key);
 
 	// store navigated keys
 	const navigated: string[] = [];

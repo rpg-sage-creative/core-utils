@@ -1,5 +1,5 @@
 export function navigateJson(object, path) {
-    const inObject = (key) => object && key && key in object;
+    const inObject = (key) => object && key && Object.hasOwn(object, key);
     const navigated = [];
     const keys = path.split(".");
     const shiftKey = () => {

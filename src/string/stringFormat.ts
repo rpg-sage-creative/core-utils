@@ -1,16 +1,19 @@
+import { navigateJson } from "../json/navigateJson.js";
+
 /**
  * Splits the key into dot notation and looks through the args until it finds a value that matches the key.
  */
-function findNamedKey(args: any[], key: string): string | undefined {
-	const keyParts = key.split(".");
-	for (const arg of args) {
-		const value = keyParts.reduce((value, key) => value?.[key], arg);
-		if (value !== undefined) {
-			return value;
+function findByKeyPath(args: any[], key: string): string | undefined {
+	const navResults = args.map(arg => navigateJson(arg, key));
+	for (const navResult of navResults) {
+		if (navResult.isFull) {
+			return navResult.value;
 		}
 	}
 	return undefined;
 }
+
+let stringFormatRegex: RegExp;
 
 /**
  * Formats the given string template by using the given arguments.
@@ -25,14 +28,16 @@ function findNamedKey(args: any[], key: string): string | undefined {
 export function stringFormat<T>(template: string, ...args: T[]): string;
 
 export function stringFormat(template: string, ...args: any[]): string {
+	stringFormatRegex ??= /\$\{[\w\.\[\]]+}|#\{\d+}/g;
+
 	const pairs = new Map();
-	return template.replace(/\$\{[\w\.\[\]]+}|#\{\d+}/g, keyMatch => {
+	return template.replace(stringFormatRegex, keyMatch => {
 		if (!pairs.has(keyMatch)) {
 			const key = keyMatch.slice(2, -1);
 			const value = keyMatch.startsWith("$")
-				? findNamedKey(args, key)
-				: String(args[+key]);
-			pairs.set(keyMatch, value ?? keyMatch);
+				? findByKeyPath(args, key)
+				: args[+key];
+			pairs.set(keyMatch, String(value ?? keyMatch));
 		}
 		return pairs.get(keyMatch);
 	});
