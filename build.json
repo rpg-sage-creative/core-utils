@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.1",
+"version":"0.9.2",
 "branch":"main",
-"commit":"76e0802a89b73f8dc56c99e4b1d581fab7c590e5",
-"commitSubject":"allow caching of global regex",
-"commitTs":1753142649000,
-"commitDate":"2025-07-21-1704",
-"buildTs":1753142852000,
-"buildDate":"2025-07-21-1707",
+"commit":"a61cda4da1f32ffe0c3354c9a2e8d4fca32c5c70",
+"commitSubject":"improve stringFormat using navigateJson; add testing for stringFormat",
+"commitTs":1753893877000,
+"commitDate":"2025-07-30-0944",
+"buildTs":1753893899000,
+"buildDate":"2025-07-30-0944",
 "author":"Randal"
 }
