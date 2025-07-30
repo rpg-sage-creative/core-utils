@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.2",
+"version":"0.9.3",
 "branch":"main",
-"commit":"a61cda4da1f32ffe0c3354c9a2e8d4fca32c5c70",
-"commitSubject":"improve stringFormat using navigateJson; add testing for stringFormat",
-"commitTs":1753893877000,
-"commitDate":"2025-07-30-0944",
-"buildTs":1753893899000,
-"buildDate":"2025-07-30-0944",
+"commit":"dbd9e51bb36bc4eb133aed470e8c9f301f445690",
+"commitSubject":"StringMatcher optimizations",
+"commitTs":1753902599000,
+"commitDate":"2025-07-30-1209",
+"buildTs":1753902624000,
+"buildDate":"2025-07-30-1210",
 "author":"Randal"
 }
