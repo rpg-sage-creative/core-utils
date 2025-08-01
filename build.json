@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.3",
+"version":"0.9.4",
 "branch":"main",
-"commit":"dbd9e51bb36bc4eb133aed470e8c9f301f445690",
-"commitSubject":"StringMatcher optimizations",
-"commitTs":1753902599000,
-"commitDate":"2025-07-30-1209",
-"buildTs":1753902624000,
-"buildDate":"2025-07-30-1210",
+"commit":"541fe501b0f20d2fce1af62239e2d2849e1423f9",
+"commitSubject":"improve StringMatcher to enable choosing the clean options",
+"commitTs":1754086833000,
+"commitDate":"2025-08-01-1520",
+"buildTs":1754086863000,
+"buildDate":"2025-08-01-1521",
 "author":"Randal"
 }
