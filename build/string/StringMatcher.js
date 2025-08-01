@@ -1,11 +1,21 @@
 import { escapeRegex } from "../regex/escapeRegex.js";
-import { isDefined, isNullOrUndefined, isString } from "../types/index.js";
+import { isBoolean, isDefined, isNullOrUndefined, isString } from "../types/index.js";
 import { isNotBlank } from "./blank/index.js";
-import { normalizeAscii, removeAccents } from "./normalize/index.js";
+import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
 import { cleanWhitespace, getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/index.js";
 export class StringMatcher {
-    constructor(value) {
-        this.value = value;
+    constructor(value, cleanOptions) {
+        this.value = isDefined(value) ? String(value) : value;
+        if (cleanOptions) {
+            const keys = ["removeAccents", "normalizeApostrophes", "normalizeDashes", "normalizeEllipses", "normalizeQuotes", "cleanWhitespace", "toLowerCase"];
+            this.cleanOptions = keys.reduce((out, key) => {
+                const bool = cleanOptions[key];
+                if (isDefined(bool)) {
+                    out[key] = !!bool;
+                }
+                return out;
+            }, {});
+        }
     }
     _isNonNil;
     get isNonNil() {
@@ -21,15 +31,16 @@ export class StringMatcher {
     }
     _matchValue;
     get matchValue() {
-        return this._matchValue ??= StringMatcher.clean(this.value);
+        return this._matchValue ??= StringMatcher.clean(this.value, this.cleanOptions);
     }
+    cleanOptions;
     value;
     matches(other) {
         if (!this.isValid || isNullOrUndefined(other)) {
             return false;
         }
         if (isString(other)) {
-            other = new StringMatcher(other);
+            other = new StringMatcher(other, this.cleanOptions);
         }
         if (!other.isValid || this.isNonNil !== other.isNonNil) {
             return false;
@@ -56,7 +67,7 @@ export class StringMatcher {
                 return "";
             }
             lastCharWasWhitespace = false;
-            const cleaned = StringMatcher.clean(char);
+            const cleaned = StringMatcher.clean(char, this.cleanOptions);
             const escaped = escapeRegex(cleaned);
             if (char !== cleaned && char !== cleaned.toUpperCase()) {
                 if (char.length === 1 && cleaned.length === 1 && cleaned === escaped) {
@@ -73,21 +84,33 @@ export class StringMatcher {
     toString() {
         return this.value;
     }
-    static clean(value) {
-        return cleanWhitespace(normalizeAscii(removeAccents(String(value ?? "")))).toLowerCase();
+    static clean(value, options = {}) {
+        if (isNullOrUndefined(value))
+            return "";
+        value = String(value ?? "");
+        const optionFunctions = [removeAccents, normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, cleanWhitespace, toLowerCase];
+        const optionDefaultValue = !optionFunctions.some(fn => isBoolean(options[fn.name]));
+        optionFunctions.forEach(fn => {
+            if (options[fn.name] ?? optionDefaultValue) {
+                value = fn(value);
+            }
+        });
+        return value;
+        function toLowerCase(value) { return value.toLowerCase(); }
     }
-    static matches(value, other) {
-        return StringMatcher.from(value).matches(other);
+    static matches(value, other, options) {
+        return StringMatcher.from(value, options).matches(other);
     }
-    static matchesAny(value, others) {
-        return StringMatcher.from(value).matchesAny(others);
+    static matchesAny(value, others, options) {
+        return StringMatcher.from(value, options).matchesAny(others);
     }
-    static from(value) {
+    static from(value, options) {
         if (isDefined(value)) {
-            return value instanceof StringMatcher
-                ? value
-                : new StringMatcher(typeof (value) === "string" ? value : value?.value);
+            if (value instanceof StringMatcher) {
+                return value;
+            }
+            return new StringMatcher(isString(value) ? value : value?.value, options);
         }
-        return new StringMatcher(value);
+        return new StringMatcher(value, options);
     }
 }

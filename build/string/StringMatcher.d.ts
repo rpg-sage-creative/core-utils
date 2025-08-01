@@ -1,5 +1,4 @@
-import type { Optional } from "../types/generics.js";
-import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
+import type { Matcher, MatcherResolvable, Optional } from "../index.js";
 type StringMatcherToRegExpOptions = {
     /** if set to true then the regex begins with ^ and ends with $; default value is true */
     anchored?: boolean;
@@ -10,9 +9,19 @@ type StringMatcherToRegExpOptions = {
     /** if set to true then only horizontal whitespace will be made optional */
     horizontalOnly?: boolean;
 };
+/** If no values are set, all are assumed to be true. */
+type CleanOptions = {
+    cleanWhitespace?: boolean;
+    normalizeApostrophes?: boolean;
+    normalizeDashes?: boolean;
+    normalizeEllipses?: boolean;
+    normalizeQuotes?: boolean;
+    removeAccents?: boolean;
+    toLowerCase?: boolean;
+};
 /** A reusable object for comparing a string without the need to repeatedly manipulate the value. */
 export declare class StringMatcher implements Matcher {
-    constructor(value: Optional<string>);
+    constructor(value: Optional<string>, cleanOptions?: CleanOptions);
     /** Stores isNotBlank(value) */
     private _isNonNil?;
     /** Returns isNotBlank(value) */
@@ -28,6 +37,7 @@ export declare class StringMatcher implements Matcher {
     private _matchValue?;
     /** The value used to compare to other values. */
     get matchValue(): string;
+    cleanOptions?: CleanOptions;
     /** Stores the raw value. */
     value: Optional<string>;
     /** Compares the clean values. */
@@ -43,13 +53,14 @@ export declare class StringMatcher implements Matcher {
     /**
      * Cleans the given value to make comparisons more reliable.
      * Convenience for cleanWhitespace(normalizeAscii(removeAccents(String(value ?? "")))).toLowerCase()
+     * If options are given, then only those cleaning functions marked as true are used to manipulate the value.
      */
-    static clean(value: Optional<string>): string;
+    static clean(value: Optional<string>, options?: CleanOptions): string;
     /** Convenience for StringMatcher.from(value).matches(other) */
-    static matches(value: MatcherResolvable, other: MatcherResolvable): boolean;
+    static matches(value: MatcherResolvable, other: MatcherResolvable, options?: CleanOptions): boolean;
     /** Convenience for StringMatcher.from(value).matchesAny(others) */
-    static matchesAny(value: MatcherResolvable, others: MatcherResolvable[]): boolean;
+    static matchesAny(value: MatcherResolvable, others: MatcherResolvable[], options?: CleanOptions): boolean;
     /** Convenience for new StringMatcher(value) */
-    static from(value: Optional<MatcherResolvable>): StringMatcher;
+    static from(value: Optional<MatcherResolvable>, options?: CleanOptions): StringMatcher;
 }
 export {};

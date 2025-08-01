@@ -1,9 +1,8 @@
+import type { Matcher, MatcherResolvable, Optional } from "../index.js";
 import { escapeRegex } from "../regex/escapeRegex.js";
-import type { Optional } from "../types/generics.js";
-import { isDefined, isNullOrUndefined, isString } from "../types/index.js";
-import type { Matcher, MatcherResolvable } from "../types/Matcher.js";
+import { isBoolean, isDefined, isNullOrUndefined, isString } from "../types/index.js";
 import { isNotBlank } from "./blank/index.js";
-import { normalizeAscii, removeAccents } from "./normalize/index.js";
+import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
 import { cleanWhitespace, getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/index.js";
 
 type StringMatcherToRegExpOptions = {
@@ -17,10 +16,32 @@ type StringMatcherToRegExpOptions = {
 	horizontalOnly?: boolean;
 };
 
+/** If no values are set, all are assumed to be true. */
+type CleanOptions = {
+	cleanWhitespace?: boolean;
+	normalizeApostrophes?: boolean;
+	normalizeDashes?: boolean;
+	normalizeEllipses?: boolean;
+	normalizeQuotes?: boolean;
+	removeAccents?: boolean;
+	toLowerCase?: boolean;
+};
+
 /** A reusable object for comparing a string without the need to repeatedly manipulate the value. */
 export class StringMatcher implements Matcher {
-	public constructor(value: Optional<string>) {
-		this.value = value;
+	public constructor(value: Optional<string>, cleanOptions?: CleanOptions) {
+		this.value = isDefined(value) ? String(value) : value;
+
+		if (cleanOptions) {
+			const keys = ["removeAccents", "normalizeApostrophes", "normalizeDashes", "normalizeEllipses", "normalizeQuotes", "cleanWhitespace", "toLowerCase"] as (keyof CleanOptions)[];
+			this.cleanOptions = keys.reduce((out, key) => {
+				const bool = cleanOptions[key];
+				if (isDefined(bool)) {
+					out[key] = !!bool;
+				}
+				return out;
+			}, {} as CleanOptions);
+		}
 	}
 
 	/** Stores isNotBlank(value) */
@@ -51,8 +72,10 @@ export class StringMatcher implements Matcher {
 
 	/** The value used to compare to other values. */
 	public get matchValue(): string {
-		return this._matchValue ??= StringMatcher.clean(this.value);
+		return this._matchValue ??= StringMatcher.clean(this.value, this.cleanOptions);
 	}
+
+	public cleanOptions?: CleanOptions;
 
 	/** Stores the raw value. */
 	public value: Optional<string>;
@@ -63,7 +86,7 @@ export class StringMatcher implements Matcher {
 			return false;
 		}
 		if (isString(other)) {
-			other = new StringMatcher(other);
+			other = new StringMatcher(other, this.cleanOptions);
 		}
 		if (!other.isValid || this.isNonNil !== other.isNonNil) {
 			return false;
@@ -111,7 +134,7 @@ export class StringMatcher implements Matcher {
 			lastCharWasWhitespace = false;
 
 			// clean the character
-			const cleaned = StringMatcher.clean(char);
+			const cleaned = StringMatcher.clean(char, this.cleanOptions);
 
 			// escape the character
 			const escaped = escapeRegex(cleaned);
@@ -142,28 +165,52 @@ export class StringMatcher implements Matcher {
 	/**
 	 * Cleans the given value to make comparisons more reliable.
 	 * Convenience for cleanWhitespace(normalizeAscii(removeAccents(String(value ?? "")))).toLowerCase()
+	 * If options are given, then only those cleaning functions marked as true are used to manipulate the value.
 	 */
-	public static clean(value: Optional<string>): string {
-		return cleanWhitespace(normalizeAscii(removeAccents(String(value ?? "")))).toLowerCase();
+	public static clean(value: Optional<string>, options: CleanOptions = {}): string {
+		// return empty string if we have nothing to do
+		if (isNullOrUndefined(value)) return "";
+
+		// prep incoming value for type safety
+		value = String(value ?? "");
+
+		// the functions to call in the correct order to call them
+		const optionFunctions = [removeAccents, normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, cleanWhitespace, toLowerCase];
+
+		// If no values are set, all are assumed to be true.
+		const optionDefaultValue = !optionFunctions.some(fn => isBoolean(options[fn.name as keyof CleanOptions]));
+
+		// iterate the functions
+		optionFunctions.forEach(fn => {
+			// only call the function if it is explicitly set or all are assumed to be set by none of them being set
+			if (options[fn.name as keyof CleanOptions] ?? optionDefaultValue) {
+				value = fn(value as string);
+			}
+		});
+
+		return value;
+
+		function toLowerCase(value: string) { return value.toLowerCase(); }
 	}
 
 	/** Convenience for StringMatcher.from(value).matches(other) */
-	public static matches(value: MatcherResolvable, other: MatcherResolvable): boolean {
-		return StringMatcher.from(value).matches(other);
+	public static matches(value: MatcherResolvable, other: MatcherResolvable, options?: CleanOptions): boolean {
+		return StringMatcher.from(value, options).matches(other);
 	}
 
 	/** Convenience for StringMatcher.from(value).matchesAny(others) */
-	public static matchesAny(value: MatcherResolvable, others: MatcherResolvable[]): boolean {
-		return StringMatcher.from(value).matchesAny(others);
+	public static matchesAny(value: MatcherResolvable, others: MatcherResolvable[], options?: CleanOptions): boolean {
+		return StringMatcher.from(value, options).matchesAny(others);
 	}
 
 	/** Convenience for new StringMatcher(value) */
-	public static from(value: Optional<MatcherResolvable>): StringMatcher {
+	public static from(value: Optional<MatcherResolvable>, options?: CleanOptions): StringMatcher {
 		if (isDefined(value)) {
-			return value instanceof StringMatcher
-				? value
-				: new StringMatcher(typeof(value) === "string" ? value : value?.value);
+			if (value instanceof StringMatcher) {
+				return value;
+			}
+			return new StringMatcher(isString(value) ? value : value?.value, options);
 		}
-		return new StringMatcher(value);
+		return new StringMatcher(value, options);
 	}
 }

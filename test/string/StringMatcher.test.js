@@ -20,6 +20,10 @@ describe("string", () => {
 			{ input:"Gandälf the Whité", isNonNil:true, isValid:true, lower:"gandälf the whité", matchValue:"gandalf the white", value:"Gandälf the Whité", matchesWhite:true },
 			{ input:`Gandälf ${LEFT_D}the${RIGHT_D} Whité`, isNonNil:true, isValid:true, lower:`gandälf ${LEFT_D}the${RIGHT_D} whité`, matchValue:`gandalf "the" white`, value:`Gandälf ${LEFT_D}the${RIGHT_D} Whité` },
 			{ input:`Gandälf ${LEFT_S}the${RIGHT_S} Whité`, isNonNil:true, isValid:true, lower:`gandälf ${LEFT_S}the${RIGHT_S} whité`, matchValue:`gandalf 'the' white`, value:`Gandälf ${LEFT_S}the${RIGHT_S} Whité` },
+
+			{ input:"Gandalf", options:{ toLowerCase:true }, isNonNil:true, isValid:true, lower:"gandalf", matchValue:"gandalf", value:"Gandalf" },
+			{ input:`Gandalf the ${NDASH}`, options:{ toLowerCase:true }, isNonNil:true, isValid:true, lower:`gandalf the ${NDASH}`, matchValue:`gandalf the ${NDASH}`, value:`Gandalf the ${NDASH}` },
+			{ input:`Gandalf the ${ELLIPSIS}`, options:{ toLowerCase:true }, isNonNil:true, isValid:true, lower:`gandalf the ${ELLIPSIS}`, matchValue:`gandalf the ${ELLIPSIS}`, value:`Gandalf the ${ELLIPSIS}`, matchesDots:true },
 		];
 
 		const nullMatcher = new StringMatcher();
@@ -27,7 +31,7 @@ describe("string", () => {
 			expect(nullMatcher.matches(nullMatcher)).toBe(false);
 		});
 
-		const theDots = StringMatcher.from({ value:"Gandalf the ..." });
+		const theDots = StringMatcher.from({ value:`Gandalf the ${ELLIPSIS}` });
 		const theGrey = StringMatcher.from({ value:"Gandalf the Gréy" });
 		const theWhite = StringMatcher.from({ value:"Gandälf the White" });
 
@@ -44,9 +48,9 @@ describe("string", () => {
 			expect(StringMatcher.matchesAny("Gandalf THE white", [theWhite, "gandalf"])).toBe(true);
 		});
 
-		tests.forEach(({ input, isNonNil, isValid, lower, matchValue, value, matchesDots, matchesGrey, matchesWhite }) => {
-			describe(tagLiterals`StringMatcher.from(${input})`, () => {
-				const matcher = StringMatcher.from(input);
+		tests.forEach(({ input, options, isNonNil, isValid, lower, matchValue, value, matchesDots, matchesGrey, matchesWhite }) => {
+			describe(tagLiterals`StringMatcher.from(${input}, ${options})`, () => {
+				const matcher = StringMatcher.from(input, options);
 				test(tagLiterals`${{isNonNil,isValid,lower,matchValue,value}}`, () => {
 					// compare all expected values
 					expect(matcher.isNonNil).toBe(isNonNil);
@@ -54,6 +58,7 @@ describe("string", () => {
 					expect(matcher.lower).toBe(lower);
 					expect(matcher.matchValue).toBe(matchValue);
 					expect(matcher.value).toBe(value);
+					expect(matcher.cleanOptions).toStrictEqual(options);
 					// value should be input
 					expect(matcher.value).toBe(input);
 					// toString() should return value ...
@@ -68,16 +73,32 @@ describe("string", () => {
 					expect(matcher.matches(matcher)).toBe(matcher.isValid);
 				});
 				test(tagLiterals`matcher.matches(theDots) === ${!!matchesDots}`, () => {
-					expect(matcher.matches(theDots)).toBe(!!matchesDots);
+					if (options?.toLowerCase) {
+						expect(matcher.matches(theDots.lower)).toBe(!!matchesDots);
+					}else {
+						expect(matcher.matches(theDots)).toBe(!!matchesDots);
+					}
 				});
 				test(tagLiterals`matcher.matches(theGrey) === ${!!matchesGrey}`, () => {
-					expect(matcher.matches(theGrey)).toBe(!!matchesGrey);
+					if (options?.toLowerCase) {
+						expect(matcher.matches(theGrey.lower)).toBe(!!matchesGrey);
+					}else {
+						expect(matcher.matches(theGrey)).toBe(!!matchesGrey);
+					}
 				});
 				test(tagLiterals`matcher.matches(theWhite) === ${!!matchesWhite}`, () => {
-					expect(matcher.matches(theWhite)).toBe(!!matchesWhite);
+					if (options?.toLowerCase) {
+						expect(matcher.matches(theWhite.lower)).toBe(!!matchesWhite);
+					}else {
+						expect(matcher.matches(theWhite)).toBe(!!matchesWhite);
+					}
 				});
 				test(tagLiterals`matcher.matchesAny(theDots, theGrey, theWhite) === ${!!matchesDots || !!matchesGrey || !!matchesWhite}`, () => {
-					expect(matcher.matchesAny(theDots, theGrey, theWhite)).toBe(!!matchesDots || !!matchesGrey || !!matchesWhite);
+					if (options?.toLowerCase) {
+						expect(matcher.matchesAny(theDots.lower, theGrey.lower, theWhite.lower)).toBe(!!matchesDots || !!matchesGrey || !!matchesWhite);
+					}else {
+						expect(matcher.matchesAny(theDots, theGrey, theWhite)).toBe(!!matchesDots || !!matchesGrey || !!matchesWhite);
+					}
 				});
 				test(tagLiterals`matcher.toRegex(): ${matcher.toRegex()}.test(${matcher.value}) === ${matcher.isValid}`, () => {
 					expect(matcher.toRegex().test(matcher.value)).toBe(matcher.isValid);
@@ -91,13 +112,13 @@ describe("string", () => {
 				});
 				if (typeof(input) === "string" || isNullOrUndefined(input)) {
 					test(`StringMatcher.from() === new StringMatcher()`, () => {
-						const newMatcher = new StringMatcher(input);
+						const newMatcher = new StringMatcher(input, options);
 						expect(matcher.isNonNil).toBe(newMatcher.isNonNil);
 						expect(matcher.isValid).toBe(newMatcher.isValid);
 						expect(matcher.lower).toBe(newMatcher.lower);
 						expect(matcher.matchValue).toBe(newMatcher.matchValue);
 						expect(matcher.value).toBe(newMatcher.value);
-
+						expect(matcher.cleanOptions).toStrictEqual(newMatcher.cleanOptions);
 					});
 				}
 			});
