@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.4",
+"version":"0.9.5",
 "branch":"main",
-"commit":"541fe501b0f20d2fce1af62239e2d2849e1423f9",
-"commitSubject":"improve StringMatcher to enable choosing the clean options",
-"commitTs":1754086833000,
-"commitDate":"2025-08-01-1520",
-"buildTs":1754086863000,
-"buildDate":"2025-08-01-1521",
+"commit":"e9faf66f919a31c5bc4dbd2b469baa4ce53d9bb3",
+"commitSubject":"improve Color logic to help try to avoid type (null/undefined) errors",
+"commitTs":1754412798000,
+"commitDate":"2025-08-05-0953",
+"buildTs":1754413032000,
+"buildDate":"2025-08-05-0957",
 "author":"Randal"
 }
