@@ -1,3 +1,4 @@
+import { hexToColor } from "./internal/hexToColor.js";
 import { toColorData } from "./internal/toColorData.js";
 import { isHexColorString } from "./isHexColorString.js";
 import { isRgbColorString } from "./isRgbColorString.js";
@@ -26,7 +27,7 @@ export class Color {
         return Color.from(red, green, blue, this.alpha);
     }
     tweakAlpha(multiplier) {
-        return Color.from(this.data, this.alpha * multiplier);
+        return new Color(hexToColor(this.data.hexa, this.alpha * multiplier));
     }
     static from(colorOrRed, alphaOrGreen, blue, alpha) {
         const color = toColorData(colorOrRed, alphaOrGreen, blue, alpha);

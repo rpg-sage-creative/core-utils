@@ -4,6 +4,9 @@ import { getNamedColor } from "../namedColors.js";
 import { hexToColor } from "./hexToColor.js";
 import { rgbToHex } from "./rgbToHex.js";
 export function toColorData(colorOrRed, alphaOrGreen, blue, alpha) {
+    if (colorOrRed === null || colorOrRed === undefined) {
+        return undefined;
+    }
     if (typeof (colorOrRed) === "number") {
         if (alpha !== undefined) {
             return hexToColor(rgbToHex(colorOrRed, alphaOrGreen, blue, alpha));
@@ -12,10 +15,7 @@ export function toColorData(colorOrRed, alphaOrGreen, blue, alpha) {
             return hexToColor(rgbToHex(colorOrRed, alphaOrGreen, blue));
         }
     }
-    else if (typeof (colorOrRed) === "object") {
-        return hexToColor(colorOrRed.hexa, alphaOrGreen);
-    }
-    const namedColor = getNamedColor(colorOrRed?.toLowerCase());
+    const namedColor = getNamedColor(colorOrRed.toLowerCase());
     if (namedColor) {
         return hexToColor(namedColor.hexa, alphaOrGreen);
     }
