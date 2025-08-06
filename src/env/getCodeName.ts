@@ -2,7 +2,7 @@ import { enableLogLevels } from "../console/logLevels/enableLogLevels.js";
 import type { Optional } from "../types/generics.js";
 import { getFromProcess } from "./getFromProcess.js";
 import { codeNameToEnvironmentName } from "./internal/codeNameToEnvironmentName.js";
-import type { CodeName } from "./types.js";
+import type { CodeName, ValidatorArg } from "./types.js";
 
 let _codeName: CodeName;
 
@@ -18,14 +18,14 @@ export function getCodeName(registerLogLevels: true): CodeName;
 
 export function getCodeName(registerLogLevels?: true): CodeName {
 	if (!_codeName) {
-		const codeNameValidator = (value: Optional<string | number | boolean>): value is CodeName => {
+		const codeNameValidator = (value: Optional<ValidatorArg>): value is CodeName => {
 			return ["dev", "beta", "stable"].includes(value as string);
 		};
 
 		if (registerLogLevels) {
 
 			/** Checks that the gicen value is a string and a valid CodeName and enables the appropriate log levels. */
-			const enableLogLevelsIfValid = (value: Optional<string | number | boolean>): value is CodeName => {
+			const enableLogLevelsIfValid = (value: Optional<ValidatorArg>): value is CodeName => {
 				if (codeNameValidator(value)) {
 					enableLogLevels(codeNameToEnvironmentName(value));
 					return true;

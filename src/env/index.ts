@@ -7,5 +7,6 @@ export * from "./getEnvironmentName.js";
 export * from "./getFromProcess.js";
 export * from "./getFromProcessSafely.js";
 export * from "./getId.js";
+export * from "./getIds.js";
 export * from "./getPort.js";
 export * from "./types.js";

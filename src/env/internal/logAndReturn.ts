@@ -1,5 +1,6 @@
 import { verbose } from "../../console/loggers/verbose.js";
 import { stringifyJson } from "../../json/stringifyJson.js";
+import type { ValidatorArg } from "../types.js";
 
 /**
  * @internal
@@ -8,7 +9,7 @@ import { stringifyJson } from "../../json/stringifyJson.js";
  * @param value
  * @returns
  */
-export function logAndReturn<T>(from: "argv" | "env" | "json", key: string, value: string | number | boolean): T {
+export function logAndReturn<T>(from: "argv" | "env" | "json", key: string, value: ValidatorArg): T {
 	const outValue = key.endsWith("Token") ? (value as string).split("").map(() => "*").join("") : value;
 	verbose(`Environment Variable (${from}): ${key}=${stringifyJson(outValue)}`);
 	return value as T;

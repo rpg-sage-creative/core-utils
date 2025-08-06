@@ -1,8 +1,9 @@
 import { readFileSync } from "fs";
 import { error } from "../../console/loggers/error.js";
 import { parseJson } from "../../json/parseJson.js";
+import type { ValidatorArg } from "../types.js";
 
-let _json: Record<string, string | number>;
+let _json: Record<string, ValidatorArg>;
 
 /**
  * @internal
@@ -10,7 +11,7 @@ let _json: Record<string, string | number>;
  * @param key the key to check
  * @returns
  */
-export function getFromEnvJson(key: string): string | number | boolean | undefined {
+export function getFromEnvJson(key: string): ValidatorArg | undefined {
 	if (!_json) {
 		const path = "./config/env.json";
 		try {

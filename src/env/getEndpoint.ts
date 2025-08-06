@@ -3,7 +3,7 @@ import type { Optional } from "../types/generics.js";
 import { getAwsRegion } from "./getAwsRegion.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 import { getPort } from "./getPort.js";
-import type { Region } from "./types.js";
+import type { Region, ValidatorArg } from "./types.js";
 
 export type AppServerEndpoint = {
 	secure: boolean;
@@ -19,10 +19,10 @@ const _endpoints: Record<string, Partial<AppServerEndpoint>> = { };
 
 export function getEndpoint(server: string): Partial<AppServerEndpoint> {
 	if (!_endpoints[server]) {
-		const booleanValidator = (value: Optional<string | number | boolean>): value is boolean | `${boolean}` => {
+		const booleanValidator = (value: Optional<ValidatorArg>): value is boolean | `${boolean}` => {
 			return parseBoolean(value) !== undefined;
 		};
-		const hostnameValidator = (value: Optional<string | number | boolean>, region?: Region): value is string => {
+		const hostnameValidator = (value: Optional<ValidatorArg>, region?: Region): value is string => {
 			const stringValue = String(value);
 			return /^\d+(\.\d+){3}$/.test(stringValue)
 				|| stringValue.includes(`.lambda-url.${region}.on.aws`)
