@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.5",
+"version":"0.9.6",
 "branch":"main",
-"commit":"e9faf66f919a31c5bc4dbd2b469baa4ce53d9bb3",
-"commitSubject":"improve Color logic to help try to avoid type (null/undefined) errors",
-"commitTs":1754412798000,
-"commitDate":"2025-08-05-0953",
-"buildTs":1754413032000,
-"buildDate":"2025-08-05-0957",
+"commit":"da6351d990bcbbf7a32e71630df5ff9266662239",
+"commitSubject":"add getIds, implement ValidatorArg",
+"commitTs":1754523603000,
+"commitDate":"2025-08-06-1640",
+"buildTs":1754523846000,
+"buildDate":"2025-08-06-1644",
 "author":"Randal"
 }
