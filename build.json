@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.6",
+"version":"0.9.7",
 "branch":"main",
-"commit":"da6351d990bcbbf7a32e71630df5ff9266662239",
-"commitSubject":"add getIds, implement ValidatorArg",
-"commitTs":1754523603000,
-"commitDate":"2025-08-06-1640",
-"buildTs":1754523846000,
-"buildDate":"2025-08-06-1644",
+"commit":"d294f6ba6e829215a4e10b86104a5b6ce20192d9",
+"commitSubject":"implement footer; improve lists",
+"commitTs":1754686177000,
+"commitDate":"2025-08-08-1349",
+"buildTs":1754691535000,
+"buildDate":"2025-08-08-1518",
 "author":"Randal"
 }
