@@ -18,6 +18,7 @@ line 2</blockquote>
 <i>italics
 more</i>
 <code>code</code>
+<footer>footer</footer>
 <s>s</s> or <strike>strike</strike>
 line<br>break
 <a href="https://rpgsage.io">RPG Sage Site</a>
@@ -25,6 +26,7 @@ line<br>break
 line<br/>break
 <u>underline</u>
 <ul><li>first</li><li>second</li></ul>
+<ul><li>first</li><ol><li>first child first</li><li>first child second</li></ol><li>second</li></ul>
 \ttabbed
 <ol><li>first</li><li>second</li></ol>
 <ol start="5"><li>first</li><li>second</li></ol>
@@ -48,6 +50,7 @@ __**Header 4**__
 *italics
 more*
 \`code\`
+-# footer
 ~~s~~ or ~~strike~~
 line
 break
@@ -59,13 +62,18 @@ __underline__
 
 - first
 - second
+
+- first
+  1. first child first
+  2. first child second
+- second
  \u00A0 \u00A0tabbed
 
- **1.** first
- **2.** second
+1. first
+2. second
 
- **5.** first
- **6.** second
+5. first
+6. second
 `
 				},
 			];

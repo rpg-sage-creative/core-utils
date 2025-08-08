@@ -13,12 +13,12 @@ export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
         const closeMarkdown = Array.from(openMarkdown).reverse().join("");
         handler = (inner) => openMarkdown + inner + closeMarkdown;
     }
-    const regexp = regex("gi") `<(?<nodeName>${element})(?<attributes>\s[^>]+)?>(?<inner>(.|\n)*?)</(?:${element})>`;
+    const regexp = regex("gi") `<(?<nodeName>${element})(?<attributes>\s[^>]+)?>(?<inner>(.|\n)*?)</\k<nodeName>>`;
     return text.replace(regexp, (outer, nodeName, attributes, inner) => {
         const attributeMap = parseKeyValueArgs(attributes).reduce((map, arg) => {
             map.set(arg.key, arg.value ?? "");
             return map;
         }, new Map());
-        return handler(inner, attributeMap, nodeName, outer);
+        return handler(inner, attributeMap, nodeName.toLowerCase(), outer);
     });
 }

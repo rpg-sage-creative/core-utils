@@ -8,15 +8,15 @@ export function toMarkdown(html) {
         .formatTable()
         .formatBold()
         .formatCode()
+        .formatFooter()
         .formatHeaders()
         .formatHorizontalTab()
         .formatItalics()
         .formatLinks()
-        .formatOrderedList()
+        .formatLists()
         .formatParagraph()
         .formatStrikethrough()
         .formatUnderline()
-        .formatUnorderedList()
         .formatBlockQuote()
         .toString();
 }
