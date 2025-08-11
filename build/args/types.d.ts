@@ -1,12 +1,36 @@
-export type KeyValuePair<T extends string = string, U extends string = string> = {
-    /** key for the flag or pair */
-    key: T;
-    /** regex for comparing the key */
-    keyRegex: RegExp;
-    /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value: U | null;
+export type KeyValuePair<Value extends number | string, Nil extends null | undefined> = {
+    /** the key as found */
+    key: string;
+    /** if the value is an empty string then Nil is returned */
+    value: Value | Nil;
 };
-export type FlagArg<T extends string = string> = {
+export type KeyValueTrio<Value extends number | string, Nil extends null | undefined> = {
+    /** the key as found */
+    key: string;
+    /** used for comparisons: key.toLowerCase() */
+    keyLower: Lowercase<string>;
+    /** if the value is an empty string then Nil is returned */
+    value: Value | Nil;
+};
+export type KeyValueRegex<Value extends number | string, Nil extends null | undefined> = {
+    /** the key as found */
+    key: string;
+    /** regex for comparing the key: new RegExp(`^${key}$`, "i") */
+    keyRegex: RegExp;
+    /** if the value is an empty string then Nil is returned */
+    value: Value | Nil;
+};
+export type KeyValueQuad<Value extends number | string, Nil extends null | undefined> = {
+    /** the key as found */
+    key: string;
+    /** used for comparisons: key.toLowerCase() */
+    keyLower: Lowercase<string>;
+    /** regex for comparing the key: new RegExp(`^${key}$`, "i") */
+    keyRegex: RegExp;
+    /** if the value is an empty string then Nil is returned */
+    value: Value | Nil;
+};
+export type FlagArg<Key extends string = string> = {
     /** raw arg text */
     arg: string;
     /** index of the arg in the args array */
@@ -20,7 +44,7 @@ export type FlagArg<T extends string = string> = {
     /** is the arg a raw value arg */
     isValue?: never;
     /** key for the flag or pair */
-    key: T;
+    key: Key;
     /** regex for comparing the key */
     keyRegex: RegExp;
     /** how to increment/decrement */
@@ -28,7 +52,7 @@ export type FlagArg<T extends string = string> = {
     /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
     value?: never;
 };
-export type IncrementArg<T extends string = string, U extends string = string> = {
+export type IncrementArg<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = {
     /** raw arg text */
     arg: string;
     /** index of the arg in the args array */
@@ -42,15 +66,15 @@ export type IncrementArg<T extends string = string, U extends string = string> =
     /** is the arg a raw value arg */
     isValue?: never;
     /** key for the flag or pair */
-    key: T;
+    key: Key;
     /** regex for comparing the key */
     keyRegex: RegExp;
     /** how to increment/decrement */
     operator: "+" | "-";
     /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value: U | null;
+    value: Value | Nil;
 };
-export type KeyValueArg<T extends string = string, U extends string = string> = KeyValuePair<T, U> & {
+export type KeyValueArg<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = {
     /** raw arg text */
     arg: string;
     /** index of the arg in the args array */
@@ -64,15 +88,15 @@ export type KeyValueArg<T extends string = string, U extends string = string> = 
     /** is the arg a raw value arg */
     isValue?: never;
     /** key for the flag or pair */
-    key: T;
+    key: Key;
     /** regex for comparing the key */
     keyRegex: RegExp;
     /** how to increment/decrement */
     modifier?: never;
     /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value: U | null;
+    value: Value | Nil;
 };
-export type ValueArg<T extends string = string> = {
+export type ValueArg<Value extends number | string = string, Nil extends null | undefined | never = null> = {
     /** raw arg text */
     arg: string;
     /** index of the arg in the args array */
@@ -92,5 +116,5 @@ export type ValueArg<T extends string = string> = {
     /** how to increment/decrement */
     modifier?: never;
     /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value: T | null;
+    value: Value | Nil;
 };
