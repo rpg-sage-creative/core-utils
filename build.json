@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.7",
+"version":"0.9.8",
 "branch":"main",
-"commit":"d294f6ba6e829215a4e10b86104a5b6ce20192d9",
-"commitSubject":"implement footer; improve lists",
-"commitTs":1754686177000,
-"commitDate":"2025-08-08-1349",
-"buildTs":1754691535000,
-"buildDate":"2025-08-08-1518",
+"commit":"fbbd9a34519768ebe8ea2d150b1a460b33f9a51a",
+"commitSubject":"redefined KeyValuePair",
+"commitTs":1754880310000,
+"commitDate":"2025-08-10-1945",
+"buildTs":1754880441000,
+"buildDate":"2025-08-10-1947",
 "author":"Randal"
 }
