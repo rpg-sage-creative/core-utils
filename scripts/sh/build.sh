@@ -27,7 +27,7 @@ fi
 
 # scrub build folders
 echo "Scrubbing build folders ..."
-find . -type d -name 'build' -not -path './node_modules/*'  -exec rm -rf {} +
+find . -type d -name 'build' -not -path './node_modules/*' -not -path './modules/*'  -exec rm -rf {} +
 
 # scrub build info
 echo "Scrubbing tsbuildinfo files ..."
