@@ -9,7 +9,8 @@
 		"build": "bash ./scripts/sh/build.sh",
 		"release": "bash ./scripts/sh/release.sh",
 		"test": "bash ./scripts/sh/test.sh",
-		"test-todos": "bash ./scripts/sh/create-test-js.sh"
+		"test-todos": "bash ./scripts/sh/create-test-js.sh",
+		"clean": "rm -rf node_modules; rm -f package-lock.json; npm i; npm run build"
 	},
 	"devDependencies": {
 		"@types/jest": "^29.5.14",
