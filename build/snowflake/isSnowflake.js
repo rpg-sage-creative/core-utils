@@ -1,8 +1,4 @@
-let regexp;
+import { isWholeNumberString } from "../types/index.js";
 export function isSnowflake(value) {
-    if (value) {
-        regexp ??= /^\d{16,}$/;
-        return regexp.test(value);
-    }
-    return false;
+    return isWholeNumberString(value) && value.length >= 16;
 }
