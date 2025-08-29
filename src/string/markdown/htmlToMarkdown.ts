@@ -1,6 +1,13 @@
-import { regex } from "regex";
-import type { Pattern } from "regex/dist/cjs/pattern.js";
+import { regex, type Pattern } from "regex";
 import { parseKeyValueArgs } from "../../args/parseKeyValueArgs.js";
+
+/*
+	regex doesn't natively export type Pattern
+	I had to go in and edit ./modules/core-utils/node_modules/regex/dist/esm/regex.d.ts
+	The last line was `export { pattern };`
+	I changed it to `export { pattern, type Pattern };`
+	I may need to alter my build script that manages pdf2json type definitions to also do this
+*/
 
 type HtmlToMarkdownHandler = (innerHtml: string, attributes: Map<string, string>, nodeName: Lowercase<string>, outerHtml: string) => string;
 
