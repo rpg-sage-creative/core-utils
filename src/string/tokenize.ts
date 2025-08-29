@@ -33,7 +33,7 @@ export function tokenize(input: string, parsers: TokenParsers, defaultKey = "unk
 		token = undefined;
 		matchIndex = input.length;
 		for (const key in parsers) {
-			const regExpMatchArray = parsers[key].exec(input);
+			const regExpMatchArray = parsers[key]?.exec(input);
 			// try to choose the best match if there are several
 			// where "best" is the closest to the current starting point
 			if (regExpMatchArray?.index !== undefined && regExpMatchArray.index < matchIndex) {

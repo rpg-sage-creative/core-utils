@@ -5,7 +5,7 @@ export function tokenize(input, parsers, defaultKey = "unknown") {
         token = undefined;
         matchIndex = input.length;
         for (const key in parsers) {
-            const regExpMatchArray = parsers[key].exec(input);
+            const regExpMatchArray = parsers[key]?.exec(input);
             if (regExpMatchArray?.index !== undefined && regExpMatchArray.index < matchIndex) {
                 token = {
                     groups: { ...regExpMatchArray.groups },

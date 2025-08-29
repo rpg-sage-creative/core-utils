@@ -31,8 +31,8 @@ function createQuotedRegex(options?: CreateOptions): QuotedRegexRegExp {
 	const rightChars: string[] = [];
 	const parts: string[] = [];
 	getQuotePairs(style).forEach(pair => {
-		leftChars.push(pair.chars[0]);
-		rightChars.push(pair.chars[1]);
+		leftChars.push(pair.chars[0]!);
+		rightChars.push(pair.chars[1]!);
 		parts.push(createQuotedRegexPart(pair.chars, contents));
 	});
 

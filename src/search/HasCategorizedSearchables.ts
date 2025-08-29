@@ -55,7 +55,7 @@ export class HasCategorizedSearchables<T extends Searchable> {
 			this._categorizedSearchables = partitionCategorizedSearchables(this._unsortedSearchables, searchable => searchable.searchResultCategory);
 			this._categorizedSearchables.sort(sortByCountThenLabel);
 			this._categorizedSearchables.forEach(category => {
-				category.children = partitionCategorizedSearchables(category.searchables, searchable => searchable.name[0]);
+				category.children = partitionCategorizedSearchables(category.searchables, searchable => searchable.name[0]!);
 				category.children.sort(sortByLabel);
 			});
 		}

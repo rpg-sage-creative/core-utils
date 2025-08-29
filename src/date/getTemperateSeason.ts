@@ -24,7 +24,7 @@ export function getTemperateSeason(...args: (Date | Hemisphere)[]): TemperateSea
 		TemperateSeason.Summer, TemperateSeason.Summer, TemperateSeason.Summer,
 		TemperateSeason.Fall, TemperateSeason.Fall, TemperateSeason.Fall,
 		TemperateSeason.Winter
-	][date.getMonth()];
+	][date.getMonth()]!;
 
 	const hemisphere = args.find(arg => Hemisphere[arg as Hemisphere] !== undefined) as Hemisphere ?? Hemisphere.Northern;
 	if (hemisphere === Hemisphere.Northern) {

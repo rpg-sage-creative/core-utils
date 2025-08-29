@@ -4,8 +4,8 @@ export function addCommas(value: number): string {
 		return String(value);
 	}
 	const parts: string[] = String(value).split(/\./),
-		left: string = parts[0],
-		right: string = parts[1] || "",
+		left: string = parts[0]!,
+		right: string = parts[1] ?? "",
 		array: string[] = Array.from(left) ?? [],
 		output: string[] = [];
 	let i = 1;

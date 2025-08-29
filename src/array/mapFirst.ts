@@ -10,7 +10,7 @@ export function mapFirst
 		(arrayLike: T[], callbackfn: (value: T, index: number, values: V) => U, thisArg?: any)
 		: OrUndefined<U> {
 	for (let index = 0; index < arrayLike.length; index++) {
-		const result = callbackfn.call(thisArg, arrayLike[index], index, arrayLike as V);
+		const result = callbackfn.call(thisArg, arrayLike[index]!, index, arrayLike as V);
 		if (isDefined(result)) {
 			return result;
 		}

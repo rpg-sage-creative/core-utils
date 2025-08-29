@@ -19,7 +19,7 @@ export function matchRgb(value: Optional<string>): Results | undefined {
 	const groups = rgbRegex.exec(value.replace(/\s/g, ""))?.groups;
 	if (!groups) return undefined; // NOSONAR
 
-	const { rgba, r, g, b, a } = groups;
+	const { rgba, r, g, b, a } = groups as { rgba:string; r:string; g:string; b:string; a:string; } | { rgba?:never; r:string; g:string; b:string; a?:never; };
 
 	// make sure alpha is present (or not) as expected
 	if (rgba && a === undefined) return undefined; // NOSONAR

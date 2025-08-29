@@ -51,7 +51,7 @@ export class StringSet implements Set<string> {
 	public entries(): IterableIterator<[Lowercase<string>, string]> {
 		return wrapIterableIterator(Object.keys(this._values) as Lowercase<string>[], key => {
 			return {
-				value: [key, this._values[key]],
+				value: [key, this._values[key]!],
 				skip: false
 			};
 		});
@@ -83,7 +83,7 @@ export class StringSet implements Set<string> {
 	public values(): IterableIterator<string> {
 		return wrapIterableIterator(Object.keys(this._values) as Lowercase<string>[], key => {
 			return {
-				value: this._values[key],
+				value: this._values[key]!,
 				skip: false
 			};
 		});

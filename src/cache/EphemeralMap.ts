@@ -17,7 +17,7 @@ export class EphemeralMap<K, V>
 	// public get msToLive(): number
 
 	/** sets a value to the data and then queues up the process */
-	public set(key: K, value: V): this {
+	public override set(key: K, value: V): this {
 		return super.set(key, value);
 	}
 

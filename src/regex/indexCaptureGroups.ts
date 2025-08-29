@@ -13,7 +13,7 @@ export function indexCaptureGroups(source: string): string {
 	return source.replace(regexp, (_, group) => {
 		// if the group is in the map, increment and return an indexed group label
 		if (group in map) {
-			return `(?<${group}${++map[group]}>`;
+			return `(?<${group}${++map[group]!}>`;
 		}
 
 		// add group to the map

@@ -10,7 +10,7 @@ export function parseIncrementArg(arg: string, options?: RegExpIncrementArgOptio
 	const regex = getIncrementArgRegex(options);
 	const match = regex.exec(arg);
 	if (match) {
-		const [_, key, incrementer, modifier, value] = match;
+		const [_, key, incrementer, modifier, value] = match as unknown as [string, string, string, string, string];
 		const keyRegex = new RegExp(`^${key}$`, "i");
 		if (incrementer) {
 			return { arg, index:-1, isIncrement:true, key, keyRegex, operator: incrementer[0] as "+", value: "1" };
