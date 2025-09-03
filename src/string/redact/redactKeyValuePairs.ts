@@ -5,6 +5,6 @@ export function redactKeyValuePairs(content: string): string;
 export function redactKeyValuePairs(content: Optional<string>): Optional<string>;
 export function redactKeyValuePairs(content: Optional<string>): Optional<string> {
 	if (!content) return content;
-	const regexp = getKeyValueArgRegex({ allowDashes:true, allowPeriods:true });
+	const regexp = getKeyValueArgRegex({ allowDashes:true, allowPeriods:true, gFlag:"g" });
 	return content.replace(regexp, pair => "".padEnd(pair.length, "*"));
 }
