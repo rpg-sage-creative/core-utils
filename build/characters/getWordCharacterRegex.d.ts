@@ -1,12 +1,12 @@
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions } from "../regex/RegExpOptions.js";
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
-export type RegexWordCharOptions = {
+export type RegExpWordCharOptions = {
     /** Determines if dashes are allowed. Default: false */
     allowDashes?: boolean;
     /** Determines if periods are allowed. Default: false */
     allowPeriods?: boolean;
 };
-type CreateOptions = RegExpFlagOptions & RegexWordCharOptions;
+type CreateOptions = RegExpFlagOptions & RegExpWordCharOptions;
 type GetOptions = CreateOptions & RegExpAnchorOptions & RegExpCaptureOptions & RegExpQuantifyOptions;
 /**
  * Returns an instance of the word character regexp.

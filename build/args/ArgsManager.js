@@ -22,7 +22,7 @@ function _parseIncrementArg(arg, index) {
     return undefined;
 }
 function _parseKeyValueArg(arg, index) {
-    const keyValueArg = parseKeyValueArg(arg);
+    const keyValueArg = parseKeyValueArg(arg, { allowDashes: true, allowPeriods: true });
     if (keyValueArg) {
         const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
         return { ...keyValueArg, index, value };
@@ -100,7 +100,7 @@ export class ArgsManager {
             return new ArgsManager();
         }
         const parsers = {
-            arg: getKeyValueArgRegex(),
+            arg: getKeyValueArgRegex({ allowDashes: true, allowPeriods: true }),
             spaces: getWhitespaceRegex(),
             quotes: getQuotedRegex({ contents: "*" }),
             ...additionalParsers

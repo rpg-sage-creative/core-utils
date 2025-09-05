@@ -4,7 +4,7 @@ import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegE
 /** Expected to be used inside a character class: `[${WORD_CHARACTERS_REGEX_PARTIAL_SOURCE}]` */
 // export const WORD_CHARACTERS_REGEX_PARTIAL_SOURCE = `\\w\\p{L}\\p{N}`;
 
-export type RegexWordCharOptions = {
+export type RegExpWordCharOptions = {
 	/** Determines if dashes are allowed. Default: false */
 	allowDashes?: boolean;
 
@@ -12,7 +12,7 @@ export type RegexWordCharOptions = {
 	allowPeriods?: boolean;
 };
 
-type CreateOptions = RegExpFlagOptions & RegexWordCharOptions;
+type CreateOptions = RegExpFlagOptions & RegExpWordCharOptions;
 
 /** Creates a new instance of the word character regex based on options. */
 function createWordCharacterRegex(options?: CreateOptions): RegExp {

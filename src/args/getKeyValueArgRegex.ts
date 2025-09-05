@@ -1,5 +1,5 @@
 import { pattern, regex } from "regex";
-import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
+import { getWordCharacterRegex, type RegExpWordCharOptions } from "../characters/getWordCharacterRegex.js";
 import { escapeRegex } from "../regex/escapeRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
@@ -20,7 +20,7 @@ export type RegExpKeyValueArgOptions = {
 	mode?: KeyValueArgMode;
 };
 
-type CreateOptions = RegExpFlagOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
+type CreateOptions = RegExpFlagOptions & RegExpWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 
 type RegExpByModeOptions = {
 	flags?: `${"g"|""}${"i"|""}${"u"|""}` | `${"g"|""}${"i"|""}${"v"|""}`;
