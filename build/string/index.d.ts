@@ -1,6 +1,7 @@
 export * from "./blank/index.js";
 export * from "./chunk/index.js";
 export * from "./codeBlocks/index.js";
+export * from "./html/index.js";
 export * from "./markdown/index.js";
 export * from "./normalize/index.js";
 export * from "./quotes/index.js";

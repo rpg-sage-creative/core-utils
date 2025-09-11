@@ -1,4 +1,3 @@
-import { pattern } from "regex";
 import { HORIZONTAL_TAB } from "../consts.js";
 import { htmlToMarkdown } from "./htmlToMarkdown.js";
 
@@ -17,8 +16,7 @@ function handleOrdered(content: string, level: number): string {
 		const start = isNaN(+atts.get("start")!) ? 1 : +atts.get("start")!;
 
 		// process children
-		const childPattern = pattern`ul|li`; // pattern`ol|ul|li`;
-		return htmlToMarkdown(olInnerHtml, childPattern, (childInnerHtml, _, childNodeName, childOuterHtml) => {
+		return htmlToMarkdown(olInnerHtml, "ul|li", (childInnerHtml, _, childNodeName, childOuterHtml) => {
 			switch (childNodeName) {
 				case "ol": return handleOrdered(childOuterHtml, level + 1);
 				case "ul": return handleUnordered(childOuterHtml, level + 1);
@@ -31,8 +29,7 @@ function handleOrdered(content: string, level: number): string {
 function handleUnordered(content: string, level: number): string {
 	return htmlToMarkdown(content, "ul", ulInnerHtml => {
 		// process children
-		const childPattern = pattern`ol|li`; // pattern`ol|ul|li`;
-		return htmlToMarkdown(ulInnerHtml, childPattern, (childInnerHtml, _, childNodeName, childOuterHtml) => {
+		return htmlToMarkdown(ulInnerHtml, "ol|li", (childInnerHtml, _, childNodeName, childOuterHtml) => {
 			switch (childNodeName) {
 				case "ol": return handleOrdered(childOuterHtml, level + 1);
 				case "ul": return handleUnordered(childOuterHtml, level + 1);
@@ -47,13 +44,13 @@ export class HtmlToMarkdownFormatter {
 	public constructor(public text: string) { }
 
 	public formatBlockQuote(): this {
-		const newLine = `\n`;
-		this.text = htmlToMarkdown(this.text, "blockquote", innerHtml => newLine + innerHtml.split(newLine).map(s => "> " + s).join(newLine) + newLine);
+		const newLine = "\n";
+		this.text = htmlToMarkdown(this.text, "blockquote", innerHtml => newLine + innerHtml.split(newLine).map(s => `> ${s}`).join(newLine) + newLine);
 		return this;
 	}
 
 	public formatBold(): this {
-		this.text = htmlToMarkdown(this.text, pattern`b|strong`, "**");
+		this.text = htmlToMarkdown(this.text, "b|strong", "**");
 		return this;
 	}
 
@@ -63,23 +60,23 @@ export class HtmlToMarkdownFormatter {
 	}
 
 	public formatHeaders(): this {
-		this.text = htmlToMarkdown(this.text, "h1", innerHtml => `\n# ` + innerHtml);
-		this.text = htmlToMarkdown(this.text, "h2", innerHtml => `\n## ` + innerHtml);
-		this.text = htmlToMarkdown(this.text, "h3", innerHtml => `\n### ` + innerHtml);
-		this.text = htmlToMarkdown(this.text, pattern`h\d`, `\n__**`);
+		this.text = htmlToMarkdown(this.text, "h1", innerHtml => `\n# ${innerHtml}`);
+		this.text = htmlToMarkdown(this.text, "h2", innerHtml => `\n## ${innerHtml}`);
+		this.text = htmlToMarkdown(this.text, "h3", innerHtml => `\n### ${innerHtml}`);
+		this.text = htmlToMarkdown(this.text, "h4|h5|h6", "\n__**");
 		return this;
 	}
 
 	public formatHorizontalTab(): this {
 		if (this.text) {
 			// ensures blockquotes aren't broken
-			this.text = this.text.replace(/\t([^>]|$)/g, HORIZONTAL_TAB + "$1");
+			this.text = this.text.replace(/\t([^>]|$)/g, `${HORIZONTAL_TAB}$1`);
 		}
 		return this;
 	}
 
 	public formatItalics(): this {
-		this.text = htmlToMarkdown(this.text, pattern`i|em`, "*");
+		this.text = htmlToMarkdown(this.text, "i|em", "*");
 		return this;
 	}
 
@@ -95,7 +92,7 @@ export class HtmlToMarkdownFormatter {
 	}
 
 	public formatLists(): this {
-		this.text = htmlToMarkdown(this.text, pattern`ol|ul`, (_innerHtml, _atts, nodeName, outerHtml) => {
+		this.text = htmlToMarkdown(this.text, "ol|ul", (_innerHtml, _atts, nodeName, outerHtml) => {
 			console.log({_innerHtml,_atts,nodeName,outerHtml});
 			if (nodeName === "ol") {
 				return handleOrdered(outerHtml, 0);
@@ -118,12 +115,12 @@ export class HtmlToMarkdownFormatter {
 	}
 
 	public formatFooter(): this {
-		this.text = htmlToMarkdown(this.text, "footer", innerHtml => `-# ` + innerHtml);
+		this.text = htmlToMarkdown(this.text, "footer", innerHtml => `-# ${innerHtml}`);
 		return this;
 	}
 
 	public formatStrikethrough(): this {
-		this.text = htmlToMarkdown(this.text, pattern`del|s|strike`, "~~");
+		this.text = htmlToMarkdown(this.text, "del|s|strike", "~~");
 		return this;
 	}
 
