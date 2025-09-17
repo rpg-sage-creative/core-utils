@@ -16,6 +16,5 @@ export function retryDuplicateCaptureGroupName(err: DuplicateCaptureGroupError):
 	const lastSlashIndex = source.lastIndexOf("/");
 	const indexedSource = indexCaptureGroups(source.slice(1, lastSlashIndex));
 	const flags = source.slice(lastSlashIndex + 1);
-	console.log({message:err.message,source,indexedSource,flags});
 	return new RegExp(indexedSource, flags);
 }
