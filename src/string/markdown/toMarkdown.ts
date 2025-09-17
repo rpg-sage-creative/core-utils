@@ -23,6 +23,8 @@ export function toMarkdown(html: string): string {
 		.formatLists()
 		.formatParagraph()
 		.formatStrikethrough()
+		.formatSub()
+		.formatSup()
 		.formatUnderline()
 
 		.formatBlockQuote()

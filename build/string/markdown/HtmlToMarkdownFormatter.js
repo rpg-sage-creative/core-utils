@@ -1,5 +1,8 @@
 import { HORIZONTAL_TAB } from "../consts.js";
 import { htmlToMarkdown } from "./htmlToMarkdown.js";
+import { parseNumeric } from "../../number/parseNumeric.js";
+import { toSubscript } from "../../number/toSubscript.js";
+import { toSuperscript } from "../../number/toSuperscript.js";
 function handleListItem(level, dashOrNumber, content) {
     const indent = "".padEnd(level * 2, " ");
     const dot = dashOrNumber === "-" ? "" : ".";
@@ -76,7 +79,6 @@ export class HtmlToMarkdownFormatter {
     }
     formatLists() {
         this.text = htmlToMarkdown(this.text, "ol|ul", (_innerHtml, _atts, nodeName, outerHtml) => {
-            console.log({ _innerHtml, _atts, nodeName, outerHtml });
             if (nodeName === "ol") {
                 return handleOrdered(outerHtml, 0);
             }
@@ -99,6 +101,22 @@ export class HtmlToMarkdownFormatter {
     }
     formatStrikethrough() {
         this.text = htmlToMarkdown(this.text, "del|s|strike", "~~");
+        return this;
+    }
+    formatSub() {
+        this.text = htmlToMarkdown(this.text, "sub", inner => {
+            const numeric = parseNumeric(inner);
+            const sub = toSubscript(numeric);
+            return sub === "NaN" ? inner : sub;
+        });
+        return this;
+    }
+    formatSup() {
+        this.text = htmlToMarkdown(this.text, "sup", inner => {
+            const numeric = parseNumeric(inner);
+            const sup = toSuperscript(numeric);
+            return sup === "NaN" ? inner : sup;
+        });
         return this;
     }
     formatTable() {
