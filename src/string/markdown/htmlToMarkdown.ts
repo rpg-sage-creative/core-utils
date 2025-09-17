@@ -37,7 +37,7 @@ export function htmlToMarkdown(text: string, element: string, handlerOrOpenMarkd
 
 		// create attribute map
 		const attributeMap = new Map<string, string>();
-		const attributes = groups.fullTagAattributes ?? groups.selfCloseAttributes;
+		const attributes = groups.fullTagAttributes ?? groups.selfCloseAttributes;
 		if (attributes) {
 			parseKeyValueArgs(attributes).forEach(arg => {
 				attributeMap.set(arg.key, arg.value ?? "");

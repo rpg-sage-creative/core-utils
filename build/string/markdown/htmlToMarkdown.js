@@ -19,7 +19,7 @@ export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
         if (groups.comment)
             return "";
         const attributeMap = new Map();
-        const attributes = groups.fullTagAattributes ?? groups.selfCloseAttributes;
+        const attributes = groups.fullTagAttributes ?? groups.selfCloseAttributes;
         if (attributes) {
             parseKeyValueArgs(attributes).forEach(arg => {
                 attributeMap.set(arg.key, arg.value ?? "");

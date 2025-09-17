@@ -11,7 +11,7 @@ type SimpleHtmlCommentGroup = {
 	selfCloseName?: never;
 	selfCloseAttributes?: never;
 	fullTagName?: never;
-	fullTagAattributes?: never;
+	fullTagAttributes?: never;
 	inner?: never;
 };
 
@@ -20,7 +20,7 @@ type SimpleHtmlNoCloseGroup = {
 	selfCloseName: string;
 	selfCloseAttributes?: string;
 	fullTagName?: never;
-	fullTagAattributes?: never;
+	fullTagAttributes?: never;
 	inner?: never;
 };
 
@@ -29,7 +29,7 @@ type SimpleHtmlCloseableGroup = {
 	selfCloseName?: never;
 	selfCloseAttributes?: never;
 	fullTagName: string;
-	fullTagAattributes?: string;
+	fullTagAttributes?: string;
 	inner?: string;
 };
 
