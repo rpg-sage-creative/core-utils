@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.9.8",
-"branch":"main",
-"commit":"fbbd9a34519768ebe8ea2d150b1a460b33f9a51a",
-"commitSubject":"redefined KeyValuePair",
-"commitTs":1754880310000,
-"commitDate":"2025-08-10-1945",
-"buildTs":1754880441000,
-"buildDate":"2025-08-10-1947",
+"version":"0.10.0",
+"branch":"submodule",
+"commit":"4d1c6c1b7611526fc11afcfef22bd7241c2e1e68",
+"commitSubject":"improve codeBlock regex",
+"commitTs":1758255870000,
+"commitDate":"2025-09-18-2124",
+"buildTs":1758255990000,
+"buildDate":"2025-09-18-2126",
 "author":"Randal"
 }
