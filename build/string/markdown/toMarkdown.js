@@ -16,6 +16,8 @@ export function toMarkdown(html) {
         .formatLists()
         .formatParagraph()
         .formatStrikethrough()
+        .formatSub()
+        .formatSup()
         .formatUnderline()
         .formatBlockQuote()
         .toString();

@@ -1,4 +1,5 @@
 export * from "./addCommas.js";
+export * from "./boundNumber.js";
 export * from "./getNumberRegex.js";
 export * from "./isNegativeZero.js";
 export * from "./nth.js";

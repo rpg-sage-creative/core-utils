@@ -39,7 +39,7 @@ export class RenderableContent implements Renderable {
 	public append(...content: string[]): void {
 		const _sections = this._sections;
 		const section = _sections.length
-			? _sections[_sections.length - 1]
+			? _sections[_sections.length - 1]!
 			: this._appendSection(createSection());
 		section.content.push(...content);
 	}

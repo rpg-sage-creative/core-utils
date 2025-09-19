@@ -14,8 +14,8 @@ type Options = {
 export function dequote(value: string, options?: Options): string {
 	if (isQuoted(value, options)) {
 		// get the quote chars
-		const left = value[0];
-		const right = value[value.length - 1];
+		const left = value[0]!;
+		const right = value[value.length - 1]!;
 		const chars = left === right ? left : left + right;
 		// remove the quote chars
 		value = value.slice(1, -1);

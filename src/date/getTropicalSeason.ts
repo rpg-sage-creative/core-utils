@@ -22,7 +22,7 @@ export function getTropicalSeason(...args: (Date | Hemisphere)[]): TropicalSeaso
 		TropicalSeason.Dry, TropicalSeason.Dry, TropicalSeason.Dry, TropicalSeason.Dry,
 		TropicalSeason.Wet, TropicalSeason.Wet, TropicalSeason.Wet, TropicalSeason.Wet, TropicalSeason.Wet, TropicalSeason.Wet,
 		TropicalSeason.Dry, TropicalSeason.Dry
-	][date.getMonth()];
+	][date.getMonth()]!;
 
 	const hemisphere = args.find(arg => Hemisphere[arg as Hemisphere] !== undefined) as Hemisphere ?? Hemisphere.Northern;
 	if (hemisphere === Hemisphere.Northern) {

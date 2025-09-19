@@ -30,7 +30,7 @@ function _parseIncrementArg<T extends string, U extends string>(arg: T, index: n
 }
 
 function _parseKeyValueArg<T extends string, U extends string>(arg: T, index: number): OrUndefined<KeyValueArg<T, U>> {
-	const keyValueArg = parseKeyValueArg<T, U>(arg);
+	const keyValueArg = parseKeyValueArg<T, U>(arg, { allowDashes:true, allowPeriods:true });
 	if (keyValueArg) {
 		const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
 		return { ...keyValueArg, index, value };
@@ -144,7 +144,7 @@ export class ArgsManager<T extends string = string> {
 		}
 
 		const parsers: TokenParsers = {
-			arg: getKeyValueArgRegex(),
+			arg: getKeyValueArgRegex({ allowDashes:true, allowPeriods:true }),
 			spaces: getWhitespaceRegex(),
 			quotes: getQuotedRegex({ contents:"*" }),
 			...additionalParsers

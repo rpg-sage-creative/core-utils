@@ -1,4 +1,4 @@
-import { type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
+import { type RegExpWordCharOptions } from "../characters/getWordCharacterRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions } from "../regex/RegExpOptions.js";
 import { type RegExpQuoteOptions } from "../string/index.js";
 /**
@@ -13,7 +13,7 @@ export type RegExpKeyValueArgOptions = {
     /** Specifies if quotes are required or if we can allow spaces around the equals (=) sign. */
     mode?: KeyValueArgMode;
 };
-type CreateOptions = RegExpFlagOptions & RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
+type CreateOptions = RegExpFlagOptions & RegExpWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 type GetOptions = CreateOptions & RegExpAnchorOptions & RegExpCaptureOptions;
 /**
  * Returns an instance of the KeyValueArg regexp.

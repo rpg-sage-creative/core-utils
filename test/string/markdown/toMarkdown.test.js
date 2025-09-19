@@ -21,6 +21,8 @@ more</i>
 <footer>footer</footer>
 <s>s</s> or <strike>strike</strike>
 line<br>break
+<sup>12.34567809</sup>
+<sub>12.34567809</sub>
 <a href="https://rpgsage.io">RPG Sage Site</a>
 <a href="https://rpgsage.io" title="cool site bro">RPG Sage Site</a>
 line<br/>break
@@ -54,6 +56,8 @@ more*
 ~~s~~ or ~~strike~~
 line
 break
+¹²\u22C5³⁴⁵⁶⁷⁸⁰⁹
+₁₂\u2024₃₄₅₆₇₈₀₉
 [RPG Sage Site](https://rpgsage.io)
 [RPG Sage Site](https://rpgsage.io "cool site bro")
 line

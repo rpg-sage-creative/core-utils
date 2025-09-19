@@ -1,5 +1,5 @@
-import { regex } from "regex";
 import { parseKeyValueArgs } from "../../args/parseKeyValueArgs.js";
+import { getSimpleHtmlElementRegex } from "../html/getSimpleHtmlElementRegex.js";
 export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
     if (!text) {
         return text;
@@ -13,12 +13,22 @@ export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
         const closeMarkdown = Array.from(openMarkdown).reverse().join("");
         handler = (inner) => openMarkdown + inner + closeMarkdown;
     }
-    const regexp = regex("gi") `<(?<nodeName>${element})(?<attributes>\s[^>]+)?>(?<inner>(.|\n)*?)</\k<nodeName>>`;
-    return text.replace(regexp, (outer, nodeName, attributes, inner) => {
-        const attributeMap = parseKeyValueArgs(attributes).reduce((map, arg) => {
-            map.set(arg.key, arg.value ?? "");
-            return map;
-        }, new Map());
-        return handler(inner, attributeMap, nodeName.toLowerCase(), outer);
+    const regexp = getSimpleHtmlElementRegex({ element, gFlag: "g", iFlag: "i" });
+    return text.replace(regexp, (...values) => {
+        const groups = values[values.length - 1];
+        if (groups.comment)
+            return "";
+        const attributeMap = new Map();
+        const attributes = groups.fullTagAttributes ?? groups.selfCloseAttributes;
+        if (attributes) {
+            parseKeyValueArgs(attributes).forEach(arg => {
+                attributeMap.set(arg.key, arg.value ?? "");
+            });
+        }
+        const elementName = groups.fullTagName ?? groups.selfCloseName;
+        const elementNameLower = elementName?.toLowerCase();
+        if (!elementNameLower)
+            return "";
+        return handler(groups.inner ?? "", attributeMap, elementNameLower, values[0]);
     });
 }

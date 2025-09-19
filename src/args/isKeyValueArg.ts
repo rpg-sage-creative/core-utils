@@ -1,8 +1,8 @@
-import type { RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
+import type { RegExpWordCharOptions } from "../characters/getWordCharacterRegex.js";
 import type { RegExpQuoteOptions } from "../string/index.js";
 import { getKeyValueArgRegex, type RegExpKeyValueArgOptions } from "./getKeyValueArgRegex.js";
 
-type Options = RegexWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
+type Options = RegExpWordCharOptions & RegExpQuoteOptions & RegExpKeyValueArgOptions;
 
 /**
  * Returns true if the value is `key=value` or `key="value"` or `key=""`.

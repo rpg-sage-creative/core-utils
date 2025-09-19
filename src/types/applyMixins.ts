@@ -1,7 +1,7 @@
 type Constructor = new (...args: any[]) => {};
 
 function getName(ctor: Constructor): string {
-	return ctor.name.split(".")[0];
+	return ctor.name.split(".")[0]!;
 }
 
 type ConflictResolutionMethod = "all" | "mixin" | "none";

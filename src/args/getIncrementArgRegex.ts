@@ -1,4 +1,4 @@
-import { getWordCharacterRegex, type RegexWordCharOptions } from "../characters/getWordCharacterRegex.js";
+import { getWordCharacterRegex, type RegExpWordCharOptions } from "../characters/getWordCharacterRegex.js";
 import { escapeRegex } from "../regex/escapeRegex.js";
 import { getOrCreateRegex } from "../regex/getOrCreateRegex.js";
 import type { RegExpFlagOptions } from "../regex/RegExpOptions.js";
@@ -9,7 +9,7 @@ export type RegExpIncrementArgOptions = {
 	key?: string;
 };
 
-type CreateOptions = RegExpFlagOptions & RegexWordCharOptions & RegExpIncrementArgOptions;
+type CreateOptions = RegExpFlagOptions & RegExpWordCharOptions & RegExpIncrementArgOptions;
 
 function createIncrementArgRegex(options?: CreateOptions): RegExp {
 	const { allowDashes, allowPeriods } = options ?? {};

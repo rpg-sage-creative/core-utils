@@ -36,7 +36,7 @@ export class HasScoredSearchables<T extends Searchable> {
 	}
 
 	public get theOne(): T | undefined {
-		return this.scores.length === 1 ? this.scores[0].searchable : undefined;
+		return this.scores.length === 1 ? this.scores[0]?.searchable : undefined;
 	}
 
 	// #endregion

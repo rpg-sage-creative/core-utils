@@ -1,8 +1,7 @@
-import { redactCodeBlocks } from "../../../build/index.js";
-import { toString } from "../../toString.mjs";
+import { redactCodeBlocks, tagLiterals } from "../../../build/index.js";
 
 describe("string", () => {
-	describe("redactCodeBlocks", () => {
+	describe("codeBlocks", () => {
 
 		const tests = [
 			//   input                          expected output
@@ -19,7 +18,7 @@ describe("string", () => {
 			[" \\``\\`redacted``\\` ",      " \\``**********``\\` "],
 		];
 		tests.forEach(([input, expected]) => {
-			test(`redactCodeBlocks(${toString(input)}) === ${toString(expected)}`, () => {
+			test(tagLiterals`redactCodeBlocks(${input}) === ${expected}`, () => {
 				expect(redactCodeBlocks(input)).toBe(expected);
 			});
 		});

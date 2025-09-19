@@ -23,7 +23,7 @@ export class HasScoredSearchables {
         return this.scores.map(score => score.searchable);
     }
     get theOne() {
-        return this.scores.length === 1 ? this.scores[0].searchable : undefined;
+        return this.scores.length === 1 ? this.scores[0]?.searchable : undefined;
     }
     add(...scores) {
         const labels = this.scores.map(score => searchableToLabel(score));

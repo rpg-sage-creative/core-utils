@@ -4,18 +4,23 @@
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
 
+		// "exactOptionalPropertyTypes": true,
+
 		"forceConsistentCasingInFileNames": true,
 
-		"lib": [ "DOM", "ES2022", "ES2024.Promise" ],
+		"lib": [ "ES2024" ],
 
-		"module": "ES2022",
-		"moduleResolution": "Node",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
 
 		"newLine": "LF",
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitAny": true,
+		"noImplicitOverride": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
+		// "noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 
@@ -35,7 +40,7 @@
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
 
-		"target": "ES2022",
+		"target": "ES2024",
 
 		"verbatimModuleSyntax": true
 	},

@@ -11,7 +11,7 @@ export function decompressId(value, radix = 36) {
     if (value) {
         if (value.includes("-")) {
             const lengths = [8, 4, 4, 4, 12];
-            return value.split("-").map((s, i) => compressId(decompressId(s, radix), 16).padStart(lengths[i], "0")).join("-");
+            return value.split("-").map((s, i) => compressId(decompressId(s, radix), 16).padStart(lengths[i] ?? 0, "0")).join("-");
         }
         else {
             return value === "0"
