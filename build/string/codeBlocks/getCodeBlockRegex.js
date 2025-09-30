@@ -1,6 +1,7 @@
 import { getOrCreateRegex } from "../../regex/getOrCreateRegex.js";
 function createSource(ticks) {
-    return `(?<ticks${ticks}>(?:(?<!\\\\)\`){${ticks}})(?<content${ticks}>(?:.|\n)*?)(?:(?:(?<!\\\\)\`){${ticks}})`;
+    const content = ticks === 3 ? `(?:.|\n)` : `.`;
+    return `(?<ticks${ticks}>(?:(?<!\\\\)\`){${ticks}})(?<content${ticks}>${content}*?)(?:(?:(?<!\\\\)\`){${ticks}})`;
 }
 function createCodeBlockRegex({ gFlag = "", iFlag = "", ticks } = {}) {
     if (ticks) {

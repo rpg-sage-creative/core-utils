@@ -1,27 +1,24 @@
-import { pattern, regex } from "regex";
-import { matchCodeBlocks } from "./matchCodeBlocks.js";
-export function codeBlockSafeSplit(value, splitter, limit) {
-    const lines = [];
-    const testLimit = limit !== undefined;
-    const codeBlocks = matchCodeBlocks(value);
-    const source = typeof (splitter) === "string" ? splitter : pattern(splitter.source);
-    const regexp = regex("g") `${source}`;
-    let index = -1;
-    let lastIndex = 0;
-    do {
-        do {
-            index = regexp.exec(value)?.index ?? -1;
-        } while (-1 < index && codeBlocks.find(codeBlock => codeBlock.index < index && index < codeBlock.index + codeBlock.length));
-        if (-1 < index) {
-            lines.push(value.slice(lastIndex, index));
-            lastIndex = index + 1;
+import { regex } from "regex";
+import { tokenize } from "../tokenize.js";
+import { getCodeBlockRegex } from "./getCodeBlockRegex.js";
+export function codeBlockSafeSplit(value, splitter, options) {
+    const { limit } = options ?? {};
+    const tokenParsers = {
+        three: getCodeBlockRegex(),
+        splitter: typeof (splitter) === "string" ? regex `${splitter}` : splitter
+    };
+    const tokens = tokenize(value, tokenParsers);
+    const lines = [""];
+    let lineIndex = 0;
+    for (const { key, token } of tokens) {
+        switch (key) {
+            case "splitter":
+                lineIndex = lines.push("") - 1;
+                break;
+            default:
+                lines[lineIndex] += token;
+                break;
         }
-        else {
-            lines.push(value.slice(lastIndex));
-        }
-        if (testLimit && lines.length === limit) {
-            break;
-        }
-    } while (-1 < index);
-    return lines;
+    }
+    return lines.slice(0, limit);
 }

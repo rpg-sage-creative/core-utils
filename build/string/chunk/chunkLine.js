@@ -1,7 +1,9 @@
+import { codeBlockSafeSplit } from "../codeBlocks/codeBlockSafeSplit.js";
 import { chunkWord } from "./chunkWord.js";
-export function chunkLine(data, options, line, _lineIndex) {
+export function chunkLine({ data, line, options }) {
+    const { newLineCharacter = "\n", wordSplitter = " " } = options ?? {};
     const currentChunk = data.currentChunk ?? "";
-    const newLine = data.currentChunk !== undefined ? options.newLineCharacter : "";
+    const newLine = data.currentChunk !== undefined ? newLineCharacter : "";
     if (currentChunk.length + newLine.length + line.length < data.maxChunkLength(data.currentIndex)) {
         data.currentChunk = currentChunk + newLine + line;
         data.currentIndex = Math.max(data.currentIndex, 0);
@@ -16,8 +18,8 @@ export function chunkLine(data, options, line, _lineIndex) {
         }
         else {
             data.currentChunk = "";
-            const words = line.split(options.wordSplitter);
-            words.forEach((word, wordIndex) => chunkWord(data, options, word, wordIndex));
+            const words = codeBlockSafeSplit(line, wordSplitter);
+            words.forEach((word, wordIndex) => chunkWord({ data, options, word, wordIndex }));
             data.currentIndex = data.chunks.push(data.currentChunk);
             data.currentChunk = "";
         }
