@@ -20,7 +20,8 @@ export function chunkLine({ data, line, options }: Args): void {
 	const newLine = data.currentChunk !== undefined ? newLineCharacter : "";
 
 	// Test if the line would put the chunk over the maxChunkLength
-	if (currentChunk.length + newLine.length + line.length < data.maxChunkLength(data.currentIndex)) {
+	const maxChunkLength = data.maxChunkLength(data.currentIndex);
+	if (currentChunk.length + newLine.length + line.length < maxChunkLength) {
 		// If not, simply add it, including newLine since we split on that
 		data.currentChunk = currentChunk + newLine + line;
 

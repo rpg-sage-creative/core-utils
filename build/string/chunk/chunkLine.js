@@ -4,7 +4,8 @@ export function chunkLine({ data, line, options }) {
     const { newLineCharacter = "\n", wordSplitter = " " } = options ?? {};
     const currentChunk = data.currentChunk ?? "";
     const newLine = data.currentChunk !== undefined ? newLineCharacter : "";
-    if (currentChunk.length + newLine.length + line.length < data.maxChunkLength(data.currentIndex)) {
+    const maxChunkLength = data.maxChunkLength(data.currentIndex);
+    if (currentChunk.length + newLine.length + line.length < maxChunkLength) {
         data.currentChunk = currentChunk + newLine + line;
         data.currentIndex = Math.max(data.currentIndex, 0);
     }
