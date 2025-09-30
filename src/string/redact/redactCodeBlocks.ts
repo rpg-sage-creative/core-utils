@@ -1,4 +1,4 @@
-import { matchCodeBlocks } from "./matchCodeBlocks.js";
+import { matchCodeBlocks } from "../codeBlocks/matchCodeBlocks.js";
 
 /**
  * Converts any characters within back-tick (`) quoted blocks to asterisks.

@@ -3,9 +3,9 @@ import type { Optional } from "../../types/generics.js";
 
 let regexp: RegExp;
 
-export function redactMdLink(content: string, redactedCharacter?: string): string;
-export function redactMdLink(content: Optional<string>, redactedCharacter?: string): Optional<string>;
-export function redactMdLink(content: Optional<string>, redactedCharacter = "*"): Optional<string> {
+export function redactMdLinks(content: string, redactedCharacter?: string): string;
+export function redactMdLinks(content: Optional<string>, redactedCharacter?: string): Optional<string>;
+export function redactMdLinks(content: Optional<string>, redactedCharacter = "*"): Optional<string> {
 	if (!content) return content;
 
 	// let's redact links

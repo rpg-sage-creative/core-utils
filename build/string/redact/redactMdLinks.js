@@ -1,6 +1,6 @@
 import { regex } from "regex";
 let regexp;
-export function redactMdLink(content, redactedCharacter = "*") {
+export function redactMdLinks(content, redactedCharacter = "*") {
     if (!content)
         return content;
     regexp ??= regex("gi") `
