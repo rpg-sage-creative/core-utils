@@ -1,3 +1,4 @@
+import { wrapMapIterator } from "../iterator/wrapMapIterator.js";
 import { EphemeralBase } from "./EphemeralBase.js";
 export class EphemeralMap extends EphemeralBase {
     [Symbol.iterator]() {
@@ -9,6 +10,14 @@ export class EphemeralMap extends EphemeralBase {
     set(key, value) {
         return super.set(key, value);
     }
+    entries() {
+        return wrapMapIterator(this.map.keys(), key => {
+            return {
+                value: [key, this.map.get(key)?.value],
+                skip: !this.map.has(key)
+            };
+        });
+    }
     forEach(fn, thisArg) {
         for (const entry of this.entries()) {
             fn.call(thisArg, entry[1], entry[0], this);
@@ -16,5 +25,21 @@ export class EphemeralMap extends EphemeralBase {
     }
     get(key) {
         return this.map.get(key)?.value;
+    }
+    keys() {
+        return wrapMapIterator(this.map.keys(), key => {
+            return {
+                value: key,
+                skip: !this.map.has(key)
+            };
+        });
+    }
+    values() {
+        return wrapMapIterator(this.map.keys(), key => {
+            return {
+                value: this.map.get(key)?.value,
+                skip: !this.has(key)
+            };
+        });
     }
 }

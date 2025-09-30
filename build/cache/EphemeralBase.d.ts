@@ -15,13 +15,10 @@ export declare abstract class EphemeralBase<K, V = K> {
     clear(): void;
     /** Removes the given value */
     delete(key: K): boolean;
-    /** iterate the entries as [key, value] */
-    entries(): IterableIterator<[K, V]>;
     has(key: K): boolean;
-    keys(): IterableIterator<K>;
+    abstract keys(): IterableIterator<K>;
     protected set(key: K, value: V): this;
     get size(): number;
-    values(): IterableIterator<V>;
     /** timeout reference */
     private _timer?;
     /** clean the _timer property */
