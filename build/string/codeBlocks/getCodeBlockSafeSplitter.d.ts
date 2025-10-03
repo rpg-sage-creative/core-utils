@@ -8,9 +8,5 @@ type StringSplitter = {
  * Creates a string splitter that is capable of ignoring code blocks using backticks (`).
  * Defaults to splitting on "\n".
  */
-export declare function getCodeBlockSafeSplitter(): StringSplitter;
-/**
- * Creates a string splitter that is capable of ignoring code blocks using backticks (`).
- */
-export declare function getCodeBlockSafeSplitter(splitter: string | RegExp): StringSplitter;
+export declare function getCodeBlockSafeSplitter(splitter?: string | RegExp): StringSplitter;
 export {};

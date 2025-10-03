@@ -1,4 +1,3 @@
-import { wrapIterableIterator } from "../iterator/wrapIterableIterator.js";
 export class EphemeralBase {
     _msToLive;
     map;
@@ -22,24 +21,8 @@ export class EphemeralBase {
             this.clearTimer();
         return deleted;
     }
-    entries() {
-        return wrapIterableIterator(this.map.keys(), key => {
-            return {
-                value: [key, this.map.get(key)?.value],
-                skip: !this.map.has(key)
-            };
-        });
-    }
     has(key) {
         return this.map.has(key);
-    }
-    keys() {
-        return wrapIterableIterator(this.map.keys(), key => {
-            return {
-                value: key,
-                skip: !this.map.has(key)
-            };
-        });
     }
     set(key, value) {
         this.map.set(key, { ts: Date.now(), value });
@@ -48,14 +31,6 @@ export class EphemeralBase {
     }
     get size() {
         return this.map.size;
-    }
-    values() {
-        return wrapIterableIterator(this.map.keys(), key => {
-            return {
-                value: this.map.get(key)?.value,
-                skip: !this.has(key)
-            };
-        });
     }
     _timer;
     clearTimer() {

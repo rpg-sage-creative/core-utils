@@ -1,6 +1,7 @@
-export function chunkWord(data, options, word, wordIndex) {
+export function chunkWord({ data, options, word, wordIndex }) {
+    const { spaceCharacter = " " } = options ?? {};
     const currentChunk = data.currentChunk ?? "";
-    const space = 0 < wordIndex ? options.spaceCharacter : "";
+    const space = 0 < wordIndex ? spaceCharacter : "";
     if (currentChunk.length + space.length + word.length < data.maxChunkLength(data.currentIndex)) {
         data.currentChunk = currentChunk + space + word;
     }

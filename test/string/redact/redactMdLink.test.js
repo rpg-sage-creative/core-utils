@@ -1,4 +1,4 @@
-import { redactMdLink, tagLiterals } from "../../../build/index.js";
+import { redactMdLinks, tagLiterals } from "../../../build/index.js";
 
 describe("string", () => {
 	describe("redact", () => {
@@ -10,8 +10,8 @@ describe("string", () => {
 			[`[link](invalid_url)`,         `[link](invalid_url)`],
 		];
 		tests.forEach(([input, expected]) => {
-			test(tagLiterals`redactMdLink(${input}) === ${expected}`, () => {
-				expect(redactMdLink(input)).toBe(expected);
+			test(tagLiterals`redactMdLinks(${input}) === ${expected}`, () => {
+				expect(redactMdLinks(input)).toBe(expected);
 			});
 		});
 

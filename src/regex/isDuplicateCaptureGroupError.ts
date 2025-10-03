@@ -11,10 +11,16 @@ export function isDuplicateCaptureGroupError(ex: unknown): ex is DuplicateCaptur
 	return isErrorLike(ex, err => err.name === name && err.message.startsWith(prefix) && err.message.endsWith(suffix));
 }
 
-export function retryDuplicateCaptureGroupName(err: DuplicateCaptureGroupError): RegExp {
+export function extractInvalidRegex(err: DuplicateCaptureGroupError) {
 	const source = err.message.slice(prefix.length, -suffix.length);
 	const lastSlashIndex = source.lastIndexOf("/");
-	const indexedSource = indexCaptureGroups(source.slice(1, lastSlashIndex));
 	const flags = source.slice(lastSlashIndex + 1);
+	return { source, flags };
+}
+
+export function retryDuplicateCaptureGroupName(err: DuplicateCaptureGroupError): RegExp {
+	const { source, flags } = extractInvalidRegex(err);
+	const lastSlashIndex = source.lastIndexOf("/");
+	const indexedSource = indexCaptureGroups(source.slice(1, lastSlashIndex));
 	return new RegExp(indexedSource, flags);
 }

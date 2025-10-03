@@ -25,7 +25,7 @@ describe("regex", () => {
 			test(`#1: getOrCreateRegex safely creates optional spoiler regex from valid regex`, () => {
 				let regex;
 				expect(() => regex = getOrCreateRegex(function unitTest1() { return /(?<first>second)/i; }, { spoilers:"optional" })).not.toThrow();
-				expect(regex.source).toBe(`(?:\\|\\|(?:(?<first>second))\\|\\|)|(?:(?<first1>second))`);
+				expect(regex.source).toBe(`(?:\\|\\|(?:(?<first>second))\\|\\|)|(?:(?<first>second))`);
 				expect(regex.flags).toBe("i");
 			});
 
@@ -41,7 +41,7 @@ describe("regex", () => {
 				let regex;
 				expect(() => regex = getOrCreateRegex(function unitTest3() { return new RegExp(`(?<first>second) (?<first1>second)`, "iv"); }, { spoilers:"optional" })).not.toThrow();
 				expect(regex).toBeDefined();
-				expect(regex.source).toBe(`(?:\\|\\|(?:(?<first>second) (?<first1>second))\\|\\|)|(?:(?<first2>second) (?<first3>second))`);
+				expect(regex.source).toBe(`(?:\\|\\|(?:(?<first>second) (?<first1>second))\\|\\|)|(?:(?<first>second) (?<first1>second))`);
 			});
 
 			test(`#4: getOrCreateRegex caches correctly`, () => {

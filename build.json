@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.10.0",
+"version":"0.11.0",
 "branch":"submodule",
-"commit":"4d1c6c1b7611526fc11afcfef22bd7241c2e1e68",
-"commitSubject":"improve codeBlock regex",
-"commitTs":1758255870000,
-"commitDate":"2025-09-18-2124",
-"buildTs":1758255990000,
-"buildDate":"2025-09-18-2126",
+"commit":"4396097506c5c5efbcf28e041742279b7670f83f",
+"commitSubject":"update node types to 24",
+"commitTs":1759275396000,
+"commitDate":"2025-09-30-1636",
+"buildTs":1759469398000,
+"buildDate":"2025-10-02-2229",
 "author":"Randal"
 }
