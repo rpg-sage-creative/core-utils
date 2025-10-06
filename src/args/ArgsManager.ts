@@ -93,6 +93,12 @@ export class ArgsManager<T extends string = string> {
 		return this._flagArgs.slice();
 	}
 
+	/** Returns true if a flag is found that matches the given flag. Prefixed dashes are removed and the result is compared to the keys of the flags present. */
+	public hasFlag(flag: string): boolean {
+		const key = flag.replace(flagDashRegex, "");
+		return this.flagArgs().some(flag => flag.keyRegex.test(key));
+	}
+
 	/** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
 	public incrementArgs<U extends string = string>(): IncrementArg<T, U>[] {
 		this._incrementArgs ??= this._args.filter(arg => arg.isIncrement) as IncrementArg<T, U>[];

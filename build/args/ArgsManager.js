@@ -69,6 +69,10 @@ export class ArgsManager {
         this._flagArgs ??= this._args.filter(arg => arg.isFlag);
         return this._flagArgs.slice();
     }
+    hasFlag(flag) {
+        const key = flag.replace(flagDashRegex, "");
+        return this.flagArgs().some(flag => flag.keyRegex.test(key));
+    }
     incrementArgs() {
         this._incrementArgs ??= this._args.filter(arg => arg.isIncrement);
         return this._incrementArgs.slice();
