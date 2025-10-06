@@ -36,6 +36,9 @@ function createQuotedRegex(options?: CreateOptions): QuotedRegexRegExp {
 		parts.push(createQuotedRegexPart(pair.chars, contents));
 	});
 
+	/** @todo consider a lazy catch for mismatched quotes */
+	// [“”"][^“”"]*[“”"]
+
 	const quotedRegex = new RegExp(`(?<!\\\\)(?:${parts.join("|")})`, flags);
 
 	const regexp = quotedRegex as QuotedRegexRegExp;
