@@ -20,6 +20,7 @@ export declare class ArgsManager<T extends string = string> {
     findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>>;
     /** Returns all FlagArg from .parseArgs() where .isFlag is true. */
     flagArgs(): FlagArg<T>[];
+    /** Returns true if a flag is found that matches the given flag. Prefixed dashes are removed and the result is compared to the keys of the flags present. */
     hasFlag(flag: string): boolean;
     /** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
     incrementArgs<U extends string = string>(): IncrementArg<T, U>[];
