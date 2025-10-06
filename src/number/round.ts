@@ -1,5 +1,5 @@
 /** Rounds the given number to the given number of decimal places. */
-export function round(value: number, decimals: number): number {
+export function round(value: number, decimals: number = 0): number {
 	if (isNaN(value) || isNaN(decimals)) {
 		return NaN;
 	}
