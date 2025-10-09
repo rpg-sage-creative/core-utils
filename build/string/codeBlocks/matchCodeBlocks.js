@@ -1,11 +1,9 @@
-import { getCodeBlockRegex } from "./getCodeBlockRegex.js";
+import { AllCodeBlocksRegExpG } from "./AllCodeBlocksRegExp.js";
 export function matchCodeBlocks(content) {
     const matches = [];
-    const iterator = content.matchAll(getCodeBlockRegex({ gFlag: "g" }));
+    const iterator = content.matchAll(AllCodeBlocksRegExpG);
     for (const execArray of iterator) {
-        const { index, 0: match, groups } = execArray;
-        const ticks = groups.ticks1 ?? groups.ticks2 ?? groups.ticks3;
-        const content = groups.content1 ?? groups.content2 ?? groups.content3;
+        const { index, 0: match, groups: { ticks, content } } = execArray;
         matches.push({ index, length: match.length, match, ticks, content });
     }
     return matches;
