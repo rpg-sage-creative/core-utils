@@ -5,6 +5,9 @@ export class HasCore extends HasCache {
         super();
         this.core = core;
     }
+    [Symbol.toStringTag]() {
+        return this.core.objectType;
+    }
     get objectType() {
         return this.core.objectType;
     }

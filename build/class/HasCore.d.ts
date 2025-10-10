@@ -9,6 +9,7 @@ export declare abstract class HasCore<TypedCore extends Core<ObjectType>, Object
     protected core: TypedCore;
     /** Must have a core. */
     constructor(core: TypedCore);
+    [Symbol.toStringTag](): ObjectType;
     /** The type of data that is represented. Often the Class that the Core is for. */
     get objectType(): ObjectType;
     /** Returns true if the given object is this object or this object's core. */
