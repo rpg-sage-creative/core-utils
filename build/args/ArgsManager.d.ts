@@ -16,19 +16,19 @@ export declare class ArgsManager<T extends string = string> {
     args(): Arg<T, string>[];
     /** Sends all ValueArgs to parseEnum and returns only valid (defined) results. */
     enumValues<K extends string = string, V extends number = number>(enumLike: EnumLike<K, V>): V[];
-    /** Returns KeyValueArg for the given key. */
-    findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>>;
-    /** Returns all FlagArg from .parseArgs() where .isFlag is true. */
+    /** Returns KeyValueArg for the first key found. */
+    findKeyValueArg<U extends string = string>(key: Lowercase<string>, ...additionalKeys: Lowercase<string>[]): OrUndefined<KeyValueArg<T, U>>;
+    /** Returns all FlagArg (.isFlag === true). */
     flagArgs(): FlagArg<T>[];
-    /** Returns true if a flag is found that matches the given flag. Prefixed dashes are removed and the result is compared to the keys of the flags present. */
-    hasFlag(flag: string): boolean;
-    /** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
-    incrementArgs<U extends string = string>(): IncrementArg<T, U>[];
-    /** Returns all KeyValueArg, optionally filtering by the given KeyResolvables. */
-    keyValueArgs<U extends string = string>(...keys: string[]): KeyValueArg<T, U>[];
+    /** Returns true if a flag is found that has any of the given keys. Flag keys are the flag with the first 1 or 2 dashes removed. */
+    hasFlag(key: Lowercase<string>, ...additionalKeys: Lowercase<string>[]): boolean;
+    /** Returns all IncrementArg (.isIncrement === true), optionally filtering by the given keys. */
+    incrementArgs<U extends string = string>(...keys: Lowercase<string>[]): IncrementArg<T, U>[];
+    /** Returns all KeyValueArg (.isKeyValue === true), optionally filtering by the given keys. */
+    keyValueArgs<U extends string = string>(...keys: Lowercase<string>[]): KeyValueArg<T, U>[];
     /** Returns the original (raw) string array. */
     raw(): string[];
-    /** Returns all ValueArg from .parseArgs() where .isValue is true. */
+    /** Returns all ValueArg (.isValue === true). */
     valueArgs(): ValueArg<T>[];
     /** Splits the given value into arguments by tokenizing it and then creating an ArgsManager from the resulting array. */
     static from<T extends string = string>(value: string, additionalParsers?: TokenParsers): ArgsManager<T>;

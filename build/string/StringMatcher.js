@@ -2,7 +2,7 @@ import { escapeRegex } from "../regex/escapeRegex.js";
 import { isBoolean, isDefined, isNullOrUndefined, isString } from "../types/index.js";
 import { isNotBlank } from "./blank/index.js";
 import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
-import { cleanWhitespace, getWhitespaceRegex, HORIZONTAL_WHITESPACE_REGEX_SOURCE, WHITESPACE_REGEX_SOURCE } from "./whitespace/index.js";
+import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "./whitespace/index.js";
 export class StringMatcher {
     constructor(value, cleanOptions) {
         this.value = isDefined(value) ? String(value) : value;
@@ -51,8 +51,8 @@ export class StringMatcher {
         return args.flat(1).some(value => this.matches(value));
     }
     toRegex({ anchored = true, asterisk, horizontalOnly, whitespace } = {}) {
-        const whitespaceRegex = getWhitespaceRegex({ horizontalOnly, quantifier: undefined });
-        const whitespaceSource = horizontalOnly ? HORIZONTAL_WHITESPACE_REGEX_SOURCE : WHITESPACE_REGEX_SOURCE;
+        const whitespaceRegex = horizontalOnly ? HorizontalWhitespaceRegExp : WhitespaceRegExp;
+        const whitespaceSource = whitespaceRegex.source.slice(0, -1);
         const whitespaceQuantifier = whitespace === "optional" ? "*" : "+";
         let lastCharWasWhitespace = false;
         const regex = this.value?.split("").map(char => {

@@ -30,75 +30,47 @@ export type KeyValueQuad<Value extends number | string, Nil extends null | undef
     /** if the value is an empty string then Nil is returned */
     value: Value | Nil;
 };
-export type FlagArg<Key extends string = string> = {
-    /** raw arg text */
-    arg: string;
+export type ArgBase<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = {
     /** index of the arg in the args array */
     index: number;
     /** does the arg start with a dash? */
-    isFlag: true;
+    isFlag?: true | never;
     /** is the arg key+= or key-= or key++ or key-- */
-    isIncrement?: never;
+    isIncrement?: true | never;
     /** is the arg a value key/value pair? */
-    isKeyValue?: never;
+    isKeyValue?: true | never;
     /** is the arg a raw value arg */
-    isValue?: never;
+    isValue?: true | never;
     /** key for the flag or pair */
     key: Key;
+    /** lowercase for comparing key */
+    keyLower: Lowercase<Key>;
     /** regex for comparing the key */
     keyRegex: RegExp;
     /** how to increment/decrement */
-    modifier?: never;
-    /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value?: never;
-};
-export type IncrementArg<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = {
+    operator?: "+" | "-" | never;
+    /** arg for ValueArg and FlagArg, value for a KeyValueArg; null for pair with empty string */
+    value: Value | Nil;
     /** raw arg text */
-    arg: string;
-    /** index of the arg in the args array */
-    index: number;
-    /** does the arg start with a dash? */
-    isFlag?: never;
+    raw: string;
+};
+export type FlagArg<Key extends string = string> = Omit<ArgBase<Key, Key, never>, "value"> & {
+    /** does the arg start with dashes */
+    isFlag: true;
+};
+export type IncrementArg<Key extends string = string, Value extends number | string = number, Nil extends null | undefined | never = null> = ArgBase<Key, Value, Nil> & {
     /** is the arg key+= or key-= or key++ or key-- */
     isIncrement: true;
-    /** is the arg a value key/value pair? */
-    isKeyValue?: never;
-    /** is the arg a raw value arg */
-    isValue?: never;
-    /** key for the flag or pair */
-    key: Key;
-    /** regex for comparing the key */
-    keyRegex: RegExp;
     /** how to increment/decrement */
     operator: "+" | "-";
-    /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value: Value | Nil;
 };
-export type KeyValueArg<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = {
-    /** raw arg text */
-    arg: string;
-    /** index of the arg in the args array */
-    index: number;
-    /** does the arg start with a dash? */
-    isFlag?: never;
-    /** is the arg key+= or key-= or key++ or key-- */
-    isIncrement?: never;
+export type KeyValueArg<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = ArgBase<Key, Value, Nil> & {
     /** is the arg a value key/value pair? */
-    isKeyValue?: true;
-    /** is the arg a raw value arg */
-    isValue?: never;
-    /** key for the flag or pair */
-    key: Key;
-    /** regex for comparing the key */
-    keyRegex: RegExp;
-    /** how to increment/decrement */
-    modifier?: never;
-    /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
-    value: Value | Nil;
+    isKeyValue: true;
 };
 export type ValueArg<Value extends number | string = string, Nil extends null | undefined | never = null> = {
     /** raw arg text */
-    arg: string;
+    raw: string;
     /** index of the arg in the args array */
     index: number;
     /** does the arg start with a dash? */
@@ -108,13 +80,15 @@ export type ValueArg<Value extends number | string = string, Nil extends null | 
     /** is the arg a value key/value pair? */
     isKeyValue?: never;
     /** is the arg a raw value arg */
-    isValue?: true;
+    isValue: true;
     /** key for the flag or pair */
     key?: never;
+    /** lowercase for comparing the key */
+    keyLower?: never;
     /** regex for comparing the key */
     keyRegex?: never;
     /** how to increment/decrement */
-    modifier?: never;
-    /** arg for ValueArg, value for a KeyValueArg; null for pair with empty string, undefined for a flag */
+    operator?: never;
+    /** arg for ValueArg and FlagArg, value for a KeyValueArg; null for pair with empty string */
     value: Value | Nil;
 };

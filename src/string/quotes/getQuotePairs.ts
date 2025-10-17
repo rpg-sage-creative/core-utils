@@ -21,19 +21,19 @@ type QuotePair = {
 	/** The two characters that make up the pair of quotes, ex: "" or '' or “” or ‘’ */
 	chars: string;
 
-	/** Specifies if this pair is considered single quotes. */
+	/** Specifies if this pair is considered single quotes, ex: '' */
 	isSingle: boolean;
 
-	/** Specifies if this pair is considered double quotes. */
+	/** Specifies if this pair is considered double quotes, ex: "" */
 	isDouble: boolean;
 
-	/** Specifies if this pair is considered fancy quotes. */
+	/** Specifies if this pair is considered fancy quotes, ex: “” */
 	isFancy: boolean;
 
 	/** Specifies if this pair is valid but not normally used quotes. Ex: „” */
 	isExtended: boolean;
 
-	/** Specifies if this pair is valid but uses arrows. Ex: „” */
+	/** Specifies if this pair is valid but uses arrows. Ex: «» */
 	isArrow: boolean;
 };
 
@@ -47,15 +47,15 @@ export function getQuotePairs(style?: QuoteStyle): QuotePairs {
 	// create pairs
 	const pairs = [
 		{ chars:`""`, isSingle:false, isDouble:true,  isFancy:false, isExtended:false, isArrow:false },
-		{ chars:`“”`,   isSingle:false, isDouble:true,  isFancy:true,  isExtended:false, isArrow:false },
+		{ chars:`“”`, isSingle:false, isDouble:true,  isFancy:true,  isExtended:false, isArrow:false },
 
-		{ chars:`„“`,    isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:false },
-		{ chars:`„”`,    isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:false },
-		{ chars:`«»`,    isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:true  },
-		{ chars:`»«`,   isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:true  },
+		// { chars:`„“`, isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:false },
+		// { chars:`„”`, isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:false },
+		// { chars:`«»`, isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:true  },
+		// { chars:`»«`, isSingle:false, isDouble:true,  isFancy:false, isExtended:true,  isArrow:true  },
 
 		{ chars:`''`, isSingle:true,  isDouble:false, isFancy:false, isExtended:false, isArrow:false },
-		{ chars:`‘’`,   isSingle:true,  isDouble:false, isFancy:true,  isExtended:false, isArrow:false },
+		{ chars:`‘’`, isSingle:true,  isDouble:false, isFancy:true,  isExtended:false, isArrow:false },
 	] as QuotePairs;
 
 	// filter on style

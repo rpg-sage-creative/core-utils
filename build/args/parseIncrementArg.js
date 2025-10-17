@@ -1,15 +1,64 @@
-import { dequote } from "../string/index.js";
-import { getIncrementArgRegex } from "./getIncrementArgRegex.js";
-export function parseIncrementArg(arg, options) {
-    const regex = getIncrementArgRegex(options);
-    const match = regex.exec(arg);
-    if (match) {
-        const [_, key, incrementer, modifier, value] = match;
-        const keyRegex = new RegExp(`^${key}$`, "i");
-        if (incrementer) {
-            return { arg, index: -1, isIncrement: true, key, keyRegex, operator: incrementer[0], value: "1" };
+import { regex } from "regex";
+import { dequote, QuotedNumberRegExp } from "../string/index.js";
+import { Arg } from "./Arg.js";
+export const IncrementArgRegExp = regex() `
+	(?<= ^ | \s )               # start of line or whitespace
+
+	(?<key>
+		[ \w \p{L} \p{N} ]          # letters and numbers only (a leading dash is a FlagArg)
+		(
+			[ \w \p{L} \p{N} \- \. ]*   # letters, numbers, dashes, and periods
+			[ \w \p{L} \p{N} ]          # letters and numbers only (capture the increment dash below)
+		)*
+	)
+
+	(
+		(?<decrement>
+			-{2}
+		)
+
+		|
+
+		(?<increment>
+			\+{2}
+		)
+
+		|
+
+		(?<operator>
+			[ \- \+ ] =
+		)
+		(?<value>
+			# quoted
+			${QuotedNumberRegExp}
+
+			|
+
+			# naked
+			\d+(\.\d+)?
+		)
+	)
+
+	(?= \s | $ )                # whitespace or end of line
+`;
+export function parseIncrementArg(raw, index) {
+    if (raw) {
+        const match = IncrementArgRegExp.exec(raw);
+        if (match?.index === 0 && match[0].length === raw.length) {
+            const { key, decrement, increment, operator, value: val } = match.groups;
+            const stringValue = decrement || increment ? "1" : dequote(val);
+            const value = +stringValue;
+            if (isNaN(value))
+                return undefined;
+            return Arg.from({
+                index,
+                isIncrement: true,
+                key,
+                operator: decrement?.[0] ?? increment?.[0] ?? operator[0],
+                raw,
+                value,
+            });
         }
-        return { arg, index: -1, isIncrement: true, key, keyRegex, operator: modifier[0], value: dequote(value) };
     }
     return undefined;
 }

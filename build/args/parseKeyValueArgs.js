@@ -1,8 +1,7 @@
-import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
-import { parseValidKeyValueArg } from "./internal/parseValidKeyValueArg.js";
-export function parseKeyValueArgs(input, options) {
-    const regexp = getKeyValueArgRegex({ ...options, gFlag: "g" });
-    const matches = input?.match(regexp) ?? [];
-    const args = matches.map(parseValidKeyValueArg);
+import { KeyValueArgRegExp, parseKeyValueArg } from "./parseKeyValueArg.js";
+export const KeyValueArgRegExpG = new RegExp(KeyValueArgRegExp, "g");
+export function parseKeyValueArgs(input) {
+    const matches = input?.match(KeyValueArgRegExpG) ?? [];
+    const args = matches.map(arg => parseKeyValueArg(arg));
     return args.filter(arg => arg);
 }

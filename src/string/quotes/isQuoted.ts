@@ -1,14 +1,11 @@
-import type { RegExpQuantifier } from "../../regex/RegExpOptions.js";
 import type { Optional } from "../../types/generics.js";
-import { getQuotedRegex } from "./getQuotedRegex.js";
-import type { QuoteStyle } from "./getQuotePairs.js";
+import { QuotedContentRegExp } from "./QuotedContentRegExp.js";
 
-type Options = {
-	style?: QuoteStyle;
-	contents?: RegExpQuantifier;
-};
+type QuotedString = `"${string}"` | `“${string}”` | `'${string}'` | `‘${string}’`;
 
 /** Returns true if the value is properly quoted, false otherwise. */
-export function isQuoted(value: Optional<string>, options?: Options): boolean {
-	return value ? getQuotedRegex({ anchored:true, ...options }).test(value) : false;
+export function isQuoted(value: Optional<string>): value is QuotedString {
+	if (!value) return false;
+	const match = QuotedContentRegExp.exec(value);
+	return match?.index === 0 && match[0].length === value.length;
 }

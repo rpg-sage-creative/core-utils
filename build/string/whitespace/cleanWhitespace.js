@@ -1,8 +1,8 @@
-import { getWhitespaceRegex } from "./getWhitespaceRegex.js";
+import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./getWhitespaceRegex.js";
 export function cleanWhitespace(value, options) {
     if (!value)
         return value;
     const { horizontalOnly, replacement = " " } = options ?? {};
-    const regexp = getWhitespaceRegex({ gFlag: "g", quantifier: "+", horizontalOnly });
+    const regexp = horizontalOnly ? HorizontalWhitespaceRegExpG : WhitespaceRegExpG;
     return value.replace(regexp, replacement).trim();
 }

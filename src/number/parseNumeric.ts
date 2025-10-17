@@ -1,7 +1,8 @@
 import { getSubscriptCharSet } from "../characters/getSubscriptCharSet.js";
 import { getSuperscriptCharSet } from "../characters/getSuperscriptCharSet.js";
 import type { ScriptedCharSet } from "../characters/types.js";
-import { getNumberRegex } from "./getNumberRegex.js";
+import { isIntegerString } from "./isIntegerString.js";
+import { isNumberString } from "./isNumberString.js";
 
 type NumberResults = {
 	isBigInt: boolean;
@@ -13,14 +14,13 @@ type NumberResults = {
 
 /** Parses the given numeric string into a number, bigint, or NaN. */
 function _parseNumber(value: string): number | bigint {
-	const regex = getNumberRegex({ anchored:true });
-	if (!regex.test(value)) {
+	if (!isNumberString(value)) {
 		return NaN;
 	}
 
 	// check integer only for BigInt
-	if (/^-?\d+$/.test(value)) {
-		const length = value.replace(/^-/, "").length;
+	if (isIntegerString(value)) {
+		const length = value.length - (value.startsWith("-") ? 1 : 0);
 		if (length < 16) {
 			return Number(value);
 		}
@@ -132,13 +132,11 @@ function scriptedToUnscripted(value: string): { charSet:ScriptedCharSet; stringV
 
 /** @internal exported only for testing */
 export function parseNumericString(value: string): NumericResults {
-	const numberRegex = getNumberRegex({ anchored:true });
-
 	let charSetType: "sub" | "super" | undefined;
 	let stringValue = value;
 
 	// see if we need to convert from super/sub
-	if (!numberRegex.test(value)) {
+	if (!isNumberString(value)) {
 		const unscriptedResults = scriptedToUnscripted(value);
 		if (unscriptedResults) {
 			charSetType = unscriptedResults.charSet.type;

@@ -19,15 +19,15 @@ export type QuoteStyle = "any" | "strict" | "fancy" | "extended" | "double" | "d
 type QuotePair = {
     /** The two characters that make up the pair of quotes, ex: "" or '' or “” or ‘’ */
     chars: string;
-    /** Specifies if this pair is considered single quotes. */
+    /** Specifies if this pair is considered single quotes, ex: '' */
     isSingle: boolean;
-    /** Specifies if this pair is considered double quotes. */
+    /** Specifies if this pair is considered double quotes, ex: "" */
     isDouble: boolean;
-    /** Specifies if this pair is considered fancy quotes. */
+    /** Specifies if this pair is considered fancy quotes, ex: “” */
     isFancy: boolean;
     /** Specifies if this pair is valid but not normally used quotes. Ex: „” */
     isExtended: boolean;
-    /** Specifies if this pair is valid but uses arrows. Ex: „” */
+    /** Specifies if this pair is valid but uses arrows. Ex: «» */
     isArrow: boolean;
 };
 type QuotePairs = QuotePair[] & {
