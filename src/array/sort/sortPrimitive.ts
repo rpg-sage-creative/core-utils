@@ -15,14 +15,14 @@ export function sortPrimitive<T extends boolean | Date | number | string>(a: Opt
 	// undefined is the "greatest" value
 	if (a === undefined) {
 		return 1;
-	}else if (b === undefined) {
+	} else if (b === undefined) {
 		return -1;
 	}
 
 	// null is the "second greatest" value
 	if (a === null) {
 		return 1;
-	}else if (b === null) {
+	} else if (b === null) {
 		return -1;
 	}
 
@@ -33,20 +33,23 @@ export function sortPrimitive<T extends boolean | Date | number | string>(a: Opt
 	// return less than / greater than results
 	if (aLower < bLower) {
 		return -1;
-	}else if (aLower > bLower) {
+	} else if (aLower > bLower) {
 		return 1;
 	}
 
 	// check data types
 	if (a !== b) {
-		const aType = isDate(a) ? "date" : typeof(a);
-		const bType = isDate(b) ? "date" : typeof(b);
+		const aType = isDate(a) ? "date" : typeof (a);
+		const bType = isDate(b) ? "date" : typeof (b);
 
 		// dates are objects and equal dates still fail ===
 		const aDate = aType === "date";
 		const bDate = bType === "date";
 		if (aDate || bDate) {
-			return sortPrimitive(aDate ? +a as T : a, bDate ? +b as T : b);
+			const asDate = sortPrimitive(aDate ? +a as T : a, bDate ? +b as T : b);
+			if (asDate !== 0) {
+				return asDate;
+			}
 		}
 
 		// strings that differ only by case

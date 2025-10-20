@@ -28,7 +28,10 @@ export function sortPrimitive(a, b) {
         const aDate = aType === "date";
         const bDate = bType === "date";
         if (aDate || bDate) {
-            return sortPrimitive(aDate ? +a : a, bDate ? +b : b);
+            const asDate = sortPrimitive(aDate ? +a : a, bDate ? +b : b);
+            if (asDate !== 0) {
+                return asDate;
+            }
         }
         if (aType === "string" && bType === "string") {
             return a < b ? -1 : 1;
