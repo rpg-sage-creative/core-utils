@@ -1,19 +1,36 @@
 import { alphaToHex } from "../../build/color/internal/toHex.js";
-import { toString } from "../toString.mjs";
+import { tagLiterals } from "../../build/index.js";
 
 describe("color", () => {
 	describe("alphaToHex", () => {
-		const tests = [
-			[0, "00"],
-			[0.49, "7d"],
-			[0.5, "80"],
-			[0.51, "82"],
-			[1, "ff"],
+		// Test all values from 0 to 255
+		const tests = Array.from({ length: 256 }, (_, i) => ({
+			number: i,
+			alpha: i / 255,
+			hex: i.toString(16).padStart(2, "0")
+		}));
+
+		// Test edge cases
+		const edgeCases = [
+			{ alpha: -0.1, hex: "00" },
+			{ alpha: -0.5, hex: "00" },
+			{ alpha: 1.1, hex: "ff" },
+			{ alpha: 1.5, hex: "ff" },
+			{ alpha: 0.5, hex: "80" },
+			{ alpha: 0.499, hex: "7f" }
 		];
 
-		tests.forEach(([value, expected]) => {
-			test(`alphaToHex(${toString(value)}) === ${toString(expected)}`, () => {
-				expect(alphaToHex(value)).toBe(expected);
+		// Test all values from 0 to 255
+		tests.forEach(({ alpha, hex }) => {
+			test(tagLiterals`alphaToHex(${alpha}) === ${hex}`, () => {
+				expect(alphaToHex(alpha)).toBe(hex);
+			});
+		});
+
+		// Test edge cases
+		edgeCases.forEach(({ alpha, hex }) => {
+			test(tagLiterals`alphaToHex(${alpha}) === ${hex}`, () => {
+				expect(alphaToHex(alpha)).toBe(hex);
 			});
 		});
 
