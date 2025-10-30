@@ -105,7 +105,7 @@ export abstract class EphemeralBase<K, V = K> {
 			const ts = this.map.get(key)?.ts ?? 0;
 
 			// remove old key
-			if (ts < cutOff) {
+			if (ts <= cutOff) {
 				this.delete(key);
 			}
 		}

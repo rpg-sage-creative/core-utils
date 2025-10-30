@@ -52,7 +52,7 @@ export class EphemeralBase {
                 break;
             }
             const ts = this.map.get(key)?.ts ?? 0;
-            if (ts < cutOff) {
+            if (ts <= cutOff) {
                 this.delete(key);
             }
         }
