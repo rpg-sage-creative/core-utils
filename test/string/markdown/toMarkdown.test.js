@@ -26,10 +26,13 @@ line<br>break
 <a href="https://rpgsage.io">RPG Sage Site</a>
 <a href="https://rpgsage.io" title="cool site bro">RPG Sage Site</a>
 line<br/>break
+line<br />break 2
+line<br readonly/>break 3
 <u>underline</u>
 <ul><li>first</li><li>second</li></ul>
 <ul><li>first</li><ol><li>first child first</li><li>first child second</li></ol><li>second</li></ul>
 \ttabbed
+dec: &#9770; hex: &#x262a;
 <ol><li>first</li><li>second</li></ol>
 <ol start="5"><li>first</li><li>second</li></ol>
 `,
@@ -62,6 +65,10 @@ break
 [RPG Sage Site](https://rpgsage.io "cool site bro")
 line
 break
+line
+break 2
+line
+break 3
 __underline__
 
 - first
@@ -72,6 +79,7 @@ __underline__
   2. first child second
 - second
  \u00A0 \u00A0tabbed
+dec: ☪ hex: ☪
 
 1. first
 2. second
@@ -80,6 +88,22 @@ __underline__
 6. second
 `
 				},
+				{
+					input:
+`
+<table>
+<tr><td>r0 c0</td><td>r0 c1</td></tr>
+<tr><td>r1 c0</td><td>r1 c1</td></tr>
+<tr><td>r2 <b>c0</b></td><td>r2 <broken> c1</td></tr>
+</table>
+`,
+					expected:
+`
+> __r0 c0 | r0 c1__
+> r1 c0 | r1 c1
+> r2 c0 | r2  c1
+`
+				}
 			];
 
 			tests.forEach(({ input, expected }) => {

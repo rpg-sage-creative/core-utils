@@ -3,6 +3,8 @@ import { getSimpleHtmlElementRegex, type SimpleHtmlRegExpExecGroup } from "../ht
 
 type HtmlToMarkdownHandler = (innerHtml: string, attributes: Map<string, string>, nodeName: Lowercase<string>, outerHtml: string) => string;
 
+const RegExpMap: Record<string, RegExp> = { };
+
 /** @internal Handles nested html tags */
 export function htmlToMarkdown(text: string, element: string, openMarkdown: string): string;
 export function htmlToMarkdown(text: string, element: string, handler: HtmlToMarkdownHandler): string;
@@ -27,7 +29,7 @@ export function htmlToMarkdown(text: string, element: string, handlerOrOpenMarkd
 	}
 
 	// create the html element regex
-	const regexp = getSimpleHtmlElementRegex({ element, gFlag:"g", iFlag:"i" });
+	const regexp = RegExpMap[element] ??= getSimpleHtmlElementRegex({ element, gFlag:"g", iFlag:"i" });
 
 	// search/replace all
 	return text.replace(regexp, (...values: unknown[]) => {
