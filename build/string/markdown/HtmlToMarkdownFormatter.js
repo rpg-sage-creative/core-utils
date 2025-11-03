@@ -3,6 +3,9 @@ import { htmlToMarkdown } from "./htmlToMarkdown.js";
 import { parseNumeric } from "../../number/parseNumeric.js";
 import { toSubscript } from "../../number/toSubscript.js";
 import { toSuperscript } from "../../number/toSuperscript.js";
+const AsciiEscapeRegExp = /&#(?:x([0-9a-f]+)|(\d+));/gi;
+const HorizontalTabRegExp = /\t([^>]|$)/g;
+const StripHtmlRegExp = /<[^>]+>/gi;
 function handleListItem(level, dashOrNumber, content) {
     const indent = "".padEnd(level * 2, " ");
     const dot = dashOrNumber === "-" ? "" : ".";
@@ -37,9 +40,14 @@ export class HtmlToMarkdownFormatter {
     constructor(text) {
         this.text = text;
     }
+    formatAsciiEscape() {
+        if (this.text) {
+            this.text = this.text.replace(AsciiEscapeRegExp, (_, hex, dec) => String.fromCodePoint(parseInt(hex ?? dec, hex ? 16 : 10)));
+        }
+        return this;
+    }
     formatBlockQuote() {
-        const newLine = "\n";
-        this.text = htmlToMarkdown(this.text, "blockquote", innerHtml => newLine + innerHtml.split(newLine).map(s => `> ${s}`).join(newLine) + newLine);
+        this.text = htmlToMarkdown(this.text, "blockquote", innerHtml => "\n" + innerHtml.split("\n").map(s => `> ${s}`).join("\n") + "\n");
         return this;
     }
     formatBold() {
@@ -59,7 +67,7 @@ export class HtmlToMarkdownFormatter {
     }
     formatHorizontalTab() {
         if (this.text) {
-            this.text = this.text.replace(/\t([^>]|$)/g, `${HORIZONTAL_TAB}$1`);
+            this.text = this.text.replace(HorizontalTabRegExp, `${HORIZONTAL_TAB}$1`);
         }
         return this;
     }
@@ -87,9 +95,7 @@ export class HtmlToMarkdownFormatter {
         return this;
     }
     formatNewLine() {
-        if (this.text) {
-            this.text = this.text.replace(/<br\/?>/gi, "\n");
-        }
+        this.text = htmlToMarkdown(this.text, "br", () => "\n");
         return this;
     }
     formatParagraph() {
@@ -120,13 +126,12 @@ export class HtmlToMarkdownFormatter {
         return this;
     }
     formatTable() {
-        const stripRegex = /<[^>]+>/gi;
         this.text = htmlToMarkdown(this.text, "table", tableHtml => {
             const table = [];
             htmlToMarkdown(tableHtml, "tr", rowHtml => {
                 const row = [];
                 htmlToMarkdown(rowHtml, "th|td", cellHtml => {
-                    row.push(cellHtml.replace(stripRegex, ""));
+                    row.push(cellHtml.replace(StripHtmlRegExp, ""));
                     return "";
                 });
                 table.push(row);

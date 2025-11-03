@@ -1,5 +1,6 @@
 import { parseKeyValueArgs } from "../../args/parseKeyValueArgs.js";
 import { getSimpleHtmlElementRegex } from "../html/getSimpleHtmlElementRegex.js";
+const RegExpMap = {};
 export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
     if (!text) {
         return text;
@@ -13,7 +14,7 @@ export function htmlToMarkdown(text, element, handlerOrOpenMarkdown) {
         const closeMarkdown = Array.from(openMarkdown).reverse().join("");
         handler = (inner) => openMarkdown + inner + closeMarkdown;
     }
-    const regexp = getSimpleHtmlElementRegex({ element, gFlag: "g", iFlag: "i" });
+    const regexp = RegExpMap[element] ??= getSimpleHtmlElementRegex({ element, gFlag: "g", iFlag: "i" });
     return text.replace(regexp, (...values) => {
         const groups = values[values.length - 1];
         if (groups.comment)

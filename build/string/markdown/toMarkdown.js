@@ -6,6 +6,7 @@ export function toMarkdown(html) {
     return new HtmlToMarkdownFormatter(html)
         .formatNewLine()
         .formatTable()
+        .formatAsciiEscape()
         .formatBold()
         .formatCode()
         .formatFooter()

@@ -5,7 +5,7 @@ export function getSimpleHtmlElementRegex({ element, gFlag = "", iFlag = "i" } =
     const elements = element?.toLowerCase().split("|");
     if (elements?.length) {
         const selfClosePattern = elements.filter(el => el.trim() && isSelfCloseElement(el)).join("|") || undefined;
-        const selfCloseSource = createSelfCloseSource({ captureGroups: { tagName: "selfCloseTagName", attributes: "selfCloseAttributes", quotes: "selfCloseQuotes" }, pattern: selfClosePattern, flags });
+        const selfCloseSource = createSelfCloseSource({ captureGroups: { tagName: "selfCloseName", attributes: "selfCloseAttributes", quotes: "selfCloseQuotes" }, pattern: selfClosePattern, flags });
         const fullClosePattern = elements.filter(el => el.trim() && !isSelfCloseElement(el)).join("|") || undefined;
         const fullTagSource = createFullTagSource({ captureGroups: { tagName: "fullTagName", attributes: "fullTagAttributes", quotes: "fullTagQuotes" }, pattern: fullClosePattern, flags });
         if (selfClosePattern && fullClosePattern) {
@@ -19,7 +19,7 @@ export function getSimpleHtmlElementRegex({ element, gFlag = "", iFlag = "i" } =
         }
     }
     const commentSource = `(?<comment><!--.*?-->)`;
-    const selfCloseSource = createSelfCloseSource({ captureGroups: { tagName: "selfCloseTagName", attributes: "selfCloseAttributes", quotes: "selfCloseQuotes" }, flags });
+    const selfCloseSource = createSelfCloseSource({ captureGroups: { tagName: "selfCloseName", attributes: "selfCloseAttributes", quotes: "selfCloseQuotes" }, flags });
     const fullTagSource = createFullTagSource({ captureGroups: { tagName: "fullTagName", attributes: "fullTagAttributes", quotes: "fullTagQuotes" }, flags });
     return new RegExp(`(${commentSource}|${selfCloseSource}|${fullTagSource})`, flags);
 }
