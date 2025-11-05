@@ -6,7 +6,7 @@ export function removeAt(values, indexOrIndexes) {
         sorted.forEach(index => values.splice(index, 1));
         const arrayConstructor = values.constructor;
         const indexes = new arrayConstructor();
-        indexes.push(...removed);
+        removed.forEach(item => indexes.push(item));
         return indexes;
     }
     return values.splice(indexOrIndexes, 1)[0];

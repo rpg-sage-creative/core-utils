@@ -88,7 +88,7 @@ export class HasCategorizedSearchables<T extends Searchable> {
 	// #region methods
 
 	public add(...searchables: T[]) {
-		this._unsortedSearchables.push(...searchables);
+		searchables.forEach(searchable => this._unsortedSearchables.push(searchable));
 		delete this._searchables;
 		delete this._categorizedSearchables;
 		delete this._categories;
