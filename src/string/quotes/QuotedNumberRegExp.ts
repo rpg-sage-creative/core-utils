@@ -1,6 +1,6 @@
 import { regex } from "regex";
 
-/** Matches an unsigned number (integer or decimal) in any of the following quotes: "", “”, „“, „”, '', ‘’ */
+/** Matches an unsigned number (integer or decimal) in any of the following quotes: "", “”, '', ‘’ */
 export const QuotedNumberRegExp = regex()`
 	# "" simple double quotes
 	"\d+(\.\d+)?"

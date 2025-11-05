@@ -1,6 +1,9 @@
 import { regex } from "regex";
 
-/** Matches any of the following quoted pairs, with content optional: "", “”, „“, „”, '', ‘’ */
+/** @todo consider a lazy catch for mismatched quotes */
+// [“”"][^“”"]*[“”"]
+
+/** Matches any of the following quoted pairs, with content optional: "", “”, '', ‘’ */
 export const QuotedContentRegExp = regex()`
 	# "" simple double quotes
 	"
@@ -44,6 +47,3 @@ export const QuotedContentRegExp = regex()`
 	)*
 	’
 `;
-
-/** @todo consider a lazy catch for mismatched quotes */
-// [“”"][^“”"]*[“”"]
