@@ -1,4 +1,7 @@
-import { getQuotedRegex } from "./getQuotedRegex.js";
-export function isQuoted(value, options) {
-    return value ? getQuotedRegex({ anchored: true, ...options }).test(value) : false;
+import { QuotedContentRegExp } from "./QuotedContentRegExp.js";
+export function isQuoted(value) {
+    if (!value)
+        return false;
+    const match = QuotedContentRegExp.exec(value);
+    return match?.index === 0 && match[0].length === value.length;
 }

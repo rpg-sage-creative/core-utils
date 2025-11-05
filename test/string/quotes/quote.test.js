@@ -1,5 +1,4 @@
-import { quote } from "../../../build/index.js";
-import { toString } from "../../toString.mjs";
+import { quote, tagLiterals } from "../../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("string", () => {
@@ -8,7 +7,7 @@ describe("string", () => {
 
 			const tests = getTests("quote");
 			tests.forEach(({unquoted, style, quoted}) => {
-				test(`quote(${toString(unquoted)}, ${toString(style)}) === ${toString(quoted)}`, () => {
+				test(tagLiterals`quote(${unquoted}, ${style}) === ${quoted}`, () => {
 					expect(quote(unquoted, style)).toBe(quoted);
 				});
 			});

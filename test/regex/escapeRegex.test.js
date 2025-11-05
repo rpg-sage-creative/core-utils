@@ -1,69 +1,48 @@
 import { escapeRegex, tagLiterals } from "../../build/index.js";
 
 /*
-
-\$, \(, \), \*, \+, \., \/, \?, \[, \\, \], \^, \{, \|, \}: valid everywhere
-
-\-: only valid inside character classes
-
-\!, \#, \%, \&, \,, \:, \;, \<, \=, \>, \@, \`, \~: only valid inside v-mode character classes
-
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
 */
 
 describe("regex", () => {
 	describe("escapeRegex", () => {
 
-		const optChar = { charClass:true };
-		const optFlag = { vFlag:"v" };
-		const optBoth = { charClass:true, vFlag:"v" };
+		"01234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(char => {
+			const escaped = `\\x${char.charCodeAt(0).toString(16)}`;
+			test(tagLiterals`escapeChar(${char}) === ${escaped}`, () => {
+				expect(escapeRegex(char)).toBe(escaped);
+			});
+			const pair = `?${char}`;
+			const notEscaped = `\\?${char}`;
+			test(tagLiterals`escapeChar(${pair}) === ${notEscaped}`, () => {
+				expect(escapeRegex(pair)).toBe(notEscaped);
+			});
+		});
 
-		"$()*+./?[]\\^{}|".split("").forEach(char => {
+		"^$\\.*+?()[]{}|/".split("").forEach(char => {
 			const escaped = `\\${char}`;
 			test(tagLiterals`escapeChar(${char}) === ${escaped}`, () => {
 				expect(escapeRegex(char)).toBe(escaped);
 			});
-			test(tagLiterals`escapeChar(${char}, ${optChar}) === ${escaped}`, () => {
-				expect(escapeRegex(char, optChar)).toBe(escaped);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optFlag}) === ${escaped}`, () => {
-				expect(escapeRegex(char, optFlag)).toBe(escaped);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optBoth}) === ${escaped}`, () => {
-				expect(escapeRegex(char, optBoth)).toBe(escaped);
+		});
+
+		",-=<>#&!%:;@~'`\" ".split("").forEach(char => {
+			const escaped = `\\x${char.charCodeAt(0).toString(16)}`;
+			test(tagLiterals`escapeChar(${char}) === ${escaped}`, () => {
+				expect(escapeRegex(char)).toBe(escaped);
 			});
 		});
 
-		"-".split("").forEach(char => {
-			const escaped = `\\${char}`;
-			test(tagLiterals`escapeChar(${char}) === ${char}`, () => {
-				expect(escapeRegex(char)).toBe(char);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optChar}) === ${escaped}`, () => {
-				expect(escapeRegex(char, optChar)).toBe(escaped);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optFlag}) === ${char}`, () => {
-				expect(escapeRegex(char, optFlag)).toBe(char);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optBoth}) === ${escaped}`, () => {
-				expect(escapeRegex(char, optBoth)).toBe(escaped);
-			});
+		[
+			{ char:"\f", escaped:"\\f" },
+			{ char:"\n", escaped:"\\n" },
+			{ char:"\r", escaped:"\\r" },
+			{ char:"\t", escaped:"\\t" },
+			{ char:"\v", escaped:"\\v" },
+		].forEach(({ char, escaped }) => {
+			test(tagLiterals`escapeChar(${char}) === ${escaped}`, () => {
+				expect(escapeRegex(char)).toBe(escaped);
+			})
 		});
-
-		"!#%&,:;<=>@`~".split("").forEach(char => {
-			const escaped = `\\${char}`;
-			test(tagLiterals`escapeChar(${char}) === ${char}`, () => {
-				expect(escapeRegex(char)).toBe(char);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optChar}) === ${char}`, () => {
-				expect(escapeRegex(char, optChar)).toBe(char);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optFlag}) === ${char}`, () => {
-				expect(escapeRegex(char, optFlag)).toBe(char);
-			});
-			test(tagLiterals`escapeChar(${char}, ${optBoth}) === ${escaped}`, () => {
-				expect(escapeRegex(char, optBoth)).toBe(escaped);
-			});
-		});
-
 	});
 });

@@ -1,57 +1,29 @@
-import { dequote, getQuotedRegex, getWhitespaceRegex, tokenize, type TokenParsers } from "../string/index.js";
+import { dequote, isNotBlank, tokenize, WhitespaceRegExp, type TokenParsers } from "../string/index.js";
+import { QuotedContentRegExp } from "../string/quotes/QuotedContentRegExp.js";
 import type { EnumLike, OrUndefined } from "../types/generics.js";
 import { isDefined, parseEnum } from "../types/index.js";
-import { getKeyValueArgRegex } from "./getKeyValueArgRegex.js";
-import { parseIncrementArg } from "./parseIncrementArg.js";
-import { parseKeyValueArg } from "./parseKeyValueArg.js";
+import { FlagArgRegExp, parseFlagArg } from "./parseFlagArg.js";
+import {  IncrementArgRegExp, parseIncrementArg } from "./parseIncrementArg.js";
+import { KeyValueArgRegExp, parseKeyValueArg } from "./parseKeyValueArg.js";
 import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
 
 type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
 
-const flagRegex = /^\-+\w+$/;
-const flagDashRegex = /^\-+/;
-
-function _parseFlagArg<T extends string>(arg: string, index: number): OrUndefined<FlagArg<T>> {
-	if (flagRegex.test(arg)) {
-		const key = arg.replace(flagDashRegex, "") as T;
-		const keyRegex = new RegExp(`^${key}$`, "i");
-		return { arg, index, isFlag:true, key, keyRegex };
-	}
-	return undefined;
-}
-
-function _parseIncrementArg<T extends string, U extends string>(arg: T, index: number): OrUndefined<IncrementArg<T, U>> {
-	const incrementArg = parseIncrementArg<T, U>(arg);
-	if (incrementArg) {
-		const value = incrementArg.value === "" ? null : incrementArg.value ?? null;
-		return { ...incrementArg, index, value };
-	}
-	return undefined;
-}
-
-function _parseKeyValueArg<T extends string, U extends string>(arg: T, index: number): OrUndefined<KeyValueArg<T, U>> {
-	const keyValueArg = parseKeyValueArg<T, U>(arg, { allowDashes:true, allowPeriods:true });
-	if (keyValueArg) {
-		const value = keyValueArg.value === "" ? null : keyValueArg.value ?? null;
-		return { ...keyValueArg, index, value };
-	}
-	return undefined;
-}
-
-function _parseValueArg<T extends string>(arg: T, index: number): OrUndefined<ValueArg<T>> {
-	if (typeof(arg) === "string") {
-		const value = arg === "" ? null : dequote(arg, { contents:"*" }) as T;
-		return { arg, index, isValue:true, value }
+function parseValueArg<T extends string>(raw: T, index: number): OrUndefined<ValueArg<T>> {
+	if (isNotBlank(raw)) {
+		const dequoted = dequote(raw);
+		const value = dequoted === "" ? null : dequoted as T;
+		return { raw, index, isValue:true, value }
 	}
 	return undefined;
 }
 
 /** Parses the input/index to ArgData. */
 function parseArg<T extends string, U extends string>(arg: T, index: number): OrUndefined<Arg<T, U>> {
-	return _parseKeyValueArg<T, U>(arg, index)
-		?? _parseIncrementArg<T, U>(arg, index)
-		?? _parseFlagArg<T>(arg, index)
-		?? _parseValueArg<T>(arg, index);
+	return parseKeyValueArg<T, U>(arg, index)
+		?? parseIncrementArg<T, U>(arg, index)
+		?? parseFlagArg<T>(arg, index)
+		?? parseValueArg<T>(arg, index);
 }
 
 export class ArgsManager<T extends string = string> {
@@ -64,8 +36,10 @@ export class ArgsManager<T extends string = string> {
 
 	public constructor(raw?: string[]) {
 		this._strings = raw?.slice() ?? [];
-		this._args = raw?.map(parseArg).filter(arg => arg !== undefined) as Arg<T, any>[] ?? [];
+		this._args = raw?.map(parseArg).filter(isDefined) as Arg<T, any>[] ?? [];
 	}
+
+	// public [Symbol.]
 
 	/** Returns the count of defined Args. This may differ from the count of the original (raw) string array. */
 	public get length(): number {
@@ -82,28 +56,47 @@ export class ArgsManager<T extends string = string> {
 		return this.valueArgs().map(arg => parseEnum<EnumLike<K, V>>(enumLike, arg.value)).filter(isDefined) as V[];
 	}
 
-	/** Returns KeyValueArg for the given key. */
-	public findKeyValueArg<U extends string = string>(key: string): OrUndefined<KeyValueArg<T, U>> {
-		return this._args.find(arg => arg.isKeyValue && arg.keyRegex.test(key)) as OrUndefined<KeyValueArg<T, U>>;
+	/** Returns KeyValueArg for the first key found. */
+	public findKeyValueArg<U extends string = string>(key: Lowercase<string>, ...additionalKeys: Lowercase<string>[]): OrUndefined<KeyValueArg<T, U>>;
+	public findKeyValueArg(...keys: Lowercase<string>[]): OrUndefined<KeyValueArg> {
+		const keyValueArgs = this.keyValueArgs();
+		for (const key of keys) {
+			const arg = keyValueArgs.find(arg => arg.keyLower === key);
+			if (arg) {
+				return arg;
+			}
+		}
+		return undefined;
 	}
 
-	/** Returns all FlagArg from .parseArgs() where .isFlag is true. */
+	/** Returns all FlagArg (.isFlag === true). */
 	public flagArgs(): FlagArg<T>[] {
 		this._flagArgs ??= this._args.filter(arg => arg.isFlag) as FlagArg<T>[];
 		return this._flagArgs.slice();
 	}
 
-	/** Returns all IncrementArg from .parseArgs() where .isIncrement is true. */
-	public incrementArgs<U extends string = string>(): IncrementArg<T, U>[] {
+	/** Returns true if a flag is found that has any of the given keys. Flag keys are the flag with the first 1 or 2 dashes removed. */
+	public hasFlag(key: Lowercase<string>, ...additionalKeys: Lowercase<string>[]): boolean;
+	public hasFlag(...keys: Lowercase<string>[]): boolean {
+		return this._args.some(arg => arg.isFlag && keys.includes(arg.keyLower));
+	}
+
+	/** Returns all IncrementArg (.isIncrement === true), optionally filtering by the given keys. */
+	public incrementArgs<U extends string = string>(...keys: Lowercase<string>[]): IncrementArg<T, U>[] {
 		this._incrementArgs ??= this._args.filter(arg => arg.isIncrement) as IncrementArg<T, U>[];
+		if (keys.length && this._incrementArgs.length) {
+			const lowers = keys.map(key => key.toLowerCase());
+			return this._incrementArgs.filter(arg => lowers.includes(arg.keyLower));
+		}
 		return this._incrementArgs.slice();
 	}
 
-	/** Returns all KeyValueArg, optionally filtering by the given KeyResolvables. */
-	public keyValueArgs<U extends string = string>(...keys: string[]): KeyValueArg<T, U>[] {
+	/** Returns all KeyValueArg (.isKeyValue === true), optionally filtering by the given keys. */
+	public keyValueArgs<U extends string = string>(...keys: Lowercase<string>[]): KeyValueArg<T, U>[] {
 		this._keyValueArgs ??= this._args.filter(arg => arg.isKeyValue) as KeyValueArg<T, U>[];
-		if (keys.length) {
-			return this._keyValueArgs.filter(arg => keys.some(key => arg.keyRegex.test(key)));
+		if (keys.length && this._keyValueArgs.length) {
+			const lowers = keys.map(key => key.toLowerCase());
+			return this._keyValueArgs.filter(arg => lowers.includes(arg.keyLower));
 		}
 		return this._keyValueArgs.slice();
 	}
@@ -113,7 +106,7 @@ export class ArgsManager<T extends string = string> {
 		return this._strings.slice();
 	}
 
-	/** Returns all ValueArg from .parseArgs() where .isValue is true. */
+	/** Returns all ValueArg (.isValue === true). */
 	public valueArgs(): ValueArg<T>[] {
 		this._valueArgs ??= this._args.filter(arg => arg.isValue) as ValueArg<T>[];
 		return this._valueArgs.slice();
@@ -144,9 +137,11 @@ export class ArgsManager<T extends string = string> {
 		}
 
 		const parsers: TokenParsers = {
-			arg: getKeyValueArgRegex({ allowDashes:true, allowPeriods:true }),
-			spaces: getWhitespaceRegex(),
-			quotes: getQuotedRegex({ contents:"*" }),
+			flagArg: FlagArgRegExp,
+			incrementArg: IncrementArgRegExp,
+			keyValueArg: KeyValueArgRegExp,
+			spaces: WhitespaceRegExp,
+			quotes: QuotedContentRegExp,
 			...additionalParsers
 		};
 

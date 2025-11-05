@@ -61,7 +61,7 @@ export class HasCategorizedSearchables {
         return this._unsortedSearchables.length === 1 ? this._unsortedSearchables[0] : undefined;
     }
     add(...searchables) {
-        this._unsortedSearchables.push(...searchables);
+        searchables.forEach(searchable => this._unsortedSearchables.push(searchable));
         delete this._searchables;
         delete this._categorizedSearchables;
         delete this._categories;

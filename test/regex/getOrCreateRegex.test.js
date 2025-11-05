@@ -31,10 +31,8 @@ describe("regex", () => {
 
 			test(`#2: getOrCreateRegex safely creates regex when creator creates invalid regex with duplicate capture groups`, () => {
 				let regex;
-				expect(() => regex = getOrCreateRegex(function unitTest2() { return new RegExp(`(?<first>second) (?<first>second)`, "iv"); })).not.toThrow();
-				expect(regex).toBeDefined();
-				expect(regex.source).toBe(`(?<first>second) (?<first1>second)`);
-				expect(regex.flags).toBe("iv");
+				expect(() => regex = getOrCreateRegex(function unitTest2() { return new RegExp(`(?<first>second) (?<first>second)`, "iv"); })).toThrow("Invalid regular expression: /(?<first>second) (?<first>second)/iv: Duplicate capture group name");
+				expect(regex).toBeUndefined();
 			});
 
 			test(`#3: getOrCreateRegex safely creates optional spoiler regex when creator creates invalid regex with duplicate capture groups`, () => {

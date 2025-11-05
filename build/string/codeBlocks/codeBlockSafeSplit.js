@@ -1,10 +1,10 @@
 import { regex } from "regex";
 import { tokenize } from "../tokenize.js";
-import { getCodeBlockRegex } from "./getCodeBlockRegex.js";
+import { AllCodeBlocksRegExp } from "./AllCodeBlocksRegExp.js";
 export function codeBlockSafeSplit(value, splitter, options) {
     const { limit } = options ?? {};
     const tokenParsers = {
-        three: getCodeBlockRegex(),
+        codeBlocks: AllCodeBlocksRegExp,
         splitter: typeof (splitter) === "string" ? regex `${splitter}` : splitter
     };
     const tokens = tokenize(value, tokenParsers);

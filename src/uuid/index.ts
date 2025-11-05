@@ -6,3 +6,4 @@ export * from "./parseUuid.js";
 export * from "./randomUuid.js";
 export * from "./types.js";
 export * from "./UuidMatcher.js";
+export * from "./UuidRegExp.js";

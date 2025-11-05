@@ -1,5 +1,6 @@
+let scriptedCharSet;
 export function getSubscriptCharSet() {
-    return {
+    return scriptedCharSet ??= {
         equals: "₌",
         minus: "₋",
         numbers: ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"],

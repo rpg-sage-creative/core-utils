@@ -1,5 +1,5 @@
 import type { Optional, OrNull, OrUndefined } from "../../types/generics.js";
-import { getWhitespaceRegex } from "./getWhitespaceRegex.js";
+import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./getWhitespaceRegex.js";
 
 type Options = {
 	/** use HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */
@@ -39,6 +39,6 @@ export function cleanWhitespace(value: Optional<string>, options?: Options): Opt
 export function cleanWhitespace(value: Optional<string>, options?: Options): Optional<string> {
 	if (!value) return value;
 	const { horizontalOnly, replacement = " " } = options ?? {};
-	const regexp = getWhitespaceRegex({ gFlag:"g", quantifier:"+", horizontalOnly });
+	const regexp = horizontalOnly ? HorizontalWhitespaceRegExpG : WhitespaceRegExpG;
 	return value.replace(regexp, replacement).trim();
 }

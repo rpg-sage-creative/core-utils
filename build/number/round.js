@@ -1,4 +1,4 @@
-export function round(value, decimals) {
+export function round(value, decimals = 0) {
     if (isNaN(value) || isNaN(decimals)) {
         return NaN;
     }

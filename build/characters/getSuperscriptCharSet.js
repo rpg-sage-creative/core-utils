@@ -1,5 +1,6 @@
+let superscriptCharSet;
 export function getSuperscriptCharSet() {
-    return {
+    return superscriptCharSet ??= {
         equals: "⁼",
         minus: "⁻",
         numbers: ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"],

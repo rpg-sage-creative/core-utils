@@ -18,6 +18,10 @@ export abstract class HasCore<
 		super();
 	}
 
+	public [Symbol.toStringTag](): ObjectType {
+		return this.core.objectType;
+	}
+
 	/** The type of data that is represented. Often the Class that the Core is for. */
 	public get objectType(): ObjectType {
 		return this.core.objectType;

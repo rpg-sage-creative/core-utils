@@ -1,8 +1,6 @@
-import { debug, error, isLogLevelEnabled } from "../console/index.js";
+import { debug, isLogLevelEnabled } from "../console/index.js";
 import { splitChars } from "../string/wrap/splitChars.js";
 import { escapeRegex } from "./escapeRegex.js";
-import { indexCaptureGroups } from "./indexCaptureGroups.js";
-import { isDuplicateCaptureGroupError, retryDuplicateCaptureGroupName } from "./isDuplicateCaptureGroupError.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions, RegExpSpoilerOptions, RegExpWrapOptions } from "./RegExpOptions.js";
 
 export type RegExpGetOptions = RegExpAnchorOptions & RegExpCaptureOptions & RegExpFlagOptions & RegExpQuantifyOptions & RegExpSpoilerOptions & RegExpWrapOptions;
@@ -23,21 +21,11 @@ function createCacheKey<T extends RegExpGetOptions>(options: T = {} as T): strin
 
 type CreateRegexFunction<T extends RegExpGetOptions, U extends RegExp> = (options?: T) => U;
 
-function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: CreateRegexFunction<T, U>, options?: T, cacheKey?: string): RegExp {
+function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: CreateRegexFunction<T, U>, options?: T): RegExp {
 	const { anchored, capture, spoilers, quantifier, wrapChars, wrapOptional } = options ?? {};
 
 	// create the base regexp source
-	let source: string;
-	let flags: string;
-	try {
-		({ source, flags } = creator(options));
-	}catch(ex) {
-		if (isDuplicateCaptureGroupError(ex)) {
-			error(`isDuplicateCaptureGroup(creator): ${cacheKey ?? createCacheKey(options)}`);
-			return retryDuplicateCaptureGroupName(ex);
-		}
-		throw ex;
-	}
+	let { source, flags } = creator(options);
 
 	if (quantifier) {
 		source = `(?:${source})${quantifier}`;
@@ -67,17 +55,7 @@ function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: Crea
 		source = `^(?:${source})$`;
 	}
 
-	try {
-		return new RegExp(source, flags);
-
-	}catch(ex) {
-		if (isDuplicateCaptureGroupError(ex)) {
-			error(`isDuplicateCaptureGroup(createRegex): ${cacheKey ?? createCacheKey(options)}`);
-			return new RegExp(indexCaptureGroups(source), flags);
-		}
-
-		throw ex;
-	}
+	return new RegExp(source, flags);
 }
 
 /**
@@ -95,14 +73,14 @@ export function getOrCreateRegex<T extends RegExpGetOptions, U extends RegExp>(c
 		if (isLogLevelEnabled("debug")) {
 			const existing = cacheItem[cacheKey];
 			if (existing) {
-				const updated = createRegex(creator, options, cacheKey);
+				const updated = createRegex(creator, options);
 				if (existing.source !== updated.source || existing.flags !== updated.flags) {
 					debug(`regex.cache[${name}][${cacheKey}] differs`);
 				}
 			}
 		}
 
-		return cacheItem[cacheKey] ??= createRegex(creator, options, cacheKey);
+		return cacheItem[cacheKey] ??= createRegex(creator, options);
 	}
 
 	// return a unique regexp

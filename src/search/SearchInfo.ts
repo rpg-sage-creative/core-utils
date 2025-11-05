@@ -1,26 +1,22 @@
+import { pattern, regex } from "regex";
 import { toUniqueDefined } from "../array/index.js";
 import { oneToUS } from "../language/oneToUs.js";
 import { reduceNoiseUS } from "../language/reduceNoiseUS.js";
-import { escapeRegex } from "../regex/escapeRegex.js";
-import { dequote } from "../string/index.js";
+import { dequote, QuotedContentRegExp } from "../string/index.js";
 import { tokenize } from "../string/tokenize.js";
 import { SearchScore, type SearchTermData } from "./SearchScore.js";
 import type { Searchable } from "./Searchable.js";
-
-function createRegex(value: string, flags = "gi"): RegExp {
-	return new RegExp(escapeRegex(value), flags);
-}
 
 type TSearchableContent = string | string[] | undefined;
 export type TSearchFlag = "" | "g" | "r" | "gr" | "rg";
 
 function createTerms(searchInfo: SearchInfo, term: string, regexFlag: boolean) {
-	const tokens = tokenize(term, { quoted:/"[^"]*"/, other:/\S+/ });
-	const terms = tokens.map(token => token.token).map(s => dequote(s)).filter(toUniqueDefined);
+	const tokens = tokenize(term, { quoted:QuotedContentRegExp, other:/\S+/ });
+	const terms = tokens.map(token => token.token).map(dequote).filter(toUniqueDefined);
 	return reduceNoiseUS(terms).map(_term => {
-		const minus = _term.startsWith("-"),
-			plus = _term.startsWith("+"),
-			cleanTerm = oneToUS(minus || plus ? _term.slice(1) : _term);
+		const minus = _term.startsWith("-");
+		const plus = _term.startsWith("+");
+		const cleanTerm = oneToUS(minus || plus ? _term.slice(1) : _term);
 		if (minus) {
 			searchInfo.hasMinus = true;
 		}
@@ -29,7 +25,7 @@ function createTerms(searchInfo: SearchInfo, term: string, regexFlag: boolean) {
 		}
 		return {
 			term: cleanTerm,
-			regex: regexFlag ? new RegExp(cleanTerm, "gi") : createRegex(cleanTerm),
+			regex: regex("gi")`${regexFlag ? pattern`${cleanTerm}` : cleanTerm}`,
 			plus: plus,
 			minus: minus
 		};
@@ -45,14 +41,14 @@ export class SearchInfo {
 
 	public constructor(public searchText: string, flags: TSearchFlag) {
 		this.globalFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("g") || flags.includes("g");
-		const regexFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("r") || flags.includes("r"),
-			term = searchText.replace(/\s\-[gr]*$/i, "").replace(/\s+/g, " ").replace(/([\+\-])\s+(\w)/gi, `$1$2`).trim();
+		const regexFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("r") || flags.includes("r");
+		const term = searchText.replace(/\s\-[gr]*$/i, "").replace(/\s+/g, " ").replace(/([\+\-])\s+(\w)/gi, `$1$2`).trim();
 		if (this.globalFlag) {
 			this.terms = createTerms(this, term, regexFlag);
 		}else {
 			this.terms = [{
 				term: term,
-				regex: regexFlag ? new RegExp(term, "gi") : createRegex(term),
+				regex: regex("gi")`${regexFlag ? pattern`${term}` : term}`,
 				plus: false,
 				minus: false
 			}];

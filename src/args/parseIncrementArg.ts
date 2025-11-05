@@ -1,21 +1,82 @@
-import { dequote } from "../string/index.js";
-import { getIncrementArgRegex, type RegExpIncrementArgOptions } from "./getIncrementArgRegex.js";
+import { regex } from "regex";
+import { dequote, QuotedNumberRegExp } from "../string/index.js";
+import type { Optional } from "../types/generics.js";
+import type { TypedRegExp } from "../types/TypedRegExp.js";
+import { Arg } from "./Arg.js";
 import type { IncrementArg } from "./types.js";
 
-export function parseIncrementArg<ValueType extends string = string>(input: string, options?: RegExpIncrementArgOptions): IncrementArg<string, ValueType> | undefined;
+type IncrementArgMatchGroups = {
+	key: string;
+	decrement?: "--";
+	increment?: "++";
+	operator?: "+=" | "-=";
+	value: string;
+};
 
-export function parseIncrementArg<KeyType extends string = string, ValueType extends string = string>(input: string, options?: RegExpIncrementArgOptions): IncrementArg<KeyType, ValueType> | undefined;
+export const IncrementArgRegExp = regex()`
+	(?<= ^ | \s )               # start of line or whitespace
 
-export function parseIncrementArg(arg: string, options?: RegExpIncrementArgOptions): IncrementArg | undefined {
-	const regex = getIncrementArgRegex(options);
-	const match = regex.exec(arg);
-	if (match) {
-		const [_, key, incrementer, modifier, value] = match as unknown as [string, string, string, string, string];
-		const keyRegex = new RegExp(`^${key}$`, "i");
-		if (incrementer) {
-			return { arg, index:-1, isIncrement:true, key, keyRegex, operator: incrementer[0] as "+", value: "1" };
+	(?<key>
+		[ \w \p{L} \p{N} ]          # letters and numbers only (a leading dash is a FlagArg)
+		(
+			[ \w \p{L} \p{N} \- \. ]*   # letters, numbers, dashes, and periods
+			[ \w \p{L} \p{N} ]          # letters and numbers only (capture the increment dash below)
+		)*
+	)
+
+	(
+		(?<decrement>
+			-{2}
+		)
+
+		|
+
+		(?<increment>
+			\+{2}
+		)
+
+		|
+
+		(?<operator>
+			[ \- \+ ] =
+		)
+		(?<value>
+			# quoted
+			${QuotedNumberRegExp}
+
+			|
+
+			# naked
+			\d+(\.\d+)?
+		)
+	)
+
+	(?= \s | $ )                # whitespace or end of line
+` as TypedRegExp<IncrementArgMatchGroups>;
+
+// export const IncrementArgRegExpG = new RegExp(INCREMENT_ARG_REGEX, "g") as TypedRegExp<IncrementArgMatchGroups>;
+
+export function parseIncrementArg<ValueType extends string = string>(raw: Optional<string>, index?: number): IncrementArg<string, ValueType> | undefined;
+export function parseIncrementArg<KeyType extends string = string, ValueType extends string = string>(raw: Optional<string>, index?: number): IncrementArg<KeyType, ValueType> | undefined;
+export function parseIncrementArg(raw: Optional<string>, index?: number): IncrementArg | undefined {
+	if (raw) {
+		const match = IncrementArgRegExp.exec(raw);
+		if (match?.index === 0 && match[0].length === raw.length) {
+			const { key, decrement, increment, operator, value:val } = match.groups;
+			const stringValue = decrement || increment ? "1" : dequote(val);
+			const value = +stringValue;
+			// ensure we have a valid number
+			if (isNaN(value)) return undefined;
+
+			return Arg.from({
+				index,
+				isIncrement: true,
+				key,
+				operator: decrement?.[0] as "-" ?? increment?.[0] ?? operator![0],
+				raw,
+				value,
+			});
 		}
-		return { arg, index:-1, isIncrement:true, key, keyRegex, operator: modifier[0] as "+", value: dequote(value) };
 	}
 	return undefined;
 }

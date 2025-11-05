@@ -41,7 +41,7 @@ export class RenderableContent implements Renderable {
 		const section = _sections.length
 			? _sections[_sections.length - 1]!
 			: this._appendSection(createSection());
-		section.content.push(...content);
+		content.forEach(item => section.content.push(item));
 	}
 
 	/** Prepends <blockquote> to the first content given, appends </blockquote> to the last content given, then passes to .append(...) */
@@ -71,8 +71,10 @@ export class RenderableContent implements Renderable {
 
 	/** Append the given sections. */
 	public appendSections(...sections: RenderableContentSection[]): void {
-		const _sections = this._sections;
-		_sections.push(...sections);
+		const { _sections } = this;
+		// add new sections
+		sections.forEach(section => _sections.push(section));
+		// update all indexes
 		_sections.forEach((section, index) => section.index = index);
 	}
 
@@ -84,9 +86,10 @@ export class RenderableContent implements Renderable {
 		const matches: string[] = [];
 		this.sections.forEach(section => {
 			// TODO: see why i was gonna use this --> if (section.title) matches.push(...(section.title.match(regex) || []));
-			section.content.forEach(s => {
+			section.content.forEach(content => {
 				regex.lastIndex = -1;
-				matches.push(...(regex.exec(s) ?? []));
+				const contentMatches = regex.exec(content) ?? [];
+				contentMatches.forEach(match => matches.push(match));
 			});
 		});
 		return matches.filter(toUnique);

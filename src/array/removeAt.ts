@@ -23,7 +23,7 @@ export function removeAt<T, U extends OrUndefined<T>[] = OrUndefined<T>[]>(value
 		const indexes = new arrayConstructor() as U;
 
 		// push the values removed into the typed array
-		indexes.push(...removed);
+		removed.forEach(item => indexes.push(item));
 
 		return indexes;
 	}

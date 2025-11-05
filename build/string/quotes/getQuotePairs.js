@@ -2,10 +2,6 @@ export function getQuotePairs(style) {
     const pairs = [
         { chars: `""`, isSingle: false, isDouble: true, isFancy: false, isExtended: false, isArrow: false },
         { chars: `“”`, isSingle: false, isDouble: true, isFancy: true, isExtended: false, isArrow: false },
-        { chars: `„“`, isSingle: false, isDouble: true, isFancy: false, isExtended: true, isArrow: false },
-        { chars: `„”`, isSingle: false, isDouble: true, isFancy: false, isExtended: true, isArrow: false },
-        { chars: `«»`, isSingle: false, isDouble: true, isFancy: false, isExtended: true, isArrow: true },
-        { chars: `»«`, isSingle: false, isDouble: true, isFancy: false, isExtended: true, isArrow: true },
         { chars: `''`, isSingle: true, isDouble: false, isFancy: false, isExtended: false, isArrow: false },
         { chars: `‘’`, isSingle: true, isDouble: false, isFancy: true, isExtended: false, isArrow: false },
     ];

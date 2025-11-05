@@ -1,28 +1,15 @@
-import { debug, error, isLogLevelEnabled } from "../console/index.js";
+import { debug, isLogLevelEnabled } from "../console/index.js";
 import { splitChars } from "../string/wrap/splitChars.js";
 import { escapeRegex } from "./escapeRegex.js";
-import { indexCaptureGroups } from "./indexCaptureGroups.js";
-import { isDuplicateCaptureGroupError, retryDuplicateCaptureGroupName } from "./isDuplicateCaptureGroupError.js";
 const cache = {};
 function createCacheKey(options = {}) {
     const pairs = Object.entries(options).sort(([aKey], [bKey]) => aKey < bKey ? -1 : 1);
     const parts = pairs.map(([key, value]) => `${key}=${value ?? false}`);
     return parts.join("|");
 }
-function createRegex(creator, options, cacheKey) {
+function createRegex(creator, options) {
     const { anchored, capture, spoilers, quantifier, wrapChars, wrapOptional } = options ?? {};
-    let source;
-    let flags;
-    try {
-        ({ source, flags } = creator(options));
-    }
-    catch (ex) {
-        if (isDuplicateCaptureGroupError(ex)) {
-            error(`isDuplicateCaptureGroup(creator): ${cacheKey ?? createCacheKey(options)}`);
-            return retryDuplicateCaptureGroupName(ex);
-        }
-        throw ex;
-    }
+    let { source, flags } = creator(options);
     if (quantifier) {
         source = `(?:${source})${quantifier}`;
     }
@@ -43,16 +30,7 @@ function createRegex(creator, options, cacheKey) {
     if (anchored) {
         source = `^(?:${source})$`;
     }
-    try {
-        return new RegExp(source, flags);
-    }
-    catch (ex) {
-        if (isDuplicateCaptureGroupError(ex)) {
-            error(`isDuplicateCaptureGroup(createRegex): ${cacheKey ?? createCacheKey(options)}`);
-            return new RegExp(indexCaptureGroups(source), flags);
-        }
-        throw ex;
-    }
+    return new RegExp(source, flags);
 }
 export function getOrCreateRegex(creator, options, cacheGlobal) {
     if (options?.gFlag !== "g" || cacheGlobal) {
@@ -62,13 +40,13 @@ export function getOrCreateRegex(creator, options, cacheGlobal) {
         if (isLogLevelEnabled("debug")) {
             const existing = cacheItem[cacheKey];
             if (existing) {
-                const updated = createRegex(creator, options, cacheKey);
+                const updated = createRegex(creator, options);
                 if (existing.source !== updated.source || existing.flags !== updated.flags) {
                     debug(`regex.cache[${name}][${cacheKey}] differs`);
                 }
             }
         }
-        return cacheItem[cacheKey] ??= createRegex(creator, options, cacheKey);
+        return cacheItem[cacheKey] ??= createRegex(creator, options);
     }
     return createRegex(creator, options);
 }

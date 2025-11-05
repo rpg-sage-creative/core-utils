@@ -1,13 +1,13 @@
 import { getSubscriptCharSet } from "../characters/getSubscriptCharSet.js";
 import { getSuperscriptCharSet } from "../characters/getSuperscriptCharSet.js";
-import { getNumberRegex } from "./getNumberRegex.js";
+import { isIntegerString } from "./isIntegerString.js";
+import { isNumberString } from "./isNumberString.js";
 function _parseNumber(value) {
-    const regex = getNumberRegex({ anchored: true });
-    if (!regex.test(value)) {
+    if (!isNumberString(value)) {
         return NaN;
     }
-    if (/^-?\d+$/.test(value)) {
-        const length = value.replace(/^-/, "").length;
+    if (isIntegerString(value)) {
+        const length = value.length - (value.startsWith("-") ? 1 : 0);
         if (length < 16) {
             return Number(value);
         }
@@ -83,10 +83,9 @@ function scriptedToUnscripted(value) {
     return { stringValue, charSet };
 }
 export function parseNumericString(value) {
-    const numberRegex = getNumberRegex({ anchored: true });
     let charSetType;
     let stringValue = value;
-    if (!numberRegex.test(value)) {
+    if (!isNumberString(value)) {
         const unscriptedResults = scriptedToUnscripted(value);
         if (unscriptedResults) {
             charSetType = unscriptedResults.charSet.type;
