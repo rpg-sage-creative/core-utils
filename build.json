@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.11.0",
-"branch":"submodule",
-"commit":"4396097506c5c5efbcf28e041742279b7670f83f",
-"commitSubject":"update node types to 24",
-"commitTs":1759275396000,
-"commitDate":"2025-09-30-1636",
-"buildTs":1759469398000,
-"buildDate":"2025-10-02-2229",
+"version":"0.12.0",
+"branch":"main",
+"commit":"26e76cf73f0ca21e08885bd78fb86a8dc341a7ec",
+"commitSubject":"Merge pull request #11 from rpg-sage-creative/submodule",
+"commitTs":1762380635000,
+"commitDate":"2025-11-05-1410",
+"buildTs":1762380679000,
+"buildDate":"2025-11-05-1411",
 "author":"Randal"
 }
