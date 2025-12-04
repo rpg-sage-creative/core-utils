@@ -11,6 +11,10 @@ fi
 # check if we were passed a specific test file
 specificFile=
 case $1 in *.test.js) specificFile="$1";; esac
+# if --detectOpenHandles is passed, we need to check the second arg
+if [ -z "$specificFile" ]; then
+	case $2 in *.test.js) specificFile="$2";; esac
+fi
 
 # we don't need to build if we are passed a specific test file
 if [ -z "$specificFile" ]; then
@@ -22,6 +26,10 @@ fi
 if [ -z "$specificFile" ]; then
 	found=
 	case $1 in *.ts) found="$1";; esac
+	# if --detectOpenHandles is passed, we need to check the second arg
+	if [ -z "$specificFile" ]; then
+		case $2 in *.ts) found="$2";; esac
+	fi
 	if [ ! -z "$found" ]; then
 		found="${found/src/test}"
 		found="${found/.ts/.test.js}"
