@@ -2,7 +2,7 @@ import { pattern, regex } from "regex";
 import { toUniqueDefined } from "../array/index.js";
 import { oneToUS } from "../language/oneToUs.js";
 import { reduceNoiseUS } from "../language/reduceNoiseUS.js";
-import { dequote, QuotedContentRegExp } from "../string/index.js";
+import { cleanWhitespace, dequote, QuotedContentRegExp } from "../string/index.js";
 import { tokenize } from "../string/tokenize.js";
 import { SearchScore } from "./SearchScore.js";
 function createTerms(searchInfo, term, regexFlag) {
@@ -26,6 +26,8 @@ function createTerms(searchInfo, term, regexFlag) {
         };
     });
 }
+const MatchFlagRegExp = /\s\-[gr]*$/i;
+const CollapseModifierRegExp = /([\+\-])\s+(\w)/gi;
 export class SearchInfo {
     searchText;
     globalFlag;
@@ -35,9 +37,9 @@ export class SearchInfo {
     terms;
     constructor(searchText, flags) {
         this.searchText = searchText;
-        this.globalFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("g") || flags.includes("g");
-        const regexFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("r") || flags.includes("r");
-        const term = searchText.replace(/\s\-[gr]*$/i, "").replace(/\s+/g, " ").replace(/([\+\-])\s+(\w)/gi, `$1$2`).trim();
+        this.globalFlag = ((searchText.match(MatchFlagRegExp) ?? [])[0] ?? "").includes("g") || flags.includes("g");
+        const regexFlag = ((searchText.match(MatchFlagRegExp) ?? [])[0] ?? "").includes("r") || flags.includes("r");
+        const term = cleanWhitespace(searchText.replace(MatchFlagRegExp, "")).replace(CollapseModifierRegExp, `$1$2`).trim();
         if (this.globalFlag) {
             this.terms = createTerms(this, term, regexFlag);
         }

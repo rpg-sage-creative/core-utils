@@ -1,3 +1,4 @@
+import { cleanWhitespace } from "../../string/index.js";
 import type { Optional } from "../../types/generics.js";
 
 type Results = {
@@ -16,7 +17,7 @@ const rgbRegex = /rgb(?<rgba>a)?\((?<r>\d{1,3}),(?<g>\d{1,3}),(?<b>\d{1,3})(?:,(
 export function matchRgb(value: Optional<string>): Results | undefined {
 	if (!value) return undefined; // NOSONAR
 
-	const groups = rgbRegex.exec(value.replace(/\s/g, ""))?.groups;
+	const groups = rgbRegex.exec(cleanWhitespace(value, { replacement:"" }))?.groups;
 	if (!groups) return undefined; // NOSONAR
 
 	const { rgba, r, g, b, a } = groups as { rgba:string; r:string; g:string; b:string; a:string; } | { rgba?:never; r:string; g:string; b:string; a?:never; };

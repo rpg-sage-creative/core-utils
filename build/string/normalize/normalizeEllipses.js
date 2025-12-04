@@ -1,3 +1,4 @@
+const EllipsesRegExp = /…/g;
 export function normalizeEllipses(text) {
-    return text.replace(/…/g, `...`);
+    return text.replace(EllipsesRegExp, `...`);
 }

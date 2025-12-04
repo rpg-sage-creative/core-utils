@@ -1,24 +1,23 @@
 import { regex } from "regex";
-let regexp;
+const MarkdownLinkRegExp = regex("gi") `
+	\[
+		(?<label> [^\]]+ )
+	\]
+	\(
+		(?:
+
+			<
+				(?<escapedUrl> (s?ftp|https?)://[^\>]+ )
+			>
+			|
+			(?<unEscapedUrl> (s?ftp|https?)://[^\)]+ )
+		)
+	\)
+`;
 export function redactMdLinks(content, redactedCharacter = "*") {
     if (!content)
         return content;
-    regexp ??= regex("gi") `
-		\[
-			(?<label> [^\]]+ )
-		\]
-		\(
-			(?:
-
-				<
-					(?<escapedUrl> (s?ftp|https?)://[^\)]+ )
-				>
-				|
-				(?<unEscapedUrl> (s?ftp|https?)://[^\)]+ )
-			)
-		\)
-	`;
-    return content.replace(regexp, (_, label, escapedUrl, unescapedUrl) => {
+    return content.replace(MarkdownLinkRegExp, (_, label, escapedUrl, unescapedUrl) => {
         const rLabel = "".padEnd(label.length, redactedCharacter);
         if (escapedUrl) {
             const rEscapedUrl = "".padEnd(escapedUrl.length, redactedCharacter);

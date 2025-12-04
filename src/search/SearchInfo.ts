@@ -2,7 +2,7 @@ import { pattern, regex } from "regex";
 import { toUniqueDefined } from "../array/index.js";
 import { oneToUS } from "../language/oneToUs.js";
 import { reduceNoiseUS } from "../language/reduceNoiseUS.js";
-import { dequote, QuotedContentRegExp } from "../string/index.js";
+import { cleanWhitespace, dequote, QuotedContentRegExp } from "../string/index.js";
 import { tokenize } from "../string/tokenize.js";
 import { SearchScore, type SearchTermData } from "./SearchScore.js";
 import type { Searchable } from "./Searchable.js";
@@ -32,6 +32,9 @@ function createTerms(searchInfo: SearchInfo, term: string, regexFlag: boolean) {
 	});
 }
 
+const MatchFlagRegExp = /\s\-[gr]*$/i;
+const CollapseModifierRegExp = /([\+\-])\s+(\w)/gi;
+
 export class SearchInfo {
 	public globalFlag: boolean;
 	public hasMinus = false;
@@ -40,9 +43,9 @@ export class SearchInfo {
 	public terms: SearchTermData[];
 
 	public constructor(public searchText: string, flags: TSearchFlag) {
-		this.globalFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("g") || flags.includes("g");
-		const regexFlag = ((searchText.match(/\s\-[gr]*$/i) ?? [])[0] ?? "").includes("r") || flags.includes("r");
-		const term = searchText.replace(/\s\-[gr]*$/i, "").replace(/\s+/g, " ").replace(/([\+\-])\s+(\w)/gi, `$1$2`).trim();
+		this.globalFlag = ((searchText.match(MatchFlagRegExp) ?? [])[0] ?? "").includes("g") || flags.includes("g");
+		const regexFlag = ((searchText.match(MatchFlagRegExp) ?? [])[0] ?? "").includes("r") || flags.includes("r");
+		const term = cleanWhitespace(searchText.replace(MatchFlagRegExp, "")).replace(CollapseModifierRegExp, `$1$2`).trim();
 		if (this.globalFlag) {
 			this.terms = createTerms(this, term, regexFlag);
 		}else {
