@@ -1,6 +1,7 @@
 export * from "./async/index.js";
 export * from "./filter/index.js";
 export * from "./sort/index.js";
+export * from "./typed/index.js";
 export * from "./filterAndMap.js";
 export * from "./mapFirst.js";
 export * from "./or.js";
