@@ -1,5 +1,5 @@
 import type { Optional, OrNull, OrUndefined } from "../../types/generics.js";
-import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./getWhitespaceRegex.js";
+import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./consts.js";
 
 type Options = {
 	/** use HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */

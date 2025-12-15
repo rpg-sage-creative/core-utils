@@ -1,4 +1,4 @@
-import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./getWhitespaceRegex.js";
+import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./consts.js";
 export function cleanWhitespace(value, options) {
     if (!value)
         return value;
