@@ -1,5 +1,4 @@
 /**
- * Removes accents from letters. Ex: "à" becomes "a"
- * @todo Update this RegExp / logic to capture more characters with accents.
+ * Removes accents from letters and normalizes other special/double characters. Ex: "à" becomes "a" and "ﬀ" becomes "ff"
  */
 export declare function removeAccents(value: string): string;
