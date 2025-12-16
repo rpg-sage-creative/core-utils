@@ -29,6 +29,18 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 			exitCode = 1;
 		};
 
+		try {
+			Set.prototype.forEach.call(destroyables, (destroyable: Destroyable) => {
+				try {
+					destroyable?.destroy();
+				}catch(ex) {
+					exitHandler(ex);
+				}
+			});
+		}catch(ex) {
+			exitHandler(ex);
+		}
+
 		// if we have handlers, send the event
 		for (const handler of signalHandlers) {
 			try {
@@ -49,12 +61,20 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 
 let captured = false;
 
-type SignalHandler = (eventName: SignalEventName, code?: number) => Awaitable<void>;
+type Destroyable = { destroy:() => void; };
+let destroyables: WeakSet<Destroyable>;
 
+type SignalHandler = (eventName: SignalEventName, code?: number) => Awaitable<void>;
 let signalHandlers: Set<SignalHandler>;
 
 /** Captures SIGINT events to log them before exiting the process. */
 export function captureProcessExit(): void;
+
+/**
+ * Captures SIGINT events to log them and call destroy() on the given destroyable before exiting the process.
+ * The process will exit with code 0 if no listener threw an error.
+ */
+export function captureProcessExit(destroyable: Destroyable): void;
 
 /**
  * Captures SIGINT events to log them and pass to the given handler before exiting the process.
@@ -62,13 +82,22 @@ export function captureProcessExit(): void;
  */
 export function captureProcessExit(signalHandler: SignalHandler): void;
 
-export function captureProcessExit(signalHandler?: SignalHandler): void {
-	if (signalHandler) {
-		if (!signalHandlers) {
-			signalHandlers = new Set();
+export function captureProcessExit(arg?: Destroyable | SignalHandler): void {
+	if (arg) {
+		if (typeof(arg) === "function") {
+			if (!signalHandlers) {
+				signalHandlers = new Set();
+			}
+			signalHandlers.add(arg);
+
+		}else if (typeof(arg.destroy) === "function") {
+			if (!destroyables) {
+				destroyables = new WeakSet();
+			}
+			destroyables.add(arg);
 		}
-		signalHandlers.add(signalHandler);
 	}
+
 	if (!captured) {
 		process.on("SIGINT", onSignal);
 		captured = true;

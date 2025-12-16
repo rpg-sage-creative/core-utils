@@ -11,6 +11,19 @@ async function onSignal(eventName, code) {
             error(err);
             exitCode = 1;
         };
+        try {
+            Set.prototype.forEach.call(destroyables, (destroyable) => {
+                try {
+                    destroyable?.destroy();
+                }
+                catch (ex) {
+                    exitHandler(ex);
+                }
+            });
+        }
+        catch (ex) {
+            exitHandler(ex);
+        }
         for (const handler of signalHandlers) {
             try {
                 await Promise.resolve(handler(eventName, code)).catch(exitHandler);
@@ -27,13 +40,22 @@ async function onSignal(eventName, code) {
     }
 }
 let captured = false;
+let destroyables;
 let signalHandlers;
-export function captureProcessExit(signalHandler) {
-    if (signalHandler) {
-        if (!signalHandlers) {
-            signalHandlers = new Set();
+export function captureProcessExit(arg) {
+    if (arg) {
+        if (typeof (arg) === "function") {
+            if (!signalHandlers) {
+                signalHandlers = new Set();
+            }
+            signalHandlers.add(arg);
         }
-        signalHandlers.add(signalHandler);
+        else if (typeof (arg.destroy) === "function") {
+            if (!destroyables) {
+                destroyables = new WeakSet();
+            }
+            destroyables.add(arg);
+        }
     }
     if (!captured) {
         process.on("SIGINT", onSignal);
