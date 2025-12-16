@@ -78,6 +78,12 @@ INDEX_MJS="$SCRIPT_DIR/mjs/index.mjs"
 
 TARGET_VERSION=`node $INDEX_MJS version $TYPE dry | tail -n 1`
 
+if [ $(git tag -l "v$TARGET_VERSION") ]; then
+	echo "Release already exists!"
+	echo "Try: npm run refresh-tags"
+	exit 1
+fi
+
 read -p "Do $TYPE release: $TARGET_VERSION? ([y]es or [n]o): "
 case $(echo $REPLY | tr '[A-Z]' '[a-z]') in
 	y|yes) ;;
