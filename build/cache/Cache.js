@@ -1,12 +1,11 @@
 import { EphemeralMap } from "./EphemeralMap.js";
-let _cacheSet;
+const _cacheSet = new WeakSet;
 export class Cache {
     _cache;
     _msToLive;
     constructor(msToLive) {
         this._msToLive = msToLive;
-        const cacheSet = _cacheSet ?? (_cacheSet = new WeakSet());
-        cacheSet.add(this);
+        _cacheSet.add(this);
     }
     clear() {
         const cache = this._cache;
@@ -59,7 +58,7 @@ export class Cache {
     }
     static clear() {
         if (_cacheSet) {
-            Set.prototype.forEach.call(_cacheSet, (cache) => cache.clear());
+            Set.prototype.forEach.call(_cacheSet, (cache) => cache?.clear());
         }
     }
 }

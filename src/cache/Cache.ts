@@ -2,7 +2,7 @@ import type { Awaitable } from "../types/generics.js";
 import { EphemeralMap } from "./EphemeralMap.js";
 
 /** Set of all ClassCache objects. */
-let _cacheSet: WeakSet<Cache>;
+const _cacheSet = new WeakSet<Cache>;
 
 /**
  * A simple Cache mechanism.
@@ -30,8 +30,7 @@ export class Cache {
 
 	public constructor(msToLive?: number) {
 		this._msToLive = msToLive;
-		const cacheSet = _cacheSet ?? (_cacheSet = new WeakSet());
-		cacheSet.add(this);
+		_cacheSet.add(this);
 	}
 
 	/**
@@ -121,7 +120,7 @@ export class Cache {
 	/** Clears all the caches for all the ClassCache objects. */
 	public static clear(): void {
 		if (_cacheSet) {
-			Set.prototype.forEach.call(_cacheSet, (cache: Cache) => cache.clear());
+			Set.prototype.forEach.call(_cacheSet, (cache: Cache) => cache?.clear());
 		}
 	}
 
