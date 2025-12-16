@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.13.0",
+"version":"0.13.1",
 "branch":"main",
-"commit":"06757d1ba03fb1e11cf646b27746a69231c66042",
-"commitSubject":"Merge pull request #15 from rpg-sage-creative/submodule",
-"commitTs":1765906569000,
-"commitDate":"2025-12-16-0936",
-"buildTs":1765906638000,
-"buildDate":"2025-12-16-0937",
+"commit":"cc8dfac7bc71a295fe0f774c1d3809098716ccf1",
+"commitSubject":"allow destroyable as arg for captureProcessExit",
+"commitTs":1765914035000,
+"commitDate":"2025-12-16-1140",
+"buildTs":1765914100000,
+"buildDate":"2025-12-16-1141",
 "author":"Randal"
 }
