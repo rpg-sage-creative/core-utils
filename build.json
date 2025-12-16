@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.12.0",
+"version":"0.13.0",
 "branch":"main",
-"commit":"26e76cf73f0ca21e08885bd78fb86a8dc341a7ec",
-"commitSubject":"Merge pull request #11 from rpg-sage-creative/submodule",
-"commitTs":1762380635000,
-"commitDate":"2025-11-05-1410",
-"buildTs":1762380679000,
-"buildDate":"2025-11-05-1411",
+"commit":"06757d1ba03fb1e11cf646b27746a69231c66042",
+"commitSubject":"Merge pull request #15 from rpg-sage-creative/submodule",
+"commitTs":1765906569000,
+"commitDate":"2025-12-16-0936",
+"buildTs":1765906638000,
+"buildDate":"2025-12-16-0937",
 "author":"Randal"
 }
