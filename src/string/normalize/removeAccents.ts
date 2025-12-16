@@ -1,9 +1,9 @@
 const AccentsRegExp = /[\u0300-\u036f]/g;
 
 /**
- * Removes accents from letters. Ex: "à" becomes "a"
- * @todo Update this RegExp / logic to capture more characters with accents.
+ * Removes accents from letters and normalizes other special/double characters.
+ * Ex: "à" becomes "a" and "ﬀ" becomes "ff"
  */
 export function removeAccents(value: string): string {
-	return value.normalize('NFD').replace(AccentsRegExp, '');
+	return value.normalize('NFKD').replace(AccentsRegExp, '');
 }

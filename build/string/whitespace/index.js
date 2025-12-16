@@ -1,2 +1,2 @@
 export * from "./cleanWhitespace.js";
-export * from "./getWhitespaceRegex.js";
+export * from "./consts.js";

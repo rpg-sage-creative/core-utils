@@ -39,7 +39,9 @@ describe("string", () => {
 				{ input:"ė", expected:"e" }, // 8
 				{ input:"ę", expected:"e" }, // 9
 
-				{ input:"f", expected:"f" }, //
+				{ input:"f", expected:"f" },  //
+				{ input:"ﬀ", expected:"ff" }, // \uFB00
+
 
 				{ input:"g", expected:"g" }, //
 				{ input:"ğ", expected:"g" }, // 1
