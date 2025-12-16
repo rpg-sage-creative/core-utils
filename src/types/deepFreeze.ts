@@ -13,7 +13,7 @@ function canFreeze(value?: unknown): value is object {
 
 /** Uses reflection to recursively freeze an object. */
 export function deepFreeze<T extends object>(object: T): T {
-	// use weak set to infinite looping
+	// use weak set to avoid infinite looping
 	const frozen = new WeakSet();
 
 	const freeze = <U extends object>(obj: U) => {
