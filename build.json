@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.13.2",
+"version":"0.13.3",
 "branch":"main",
-"commit":"af11b49e0574776bbaddc32cf2181a6cdb447783",
-"commitSubject":"ensure destroyables exist before destroying them",
-"commitTs":1766171924000,
-"commitDate":"2025-12-19-1118",
-"buildTs":1766171982000,
-"buildDate":"2025-12-19-1119",
+"commit":"722bc3e15b8ffebe2ff33b7855faf951f0337783",
+"commitSubject":"update dependencies",
+"commitTs":1766187629000,
+"commitDate":"2025-12-19-1540",
+"buildTs":1766187669000,
+"buildDate":"2025-12-19-1541",
 "author":"Randal"
 }
