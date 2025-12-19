@@ -12,6 +12,10 @@ done
 if [ ! -d "./.git" ]; then
 	while [ ! -d "./.git" ]; do
 		cd ..
+		if [ "$(pwd)" = "/" ]; then
+			echo "No .git folder found."
+			exit 1
+		fi
 	done
 	echo "cd $(pwd)"
 fi
