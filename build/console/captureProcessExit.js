@@ -3,7 +3,7 @@ import { info } from "./loggers/info.js";
 async function onSignal(eventName, code) {
     try {
         info(`process.on("${eventName}") = ${code}`);
-        if (!signalHandlers?.size) {
+        if (!signalHandlers?.size && !destroyables) {
             process.exit(code);
         }
         let exitCode = 0;
@@ -11,25 +11,29 @@ async function onSignal(eventName, code) {
             error(err);
             exitCode = 1;
         };
-        try {
-            Set.prototype.forEach.call(destroyables, (destroyable) => {
+        if (destroyables) {
+            try {
+                Set.prototype.forEach.call(destroyables, (destroyable) => {
+                    try {
+                        destroyable?.destroy();
+                    }
+                    catch (ex) {
+                        exitHandler(ex);
+                    }
+                });
+            }
+            catch (ex) {
+                exitHandler(ex);
+            }
+        }
+        if (signalHandlers) {
+            for (const handler of signalHandlers) {
                 try {
-                    destroyable?.destroy();
+                    await Promise.resolve(handler(eventName, code)).catch(exitHandler);
                 }
                 catch (ex) {
                     exitHandler(ex);
                 }
-            });
-        }
-        catch (ex) {
-            exitHandler(ex);
-        }
-        for (const handler of signalHandlers) {
-            try {
-                await Promise.resolve(handler(eventName, code)).catch(exitHandler);
-            }
-            catch (ex) {
-                exitHandler(ex);
             }
         }
         process.exit(exitCode);

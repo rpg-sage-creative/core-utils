@@ -18,7 +18,7 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 		info(`process.on("${eventName}") = ${code}`);
 
 		// if we don't have handlers, just exit
-		if (!signalHandlers?.size) {
+		if (!signalHandlers?.size && !destroyables) {
 			process.exit(code);
 		}
 
@@ -29,24 +29,29 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 			exitCode = 1;
 		};
 
-		try {
-			Set.prototype.forEach.call(destroyables, (destroyable: Destroyable) => {
-				try {
-					destroyable?.destroy();
-				}catch(ex) {
-					exitHandler(ex);
-				}
-			});
-		}catch(ex) {
-			exitHandler(ex);
+		// if we have destroyables, send the event
+		if (destroyables) {
+			try {
+				Set.prototype.forEach.call(destroyables, (destroyable: Destroyable) => {
+					try {
+						destroyable?.destroy();
+					}catch(ex) {
+						exitHandler(ex);
+					}
+				});
+			}catch(ex) {
+				exitHandler(ex);
+			}
 		}
 
 		// if we have handlers, send the event
-		for (const handler of signalHandlers) {
-			try {
-				await Promise.resolve(handler(eventName, code)).catch(exitHandler);
-			}catch(ex) {
-				exitHandler(ex);
+		if (signalHandlers) {
+			for (const handler of signalHandlers) {
+				try {
+					await Promise.resolve(handler(eventName, code)).catch(exitHandler);
+				}catch(ex) {
+					exitHandler(ex);
+				}
 			}
 		}
 
