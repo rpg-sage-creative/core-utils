@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.13.1",
+"version":"0.13.2",
 "branch":"main",
-"commit":"cc8dfac7bc71a295fe0f774c1d3809098716ccf1",
-"commitSubject":"allow destroyable as arg for captureProcessExit",
-"commitTs":1765914035000,
-"commitDate":"2025-12-16-1140",
-"buildTs":1765914100000,
-"buildDate":"2025-12-16-1141",
+"commit":"af11b49e0574776bbaddc32cf2181a6cdb447783",
+"commitSubject":"ensure destroyables exist before destroying them",
+"commitTs":1766171924000,
+"commitDate":"2025-12-19-1118",
+"buildTs":1766171982000,
+"buildDate":"2025-12-19-1119",
 "author":"Randal"
 }
