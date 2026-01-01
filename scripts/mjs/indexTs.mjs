@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, statSync, writeFileSync } from "fs";
+import { existsSync, readdirSync, statSync, writeFileSync } from "node:fs";
 
 /**
  * @param {string} path
@@ -98,14 +98,12 @@ const ExportFileRegExp = /\.([mc])?ts/g;
  *
  * @param {string} folderPath
  * @param {boolean} recursive
+ * @returns {number} number of lines in the index.ts
  */
 function process(folderPath, recursive) {
 	if (!existsSync(folderPath)) {
-		return;
+		return -1;
 	}
-
-	const subNames = getSubFolders(folderPath);
-	const fileNames = getTsFiles(folderPath);
 
 	/** @type {(name: string) => boolean} */
 	const subFilter = name => name !== "internal";
@@ -120,15 +118,30 @@ function process(folderPath, recursive) {
 
 	/** @type {string[]} */
 	const lines = [];
-	lines.push(...subNames.filter(subFilter).map(exportSubMap));
+
+	// process child folders if recursive
+	const subNames = getSubFolders(folderPath);
+	subNames.filter(subFilter).forEach(subName => {
+		if (recursive) {
+			if (process(`${folderPath}/${subName}`, true) > 0) {
+				lines.push(exportSubMap(subName));
+			}
+		}else if (isValidFile(`${folderPath}/${subName}/index.ts`)) {
+			lines.push(exportSubMap(subName));
+		}
+	});
+
+	// process child files
+	const fileNames = getTsFiles(folderPath);
 	lines.push(...fileNames.filter(fileFilter).map(exportFileMap));
-	const output = lines.join("\n");
 
-	writeFileSync(`${folderPath}/index.ts`, output);
-
-	if (recursive) {
-		subNames.forEach(pathName => process(`${folderPath}/${pathName}`, true));
+	// write file
+	if (lines.length) {
+		writeFileSync(`${folderPath}/index.ts`, lines.join("\n"));
 	}
+
+	// return line count
+	return lines.length;
 }
 
 /**
