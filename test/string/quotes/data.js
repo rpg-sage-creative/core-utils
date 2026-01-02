@@ -1,21 +1,22 @@
 const quoteTests = [
-	{ unquoted:``,         quoted:`""`,             style:undefined, contents:"*" },
+	{ unquoted:``,         quoted:`""`,             style:undefined },
 	{ unquoted:` `,        quoted:`" "`,            style:undefined },
 	{ unquoted:`simple`,   quoted:`"simple"`,       style:undefined },
 	{ unquoted:`simple`,   quoted:`"simple"`,       style:"double" },
 	{ unquoted:`simple`,   quoted:`'simple'`,       style:"single" },
 	{ unquoted:`"simple"`, quoted:`"\\"simple\\""`, style:undefined },
+	{ unquoted:`"smart"`,  quoted:`“"smart"”`,      style:"smart" },
 	{ unquoted:`'simple'`, quoted:`'\\'simple\\''`, style:"single" },
 	{ unquoted:`sim“”ple`, quoted:`"sim“”ple"`,     style:undefined },
 	{ unquoted:`sim„“ple`, quoted:`"sim„“ple"`,     style:undefined },
 	{ unquoted:`sim''ple`, quoted:`"sim''ple"`,     style:undefined },
 
 	{ unquoted:`simple "with" quotes`,              quoted:`"simple \\"with\\" quotes"`,                      style:undefined },
-	{ unquoted:`simple "with \\"double\\"" quotes`, quoted:`"simple \\"with \\\\"double\\\\"\\" quotes"`, style:undefined },
+	{ unquoted:`simple "with \\"double\\"" quotes`, quoted:`"simple \\"with \\\\"double\\\\"\\" quotes"`,     style:undefined },
 	{ unquoted:`simple 'with' quotes`,              quoted:`'simple \\'with\\' quotes'`,                      style:"single" },
 
-	{ unquoted:` " `, quoted:`" \\" "`,                                                       style:undefined },
-	{ unquoted:` " \\" " `, quoted:`" \\" \\\\" \\" "`,                                     style:undefined },
+	{ unquoted:` " `, quoted:`" \\" "`,                                             style:undefined },
+	{ unquoted:` " \\" " `, quoted:`" \\" \\\\" \\" "`,                             style:undefined },
 	{ unquoted:` " \\" \\\\\\" \\" " `, quoted:`" \\" \\\\" \\\\\\\\" \\\\" \\" "`, style:undefined },
 ];
 
