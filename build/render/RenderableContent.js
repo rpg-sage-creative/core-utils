@@ -36,6 +36,9 @@ export class RenderableContent {
             this.append(...content);
         }
     }
+    appendHeader(h, content) {
+        this.append(`<${h}>${content}</${h}>`);
+    }
     appendColumnedSection(...columns) {
         return this._appendSection(createSection(this._sections.length, undefined, [], columns));
     }

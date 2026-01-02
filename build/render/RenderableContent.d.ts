@@ -25,6 +25,7 @@ export declare class RenderableContent implements Renderable {
     append(...content: string[]): void;
     /** Prepends <blockquote> to the first content given, appends </blockquote> to the last content given, then passes to .append(...) */
     appendBlock(...content: string[]): void;
+    appendHeader(h: "h1" | "h2" | "h3", content: string): void;
     /** Creates, appends, and returns a columned section. */
     appendColumnedSection(...columns: RenderableContentSectionColumn[]): RenderableContentSection;
     /** Creates, appends, and returns a titled section. */

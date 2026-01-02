@@ -54,6 +54,10 @@ export class RenderableContent implements Renderable {
 		}
 	}
 
+	public appendHeader(h: "h1" | "h2" | "h3", content: string): void {
+		this.append(`<${h}>${content}</${h}>`);
+	}
+
 	/** Creates, appends, and returns a columned section. */
 	public appendColumnedSection(...columns: RenderableContentSectionColumn[]): RenderableContentSection {
 		return this._appendSection(createSection(this._sections.length, undefined, [], columns));
