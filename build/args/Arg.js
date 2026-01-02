@@ -1,4 +1,5 @@
 import { regex } from "regex";
+import { quote } from "../string/index.js";
 export class Arg {
     index;
     key;
@@ -15,4 +16,13 @@ export class Arg {
         return this.#keyRegex ??= regex("i") `^${this.key}$`;
     }
     static from(args) { return new Arg(args); }
+    static toKeyValueString(key, value) {
+        if (value === null)
+            return `${key}="unset"`;
+        if (value === undefined)
+            return `${key}=""`;
+        if (typeof (value) === "number")
+            return `${key}="${value}"`;
+        return `${key}=${quote(value, "smart")}`;
+    }
 }

@@ -1,3 +1,4 @@
+import type { Optional } from "../types/generics.js";
 import type { FlagArg, IncrementArg, KeyValueArg } from "./types.js";
 /**
  * Underling class for FlagArg, IncrementArg, and KeyValueArg.
@@ -19,4 +20,9 @@ export declare class Arg {
     static from(args: Omit<KeyValueArg, "index" | "keyLower" | "keyRegex"> & {
         index?: number;
     }): KeyValueArg;
+    /**
+     * Creates a key value string.
+     * undefined becomes key="", null becomes key="unset"
+     */
+    static toKeyValueString(key: string, value: Optional<string | number>): string;
 }

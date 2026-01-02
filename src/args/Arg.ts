@@ -1,4 +1,6 @@
 import { regex } from "regex";
+import { quote } from "../string/index.js";
+import type { Optional } from "../types/generics.js";
 import type { FlagArg, IncrementArg, KeyValueArg } from "./types.js";
 
 type Args = {
@@ -50,4 +52,15 @@ export class Arg {
 	public static from(args: Omit<IncrementArg, "index" | "keyLower" | "keyRegex"> & { index?:number; }): IncrementArg;
 	public static from(args: Omit<KeyValueArg, "index" | "keyLower" | "keyRegex"> & { index?:number; }): KeyValueArg;
 	public static from(args: Args): Arg { return new Arg(args); }
+
+	/**
+	 * Creates a key value string.
+	 * undefined becomes key="", null becomes key="unset"
+	 */
+	public static toKeyValueString(key: string, value: Optional<string | number>): string {
+		if (value === null) return `${key}="unset"`;
+		if (value === undefined) return `${key}=""`;
+		if (typeof(value) === "number") return `${key}="${value}"`;
+		return `${key}=${quote(value, "smart")}`;
+	}
 }
