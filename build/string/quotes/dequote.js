@@ -1,6 +1,6 @@
-import { isQuoted } from "./isQuoted.js";
+import { isQuotedOrMisquoted } from "./isQuotedOrMisquoted.js";
 export function dequote(value) {
-    if (isQuoted(value)) {
+    if (isQuotedOrMisquoted(value)) {
         const left = value[0];
         const right = value[value.length - 1];
         value = value.slice(1, -1);

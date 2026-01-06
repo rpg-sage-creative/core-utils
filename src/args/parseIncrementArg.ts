@@ -1,9 +1,8 @@
 import { regex } from "regex";
-import { dequote, QuotedNumberRegExp } from "../string/index.js";
-import type { Optional } from "../types/generics.js";
-import type { TypedRegExp } from "../types/TypedRegExp.js";
+import type { IncrementArg, Optional, TypedRegExp } from "../index.js";
+import { NumberRegExp } from "../number/isNumberString.js";
+import { dequote, MisquotedNumberRegExp, QuotedNumberRegExp } from "../string/index.js";
 import { Arg } from "./Arg.js";
-import type { IncrementArg } from "./types.js";
 
 type IncrementArgMatchGroups = {
 	key: string;
@@ -14,13 +13,13 @@ type IncrementArgMatchGroups = {
 };
 
 export const IncrementArgRegExp = regex()`
-	(?<= ^ | \s )               # start of line or whitespace
+	\b                                  # word break include ^ | \s; also other characters like brackets []
 
 	(?<key>
-		[ \w \p{L} \p{N} ]          # letters and numbers only (a leading dash is a FlagArg)
+		\g<alphaNumeric>                    # letters and numbers only (a leading dash is a FlagArg)
 		(
-			[ \w \p{L} \p{N} \- \. ]*   # letters, numbers, dashes, and periods
-			[ \w \p{L} \p{N} ]          # letters and numbers only (capture the increment dash below)
+			\g<alphaNumericDashDot>*        # letters, numbers, dashes, and periods
+			\g<alphaNumeric>                # letters and numbers only (a traling dash is a IncrementArg)
 		)*
 	)
 
@@ -42,16 +41,25 @@ export const IncrementArgRegExp = regex()`
 		)
 		(?<value>
 			# quoted
-			${QuotedNumberRegExp}
+			(?<quotedValue> ${QuotedNumberRegExp} )
+
+			|
+
+			# mismatched
+			(?<misquotedValue> ${MisquotedNumberRegExp} )
 
 			|
 
 			# naked
-			\d+(\.\d+)?
+			(?<nakedValue> ${NumberRegExp} )
 		)
 	)
 
-	(?= \s | $ )                # whitespace or end of line
+
+	(?(DEFINE)
+		(?<alphaNumeric> [ \w \p{L} \p{N} ] )
+		(?<alphaNumericDashDot> [ \w \p{L} \p{N} \- \. ] )
+	)
 ` as TypedRegExp<IncrementArgMatchGroups>;
 
 // export const IncrementArgRegExpG = new RegExp(INCREMENT_ARG_REGEX, "g") as TypedRegExp<IncrementArgMatchGroups>;

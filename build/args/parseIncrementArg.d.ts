@@ -1,6 +1,4 @@
-import type { Optional } from "../types/generics.js";
-import type { TypedRegExp } from "../types/TypedRegExp.js";
-import type { IncrementArg } from "./types.js";
+import type { IncrementArg, Optional, TypedRegExp } from "../index.js";
 type IncrementArgMatchGroups = {
     key: string;
     decrement?: "--";

@@ -1,22 +1,35 @@
 import { regex } from "regex";
+import { NumberRegExp } from "../../number/isNumberString.js";
 
-/** Matches an unsigned number (integer or decimal) in any of the following quotes: "", “”, '', ‘’ */
+/**
+ * Matches an possibly signed number (integer or decimal) in any of the following quotes: "", “”, '', ‘’.
+ * The number may have spaces on either side of it.
+ */
 export const QuotedNumberRegExp = regex()`
 	# "" simple double quotes
-	"\d+(\.\d+)?"
+	" \g<number> "
 
 	|
 
 	# “” fancy double quotes
-	“\d+(\.\d+)?”
+	“ \g<number> ”
 
 	|
 
 	# '' simple single quotes
-	'\d+(\.\d+)?'
+	' \g<number> '
 
 	|
 
 	# ‘’ fancy single quotes
-	‘\d+(\.\d+)?’
+	‘ \g<number> ’
+
+
+	(?(DEFINE)
+		(?<number>
+			\s*              # optional spaces
+			${NumberRegExp}
+			\s*              # optional spaces
+		)
+	)
 `;

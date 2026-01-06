@@ -9,18 +9,20 @@ type FlagArgMatchGroups = {
 };
 
 export const FlagArgRegExp = regex()`
-	(?<= ^ | \s )                # start of line or whitespace
-
 	-{1,2}
 	(?<key>
-		[ \w \p{L} \p{N} ]           # we want a letter/number before more dashes
+		\g<alphaNumeric>                    # letters and numbers only (a leading dash is a FlagArg)
 		(
-			[ \w \p{L} \p{N} \- ]*   # letters, numbers, and dashes
-			[ \w \p{L} \p{N} ]       # letters and numbers only (a traling dash is a IncrementArg)
+			\g<alphaNumericDash>*           # letters, numbers, dashes, and periods
+			\g<alphaNumeric>                # letters and numbers only (a traling dash is a IncrementArg)
 		)*
 	)
 
-	(?= \s | $ )                 # whitespace or end of line
+
+	(?(DEFINE)
+		(?<alphaNumeric> [ \w \p{L} \p{N} ] )
+		(?<alphaNumericDash> [ \w \p{L} \p{N} \- ] )
+	)
 ` as TypedRegExp<FlagArgMatchGroups>;
 
 // export const FlagArgRegExpG = new RegExp(FlagArgRegExp, "g") as TypedRegExp<FlagArgMatchGroups>;

@@ -1,5 +1,5 @@
 /**
- * Removes first and last character if they are both quotes.
- * @todo make unescaping quoted characters optional ...
+ * Removes first and last character if the string is a QuotedString or MisquotedString.
+ * @todo should unescaping end quotes be optional here?
  */
 export declare function dequote(value: string): string;

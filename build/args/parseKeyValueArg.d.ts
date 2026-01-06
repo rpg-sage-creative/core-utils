@@ -1,9 +1,10 @@
-import type { Optional } from "../types/generics.js";
-import type { TypedRegExp } from "../types/TypedRegExp.js";
-import type { KeyValueArg } from "./types.js";
+import type { KeyValueArg, Optional, TypedRegExp } from "../index.js";
 export type KeyValueArgMatchGroups = {
     key: string;
     value: string;
+    quotedValue?: string;
+    misquotedValue?: string;
+    nakedValue?: string;
 };
 export declare const KeyValueArgRegExp: TypedRegExp<KeyValueArgMatchGroups>;
 /**

@@ -5,9 +5,9 @@ describe("args", () => {
 	describe("parseKeyValueArgs", () => {
 
 		const tests = getTests("parseKeyValueArgs");
-		tests.forEach(({ input, options, expected }) => {
-			test(tagLiterals`parseKeyValueArgs(${input}, ${options})`, () => {
-				expect(parseKeyValueArgs(input, options)).toEqual(expected);
+		tests.forEach(({ input, expected }) => {
+			test(tagLiterals`parseKeyValueArgs(${input})`, () => {
+				expect(parseKeyValueArgs(input)).toEqual(expected);
 			});
 		});
 

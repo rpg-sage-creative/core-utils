@@ -1,11 +1,11 @@
-import { isQuoted } from "./isQuoted.js";
+import { isQuotedOrMisquoted } from "./isQuotedOrMisquoted.js";
 
 /**
- * Removes first and last character if they are both quotes.
- * @todo make unescaping quoted characters optional ...
+ * Removes first and last character if the string is a QuotedString or MisquotedString.
+ * @todo should unescaping end quotes be optional here?
  */
 export function dequote(value: string): string {
-	if (isQuoted(value)) {
+	if (isQuotedOrMisquoted(value)) {
 		// get the quote chars
 		const left = value[0]!;
 		const right = value[value.length - 1]!;
