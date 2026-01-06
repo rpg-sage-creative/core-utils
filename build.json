@@ -1,12 +1,12 @@
 {
 "name":"@rsc-utils/core-utils",
-"version":"0.13.3",
+"version":"0.14.0",
 "branch":"main",
-"commit":"722bc3e15b8ffebe2ff33b7855faf951f0337783",
-"commitSubject":"update dependencies",
-"commitTs":1766187629000,
-"commitDate":"2025-12-19-1540",
-"buildTs":1766187669000,
-"buildDate":"2025-12-19-1541",
+"commit":"15d8bb6791cc95fa067e17ec86a08e9cf20f5399",
+"commitSubject":"improve arg regexp, allow misquoted content/numbers",
+"commitTs":1767659429000,
+"commitDate":"2026-01-05-1630",
+"buildTs":1767659586000,
+"buildDate":"2026-01-05-1633",
 "author":"Randal"
 }
