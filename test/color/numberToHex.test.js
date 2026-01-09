@@ -1,4 +1,4 @@
-import { tagLiterals } from "@rpg-sage-creative/template-literal-utils";
+import { tagLiterals } from "@rsc-utils/template-literal-utils";
 import { numberToHex } from "../../build/color/internal/toHex.js";
 
 describe("color", () => {

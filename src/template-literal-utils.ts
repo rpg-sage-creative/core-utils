@@ -1,1 +1,1 @@
-export * from "@rpg-sage-creative/template-literal-utils";
+export * from "@rsc-utils/template-literal-utils";

@@ -1,4 +1,4 @@
-import { stringifyJson } from "@rpg-sage-creative/json-utils";
+import { stringifyJson } from "@rsc-utils/json-utils";
 import { isErrorLike } from "../types/typeGuards/isErrorLike.js";
 export function formatArg(arg) {
     if (isErrorLike(arg)) {

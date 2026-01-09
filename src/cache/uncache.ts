@@ -1,4 +1,4 @@
-import { isPrimitive } from "@rpg-sage-creative/json-utils";
+import { isPrimitive } from "@rsc-utils/json-utils";
 
 type NullifyOption = {
 	/** set all keys to null */

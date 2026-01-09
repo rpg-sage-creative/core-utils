@@ -1,4 +1,4 @@
-import { WhitespaceRegExpG } from "@rpg-sage-creative/json-utils";
+import { WhitespaceRegExpG } from "@rsc-utils/json-utils";
 import type { Optional, OrNull, OrUndefined } from "../../types/generics.js";
 import { HorizontalWhitespaceRegExpG, } from "./consts.js";
 

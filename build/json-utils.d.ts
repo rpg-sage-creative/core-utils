@@ -1,1 +1,1 @@
-export * from "@rpg-sage-creative/json-utils";
+export * from "@rsc-utils/json-utils";

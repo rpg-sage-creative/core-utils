@@ -1,4 +1,4 @@
-import { parseJson } from "@rpg-sage-creative/json-utils";
+import { parseJson } from "@rsc-utils/json-utils";
 import { readFileSync } from "fs";
 import { error } from "../../console/loggers/error.js";
 import type { ValidatorArg } from "../types.js";

@@ -1,4 +1,4 @@
-import { WhitespaceRegExpG } from "@rpg-sage-creative/json-utils";
+import { WhitespaceRegExpG } from "@rsc-utils/json-utils";
 import { HorizontalWhitespaceRegExpG, } from "./consts.js";
 export function cleanWhitespace(value, options) {
     if (!value)

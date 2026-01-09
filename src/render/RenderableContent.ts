@@ -1,4 +1,4 @@
-import { stringifyJson } from "@rpg-sage-creative/json-utils";
+import { stringifyJson } from "@rsc-utils/json-utils";
 import { toUnique } from "../array/index.js";
 import type { HexColorString } from "../color/ColorData.js";
 import { error } from "../console/index.js";

@@ -1,4 +1,4 @@
-import { navigateJson } from "@rpg-sage-creative/json-utils";
+import { navigateJson } from "@rsc-utils/json-utils";
 function findByKeyPath(args, key) {
     for (const arg of args) {
         const navResult = navigateJson(arg, key);

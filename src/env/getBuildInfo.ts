@@ -1,4 +1,4 @@
-import { parseJson } from "@rpg-sage-creative/json-utils";
+import { parseJson } from "@rsc-utils/json-utils";
 import { exists, readFile, readdir } from "node:fs";
 import type { OrUndefined } from "../types/generics.js";
 

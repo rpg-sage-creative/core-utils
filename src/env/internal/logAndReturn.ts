@@ -1,4 +1,4 @@
-import { stringifyJson } from "@rpg-sage-creative/json-utils";
+import { stringifyJson } from "@rsc-utils/json-utils";
 import { verbose } from "../../console/loggers/verbose.js";
 import type { ValidatorArg } from "../types.js";
 

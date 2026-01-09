@@ -1,4 +1,4 @@
-import { isPrimitive } from "@rpg-sage-creative/json-utils";
+import { isPrimitive } from "@rsc-utils/json-utils";
 function attempt(object, fnName) {
     if (typeof (object?.[fnName]) === "function") {
         object[fnName]();

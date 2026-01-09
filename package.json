@@ -12,21 +12,21 @@
 		"@rpg-sage-creative:registry": "https://npm.pkg.github.com"
 	},
 	"scripts": {
-		"build": "bash ./node_modules/@rpg-sage-creative/dev-scripts/sh/build.sh",
-		"release": "bash ./node_modules/@rpg-sage-creative/dev-scripts/sh/release.sh",
-		"test": "bash ./node_modules/@rpg-sage-creative/dev-scripts/sh/test.sh",
-		"create-test-todos": "bash ./node_modules/@rpg-sage-creative/dev-scripts/sh/create-test-js.sh"
+		"build": "bash ./node_modules/@rsc-utils/dev-scripts/sh/build.sh",
+		"release": "bash ./node_modules/@rsc-utils/dev-scripts/sh/release.sh",
+		"test": "bash ./node_modules/@rsc-utils/dev-scripts/sh/test.sh",
+		"create-test-todos": "bash ./node_modules/@rsc-utils/dev-scripts/sh/create-test-js.sh"
 	},
 	"devDependencies": {
-		"@rpg-sage-creative/dev-scripts": "^1.0.0",
+		"@rsc-utils/dev-scripts": "github:rpg-sage-creative/dev-scripts#semver:^1.1.0",
 		"@types/jest": "^30.0.0",
 		"@types/node": "^24.10.4",
 		"jest": "^30.2.0",
 		"typescript": "^5.9.3"
 	},
 	"dependencies": {
-		"@rpg-sage-creative/json-utils": "^1.0.0",
-		"@rpg-sage-creative/template-literal-utils": "^1.0.0",
+		"@rsc-utils/json-utils": "github:rpg-sage-creative/json-utils#semver:^1.0.0",
+		"@rsc-utils/template-literal-utils": "github:rpg-sage-creative/template-literal-utils#semver:^1.0.0",
 		"@sapphire/snowflake": "^3.5.5",
 		"regex": "^6.1.0"
 	}
