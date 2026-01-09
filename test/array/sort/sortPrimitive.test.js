@@ -4,11 +4,12 @@ describe("array", () => {
 	describe("sort", () => {
 		describe("sortPrimitive", () => {
 			// previous tests created the numeric date values directly as numbers; this avoids TZ issues when testing
-			const EPOCH = new Date(1978, 11, 24);
-			const DATE = new Date(283334400000);
-			const date = DATE.getTime();
-			const DATE_1 = new Date(283334400001);
-			const date_1 = DATE_1.getTime();
+			const date = 283334400000;
+			const DATE = new Date(date);
+			expect(DATE.getTime()).toBe(date);
+			const date_1 = date + 1;
+			const DATE_1 = new Date(date_1);
+			expect(DATE_1.getTime()).toBe(date_1);
 
 			const getInput = () => [2, 1, null, "2", true, null, undefined, 2, null, "1", 1, false, true];
 			const getDatesInput = () => [date_1, DATE, date, DATE_1, DATE];
@@ -61,7 +62,7 @@ describe("array", () => {
 
 			test(`sortPrimitive (mixed)`, () => {
 				const input = getMixedInput();
-				const expected = [false, true, true, 1, 1, "1", 2, 2, "2", EPOCH, EPOCH, date, DATE_1, date_1, null, null, null, undefined];
+				const expected = [false, true, true, 1, 1, "1", 2, 2, "2", DATE, DATE, date, DATE_1, date_1, null, null, null, undefined];
 				expect(input).not.toStrictEqual(expected);
 				input.sort(sortPrimitive);
 				expectArray(input, expected);
@@ -69,7 +70,7 @@ describe("array", () => {
 
 			test(`sortPrimitive (reversed mixed)`, () => {
 				const input = getMixedInput();
-				const expected = [undefined, null, null, null, date_1, DATE_1, date, EPOCH, EPOCH, "2", 2, 2, "1", 1, 1, true, true, false];
+				const expected = [undefined, null, null, null, date_1, DATE_1, date, DATE, DATE, "2", 2, 2, "1", 1, 1, true, true, false];
 				expect(input).not.toStrictEqual(expected);
 				input.sort(sortPrimitive).reverse();
 				expectArray(input, expected);
