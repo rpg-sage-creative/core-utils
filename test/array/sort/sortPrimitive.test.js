@@ -3,8 +3,15 @@ import { isDate } from "node:util/types";
 describe("array", () => {
 	describe("sort", () => {
 		describe("sortPrimitive", () => {
+			// previous tests created the numeric date values directly as numbers; this avoids TZ issues when testing
+			const EPOCH = new Date(1978, 11, 24);
+			const DATE = new Date(283334400000);
+			const date = DATE.getTime();
+			const DATE_1 = new Date(283334400001);
+			const date_1 = DATE_1.getTime();
+
 			const getInput = () => [2, 1, null, "2", true, null, undefined, 2, null, "1", 1, false, true];
-			const getDatesInput = () => [283334400001, new Date(283334400000), 283334400000, new Date(283334400001), new Date(283334400000)];
+			const getDatesInput = () => [date_1, DATE, date, DATE_1, DATE];
 			const getMixedInput = () => getInput().concat(getDatesInput());
 
 			// due to an issue in the GitHubAction workflow, expect(input).toStrictEqual(expected) is having issues with Date values
@@ -38,7 +45,7 @@ describe("array", () => {
 
 			test(`sortPrimitive (dates)`, () => {
 				const input = getDatesInput();
-				const expected = [new Date(283334400000), new Date(283334400000), 283334400000, new Date(283334400001), 283334400001];
+				const expected = [DATE, DATE, date, DATE_1, date_1];
 				expect(input).not.toStrictEqual(expected);
 				input.sort(sortPrimitive);
 				expectArray(input, expected);
@@ -46,7 +53,7 @@ describe("array", () => {
 
 			test(`sortPrimitive (reversed dates)`, () => {
 				const input = getDatesInput();
-				const expected = [283334400001, new Date(283334400001), 283334400000, new Date(283334400000), new Date(283334400000)];
+				const expected = [date_1, DATE_1, date, DATE, DATE];
 				expect(input).not.toStrictEqual(expected);
 				input.sort(sortPrimitive).reverse();
 				expectArray(input, expected);
@@ -54,7 +61,7 @@ describe("array", () => {
 
 			test(`sortPrimitive (mixed)`, () => {
 				const input = getMixedInput();
-				const expected = [false, true, true, 1, 1, "1", 2, 2, "2", new Date(1978, 11, 24), new Date(1978, 11, 24), 283334400000, new Date(283334400001), 283334400001, null, null, null, undefined];
+				const expected = [false, true, true, 1, 1, "1", 2, 2, "2", EPOCH, EPOCH, date, DATE_1, date_1, null, null, null, undefined];
 				expect(input).not.toStrictEqual(expected);
 				input.sort(sortPrimitive);
 				expectArray(input, expected);
@@ -62,7 +69,7 @@ describe("array", () => {
 
 			test(`sortPrimitive (reversed mixed)`, () => {
 				const input = getMixedInput();
-				const expected = [undefined, null, null, null, 283334400001, new Date(283334400001), 283334400000, new Date(1978, 11, 24), new Date(1978, 11, 24), "2", 2, 2, "1", 1, 1, true, true, false];
+				const expected = [undefined, null, null, null, date_1, DATE_1, date, EPOCH, EPOCH, "2", 2, 2, "1", 1, 1, true, true, false];
 				expect(input).not.toStrictEqual(expected);
 				input.sort(sortPrimitive).reverse();
 				expectArray(input, expected);
