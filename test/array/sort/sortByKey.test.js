@@ -1,4 +1,4 @@
-import { sortByKey } from "../../build/index.js";
+import { sortByKey } from "../../../build/index.js";
 
 describe("array", () => {
 	describe("sortByKey", () => {

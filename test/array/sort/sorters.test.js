@@ -1,4 +1,4 @@
-import { or, sortAsPrimitive, sortPrimitive } from "../../build/index.js";
+import { or, sortAsPrimitive, sortPrimitive } from "../../../build/index.js";
 
 describe("array", () => {
 	describe("sorters", () => {
