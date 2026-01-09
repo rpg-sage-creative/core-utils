@@ -1,5 +1,7 @@
+import { WhitespaceRegExpG } from "@rpg-sage-creative/json-utils";
 import type { Optional, OrNull, OrUndefined } from "../../types/generics.js";
-import { HorizontalWhitespaceRegExpG, WhitespaceRegExpG } from "./consts.js";
+import { HorizontalWhitespaceRegExpG, } from "./consts.js";
+
 
 type Options = {
 	/** use HORIZONTAL_WHITESPACE_REGEX if true, \s otherwise */

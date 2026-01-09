@@ -1,4 +1,4 @@
-import { navigateJson } from "../json/navigateJson.js";
+import { navigateJson } from "@rpg-sage-creative/json-utils";
 
 /**
  * Splits the key into dot notation and looks through the args until it finds a value that matches the key.

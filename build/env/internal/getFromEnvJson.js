@@ -1,6 +1,6 @@
+import { parseJson } from "@rpg-sage-creative/json-utils";
 import { readFileSync } from "fs";
 import { error } from "../../console/loggers/error.js";
-import { parseJson } from "../../json/parseJson.js";
 let _json;
 export function getFromEnvJson(key) {
     if (!_json) {

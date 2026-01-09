@@ -1,4 +1,5 @@
-import { parseKeyValueArgs, tagLiterals } from "../../build/index.js";
+import { tagLiterals } from "@rpg-sage-creative/template-literal-utils";
+import { parseKeyValueArgs } from "../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("args", () => {

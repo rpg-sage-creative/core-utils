@@ -1,4 +1,5 @@
-import { filterAndMap, isDefined, mapFirst, tagLiterals, toLiteral, toUnique } from "../../build/index.js";
+import { tagLiterals } from "@rpg-sage-creative/template-literal-utils";
+import { isDefined, mapFirst } from "../../build/index.js";
 
 describe("array", () => {
 	describe("mapFirst", () => {

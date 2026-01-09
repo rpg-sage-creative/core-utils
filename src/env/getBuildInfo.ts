@@ -1,5 +1,5 @@
-import { exists, readFile, readdir } from "fs";
-import { parseJson } from "../json/parseJson.js";
+import { parseJson } from "@rpg-sage-creative/json-utils";
+import { exists, readFile, readdir } from "node:fs";
 import type { OrUndefined } from "../types/generics.js";
 
 type BuildInfo = {

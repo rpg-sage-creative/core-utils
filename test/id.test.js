@@ -1,4 +1,5 @@
-import { compressId, decompressId, randomSnowflake, randomUuid, tagLiterals } from "../build/index.js";
+import { tagLiterals } from "@rpg-sage-creative/template-literal-utils";
+import { compressId, decompressId, randomSnowflake, randomUuid } from "../build/index.js";
 
 describe("id", () => {
 	const maxUuid  = "ffffffff-ffff-ffff-ffff-ffffffffffff";

@@ -1,4 +1,4 @@
-import { stringifyJson } from "../json/stringifyJson.js";
+import { stringifyJson } from "@rpg-sage-creative/json-utils";
 import { isErrorLike } from "../types/typeGuards/isErrorLike.js";
 
 /** Logging helper for formatting Error objects. */

@@ -1,5 +1,5 @@
-import { exists, readFile, readdir } from "fs";
-import { parseJson } from "../json/parseJson.js";
+import { parseJson } from "@rpg-sage-creative/json-utils";
+import { exists, readFile, readdir } from "node:fs";
 async function readBuildInfo(repoPath, utilName) {
     const raw = await new Promise(resolve => readFile(`${repoPath}/build.json`, null, (error, buffer) => resolve(error ? undefined : String(buffer)))).catch(() => undefined);
     if (!raw)

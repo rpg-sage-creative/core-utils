@@ -1,5 +1,5 @@
+import { tagLiterals } from "@rpg-sage-creative/template-literal-utils";
 import { alphaToHex } from "../../build/color/internal/toHex.js";
-import { tagLiterals } from "../../build/index.js";
 
 describe("color", () => {
 	describe("alphaToHex", () => {

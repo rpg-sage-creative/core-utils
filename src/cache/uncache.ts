@@ -1,4 +1,4 @@
-import { isPrimitive } from "../types/index.js";
+import { isPrimitive } from "@rpg-sage-creative/json-utils";
 
 type NullifyOption = {
 	/** set all keys to null */

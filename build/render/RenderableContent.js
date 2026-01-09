@@ -1,6 +1,6 @@
+import { stringifyJson } from "@rpg-sage-creative/json-utils";
 import { toUnique } from "../array/index.js";
 import { error } from "../console/index.js";
-import { stringifyJson } from "../json/stringifyJson.js";
 function createSection(index = 0, title, content = [], columns = []) {
     return { index, title, content, columns };
 }

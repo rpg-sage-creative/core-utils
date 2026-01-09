@@ -1,4 +1,5 @@
-import { ArgsManager, tagLiterals } from "../../build/index.js";
+import { tagLiterals } from "@rpg-sage-creative/template-literal-utils";
+import { ArgsManager } from "../../build/index.js";
 
 describe("args", () => {
 	describe("ArgsManager", () => {

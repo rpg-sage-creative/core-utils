@@ -1,6 +1,6 @@
+import { parseJson } from "@rpg-sage-creative/json-utils";
 import { readFileSync } from "fs";
 import { error } from "../../console/loggers/error.js";
-import { parseJson } from "../../json/parseJson.js";
 import type { ValidatorArg } from "../types.js";
 
 let _json: Record<string, ValidatorArg>;
