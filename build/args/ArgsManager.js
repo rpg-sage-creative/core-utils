@@ -27,7 +27,7 @@ export class ArgsManager {
     _valueArgs;
     constructor(raw) {
         this._strings = raw?.slice() ?? [];
-        this._args = raw?.map(parseArg).filter(isDefined) ?? [];
+        this._args = raw?.filter(isNotBlank).map(parseArg) ?? [];
     }
     get length() {
         return this._args.length;

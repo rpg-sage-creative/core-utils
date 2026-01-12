@@ -35,8 +35,10 @@ export class ArgsManager<T extends string = string> {
 	private _valueArgs?: ValueArg<T>[];
 
 	public constructor(raw?: string[]) {
+		// store original input
 		this._strings = raw?.slice() ?? [];
-		this._args = raw?.map(parseArg).filter(isDefined) as Arg<T, any>[] ?? [];
+		// we do not want to include blank strings as args; they are separators
+		this._args = raw?.filter(isNotBlank).map(parseArg) as Arg<T, any>[] ?? [];
 	}
 
 	// public [Symbol.]

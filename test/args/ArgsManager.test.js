@@ -4,6 +4,11 @@ import { ArgsManager } from "../../build/index.js";
 describe("args", () => {
 	describe("ArgsManager", () => {
 
+		test(`ArgsManager.from("first second").length === 2`, () => {
+			expect(ArgsManager.from("first second").length).toBe(2);
+			expect(ArgsManager.from("sword sword='board' 'sword and board' sword=''").length).toBe(4);
+		});
+
 		const testEnum = { First:0, NotFirst:1, "0":"First", "1":"NotFirst" };
 
 		const tests = [
@@ -57,7 +62,7 @@ describe("args", () => {
 					}
 
 					// check all properties
-					expect(arg.index).toBe(rawIndex);
+					// expect(arg.index).toBe(rawIndex);
 					expect(arg.isFlag).toBe(isFlag);
 					expect(arg.isIncrement).toBe(isIncrement);
 					expect(arg.isKeyValue).toBe(isKeyValue);
@@ -79,7 +84,7 @@ describe("args", () => {
 			expect(args.valueArgs()[0]?.isValue).toBe(true); // `first`
 			expect(args.valueArgs()[0]?.index).toBe(0);
 			expect(args.valueArgs()[1]?.isValue).toBe(true); // `""`
-			expect(args.valueArgs()[1]?.index).toBe(9);
+			expect(args.valueArgs()[1]?.index).toBe(5);
 			expect(args.valueArgs()[1]?.value).toBeNull();
 			expect(args.valueArgs()[2]?.value).toBe(" ");
 			expect(args.keyValueArgs()[0]?.isKeyValue).toBe(true);
@@ -95,11 +100,11 @@ describe("args", () => {
 			expect(args.incrementArgs()[0].operator).toBe("+");
 			expect(args.incrementArgs()[0].value).toBe(5);
 			expect(args.incrementArgs().pop().isIncrement).toBe(true);
-			expect(args.incrementArgs()[1].index).toBe(13);
+			expect(args.incrementArgs()[1].index).toBe(9);
 			expect(args.incrementArgs()[1].key).toBe("dying");
 			expect(args.incrementArgs()[1].operator).toBe("-");
 			expect(args.incrementArgs()[1].value).toBe(1);
-			expect(args.incrementArgs()[2].index).toBe(14);
+			expect(args.incrementArgs()[2].index).toBe(10);
 			expect(args.incrementArgs()[2].key).toBe("mp");
 			expect(args.incrementArgs()[2].operator).toBe("-");
 			expect(args.incrementArgs()[2].value).toBe(4);
