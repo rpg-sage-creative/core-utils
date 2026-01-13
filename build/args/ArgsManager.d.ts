@@ -29,7 +29,7 @@ export declare class ArgsManager<T extends string = string> {
     /** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
     nonKeyValueArgs(): Arg<T, string>[];
     /** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
-    nonKeyValueStrings(): (string | null)[];
+    nonKeyValueStrings(): (string | null | undefined)[];
     /** Returns the original (raw) string array. */
     raw(): string[];
     /** Returns all ValueArg (.isValue === true). */

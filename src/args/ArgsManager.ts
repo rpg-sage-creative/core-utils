@@ -111,7 +111,7 @@ export class ArgsManager<T extends string = string> {
 
 	/** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
 	public nonKeyValueStrings() {
-		return this.nonKeyValueArgs().map(arg => arg.isValue ? (arg as ValueArg).value : arg.raw);
+		return this.nonKeyValueArgs().map(arg => arg.isValue ? arg.value : arg.raw);
 	}
 
 	/** Returns the original (raw) string array. */

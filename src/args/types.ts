@@ -57,7 +57,7 @@ export type ArgBase<
 	keyRegex: RegExp;
 	/** how to increment/decrement */
 	operator?: "+" | "-" | never;
-	/** arg for ValueArg and FlagArg, value for a KeyValueArg; null for pair with empty string */
+	/** arg for ValueArg, value for a KeyValueArg and IncrementArg; null for pair with empty string */
 	value: Value | Nil;
 	/** raw arg text */
 	raw: string;
@@ -68,6 +68,8 @@ export type FlagArg<
 		> = Omit<ArgBase<Key, Key, never>, "value"> & {
 	/** does the arg start with dashes */
 	isFlag: true;
+	/** flags don't have value */
+	value?: never;
 };
 
 export type IncrementArg<
