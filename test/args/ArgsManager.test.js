@@ -76,6 +76,9 @@ describe("args", () => {
 
 		test(tagLiterals`new ArgsManager(${raw});`, () => {
 			expect(args.length).toBe(tests.filter(test => !test.isInvalid).length);
+			expect(args.nonKeyValueArgs().length).toBe(tests.filter(test => !test.isInvalid && !test.isKeyValue).length);
+			expect(args.nonKeyValueStrings()[1]).toBe("--test");
+			expect(args.nonKeyValueStrings()[8]).toBe(`mp-="4"`);
 			expect(args.raw().shift()).toBe("first");
 			expect(args.raw().pop()).toBe('mp-="4"');
 			expect(args.args().pop().isIncrement).toBe(true);

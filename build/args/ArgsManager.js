@@ -71,6 +71,13 @@ export class ArgsManager {
         }
         return this._keyValueArgs.slice();
     }
+    nonKeyValueArgs() {
+        const keyValueArgs = this.keyValueArgs();
+        return this._args.filter(arg => !keyValueArgs.includes(arg));
+    }
+    nonKeyValueStrings() {
+        return this.nonKeyValueArgs().map(arg => arg.isValue ? arg.value : arg.raw);
+    }
     raw() {
         return this._strings.slice();
     }

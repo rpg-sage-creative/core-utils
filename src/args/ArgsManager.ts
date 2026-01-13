@@ -103,6 +103,17 @@ export class ArgsManager<T extends string = string> {
 		return this._keyValueArgs.slice();
 	}
 
+	/** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
+	public nonKeyValueArgs() {
+		const keyValueArgs = this.keyValueArgs();
+		return this._args.filter(arg => !keyValueArgs.includes(arg as KeyValueArg<T>));
+	}
+
+	/** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
+	public nonKeyValueStrings() {
+		return this.nonKeyValueArgs().map(arg => arg.isValue ? (arg as ValueArg).value : arg.raw);
+	}
+
 	/** Returns the original (raw) string array. */
 	public raw(): string[] {
 		return this._strings.slice();

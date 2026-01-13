@@ -26,6 +26,10 @@ export declare class ArgsManager<T extends string = string> {
     incrementArgs<U extends string = string>(...keys: Lowercase<string>[]): IncrementArg<T, U>[];
     /** Returns all KeyValueArg (.isKeyValue === true), optionally filtering by the given keys. */
     keyValueArgs<U extends string = string>(...keys: Lowercase<string>[]): KeyValueArg<T, U>[];
+    /** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
+    nonKeyValueArgs(): Arg<T, string>[];
+    /** Returns all args that are _NOT_ KeyValueArg objects. Used for convenient splitting of args into key/value or simply value. */
+    nonKeyValueStrings(): (string | null)[];
     /** Returns the original (raw) string array. */
     raw(): string[];
     /** Returns all ValueArg (.isValue === true). */
