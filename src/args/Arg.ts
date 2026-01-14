@@ -17,7 +17,7 @@ type Args = {
 };
 
 /**
- * Underling class for FlagArg, IncrementArg, and KeyValueArg.
+ * Underlying class for FlagArg, IncrementArg, and KeyValueArg.
  * Primary purpose is to have keyLower and keyRegex available on demand, cached after first use.
  */
 export class Arg {

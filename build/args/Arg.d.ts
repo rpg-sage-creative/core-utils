@@ -1,7 +1,7 @@
 import type { Optional } from "../types/generics.js";
 import type { FlagArg, IncrementArg, KeyValueArg } from "./types.js";
 /**
- * Underling class for FlagArg, IncrementArg, and KeyValueArg.
+ * Underlying class for FlagArg, IncrementArg, and KeyValueArg.
  * Primary purpose is to have keyLower and keyRegex available on demand, cached after first use.
  */
 export declare class Arg {
