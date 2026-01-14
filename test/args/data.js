@@ -1,4 +1,4 @@
-/** [ { input:string; options?:{ mode:, key?: }, expected:KeyValueArg|null }] */
+/** [ { input:string; expected:KeyValueArg|null }] */
 const parseKeyValueArgTests = [
 	{ input:`a=b`,            expected:{ raw:`a=b`, index:-1, isKeyValue:true, key:`a`, value:`b` } },
 	{ input:`a.1=b`,          expected:{ raw:`a.1=b`, index:-1, isKeyValue:true, key:`a.1`, value:`b` } },
@@ -69,11 +69,37 @@ const parseKeyValueArgsTests = [
 
 const isKeyValueArgTests = [
 
-].concat(parseKeyValueArgTests.map(({ input, options, expected }) => ({ input, options, expected:!!expected })));
+].concat(parseKeyValueArgTests.map(({ input, expected }) => ({ input, expected:!!expected })));
+
+/*
+{
+	index,
+	isIncrement: true,
+	key,
+	operator: decrement?.[0] as "-" ?? increment?.[0] ?? operator![0],
+	raw,
+	value,
+}
+*/
+
+const parseIncrementArgTests = [
+	{ input:`a`, expected:undefined },
+	{ input:`a=`, expected:undefined },
+	{ input:`a=b`, expected:undefined },
+	{ input:`a="b"`, expected:undefined },
+	{ input:`a-="b"`, expected:undefined },
+	{ input:`a+="b"`, expected:undefined },
+	{ input:`a++`, expected:{ index:-1, isIncrement:true, key:"a", operator:"+", value:1, raw:`a++` } },
+	{ input:`a--`, expected:{ index:-1, isIncrement:true, key:"a", operator:"-", value:1, raw:`a--` } },
+	{ input:`a—`, expected:{ index:-1, isIncrement:true, key:"a", operator:"-", value:1, raw:`a—` } },
+	{ input:`a+="2"`, expected:{ index:-1, isIncrement:true, key:"a", operator:"+", value:2, raw:`a+="2"` } },
+	{ input:`a-="3"`, expected:{ index:-1, isIncrement:true, key:"a", operator:"-", value:3, raw:`a-="3"` } },
+];
 
 export function getTests(which) {
 	switch(which) {
 		case "isKeyValueArg": return isKeyValueArgTests;
+		case "parseIncrementArg": return parseIncrementArgTests;
 		case "parseKeyValueArg": return parseKeyValueArgTests;
 		case "parseKeyValueArgs": return parseKeyValueArgsTests;
 		default: return [];

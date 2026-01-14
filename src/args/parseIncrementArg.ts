@@ -3,29 +3,30 @@ import type { IncrementArg, Optional, TypedRegExp } from "../index.js";
 import { NumberRegExp } from "../number/isNumberString.js";
 import { dequote, MisquotedNumberRegExp, QuotedNumberRegExp } from "../string/index.js";
 import { Arg } from "./Arg.js";
+import { AlphaNumericDashDotArgKeyRegExp } from "./regexp.js";
 
 type IncrementArgMatchGroups = {
 	key: string;
-	decrement?: "--";
+	decrement?: "--" | "\u2014";
 	increment?: "++";
 	operator?: "+=" | "-=";
 	value: string;
 };
 
 export const IncrementArgRegExp = regex()`
-	\b                                  # word break include ^ | \s; also other characters like brackets []
+	# word break include ^ | \s; also other characters like brackets []
+	\b
 
-	(?<key>
-		\g<alphaNumeric>                    # letters and numbers only (a leading dash is a FlagArg)
-		(
-			\g<alphaNumericDashDot>*        # letters, numbers, dashes, and periods
-			\g<alphaNumeric>                # letters and numbers only (a traling dash is a IncrementArg)
-		)*
-	)
+	(?<key> ${AlphaNumericDashDotArgKeyRegExp} )
 
 	(
 		(?<decrement>
 			-{2}
+
+			|
+
+			# MDASH; iOS apparently has an autocorrect feature that converts two dashes to an MDASH
+			\u2014
 		)
 
 		|
@@ -54,12 +55,6 @@ export const IncrementArgRegExp = regex()`
 			(?<nakedValue> ${NumberRegExp} )
 		)
 	)
-
-
-	(?(DEFINE)
-		(?<alphaNumeric> [ \w \p{L} \p{N} ] )
-		(?<alphaNumericDashDot> [ \w \p{L} \p{N} \- \. ] )
-	)
 ` as TypedRegExp<IncrementArgMatchGroups>;
 
 // export const IncrementArgRegExpG = new RegExp(INCREMENT_ARG_REGEX, "g") as TypedRegExp<IncrementArgMatchGroups>;
@@ -70,17 +65,19 @@ export function parseIncrementArg(raw: Optional<string>, index?: number): Increm
 	if (raw) {
 		const match = IncrementArgRegExp.exec(raw);
 		if (match?.index === 0 && match[0].length === raw.length) {
-			const { key, decrement, increment, operator, value:val } = match.groups;
-			const stringValue = decrement || increment ? "1" : dequote(val);
+			const { key, decrement:opDec, increment:opInc, operator:op, value:val } = match.groups;
+			const stringValue = opDec || opInc ? "1" : dequote(val);
 			const value = +stringValue;
 			// ensure we have a valid number
 			if (isNaN(value)) return undefined;
+
+			const operator = (opDec ?? opInc ?? op!)[0]!.replace("\u2014", "-") as "-" | "+";
 
 			return Arg.from({
 				index,
 				isIncrement: true,
 				key,
-				operator: decrement?.[0] as "-" ?? increment?.[0] ?? operator![0],
+				operator,
 				raw,
 				value,
 			});

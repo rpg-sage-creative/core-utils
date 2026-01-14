@@ -1,7 +1,7 @@
 import type { IncrementArg, Optional, TypedRegExp } from "../index.js";
 type IncrementArgMatchGroups = {
     key: string;
-    decrement?: "--";
+    decrement?: "--" | "\u2014";
     increment?: "++";
     operator?: "+=" | "-=";
     value: string;

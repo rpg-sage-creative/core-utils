@@ -2,6 +2,7 @@ import { regex } from "regex";
 import type { KeyValueArg, Optional, TypedRegExp } from "../index.js";
 import { dequote, MisquotedContentRegExp, QuotedContentRegExp } from "../string/quotes/index.js";
 import { Arg } from "./Arg.js";
+import { AlphaNumericDashDotArgKeyRegExp, AlphaNumericRegExp } from "./regexp.js";
 
 export type KeyValueArgMatchGroups = {
 	key: string;
@@ -14,13 +15,7 @@ export type KeyValueArgMatchGroups = {
 export const KeyValueArgRegExp = regex()`
 	\b                                      # word break include ^ | \s; also other characters like brackets []
 
-	(?<key>
-		\g<alphaNumeric>                    # letters and numbers only (a leading dash is a FlagArg)
-		(
-			\g<alphaNumericDashDot>*        # letters, numbers, dashes, and periods
-			\g<alphaNumeric>                # letters and numbers only (a traling dash is a IncrementArg)
-		)*
-	)
+	(?<key> ${AlphaNumericDashDotArgKeyRegExp} )
 
 	=
 
@@ -36,14 +31,8 @@ export const KeyValueArgRegExp = regex()`
 		|
 
 		# naked
-		(?<nakedValue> \g<alphaNumeric>+ )
+		(?<nakedValue> ${AlphaNumericRegExp}+ )
 		\b                                  # word break include $ | \s; also other characters like brackets []
-	)
-
-
-	(?(DEFINE)
-		(?<alphaNumeric> [ \w \p{L} \p{N} ] )
-		(?<alphaNumericDashDot> [ \w \p{L} \p{N} \- \. ] )
 	)
 ` as TypedRegExp<KeyValueArgMatchGroups>;
 
