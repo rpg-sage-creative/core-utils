@@ -10,6 +10,7 @@ export function redactKeyValuePairs(content: Optional<string>, redactedCharacter
 		const kvPair = parseKeyValueArg(pair)!;
 		const key = "".padEnd(kvPair.key.length, redactedCharacter);
 		const value = "".padEnd(kvPair.value?.length ?? 0, redactedCharacter);
-		return `${key}="${value}"`;
+		const q = kvPair.isNaked ? '' : '"';
+		return key + "=" + q + value + q;
 	});
 }
