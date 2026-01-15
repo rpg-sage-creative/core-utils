@@ -90,6 +90,8 @@ export type KeyValueArg<
 		> = ArgBase<Key, Value, Nil> & {
 	/** is the arg a value key/value pair? */
 	isKeyValue: true;
+	/** is the raw key/value pair missing quotes */
+	isNaked?: true;
 };
 
 export type ValueArg<

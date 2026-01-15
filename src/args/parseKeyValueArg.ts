@@ -46,12 +46,13 @@ export function parseKeyValueArg(raw: Optional<string>, index?: number): KeyValu
 	if (raw) {
 		const match = KeyValueArgRegExp.exec(raw);
 		if (match?.index === 0 && match[0].length === raw.length) {
-			const { key, value:val } = match.groups;
+			const { key, value:val, nakedValue } = match.groups;
 			const value = dequote(val);
 
 			return Arg.from({
 				index,
 				isKeyValue: true,
+				isNaked: nakedValue ? true : undefined,
 				key,
 				raw,
 				value: value === "" ? null : value,

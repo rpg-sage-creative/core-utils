@@ -69,6 +69,8 @@ export type IncrementArg<Key extends string = string, Value extends number | str
 export type KeyValueArg<Key extends string = string, Value extends number | string = string, Nil extends null | undefined | never = null> = ArgBase<Key, Value, Nil> & {
     /** is the arg a value key/value pair? */
     isKeyValue: true;
+    /** is the raw key/value pair missing quotes */
+    isNaked?: true;
 };
 export type ValueArg<Value extends number | string = string, Nil extends null | undefined | never = null> = {
     /** raw arg text */
