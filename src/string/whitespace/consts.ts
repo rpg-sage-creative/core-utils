@@ -1,3 +1,4 @@
+/* Remember to use globalizeRegex if we switch any of these to using regex`` */
 
 export const WhitespaceRegExp = /\s+/;
 export const OptionalWhitespaceRegExp = /\s*/;

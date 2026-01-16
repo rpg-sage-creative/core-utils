@@ -1,4 +1,5 @@
 import { regex } from "regex";
+import { globalizeRegex } from "../../regex/globalizeRegex.js";
 import type { TypedRegExp } from "../../types/TypedRegExp.js";
 
 export type CodeBlockRegexGroups = {
@@ -37,9 +38,4 @@ export const AllCodeBlocksRegExp = regex()`
  * AllCodeBlocksRegExp with the global flag.
  * Intended for use with string.match(), string.matchAll(), and string.replace().
 */
-export const AllCodeBlocksRegExpG = new RegExp(AllCodeBlocksRegExp, "g") as TypedRegExp<CodeBlockRegexGroups>;
-
-/** Creates a new instance of AllCodeBlocksRegExpG when you need to track .lastIndex */
-export function createAllCodeBlocksRegExpG(): TypedRegExp<CodeBlockRegexGroups> {
-	return new RegExp(AllCodeBlocksRegExp, "g") as TypedRegExp<CodeBlockRegexGroups>;
-}
+export const AllCodeBlocksRegExpG = globalizeRegex<TypedRegExp<CodeBlockRegexGroups>>(AllCodeBlocksRegExp);

@@ -1,4 +1,5 @@
 import { regex } from "regex";
+import { globalizeRegex } from "../../regex/globalizeRegex.js";
 export const AllCodeBlocksRegExp = regex() `
 	(
 		(?<ticks> ((?<!\\)${"`"}){3} )
@@ -18,7 +19,4 @@ export const AllCodeBlocksRegExp = regex() `
 		((?<!\\)${"`"}){1}
 	)
 `;
-export const AllCodeBlocksRegExpG = new RegExp(AllCodeBlocksRegExp, "g");
-export function createAllCodeBlocksRegExpG() {
-    return new RegExp(AllCodeBlocksRegExp, "g");
-}
+export const AllCodeBlocksRegExpG = globalizeRegex(AllCodeBlocksRegExp);

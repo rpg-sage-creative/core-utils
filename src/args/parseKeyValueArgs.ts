@@ -1,9 +1,10 @@
+import { globalizeRegex } from "../regex/globalizeRegex.js";
 import type { Optional } from "../types/generics.js";
 import type { TypedRegExp } from "../types/TypedRegExp.js";
 import { KeyValueArgRegExp, parseKeyValueArg, type KeyValueArgMatchGroups } from "./parseKeyValueArg.js";
 import type { KeyValueArg } from "./types.js";
 
-export const KeyValueArgRegExpG = new RegExp(KeyValueArgRegExp, "g") as TypedRegExp<KeyValueArgMatchGroups>;
+export const KeyValueArgRegExpG = globalizeRegex<TypedRegExp<KeyValueArgMatchGroups>>(KeyValueArgRegExp);
 
 /** Returns an array of KeyValueArg values found in the given string. */
 export function parseKeyValueArgs<ValueType extends string = string>(input: Optional<string>): KeyValueArg<string, ValueType>[];

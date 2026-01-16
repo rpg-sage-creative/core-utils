@@ -18,7 +18,7 @@ export const FlagArgRegExp = regex()`
 	(?<key> ${AlphaNumericDashDotArgKeyRegExp} )
 ` as TypedRegExp<FlagArgMatchGroups>;
 
-// export const FlagArgRegExpG = new RegExp(FlagArgRegExp, "g") as TypedRegExp<FlagArgMatchGroups>;
+// export const FlagArgRegExpG = globalizeRegex(FlagArgRegExp);
 
 export function parseFlagArg<KeyType extends string = string>(raw: Optional<string>, index?: number): FlagArg<KeyType> | undefined;
 export function parseFlagArg(raw: Optional<string>, index?: number): FlagArg | undefined {

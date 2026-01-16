@@ -1,5 +1,6 @@
+import { globalizeRegex } from "../regex/globalizeRegex.js";
 import { KeyValueArgRegExp, parseKeyValueArg } from "./parseKeyValueArg.js";
-export const KeyValueArgRegExpG = new RegExp(KeyValueArgRegExp, "g");
+export const KeyValueArgRegExpG = globalizeRegex(KeyValueArgRegExp);
 export function parseKeyValueArgs(input) {
     if (!input)
         return [];

@@ -15,6 +15,4 @@ export declare const AllCodeBlocksRegExp: TypedRegExp<CodeBlockRegexGroups>;
  * AllCodeBlocksRegExp with the global flag.
  * Intended for use with string.match(), string.matchAll(), and string.replace().
 */
-export declare const AllCodeBlocksRegExpG: TypedRegExp<CodeBlockRegexGroups>;
-/** Creates a new instance of AllCodeBlocksRegExpG when you need to track .lastIndex */
-export declare function createAllCodeBlocksRegExpG(): TypedRegExp<CodeBlockRegexGroups>;
+export declare const AllCodeBlocksRegExpG: TypedRegExp<CodeBlockRegexGroups, string, string | undefined>;

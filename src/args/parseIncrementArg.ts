@@ -57,7 +57,7 @@ export const IncrementArgRegExp = regex()`
 	)
 ` as TypedRegExp<IncrementArgMatchGroups>;
 
-// export const IncrementArgRegExpG = new RegExp(INCREMENT_ARG_REGEX, "g") as TypedRegExp<IncrementArgMatchGroups>;
+// export const IncrementArgRegExpG = globalizeRegex(IncrementArgRegExp);
 
 export function parseIncrementArg<ValueType extends string = string>(raw: Optional<string>, index?: number): IncrementArg<string, ValueType> | undefined;
 export function parseIncrementArg<KeyType extends string = string, ValueType extends string = string>(raw: Optional<string>, index?: number): IncrementArg<KeyType, ValueType> | undefined;
