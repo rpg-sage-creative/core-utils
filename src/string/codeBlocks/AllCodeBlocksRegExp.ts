@@ -38,4 +38,4 @@ export const AllCodeBlocksRegExp = regex()`
  * AllCodeBlocksRegExp with the global flag.
  * Intended for use with string.match(), string.matchAll(), and string.replace().
 */
-export const AllCodeBlocksRegExpG = globalizeRegex<TypedRegExp<CodeBlockRegexGroups>>(AllCodeBlocksRegExp);
+export const AllCodeBlocksRegExpG = globalizeRegex(AllCodeBlocksRegExp);
