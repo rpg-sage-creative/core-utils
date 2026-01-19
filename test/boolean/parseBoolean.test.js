@@ -10,6 +10,7 @@ describe("boolean", () => {
 			{ input:"true", expected:true },
 			{ input:"1", expected:true },
 			{ input:"yes", expected:true },
+			{ input:"y", expected:true },
 
 			{ input:"TRUE", expected:undefined },
 			{ input:"TRUE", ignoreCase:true, expected:true },
@@ -21,6 +22,7 @@ describe("boolean", () => {
 			{ input:"false", expected:false },
 			{ input:"0", expected:false },
 			{ input:"no", expected:false },
+			{ input:"n", expected:false },
 
 			{ input:"FALSE", expected:undefined },
 			{ input:"FALSE", ignoreCase:true, expected:false },
@@ -33,9 +35,7 @@ describe("boolean", () => {
 			{ input:"", expected:undefined },
 			{ input:new Date(), expected:undefined },
 			{ input:Date.now(), expected:undefined },
-			{ input:"n", expected:undefined },
 			{ input:"nope", expected:undefined },
-			{ input:"y", expected:undefined },
 			{ input:"yess", expected:undefined },
 		];
 

@@ -1,13 +1,15 @@
+const trueStrings = ["true", "t", "yes", "y", "1"];
+const falseStrings = ["false", "f", "no", "n", "0"];
 export function parseBoolean(value, ignoreCase) {
-    if (value === true || value === 1 || value === "true" || value === "1" || value === "yes")
+    if (value === true || value === 1 || trueStrings.includes(value))
         return true;
-    if (value === false || value === 0 || value === "false" || value === "0" || value === "no")
+    if (value === false || value === 0 || falseStrings.includes(value))
         return false;
     if (ignoreCase === true && typeof (value) === "string") {
         const lower = value.toLowerCase();
-        if (lower === "true" || lower === "yes")
+        if (trueStrings.includes(lower))
             return true;
-        if (lower === "false" || lower === "no")
+        if (falseStrings.includes(lower))
             return false;
     }
     return undefined;

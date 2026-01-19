@@ -1,16 +1,19 @@
-/** Converts known /true/ values (true, 1, "true", "1", "yes") and /false/ values (false, 0, "false", "0", "no") to their boolean equivalent. */
+const trueStrings = ["true", "t", "yes", "y", "1"];
+const falseStrings = ["false", "f", "no", "n", "0"];
+
+/** Converts known /true/ values (true, 1, "true", "t", "1", "yes", "y") and /false/ values (false, 0, "false", "f", "0", "no", "n") to their boolean equivalent. */
 export function parseBoolean(value: unknown): boolean | undefined;
 
-/** Converts known /true/ values ("true", "1", "yes") and /false/ values ("false", "0", "no") to their boolean equivalent. Optionally ignoring case. */
+/** Converts known /true/ values ("true", "t", "1", "yes", "y") and /false/ values ("f", "0", "no", "n") to their boolean equivalent. Optionally ignoring case. */
 export function parseBoolean(value: string, ignoreCase: boolean): boolean | undefined;
 
 export function parseBoolean(value: unknown, ignoreCase?: boolean): boolean | undefined {
-	if (value === true || value === 1 || value === "true" || value === "1" || value === "yes") return true;
-	if (value === false || value === 0 || value === "false" || value === "0" || value === "no") return false;
+	if (value === true || value === 1 || trueStrings.includes(value as string)) return true;
+	if (value === false || value === 0 || falseStrings.includes(value as string)) return false;
 	if (ignoreCase === true && typeof(value) === "string") {
 		const lower = value.toLowerCase();
-		if (lower === "true" || lower === "yes") return true;
-		if (lower === "false" || lower === "no") return false;
+		if (trueStrings.includes(lower)) return true;
+		if (falseStrings.includes(lower)) return false;
 	}
 	return undefined;
 }
