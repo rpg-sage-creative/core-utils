@@ -7,6 +7,7 @@ describe("color", () => {
 		const tests = [
 			// hex
 			["#fff", false],
+			["#ffffff", false],
 			// missing )
 			["rgb(128,255,0", false],
 			["rgb(128,255,0.0,2", false],

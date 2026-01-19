@@ -9,6 +9,8 @@ describe("color", () => {
 			["#1234567", undefined, undefined],
 			["#123456789", undefined, undefined],
 
+			["0x000", undefined, "#000000"],
+			["0xfAf", undefined, "#ffaaff"],
 			["#000", undefined, "#000000"],
 			["#1111", undefined, "#11111111"],
 			["#aaAAaa", undefined, "#aaaaaa"],
