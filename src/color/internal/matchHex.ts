@@ -1,11 +1,22 @@
+import { regex } from "regex";
 import type { Optional } from "../../types/generics.js";
+import type { TypedRegExp } from "../../types/TypedRegExp.js";
 
 type Results = {
 	digits: string;
 	hasAlpha: boolean;
 };
 
-const hexRegex = /^(0x|#)(?<digits>[0-9a-f]{3,8})$/i;
+const HexRegExp = regex("i")`
+	^
+	(0x|\#)
+	(?<digits>
+		(
+			[0-9a-f]{3,4}  # rgb or rgba
+		){1,2}             # rrggbb or rrggbbaa
+	)
+	$
+` as TypedRegExp<{ digits:string; }>;
 
 /**
  * @internal
@@ -14,7 +25,7 @@ const hexRegex = /^(0x|#)(?<digits>[0-9a-f]{3,8})$/i;
 export function matchHex(value: Optional<string>): Results | undefined {
 	if (!value) return undefined; // NOSONAR
 
-	const match = hexRegex.exec(value.trim());
+	const match = HexRegExp.exec(value.trim());
 	const digits = match?.groups?.digits;
 	if (!digits) return undefined; // NOSONAR
 
