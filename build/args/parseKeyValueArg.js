@@ -1,4 +1,5 @@
 import { regex } from "regex";
+import { NumberRegExp } from "../index.js";
 import { dequote, MisquotedContentRegExp, QuotedContentRegExp } from "../string/quotes/index.js";
 import { Arg } from "./Arg.js";
 import { AlphaNumericDashDotArgKeyRegExp, AlphaNumericRegExp } from "./regexp.js";
@@ -19,8 +20,13 @@ export const KeyValueArgRegExp = regex() `
 		(?<misquotedValue> ${MisquotedContentRegExp} )
 
 		|
+		# naked +/- number
+		(?<nakedNumber> ${NumberRegExp} )
+		\b                                  # word break include $ | \s; also other characters like brackets []
 
-		# naked
+		|
+
+		# naked alpha-numeric
 		(?<nakedValue> ${AlphaNumericRegExp}+ )
 		\b                                  # word break include $ | \s; also other characters like brackets []
 	)
@@ -29,12 +35,12 @@ export function parseKeyValueArg(raw, index) {
     if (raw) {
         const match = KeyValueArgRegExp.exec(raw);
         if (match?.index === 0 && match[0].length === raw.length) {
-            const { key, value: val, nakedValue } = match.groups;
+            const { key, nakedNumber, nakedValue, value: val } = match.groups;
             const value = dequote(val);
             return Arg.from({
                 index,
                 isKeyValue: true,
-                isNaked: nakedValue ? true : undefined,
+                isNaked: nakedNumber || nakedValue ? true : undefined,
                 key,
                 raw,
                 value: value === "" ? null : value,

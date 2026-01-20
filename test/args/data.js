@@ -1,5 +1,11 @@
 /** [ { input:string; expected:KeyValueArg|null }] */
 const parseKeyValueArgTests = [
+	{ input:`a=.1`,           expected:undefined },
+	{ input:`a=1`,            expected:{ raw:`a=1`,   index:-1, isKeyValue:true, isNaked:true, key:`a`, value:`1` } },
+	{ input:`a=1.0`,          expected:{ raw:`a=1.0`, index:-1, isKeyValue:true, isNaked:true, key:`a`, value:`1.0` } },
+	{ input:`a=+2`,           expected:{ raw:`a=+2`,  index:-1, isKeyValue:true, isNaked:true, key:`a`, value:`+2` } },
+	{ input:`a=-2`,           expected:{ raw:`a=-2`,  index:-1, isKeyValue:true, isNaked:true, key:`a`, value:`-2` } },
+
 	{ input:`a=b`,            expected:{ raw:`a=b`, index:-1, isKeyValue:true, isNaked:true, key:`a`, value:`b` } },
 	{ input:`a.1=b`,          expected:{ raw:`a.1=b`, index:-1, isKeyValue:true, isNaked:true, key:`a.1`, value:`b` } },
 	{ input:`a-1=b`,          expected:{ raw:`a-1=b`, index:-1, isKeyValue:true, isNaked:true, key:`a-1`, value:`b` } },
