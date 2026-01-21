@@ -10,7 +10,8 @@ import type { ValidatorArg } from "../types.js";
  * @returns
  */
 export function logAndReturn<T>(from: "argv" | "env" | "json", key: string, value: ValidatorArg): T {
-	const outValue = key.endsWith("Token") ? (value as string).split("").map(() => "*").join("") : value;
+	const shouldMask = key.endsWith("Token") || key.includes("AccessKey");
+	const outValue = shouldMask ? (value as string).split("").map(() => "*").join("") : value;
 	verbose(`Environment Variable (${from}): ${key}=${stringifyJson(outValue)}`);
 	return value as T;
 }
