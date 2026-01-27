@@ -4,11 +4,13 @@ import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 import type { ValidatorArg } from "./types.js";
 
-const _ports: Record<string, number> = { };
+const _ports: Record<string, number | null> = { };
 
 /** Gets the port for the server by looking for key: `${server.toLowerCase()}Port` */
-export function getPort(server: string, ignoreMissing?: boolean): number {
-	if (!_ports[server]) {
+export function getPort(server: string): number;
+export function getPort(server: string, ignoreMissing: boolean): number | undefined;
+export function getPort(server: string, ignoreMissing?: boolean): number | undefined {
+	if (!(server in _ports)) {
 		const numberValidator = (value: Optional<ValidatorArg>): value is number | `${number}` => {
 			if (typeof(value) === "number" || isWholeNumberString(value)) {
 				const port = +value!;
@@ -23,7 +25,7 @@ export function getPort(server: string, ignoreMissing?: boolean): number {
 
 		const key = `${server.toLowerCase()}Port`;
 		const value = getter<number | `${number}`>(numberValidator, key);
-		_ports[server] = value ? +value : 0;
+		_ports[server] = value ? +value : null;
 	}
-	return _ports[server];
+	return _ports[server] ?? undefined;
 }

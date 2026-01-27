@@ -3,7 +3,7 @@ import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 const _ports = {};
 export function getPort(server, ignoreMissing) {
-    if (!_ports[server]) {
+    if (!(server in _ports)) {
         const numberValidator = (value) => {
             if (typeof (value) === "number" || isWholeNumberString(value)) {
                 const port = +value;
@@ -14,7 +14,7 @@ export function getPort(server, ignoreMissing) {
         const getter = ignoreMissing ? getFromProcessSafely : getFromProcess;
         const key = `${server.toLowerCase()}Port`;
         const value = getter(numberValidator, key);
-        _ports[server] = value ? +value : 0;
+        _ports[server] = value ? +value : null;
     }
-    return _ports[server];
+    return _ports[server] ?? undefined;
 }

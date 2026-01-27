@@ -1,4 +1,4 @@
-import { getBuildInfo, getCodeName, getDataRoot, getEnvironmentName, getId } from "../../build/index.js";
+import { getBuildInfo, getCodeName, getDataRoot, getEnvironmentName, getId, getIds, tagLiterals } from "../../build/index.js";
 
 const hasArgs = process.argv.slice(3).length > 0;
 
@@ -36,11 +36,34 @@ describe("env", () => {
 		];
 
 		idKeys.forEach(idKey => {
-			test(`getId()`, () => {
-				expect(() => getId(idKey)).toThrow(`Environment Variable Missing: ${idKey}`);
+			test(tagLiterals`getId(${idKey}) throws`, () => {
+				expect(() => getId(idKey)).toThrow(`Environment Variable Missing: ${idKey}Id`);
 			});
 		});
 
+		idKeys.forEach(idKey => {
+			test(tagLiterals`getId(${idKey}, true) === undefined`, () => {
+				expect(() => getId(idKey, true)).not.toThrow();
+				expect(getId(idKey, true)).toBeUndefined();
+			});
+		});
+
+		const idsKeys = [
+			"superAdmin"
+		];
+
+		idsKeys.forEach(idsKey => {
+			test(tagLiterals`getIds(${idsKey}) throws`, () => {
+				expect(() => getIds(idsKey)).toThrow(`Environment Variable Missing: ${idsKey}Ids`);
+			});
+		});
+
+		idsKeys.forEach(idsKey => {
+			test(tagLiterals`getIds(${idsKey}, true) === []`, () => {
+				expect(() => getIds(idsKey, true)).not.toThrow();
+				expect(getIds(idsKey, true)).toEqual([]);
+			});
+		});
 	}
 
 });

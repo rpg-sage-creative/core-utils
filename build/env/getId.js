@@ -1,12 +1,14 @@
 import { isNonNilSnowflake } from "../snowflake/isNonNilSnowflake.js";
 import { getFromProcess } from "./getFromProcess.js";
+import { getFromProcessSafely } from "./getFromProcessSafely.js";
 const _ids = {};
-export function getId(name) {
-    if (!_ids[name]) {
+export function getId(name, ignoreMissing) {
+    if (!(name in _ids)) {
         const snowflakeValidator = (value) => {
             return typeof (value) === "string" && isNonNilSnowflake(value);
         };
-        _ids[name] = getFromProcess(snowflakeValidator, `${name}Id`);
+        const getter = ignoreMissing ? getFromProcessSafely : getFromProcess;
+        _ids[name] = getter(snowflakeValidator, `${name}Id`) ?? null;
     }
-    return _ids[name];
+    return _ids[name] ?? undefined;
 }
