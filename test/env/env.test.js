@@ -14,10 +14,6 @@ describe("env", () => {
 			expect(getCodeName).toThrow("Environment Variable Missing: codeName,NODE_ENV");
 		});
 
-		test(`getBuildInfo()`, async () => {
-			expect(await getBuildInfo()).toBeDefined();
-		});
-
 		test(`getDataRoot()`, () => {
 			expect(getDataRoot).toThrow("Environment Variable Missing: dataRoot");
 		});

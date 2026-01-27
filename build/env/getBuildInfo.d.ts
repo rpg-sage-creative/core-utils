@@ -9,7 +9,11 @@ type BuildInfo = {
     buildTs: number;
     buildDate: string;
     author: string;
-    rscLibs: BuildInfo[];
+    rscLibs: {
+        name: string;
+        version: string;
+    }[];
 };
+/** @deprecated use readRepo() instead. */
 export declare function getBuildInfo(): Promise<BuildInfo>;
 export {};
