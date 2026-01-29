@@ -12,7 +12,7 @@ export const AlphaNumericDashDotArgKeyRegExp = regex()`
 	(
 		\g<alphaNumericDashDot>*        # letters, numbers, dashes, and periods
 		\g<alphaNumeric>                # letters and numbers only (a traling dash is a IncrementArg)
-	)*
+	)?
 
 
 	(?(DEFINE)
