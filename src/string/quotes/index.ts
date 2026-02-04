@@ -4,6 +4,7 @@ export * from "./isQuoted.js";
 export * from "./isQuotedOrMisquoted.js";
 export * from "./MisquotedContentRegExp.js";
 export * from "./MisquotedNumberRegExp.js";
+export * from "./PipedContentRegExp.js";
 export * from "./quote.js";
 export * from "./QuotedContentRegExp.js";
 export * from "./QuotedNumberRegExp.js";
