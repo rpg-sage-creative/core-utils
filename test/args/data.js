@@ -95,6 +95,10 @@ const parseKeyValueArgsTests = [
 	{ input:`[macroName  arg2='"blah"arg1=0']`, expected:[
 		{ raw:`arg2='"blah"arg1=0'`, index:-1, isKeyValue:true, key:`arg2`, value:"\"blah\"arg1=0" },
 	] },
+	{ input:`[macroName arg1=||0|| arg2="||blah||"]`, expected:[
+		{ raw:`arg1=||0||`, index:-1, isKeyValue:true, isNaked:true, key:`arg1`, value:"||0||" },
+		{ raw:`arg2="||blah||"`, index:-1, isKeyValue:true, key:`arg2`, value:"||blah||" },
+	] },
 ];
 
 const isKeyValueArgTests = [
