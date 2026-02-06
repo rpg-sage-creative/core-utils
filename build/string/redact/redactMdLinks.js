@@ -1,11 +1,10 @@
 import { regex } from "regex";
-const MarkdownLinkRegExp = regex("gi") `
+const MarkdownLinkRegExpG = regex("gi") `
 	\[
 		(?<label> [^\]]+ )
 	\]
 	\(
 		(?:
-
 			<
 				(?<escapedUrl> (s?ftp|https?)://[^\>]+ )
 			>
@@ -14,16 +13,20 @@ const MarkdownLinkRegExp = regex("gi") `
 		)
 	\)
 `;
-export function redactMdLinks(content, redactedCharacter = "*") {
+export function redactMdLinks(content, charOrOpts) {
     if (!content)
         return content;
-    return content.replace(MarkdownLinkRegExp, (_, label, escapedUrl, unescapedUrl) => {
-        const rLabel = "".padEnd(label.length, redactedCharacter);
+    const { char = "*", complete, labelChar = char, punctuationChar = char, urlChar = char } = typeof (charOrOpts) === "string"
+        ? { char: charOrOpts }
+        : charOrOpts ?? {};
+    const [rLeftBracket, rRightBracket, rLeftParen, rRightParen, rLeftAngle, rRightAngle] = complete ? "".padEnd(6, punctuationChar) : "[]()<>";
+    return content.replace(MarkdownLinkRegExpG, (_, label, escapedUrl, unescapedUrl) => {
+        const rLabel = "".padEnd(label.length, labelChar);
         if (escapedUrl) {
-            const rEscapedUrl = "".padEnd(escapedUrl.length, redactedCharacter);
-            return `[${rLabel}](<${rEscapedUrl}>)`;
+            const rEscapedUrl = "".padEnd(escapedUrl.length, urlChar);
+            return rLeftBracket + rLabel + rRightBracket + rLeftParen + rLeftAngle + rEscapedUrl + rRightAngle + rRightParen;
         }
-        const rUnescapedUrl = "".padEnd(unescapedUrl.length, redactedCharacter);
-        return `[${rLabel}](${rUnescapedUrl})`;
+        const rUnescapedUrl = "".padEnd(unescapedUrl.length, urlChar);
+        return rLeftBracket + rLabel + rRightBracket + rLeftParen + rUnescapedUrl + rRightParen;
     });
 }
