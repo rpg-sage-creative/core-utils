@@ -1,5 +1,4 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
-import { ArgsManager } from "../../build/index.js";
+import { ArgsManager, tagLiterals } from "../../build/index.js";
 
 describe("args", () => {
 	describe("ArgsManager", () => {

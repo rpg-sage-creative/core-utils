@@ -1,5 +1,5 @@
-import { WhitespaceRegExpG } from "@rsc-utils/json-utils";
 import { HorizontalWhitespaceRegExpG, } from "./consts.js";
+import { WhitespaceRegExpG } from "./WhitespaceRegExpG.js";
 export function cleanWhitespace(value, options) {
     if (!value)
         return value;

@@ -1,4 +1,4 @@
-import { stringifyJson } from "@rsc-utils/json-utils";
+import { stringifyJson } from "../json/stringifyJson.js";
 import { isErrorLike } from "../types/typeGuards/isErrorLike.js";
 export function formatArg(arg) {
     if (isErrorLike(arg)) {

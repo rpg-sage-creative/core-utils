@@ -1,5 +1,4 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
-import { parseKeyValueArg } from "../../build/index.js";
+import { parseKeyValueArg, tagLiterals } from "../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("args", () => {

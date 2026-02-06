@@ -1,4 +1,4 @@
-import { isDate } from "util/types";
+import { isDate } from "node:util/types";
 import { Hemisphere } from "./Hemisphere.js";
 import type { Season } from "./Season.js";
 import { TemperateSeason } from "./TemperateSeason.js";

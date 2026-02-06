@@ -1,5 +1,4 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
-import { parseBoolean } from "../../build";
+import { parseBoolean, tagLiterals } from "../../build";
 
 describe("boolean", () => {
 	describe("parseBoolean", () => {

@@ -1,4 +1,4 @@
-import { isPromise } from "util/types";
+import { isPromise } from "node:util/types";
 import { warn } from "../../console/index.js";
 export async function findAsync(array, predicate, thisArg) {
     for (let index = 0, len = array.length; index < len; index++) {

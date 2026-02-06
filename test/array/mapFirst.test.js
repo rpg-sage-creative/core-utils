@@ -1,5 +1,4 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
-import { isDefined, mapFirst } from "../../build/index.js";
+import { isDefined, mapFirst, tagLiterals } from "../../build/index.js";
 
 describe("array", () => {
 	describe("mapFirst", () => {

@@ -1,5 +1,4 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
-import { parseIncrementArg } from "../../build/index.js";
+import { parseIncrementArg, tagLiterals } from "../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("args", () => {

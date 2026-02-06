@@ -1,4 +1,4 @@
-import { navigateJson } from "@rsc-utils/json-utils";
+import { navigateJson } from "../json/navigateJson.js";
 
 /**
  * Splits the key into dot notation and looks through the args until it finds a value that matches the key.

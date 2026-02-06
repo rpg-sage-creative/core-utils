@@ -1,4 +1,4 @@
-import { navigateJson } from "@rsc-utils/json-utils";
+import { navigateJson } from "../json/navigateJson.js";
 function findByKeyPath(args, key) {
     for (const arg of args) {
         const navResult = navigateJson(arg, key);

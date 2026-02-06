@@ -1,4 +1,4 @@
-import { isDate } from "util/types";
+import { isDate } from "node:util/types";
 export function sortPrimitive(a, b) {
     if (a === b)
         return 0;

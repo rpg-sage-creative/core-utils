@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync } from "node:fs";
 export function readDataFile(filePath, orFileName) {
     const paths = [
         filePath,

@@ -1,5 +1,5 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
 import { numberToHex } from "../../build/color/internal/toHex.js";
+import { tagLiterals } from "../../build/index.js";
 
 describe("color", () => {
 	describe("numberToHex", () => {

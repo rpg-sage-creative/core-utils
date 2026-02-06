@@ -1,4 +1,4 @@
-import { isDate } from "util/types";
+import { isDate } from "node:util/types";
 import type { Optional } from "../../types/generics.js";
 import type { SortResult } from "./types.js";
 

@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync } from "fs";
+import { existsSync, mkdirSync } from "node:fs";
 import type { Optional } from "../types/generics.js";
 import { getFromProcess } from "./getFromProcess.js";
 import type { ValidatorArg } from "./types.js";

@@ -1,7 +1,7 @@
 import { readdir, readFile, stat } from "node:fs";
-import { readCommit, type CommitData } from "./readCommit.js";
-import { parseJson } from "@rsc-utils/json-utils";
+import { parseJson } from "../json/parseJson.js";
 import { readBranchName } from "./readBranchName.js";
+import { readCommit, type CommitData } from "./readCommit.js";
 
 type PackageJson = {
 	name: string;

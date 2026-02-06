@@ -1,4 +1,4 @@
-import { isPromise } from "util/types";
+import { isPromise } from "node:util/types";
 import { warn } from "../../console/index.js";
 import type { Awaitable } from "../../types/generics.js";
 import { PercentLogger } from "../../progress/PercentLogger.js";

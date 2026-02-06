@@ -1,4 +1,4 @@
-import { isPrimitive } from "@rsc-utils/json-utils";
+import { isPrimitive } from "../types/typeGuards/isPrimitive.js";
 
 type NullifyOption = {
 	/** set all keys to null */

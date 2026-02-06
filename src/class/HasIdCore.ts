@@ -2,7 +2,7 @@ import type { Snowflake } from "../snowflake/types.js";
 import type { Matcher } from "../types/Matcher.js";
 import type { UUID } from "../uuid/types.js";
 import { HasCore, type Core } from "./HasCore.js";
-import { getIdMatcher } from "./getIdMatcher.js";
+import { getIdMatcher } from "../id-utils/getIdMatcher.js";
 
 //#region types
 

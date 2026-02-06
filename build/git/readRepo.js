@@ -1,7 +1,7 @@
 import { readdir, readFile, stat } from "node:fs";
-import { readCommit } from "./readCommit.js";
-import { parseJson } from "@rsc-utils/json-utils";
+import { parseJson } from "../json/parseJson.js";
 import { readBranchName } from "./readBranchName.js";
+import { readCommit } from "./readCommit.js";
 async function readPackageJson(repoPath) {
     return new Promise(resolve => readFile(`${repoPath}/package.json`, null, (error, buffer) => resolve(error ? undefined : parseJson(String(buffer))))).catch(() => undefined);
 }

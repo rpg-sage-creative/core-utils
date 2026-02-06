@@ -1,6 +1,6 @@
-import { WhitespaceRegExpG } from "@rsc-utils/json-utils";
 import type { Optional, OrNull, OrUndefined } from "../../types/generics.js";
 import { HorizontalWhitespaceRegExpG, } from "./consts.js";
+import { WhitespaceRegExpG } from "./WhitespaceRegExpG.js";
 
 
 type Options = {

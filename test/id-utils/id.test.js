@@ -1,5 +1,4 @@
-import { tagLiterals } from "@rsc-utils/template-literal-utils";
-import { compressId, decompressId, randomSnowflake, randomUuid } from "../build/index.js";
+import { compressId, decompressId, randomSnowflake, randomUuid, tagLiterals } from "../../build/index.js";
 
 describe("id", () => {
 	const maxUuid  = "ffffffff-ffff-ffff-ffff-ffffffffffff";

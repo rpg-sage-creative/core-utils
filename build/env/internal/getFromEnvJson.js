@@ -1,6 +1,6 @@
-import { parseJson } from "@rsc-utils/json-utils";
-import { readFileSync } from "fs";
+import { readFileSync } from "node:fs";
 import { error } from "../../console/loggers/error.js";
+import { parseJson } from "../../json/parseJson.js";
 let _json;
 export function getFromEnvJson(key) {
     if (!_json) {

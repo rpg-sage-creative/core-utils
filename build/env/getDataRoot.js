@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync } from "fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { getFromProcess } from "./getFromProcess.js";
 const pathMap = new Map();
 export function getDataRoot(childPath, ensureChildExists) {

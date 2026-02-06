@@ -1,4 +1,4 @@
-import { isPromise } from "util/types";
+import { isPromise } from "node:util/types";
 import { warn } from "../../console/index.js";
 export async function filterAsync(array, predicate, thisArg) {
     const constructor = array.constructor;

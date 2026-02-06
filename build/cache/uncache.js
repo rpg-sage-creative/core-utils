@@ -1,4 +1,4 @@
-import { isPrimitive } from "@rsc-utils/json-utils";
+import { isPrimitive } from "../types/typeGuards/isPrimitive.js";
 function attempt(object, fnName) {
     if (typeof (object?.[fnName]) === "function") {
         object[fnName]();
