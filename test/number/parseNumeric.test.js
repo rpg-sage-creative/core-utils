@@ -1,5 +1,4 @@
-import { parseNumeric, parseNumericString } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { parseNumeric, parseNumericString, tagLiterals } from "../../build/index.js";
 
 describe("number", () => {
 	/** @type {[string, number | bigint, string][]} [input, output, type] */
@@ -21,7 +20,7 @@ describe("number", () => {
 
 	describe("parseNumeric", () => {
 		tests.forEach(([input, output]) => {
-			test(`parseNumeric(${toString(input)}) === ${toString(output)}`, () => {
+			test(tagLiterals`parseNumeric(${input}) === ${output}`, () => {
 				expect(parseNumeric(input)).toBe(output);
 			});
 		});
@@ -29,7 +28,7 @@ describe("number", () => {
 
 	describe("parseNumericString", () => {
 		tests.forEach(([input, output, type]) => {
-			test(`parseNumericString(${toString(input)}).type === ${type}`, () => {
+			test(tagLiterals`parseNumericString(${input}).type === ${type}`, () => {
 				expect(parseNumericString(input)?.type).toBe(type);
 			});
 		});

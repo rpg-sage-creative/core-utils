@@ -1,5 +1,4 @@
-import type { Optional } from "../types/generics.js";
-import type { TypedRegExp } from "../types/TypedRegExp.js";
+import type { Optional, TypedRegExp } from "@rsc-utils/type-utils";
 import type { FlagArg } from "./types.js";
 type FlagArgMatchGroups = {
     key: string;

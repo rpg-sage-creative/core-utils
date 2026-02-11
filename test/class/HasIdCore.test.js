@@ -1,7 +1,8 @@
-import { HasIdCore } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { HasIdCore, tagLiterals } from "../../build/index.js";
 
-class HasIdCoreTester extends HasIdCore { }
+class HasIdCoreTester extends HasIdCore {
+	get [Symbol.toStringTag]() { return "HasIdCoreTester"; }
+}
 
 describe("class", () => {
 	describe("HasIdCore", () => {
@@ -23,19 +24,19 @@ describe("class", () => {
 
 		describe("HasIdCore<snowflake>.equals", () => {
 			tests.forEach(([input, equalsSnowflakeCore]) => {
-				test(`hasSnowflakeCore.equals(${toString(input)}) === ${equalsSnowflakeCore}`, () => expect(hasSnowflakeCore.equals(input)).toBe(equalsSnowflakeCore));
+				test(tagLiterals`hasSnowflakeCore.equals(${input}) === ${equalsSnowflakeCore}`, () => expect(hasSnowflakeCore.equals(input)).toBe(equalsSnowflakeCore));
 			});
 		});
 
 		describe("HasIdCore<uuid>.equals", () => {
 			tests.forEach(([input, equalsSnowflakeCore, equalsUuidCore]) => {
-				test(`hasUuidCore.equals(${toString(input)}) === ${equalsUuidCore}`, () => expect(hasUuidCore.equals(input)).toBe(equalsUuidCore));
+				test(`hasUuidCore.equals(${input}) === ${equalsUuidCore}`, () => expect(hasUuidCore.equals(input)).toBe(equalsUuidCore));
 			});
 		});
 
 		describe("HasIdCore<multi>.equals", () => {
 			tests.forEach(([input, equalsSnowflakeCore, equalsUuidCore, equalsMultiCore]) => {
-				test(`hasMultiCore.equals(${toString(input)}) === ${equalsMultiCore}`, () => expect(hasMultiCore.equals(input)).toBe(equalsMultiCore));
+				test(`hasMultiCore.equals(${input}) === ${equalsMultiCore}`, () => expect(hasMultiCore.equals(input)).toBe(equalsMultiCore));
 			});
 		});
 	});

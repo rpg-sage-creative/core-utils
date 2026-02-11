@@ -1,5 +1,4 @@
-import { unwrap } from "../../../build/index.js";
-import { toString } from "../../toString.mjs";
+import { tagLiterals, unwrap } from "../../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("string", () => {
@@ -8,7 +7,7 @@ describe("string", () => {
 
 			const tests = getTests();
 			tests.forEach(({ unwrapped, chars, wrapped }) => {
-				test(`unwrap(${toString(wrapped)}, ${toString(chars)}) === ${toString(unwrapped)}`, () => {
+				test(tagLiterals`unwrap(${wrapped}, ${chars}) === ${unwrapped}`, () => {
 					expect(unwrap(wrapped, chars)).toBe(unwrapped);
 				})
 			});

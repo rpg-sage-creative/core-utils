@@ -1,5 +1,4 @@
 import { getCodeBlockSafeSplitter, tagLiterals } from "../../../build/index.js";
-import { toString } from "../../toString.mjs";
 
 describe("string", () => {
 	describe("codeBlocks", () => {

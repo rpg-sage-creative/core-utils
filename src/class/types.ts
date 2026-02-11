@@ -1,4 +1,4 @@
-import type { Matcher } from "../types/Matcher.js";
+import type { Matcher } from "@rsc-utils/type-utils";
 
 /** A core with a name */
 export type NameCore = {

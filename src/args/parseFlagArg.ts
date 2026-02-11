@@ -1,6 +1,5 @@
+import type { Optional, TypedRegExp } from "@rsc-utils/type-utils";
 import { regex } from "regex";
-import type { Optional } from "../types/generics.js";
-import type { TypedRegExp } from "../types/TypedRegExp.js";
 import { Arg } from "./Arg.js";
 import { AlphaNumericDashDotArgKeyRegExp } from "./regexp.js";
 import type { FlagArg } from "./types.js";

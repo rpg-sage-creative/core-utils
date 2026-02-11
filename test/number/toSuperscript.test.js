@@ -1,5 +1,4 @@
-import { toSuperscript } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { tagLiterals, toSuperscript } from "../../build/index.js";
 
 describe("number", () => {
 	/** @type {[number|bigint,string][]} [input, output] */
@@ -12,7 +11,7 @@ describe("number", () => {
 
 	describe("toSuperscript", () => {
 		tests.forEach(([input, output]) => {
-			test(`toSuperscript(${toString(input)}) === ${toString(output)}`, () => {
+			test(tagLiterals`toSuperscript(${input}) === ${output}`, () => {
 				expect(toSuperscript(input)).toBe(output);
 			});
 		});

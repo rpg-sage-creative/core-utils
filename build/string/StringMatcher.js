@@ -1,8 +1,8 @@
+import { isBoolean, isDefined, isNullOrUndefined, isString } from "@rsc-utils/type-utils";
+import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "@rsc-utils/whitespace-utils";
 import { escapeRegex } from "../regex/escapeRegex.js";
-import { isBoolean, isDefined, isNullOrUndefined, isString } from "../types/index.js";
 import { isNotBlank } from "./blank/index.js";
 import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
-import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "./whitespace/index.js";
 export class StringMatcher {
     constructor(value, cleanOptions) {
         this.value = isDefined(value) ? String(value) : value;

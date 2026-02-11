@@ -1,5 +1,4 @@
-import { nth } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { nth, tagLiterals } from "../../build/index.js";
 
 describe("number", () => {
 	describe("nth", () => {
@@ -19,7 +18,7 @@ describe("number", () => {
 		];
 
 		tests.forEach(([input, output]) => {
-			test(`nth(${input}) === ${toString(output)}`, () => {
+			test(tagLiterals`nth(${input}) === ${output}`, () => {
 				expect(nth(input)).toBe(output);
 			});
 		});

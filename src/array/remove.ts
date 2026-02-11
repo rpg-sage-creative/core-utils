@@ -1,4 +1,4 @@
-import { isDefined } from "../types/typeGuards/isDefined.js";
+import { isDefined } from "@rsc-utils/type-utils";
 import { removeAt } from "./removeAt.js";
 
 /** Removes the values that return a truthy value, returning values that are defined (!null && !undefined). */

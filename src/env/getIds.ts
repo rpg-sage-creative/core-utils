@@ -1,6 +1,5 @@
-import { isNonNilSnowflake } from "../snowflake/isNonNilSnowflake.js";
-import type { Snowflake } from "../snowflake/types.js";
-import type { Optional } from "../types/generics.js";
+import { isNonNilSnowflake, type Snowflake } from "@rsc-utils/id-utils";
+import type { Optional } from "@rsc-utils/type-utils";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 

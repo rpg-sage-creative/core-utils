@@ -1,5 +1,5 @@
-import { stringifyJson } from "../json/stringifyJson.js";
-import { isErrorLike } from "../types/typeGuards/isErrorLike.js";
+import { stringifyJson } from "@rsc-utils/json-utils";
+import { isErrorLike } from "@rsc-utils/type-utils";
 export function formatArg(arg) {
     if (isErrorLike(arg)) {
         const message = [arg.name, arg.message].filter(s => s).join(": ");

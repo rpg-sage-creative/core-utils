@@ -1,5 +1,5 @@
+import type { Optional } from "@rsc-utils/type-utils";
 import { regex } from "regex";
-import type { Optional } from "../../types/generics.js";
 import type { RedactOptions } from "./RedactOptions.js";
 
 const MarkdownLinkRegExpG = regex("gi")`

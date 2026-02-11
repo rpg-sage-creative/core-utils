@@ -1,5 +1,4 @@
-import { truncate, ELLIPSIS } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { ELLIPSIS, tagLiterals, truncate } from "../../build/index.js";
 
 describe("string", () => {
 	describe("truncate", () => {
@@ -10,7 +9,7 @@ describe("string", () => {
 			{ input:`1234567890`, length:5, options:"...", expected:`12...` },
 		];
 		tests.forEach(({ input, length, options, expected }) => {
-			test(`truncate(${toString(input)}, ${toString(length)}, ${toString(options)}) === ${toString(expected)}`, () => {
+			test(tagLiterals`truncate(${input}, ${length}, ${options}) === ${expected}`, () => {
 				expect(truncate(input, length, options)).toBe(expected);
 			});
 		});

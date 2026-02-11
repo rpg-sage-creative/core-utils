@@ -1,4 +1,4 @@
-import { HasCache } from "../cache/HasCache.js";
+import { HasCache } from "@rsc-utils/cache-utils";
 export class HasCore extends HasCache {
     core;
     constructor(core) {

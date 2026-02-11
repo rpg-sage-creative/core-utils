@@ -1,4 +1,4 @@
-import type { Awaitable } from "../../types/generics.js";
+import type { Awaitable } from "@rsc-utils/type-utils";
 /**
  * Uses asynchronous logic to filter an array.
  * Exceptions in the predicate will be sent to core-utils::warn and considered "falsey".

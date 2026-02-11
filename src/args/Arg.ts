@@ -1,6 +1,6 @@
+import type { Optional } from "@rsc-utils/type-utils";
 import { regex } from "regex";
 import { quote } from "../string/index.js";
-import type { Optional } from "../types/generics.js";
 import type { FlagArg, IncrementArg, KeyValueArg } from "./types.js";
 
 type Args = {

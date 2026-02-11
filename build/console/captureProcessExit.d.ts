@@ -1,4 +1,4 @@
-import type { Awaitable } from "../types/generics.js";
+import type { Awaitable } from "@rsc-utils/type-utils";
 type SignalEventName = 
 /** interrupt from keyboard (such as Ctrl+C): do normal shutdown and cleanup processes */
 "SIGINT"

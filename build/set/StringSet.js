@@ -1,4 +1,4 @@
-import { wrapSetIterator } from "../iterator/wrapSetIterator.js";
+import { wrapSetIterator } from "@rsc-utils/iterator-utils";
 export class StringSet {
     _values = {};
     constructor(values) {

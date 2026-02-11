@@ -1,4 +1,4 @@
-import type { OrUndefined } from "../types/generics.js";
+import type { OrUndefined } from "@rsc-utils/type-utils";
 import { sortPrimitive } from "./sort/sortPrimitive.js";
 
 /** Remove the value at the given index using .splice(). */

@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 /**
  * Used to wrap a piece of text, usually with (), [], {}, or <>.
  * splitChars() is used to split/convert the given chars into left/right.

@@ -1,5 +1,5 @@
-import { wrapSetIterator } from "../iterator/wrapSetIterator.js";
-import type { Optional } from "../types/generics.js";
+import { wrapSetIterator } from "@rsc-utils/iterator-utils";
+import type { Optional } from "@rsc-utils/type-utils";
 
 type SetLike<T> = {
 	size: number;

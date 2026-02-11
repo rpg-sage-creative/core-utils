@@ -1,6 +1,5 @@
-import type { Snowflake } from "../snowflake/types.js";
-import type { Matcher } from "../types/Matcher.js";
-import type { UUID } from "../uuid/types.js";
+import { type Snowflake, type UUID } from "@rsc-utils/id-utils";
+import type { Matcher } from "@rsc-utils/type-utils";
 import { HasCore, type Core } from "./HasCore.js";
 /** Represents an object that has an ID. */
 type HasId<IdType extends string = string> = {

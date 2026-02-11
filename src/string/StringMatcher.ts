@@ -1,9 +1,9 @@
+import { isBoolean, isDefined, isNullOrUndefined, isString } from "@rsc-utils/type-utils";
+import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "@rsc-utils/whitespace-utils";
 import type { Matcher, MatcherResolvable, Optional } from "../index.js";
 import { escapeRegex } from "../regex/escapeRegex.js";
-import { isBoolean, isDefined, isNullOrUndefined, isString } from "../types/index.js";
 import { isNotBlank } from "./blank/index.js";
 import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
-import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "./whitespace/index.js";
 
 type StringMatcherToRegExpOptions = {
 	/** if set to true then the regex begins with ^ and ends with $; default value is true */

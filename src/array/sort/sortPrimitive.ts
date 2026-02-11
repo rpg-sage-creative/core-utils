@@ -1,5 +1,5 @@
+import type { Optional } from "@rsc-utils/type-utils";
 import { isDate } from "node:util/types";
-import type { Optional } from "../../types/generics.js";
 import type { SortResult } from "./types.js";
 
 /**

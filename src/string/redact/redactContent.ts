@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 import { redactCodeBlocks, type RedactCodeBlocksOptions } from "./redactCodeBlocks.js";
 import { redactKeyValuePairs, type RedactKeyValuePairsOptions } from "./redactKeyValuePairs.js";
 import { redactMdLinks, type RedactMdLinksOptions } from "./redactMdLinks.js";

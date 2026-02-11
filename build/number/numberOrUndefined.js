@@ -1,4 +1,4 @@
-import { isFiniteNumber } from "../types/index.js";
+import { isFiniteNumber } from "@rsc-utils/type-utils";
 import { isNumberString } from "./isNumberString.js";
 export function numberOrUndefined(value) {
     if (value === null || value === undefined)

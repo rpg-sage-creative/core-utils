@@ -1,4 +1,4 @@
-import type { TypedRegExp } from "../../types/TypedRegExp.js";
+import type { TypedRegExp } from "@rsc-utils/type-utils";
 export type CodeBlockRegexGroups = {
     ticks: string;
     content: string;

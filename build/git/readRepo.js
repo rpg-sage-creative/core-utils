@@ -1,5 +1,5 @@
+import { parseJson } from "@rsc-utils/json-utils";
 import { readdir, readFile, stat } from "node:fs";
-import { parseJson } from "../json/parseJson.js";
 import { readBranchName } from "./readBranchName.js";
 import { readCommit } from "./readCommit.js";
 async function readPackageJson(repoPath) {

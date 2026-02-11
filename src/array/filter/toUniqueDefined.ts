@@ -1,5 +1,4 @@
-import type { Optional } from "../../types/generics.js";
-import { isDefined } from "../../types/index.js";
+import { isDefined, type Optional } from "@rsc-utils/type-utils";
 
 /**
  * Filter that reduces an array to unique/defined values.

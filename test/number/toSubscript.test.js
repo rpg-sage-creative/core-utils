@@ -1,5 +1,4 @@
-import { toSubscript } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { tagLiterals, toSubscript } from "../../build/index.js";
 
 describe("number", () => {
 	/** @type {[number|bigint,string][]} [input, output] */
@@ -12,7 +11,7 @@ describe("number", () => {
 
 	describe("toSubscript", () => {
 		tests.forEach(([input, output]) => {
-			test(`toSubscript(${toString(input)}) === ${toString(output)}`, () => {
+			test(tagLiterals`toSubscript(${input}) === ${output}`, () => {
 				expect(toSubscript(input)).toBe(output);
 			});
 		});

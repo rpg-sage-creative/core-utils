@@ -1,4 +1,4 @@
-import type { Optional, OrNull, OrUndefined } from "../types/generics.js";
+import type { Optional, OrNull, OrUndefined } from "@rsc-utils/type-utils";
 /**
  * Capitalizes the first letter of the given string.
  * @param {T} value The string to be capitalized.

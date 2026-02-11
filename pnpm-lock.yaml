@@ -8,16 +8,40 @@ importers:
 
   .:
     dependencies:
-      '@sapphire/snowflake':
-        specifier: ^3.5.5
-        version: 3.5.5
+      '@rsc-utils/cache-utils':
+        specifier: github:rpg-sage-creative/cache-utils#semver:^1.1.0
+        version: '@rpg-sage-creative/cache-utils@https://codeload.github.com/rpg-sage-creative/cache-utils/tar.gz/145bc9860dfe3e54e5311bbd29e94763436ff728'
+      '@rsc-utils/color-utils':
+        specifier: github:rpg-sage-creative/color-utils#semver:^1.1.0
+        version: '@rpg-sage-creative/color-utils@https://codeload.github.com/rpg-sage-creative/color-utils/tar.gz/782556193811afb809fe572a1e211502a7e58e05'
+      '@rsc-utils/id-utils':
+        specifier: github:rpg-sage-creative/id-utils#semver:^1.1.0
+        version: '@rpg-sage-creative/id-utils@https://codeload.github.com/rpg-sage-creative/id-utils/tar.gz/9ecaaf5d3316c8588d95024dea9ed2804b85f40a'
+      '@rsc-utils/iterator-utils':
+        specifier: github:rpg-sage-creative/iterator-utils#semver:^1.1.0
+        version: '@rpg-sage-creative/iterator-utils@https://codeload.github.com/rpg-sage-creative/iterator-utils/tar.gz/ee5f73b0d6ae90f04ee9e1079bbe5564f73cd2c1'
+      '@rsc-utils/json-utils':
+        specifier: github:rpg-sage-creative/json-utils#semver:^1.2.1
+        version: '@rpg-sage-creative/json-utils@https://codeload.github.com/rpg-sage-creative/json-utils/tar.gz/19389a0bda7ea3a58f242bfaf71c42acc6976e31'
+      '@rsc-utils/language-utils':
+        specifier: github:rpg-sage-creative/language-utils#semver:^1.2.0
+        version: '@rpg-sage-creative/language-utils@https://codeload.github.com/rpg-sage-creative/language-utils/tar.gz/b34ae849fb17513fbf4effc3cfea6dc70c82ba4a'
+      '@rsc-utils/template-literal-utils':
+        specifier: github:rpg-sage-creative/template-literal-utils#semver:^1.2.0
+        version: '@rpg-sage-creative/template-literal-utils@https://codeload.github.com/rpg-sage-creative/template-literal-utils/tar.gz/5532b51ff83a9c8c0b38600e0e721a37335b7d50'
+      '@rsc-utils/type-utils':
+        specifier: github:rpg-sage-creative/type-utils#semver:^1.1.0
+        version: '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+      '@rsc-utils/whitespace-utils':
+        specifier: github:rpg-sage-creative/whitespace-utils#semver:^1.0.0
+        version: '@rpg-sage-creative/whitespace-utils@https://codeload.github.com/rpg-sage-creative/whitespace-utils/tar.gz/7c13c974b4d6d647765c60a8b03b286421329cc7'
       regex:
         specifier: ^6.1.0
         version: 6.1.0
     devDependencies:
       '@rsc-utils/dev-scripts':
-        specifier: github:rpg-sage-creative/dev-scripts#semver:^2.0.0
-        version: '@rpg-sage-creative/dev-scripts@https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/590cac96ccc42a9ee31dfa8d966596dbbf4eb0ca'
+        specifier: github:rpg-sage-creative/dev-scripts#semver:^1.3.1
+        version: '@rpg-sage-creative/dev-scripts@https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/21b00c21ef2b591fa125f2460a9122eab7c4e9dc'
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
@@ -328,10 +352,54 @@ packages:
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@rpg-sage-creative/dev-scripts@https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/590cac96ccc42a9ee31dfa8d966596dbbf4eb0ca':
-    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/590cac96ccc42a9ee31dfa8d966596dbbf4eb0ca}
-    version: 2.0.0
+  '@rpg-sage-creative/cache-utils@https://codeload.github.com/rpg-sage-creative/cache-utils/tar.gz/145bc9860dfe3e54e5311bbd29e94763436ff728':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/cache-utils/tar.gz/145bc9860dfe3e54e5311bbd29e94763436ff728}
+    version: 1.1.0
+
+  '@rpg-sage-creative/color-utils@https://codeload.github.com/rpg-sage-creative/color-utils/tar.gz/782556193811afb809fe572a1e211502a7e58e05':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/color-utils/tar.gz/782556193811afb809fe572a1e211502a7e58e05}
+    version: 1.1.0
+
+  '@rpg-sage-creative/dev-scripts@https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/21b00c21ef2b591fa125f2460a9122eab7c4e9dc':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/21b00c21ef2b591fa125f2460a9122eab7c4e9dc}
+    version: 1.3.1
     hasBin: true
+
+  '@rpg-sage-creative/id-utils@https://codeload.github.com/rpg-sage-creative/id-utils/tar.gz/9ecaaf5d3316c8588d95024dea9ed2804b85f40a':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/id-utils/tar.gz/9ecaaf5d3316c8588d95024dea9ed2804b85f40a}
+    version: 1.1.0
+
+  '@rpg-sage-creative/iterator-utils@https://codeload.github.com/rpg-sage-creative/iterator-utils/tar.gz/ee5f73b0d6ae90f04ee9e1079bbe5564f73cd2c1':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/iterator-utils/tar.gz/ee5f73b0d6ae90f04ee9e1079bbe5564f73cd2c1}
+    version: 1.1.0
+
+  '@rpg-sage-creative/json-utils@https://codeload.github.com/rpg-sage-creative/json-utils/tar.gz/19389a0bda7ea3a58f242bfaf71c42acc6976e31':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/json-utils/tar.gz/19389a0bda7ea3a58f242bfaf71c42acc6976e31}
+    version: 1.2.1
+
+  '@rpg-sage-creative/language-utils@https://codeload.github.com/rpg-sage-creative/language-utils/tar.gz/b34ae849fb17513fbf4effc3cfea6dc70c82ba4a':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/language-utils/tar.gz/b34ae849fb17513fbf4effc3cfea6dc70c82ba4a}
+    version: 1.2.0
+
+  '@rpg-sage-creative/snowflake-utils@https://codeload.github.com/rpg-sage-creative/snowflake-utils/tar.gz/ff6354df8219a872bb672c51b090ec12651f240b':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/snowflake-utils/tar.gz/ff6354df8219a872bb672c51b090ec12651f240b}
+    version: 1.1.0
+
+  '@rpg-sage-creative/template-literal-utils@https://codeload.github.com/rpg-sage-creative/template-literal-utils/tar.gz/5532b51ff83a9c8c0b38600e0e721a37335b7d50':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/template-literal-utils/tar.gz/5532b51ff83a9c8c0b38600e0e721a37335b7d50}
+    version: 1.2.0
+
+  '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70}
+    version: 1.1.0
+
+  '@rpg-sage-creative/uuid-utils@https://codeload.github.com/rpg-sage-creative/uuid-utils/tar.gz/99060186aafe1d69ce5fc563b8d47ba00e9eb2e6':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/uuid-utils/tar.gz/99060186aafe1d69ce5fc563b8d47ba00e9eb2e6}
+    version: 1.1.0
+
+  '@rpg-sage-creative/whitespace-utils@https://codeload.github.com/rpg-sage-creative/whitespace-utils/tar.gz/7c13c974b4d6d647765c60a8b03b286421329cc7':
+    resolution: {tarball: https://codeload.github.com/rpg-sage-creative/whitespace-utils/tar.gz/7c13c974b4d6d647765c60a8b03b286421329cc7}
+    version: 1.0.0
 
   '@sapphire/snowflake@3.5.5':
     resolution: {integrity: sha512-xzvBr1Q1c4lCe7i6sRnrofxeO1QTP/LKQ6A6qy0iB4x5yfiSfARMEQEghojzTNALDTcv8En04qYNIco9/K9eZQ==}
@@ -1747,7 +1815,52 @@ snapshots:
 
   '@pkgr/core@0.2.9': {}
 
-  '@rpg-sage-creative/dev-scripts@https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/590cac96ccc42a9ee31dfa8d966596dbbf4eb0ca': {}
+  '@rpg-sage-creative/cache-utils@https://codeload.github.com/rpg-sage-creative/cache-utils/tar.gz/145bc9860dfe3e54e5311bbd29e94763436ff728':
+    dependencies:
+      '@rsc-utils/iterator-utils': '@rpg-sage-creative/iterator-utils@https://codeload.github.com/rpg-sage-creative/iterator-utils/tar.gz/ee5f73b0d6ae90f04ee9e1079bbe5564f73cd2c1'
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+
+  '@rpg-sage-creative/color-utils@https://codeload.github.com/rpg-sage-creative/color-utils/tar.gz/782556193811afb809fe572a1e211502a7e58e05':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+
+  '@rpg-sage-creative/dev-scripts@https://codeload.github.com/rpg-sage-creative/dev-scripts/tar.gz/21b00c21ef2b591fa125f2460a9122eab7c4e9dc': {}
+
+  '@rpg-sage-creative/id-utils@https://codeload.github.com/rpg-sage-creative/id-utils/tar.gz/9ecaaf5d3316c8588d95024dea9ed2804b85f40a':
+    dependencies:
+      '@rsc-utils/snowflake-utils': '@rpg-sage-creative/snowflake-utils@https://codeload.github.com/rpg-sage-creative/snowflake-utils/tar.gz/ff6354df8219a872bb672c51b090ec12651f240b'
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+      '@rsc-utils/uuid-utils': '@rpg-sage-creative/uuid-utils@https://codeload.github.com/rpg-sage-creative/uuid-utils/tar.gz/99060186aafe1d69ce5fc563b8d47ba00e9eb2e6'
+
+  '@rpg-sage-creative/iterator-utils@https://codeload.github.com/rpg-sage-creative/iterator-utils/tar.gz/ee5f73b0d6ae90f04ee9e1079bbe5564f73cd2c1':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+
+  '@rpg-sage-creative/json-utils@https://codeload.github.com/rpg-sage-creative/json-utils/tar.gz/19389a0bda7ea3a58f242bfaf71c42acc6976e31':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+      '@rsc-utils/whitespace-utils': '@rpg-sage-creative/whitespace-utils@https://codeload.github.com/rpg-sage-creative/whitespace-utils/tar.gz/7c13c974b4d6d647765c60a8b03b286421329cc7'
+
+  '@rpg-sage-creative/language-utils@https://codeload.github.com/rpg-sage-creative/language-utils/tar.gz/b34ae849fb17513fbf4effc3cfea6dc70c82ba4a':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+
+  '@rpg-sage-creative/snowflake-utils@https://codeload.github.com/rpg-sage-creative/snowflake-utils/tar.gz/ff6354df8219a872bb672c51b090ec12651f240b':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+      '@sapphire/snowflake': 3.5.5
+
+  '@rpg-sage-creative/template-literal-utils@https://codeload.github.com/rpg-sage-creative/template-literal-utils/tar.gz/5532b51ff83a9c8c0b38600e0e721a37335b7d50': {}
+
+  '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70': {}
+
+  '@rpg-sage-creative/uuid-utils@https://codeload.github.com/rpg-sage-creative/uuid-utils/tar.gz/99060186aafe1d69ce5fc563b8d47ba00e9eb2e6':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
+
+  '@rpg-sage-creative/whitespace-utils@https://codeload.github.com/rpg-sage-creative/whitespace-utils/tar.gz/7c13c974b4d6d647765c60a8b03b286421329cc7':
+    dependencies:
+      '@rsc-utils/type-utils': '@rpg-sage-creative/type-utils@https://codeload.github.com/rpg-sage-creative/type-utils/tar.gz/320d4c2f18ed43e6e53a8092d8e8715dcd6bbc70'
 
   '@sapphire/snowflake@3.5.5': {}
 

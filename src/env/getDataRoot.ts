@@ -1,5 +1,5 @@
+import type { Optional } from "@rsc-utils/type-utils";
 import { existsSync, mkdirSync } from "node:fs";
-import type { Optional } from "../types/generics.js";
 import { getFromProcess } from "./getFromProcess.js";
 import type { ValidatorArg } from "./types.js";
 

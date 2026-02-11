@@ -1,6 +1,6 @@
+import type { TypedRegExp } from "@rsc-utils/type-utils";
 import { regex } from "regex";
 import { globalizeRegex } from "../../regex/globalizeRegex.js";
-import type { TypedRegExp } from "../../types/TypedRegExp.js";
 
 export type CodeBlockRegexGroups = {
 	ticks: string;

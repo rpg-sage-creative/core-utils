@@ -1,2 +1,2 @@
-import type { Snowflake } from "../snowflake/types.js";
+import { type Snowflake } from "@rsc-utils/id-utils";
 export declare function getIds(name: string, ignoreMissing?: boolean): Snowflake[];

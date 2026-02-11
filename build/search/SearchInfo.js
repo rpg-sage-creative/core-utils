@@ -1,8 +1,8 @@
+import { oneToUS, reduceNoiseUS } from "@rsc-utils/language-utils";
+import { cleanWhitespace } from "@rsc-utils/whitespace-utils";
 import { pattern, regex } from "regex";
 import { toUniqueDefined } from "../array/index.js";
-import { oneToUS } from "../language/oneToUs.js";
-import { reduceNoiseUS } from "../language/reduceNoiseUS.js";
-import { cleanWhitespace, dequote, QuotedContentRegExp } from "../string/index.js";
+import { dequote, QuotedContentRegExp } from "../string/index.js";
 import { tokenize } from "../string/tokenize.js";
 import { SearchScore } from "./SearchScore.js";
 function createTerms(searchInfo, term, regexFlag) {

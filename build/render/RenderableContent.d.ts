@@ -1,5 +1,5 @@
-import type { HexColorString } from "../color/ColorData.js";
-import type { Optional } from "../types/generics.js";
+import type { HexColorString } from "@rsc-utils/color-utils";
+import type { Optional } from "@rsc-utils/type-utils";
 import type { Renderable, RenderableContentSection, RenderableContentSectionColumn } from "./types.js";
 /**
  * @todo make the default html output a bootstrap card.

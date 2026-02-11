@@ -1,4 +1,4 @@
-import type { TypedRegExp } from "../types/TypedRegExp.js";
+import type { TypedRegExp } from "@rsc-utils/type-utils";
 
 /**
  * Returns a duplicate of the given RegExp with the "g" flag added (if it was absent).

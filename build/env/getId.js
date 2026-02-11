@@ -1,4 +1,4 @@
-import { isNonNilSnowflake } from "../snowflake/isNonNilSnowflake.js";
+import { isNonNilSnowflake } from "@rsc-utils/id-utils";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 const _ids = {};

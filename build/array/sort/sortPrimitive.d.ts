@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 import type { SortResult } from "./types.js";
 /**
  * Sorts values in ascending order.

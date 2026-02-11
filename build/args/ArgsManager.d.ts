@@ -1,5 +1,5 @@
+import type { EnumLike, OrUndefined } from "@rsc-utils/type-utils";
 import { type TokenParsers } from "../string/index.js";
-import type { EnumLike, OrUndefined } from "../types/generics.js";
 import type { FlagArg, IncrementArg, KeyValueArg, ValueArg } from "./types.js";
 type Arg<T extends string, U extends string> = FlagArg<T> | IncrementArg<T, U> | KeyValueArg<T, U> | ValueArg<T>;
 export declare class ArgsManager<T extends string = string> {

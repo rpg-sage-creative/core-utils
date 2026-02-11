@@ -1,4 +1,4 @@
-import { isDefined } from "../types/typeGuards/isDefined.js";
+import { isDefined } from "@rsc-utils/type-utils";
 import { removeAt } from "./removeAt.js";
 export function remove(array, predicate, thisArg) {
     const indexes = [];

@@ -1,9 +1,8 @@
-import { pause } from "../../build/index.js";
-import { toString } from "../toString.mjs";
+import { pause, tagLiterals } from "../../build/index.js";
 
 describe("pause", () => {
 
-	const ms = 500;
+	const ms = 100;
 
 	test(`${ms} ms should pass and return undefined`, async () => {
 		const start = Date.now();
@@ -15,7 +14,7 @@ describe("pause", () => {
 	});
 
 	const obj = { "a":"B" };
-	test(`${ms} ms should pass and return ${toString(obj)}`, async () => {
+	test(tagLiterals`${ms} ms should pass and return ${obj}`, async () => {
 		const start = Date.now();
 		const retObj = await pause({ ms, label:"retObj", data:obj, log:true });
 		const stop = Date.now();

@@ -1,4 +1,4 @@
-import type { Optional } from "../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 import type { FlagArg, IncrementArg, KeyValueArg } from "./types.js";
 /**
  * Underlying class for FlagArg, IncrementArg, and KeyValueArg.

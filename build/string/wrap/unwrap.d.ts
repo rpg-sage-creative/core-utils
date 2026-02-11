@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 /**
  * Used to unwrap a piece of text, usually (), [], {}, or <>.
  * If the chars argument is even, then they are split and used as left/right.

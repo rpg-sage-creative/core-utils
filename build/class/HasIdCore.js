@@ -1,5 +1,5 @@
+import { getIdMatcher } from "@rsc-utils/id-utils";
 import { HasCore } from "./HasCore.js";
-import { getIdMatcher } from "../id-utils/getIdMatcher.js";
 export class HasIdCore extends HasCore {
     get id() { return this.core.id; }
     _idMatcher;

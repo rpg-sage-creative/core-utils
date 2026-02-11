@@ -1,8 +1,6 @@
-import type { Snowflake } from "../snowflake/types.js";
-import type { Matcher } from "../types/Matcher.js";
-import type { UUID } from "../uuid/types.js";
+import { getIdMatcher, type Snowflake, type UUID } from "@rsc-utils/id-utils";
+import type { Matcher } from "@rsc-utils/type-utils";
 import { HasCore, type Core } from "./HasCore.js";
-import { getIdMatcher } from "../id-utils/getIdMatcher.js";
 
 //#region types
 

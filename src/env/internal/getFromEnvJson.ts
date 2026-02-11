@@ -1,6 +1,6 @@
+import { parseJson } from "@rsc-utils/json-utils";
 import { readFileSync } from "node:fs";
 import { error } from "../../console/loggers/error.js";
-import { parseJson } from "../../json/parseJson.js";
 import type { ValidatorArg } from "../types.js";
 
 let _json: Record<string, ValidatorArg>;

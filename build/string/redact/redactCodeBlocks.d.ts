@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 import type { RedactOptions } from "./RedactOptions.js";
 export type RedactCodeBlocksOptions = RedactOptions & {
     /** What character to use for redacted content. When complete === true, ticks get redacted as char; using contentChar allows them to be different. */

@@ -1,4 +1,4 @@
-import type { Awaitable } from "../../types/generics.js";
+import type { Awaitable } from "@rsc-utils/type-utils";
 /**
  * Uses asynchronous logic to iterate over an array in order.
  * Exceptions in the callback will be sent to console.warn.

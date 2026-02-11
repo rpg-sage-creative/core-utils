@@ -1,5 +1,4 @@
-import type { OrUndefined } from "../types/generics.js";
-import { isDefined } from "../types/index.js";
+import { isDefined, type OrUndefined } from "@rsc-utils/type-utils";
 
 /**
  * Iterates the given array and returns the first mapped value returned from callbackfn that isDefined() returns true for.

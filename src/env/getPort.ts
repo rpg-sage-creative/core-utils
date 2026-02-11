@@ -1,5 +1,4 @@
-import type { Optional } from "../types/generics.js";
-import { isWholeNumberString } from "../types/index.js";
+import { isWholeNumberString, type Optional } from "@rsc-utils/type-utils";
 import { getFromProcess } from "./getFromProcess.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 import type { ValidatorArg } from "./types.js";

@@ -1,5 +1,4 @@
-import { isWrapped } from "../../../build/index.js";
-import { toString } from "../../toString.mjs";
+import { isWrapped, tagLiterals } from "../../../build/index.js";
 import { getTests } from "./data.js";
 
 describe("string", () => {
@@ -8,13 +7,13 @@ describe("string", () => {
 
 			const tests = getTests();
 			tests.forEach(({ unwrapped, chars, wrapped }) => {
-				test(`isWrapped(${toString(wrapped)}, ${toString(chars)}) === true`, () => {
+				test(tagLiterals`isWrapped(${wrapped}, ${chars}) === true`, () => {
 					expect(isWrapped(wrapped, chars)).toBe(true);
 				});
-				test(`isWrapped(${toString(chars)}, ${toString(chars)}) === false`, () => {
+				test(tagLiterals`isWrapped(${chars}, ${chars}) === false`, () => {
 					expect(isWrapped(chars, chars)).toBe(false);
 				});
-				test(`isWrapped(${toString(unwrapped)}, ${toString(chars)}) === false`, () => {
+				test(tagLiterals`isWrapped(${unwrapped}, ${chars}) === false`, () => {
 					expect(isWrapped(unwrapped, chars)).toBe(false);
 				});
 			});

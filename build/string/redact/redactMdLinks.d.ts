@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 import type { RedactOptions } from "./RedactOptions.js";
 export type RedactMdLinksOptions = RedactOptions & {
     /** What character to use for redacted labels. */

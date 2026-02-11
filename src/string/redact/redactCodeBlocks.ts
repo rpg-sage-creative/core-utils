@@ -1,4 +1,4 @@
-import type { Optional } from "../../types/generics.js";
+import type { Optional } from "@rsc-utils/type-utils";
 import { AllCodeBlocksRegExpG, type CodeBlockRegexGroups } from "../codeBlocks/AllCodeBlocksRegExp.js";
 import type { RedactOptions } from "./RedactOptions.js";
 

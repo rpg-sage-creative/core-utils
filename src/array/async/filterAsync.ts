@@ -1,6 +1,6 @@
+import type { Awaitable } from "@rsc-utils/type-utils";
 import { isPromise } from "node:util/types";
 import { warn } from "../../console/index.js";
-import type { Awaitable } from "../../types/generics.js";
 
 /**
  * Uses asynchronous logic to filter an array.

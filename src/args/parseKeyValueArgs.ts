@@ -1,5 +1,5 @@
+import type { Optional } from "@rsc-utils/type-utils";
 import { globalizeRegex } from "../regex/globalizeRegex.js";
-import type { Optional } from "../types/generics.js";
 import { KeyValueArgRegExp, parseKeyValueArg } from "./parseKeyValueArg.js";
 import type { KeyValueArg } from "./types.js";
 

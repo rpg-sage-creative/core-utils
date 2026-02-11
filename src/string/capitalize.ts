@@ -1,4 +1,4 @@
-import type { Optional, OrNull, OrUndefined } from "../types/generics.js";
+import type { Optional, OrNull, OrUndefined } from "@rsc-utils/type-utils";
 import { isBlank } from "./blank/isBlank.js";
 
 /**

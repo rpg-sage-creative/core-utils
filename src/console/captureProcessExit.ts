@@ -1,4 +1,4 @@
-import type { Awaitable } from "../types/generics.js";
+import type { Awaitable } from "@rsc-utils/type-utils";
 import { error } from "./loggers/error.js";
 import { info } from "./loggers/info.js";
 
