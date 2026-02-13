@@ -12,19 +12,16 @@ async function onSignal(eventName, code) {
             exitCode = 1;
         };
         if (destroyables) {
-            try {
-                Set.prototype.forEach.call(destroyables, (destroyable) => {
-                    try {
-                        destroyable?.destroy();
-                    }
-                    catch (ex) {
-                        exitHandler(ex);
-                    }
-                });
+            for (const destroyable of destroyables) {
+                try {
+                    await Promise.resolve(destroyable.destroy()).catch(exitHandler);
+                }
+                catch (ex) {
+                    exitHandler(ex);
+                }
             }
-            catch (ex) {
-                exitHandler(ex);
-            }
+            destroyables.clear();
+            destroyables = undefined;
         }
         if (signalHandlers) {
             for (const handler of signalHandlers) {
@@ -35,6 +32,8 @@ async function onSignal(eventName, code) {
                     exitHandler(ex);
                 }
             }
+            signalHandlers.clear();
+            signalHandlers = undefined;
         }
         process.exit(exitCode);
     }
@@ -49,16 +48,10 @@ let signalHandlers;
 export function captureProcessExit(arg) {
     if (arg) {
         if (typeof (arg) === "function") {
-            if (!signalHandlers) {
-                signalHandlers = new Set();
-            }
-            signalHandlers.add(arg);
+            (signalHandlers ??= new Set()).add(arg);
         }
         else if (typeof (arg.destroy) === "function") {
-            if (!destroyables) {
-                destroyables = new WeakSet();
-            }
-            destroyables.add(arg);
+            (destroyables ??= new Set()).add(arg);
         }
     }
     if (!captured) {

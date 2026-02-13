@@ -31,17 +31,15 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 
 		// if we have destroyables, send the event
 		if (destroyables) {
-			try {
-				Set.prototype.forEach.call(destroyables, (destroyable: Destroyable) => {
-					try {
-						destroyable?.destroy();
-					}catch(ex) {
-						exitHandler(ex);
-					}
-				});
-			}catch(ex) {
-				exitHandler(ex);
+			for (const destroyable of destroyables) {
+				try {
+					await Promise.resolve(destroyable.destroy()).catch(exitHandler);
+				}catch(ex) {
+					exitHandler(ex);
+				}
 			}
+			destroyables.clear();
+			destroyables = undefined;
 		}
 
 		// if we have handlers, send the event
@@ -53,6 +51,8 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 					exitHandler(ex);
 				}
 			}
+			signalHandlers.clear();
+			signalHandlers = undefined;
 		}
 
 		// send exit code
@@ -66,11 +66,11 @@ async function onSignal(eventName: SignalEventName, code?: number): Promise<void
 
 let captured = false;
 
-type Destroyable = { destroy:() => void; };
-let destroyables: WeakSet<Destroyable>;
+type Destroyable = { destroy:() => Awaitable<void>; };
+let destroyables: Set<Destroyable> | undefined;
 
 type SignalHandler = (eventName: SignalEventName, code?: number) => Awaitable<void>;
-let signalHandlers: Set<SignalHandler>;
+let signalHandlers: Set<SignalHandler> | undefined;
 
 /** Captures SIGINT events to log them before exiting the process. */
 export function captureProcessExit(): void;
@@ -90,16 +90,10 @@ export function captureProcessExit(signalHandler: SignalHandler): void;
 export function captureProcessExit(arg?: Destroyable | SignalHandler): void {
 	if (arg) {
 		if (typeof(arg) === "function") {
-			if (!signalHandlers) {
-				signalHandlers = new Set();
-			}
-			signalHandlers.add(arg);
+			(signalHandlers ??= new Set()).add(arg);
 
 		}else if (typeof(arg.destroy) === "function") {
-			if (!destroyables) {
-				destroyables = new WeakSet();
-			}
-			destroyables.add(arg);
+			(destroyables ??= new Set()).add(arg);
 		}
 	}
 

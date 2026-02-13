@@ -9,7 +9,7 @@ type SignalEventName =
 /** Hangup detected on controlling terminal or death of controlling process: ?? */
  | "SIGHUP";
 type Destroyable = {
-    destroy: () => void;
+    destroy: () => Awaitable<void>;
 };
 type SignalHandler = (eventName: SignalEventName, code?: number) => Awaitable<void>;
 /** Captures SIGINT events to log them before exiting the process. */
