@@ -27,6 +27,9 @@ type CleanOptions = {
 	toLowerCase?: boolean;
 };
 
+/** "Named" function for string.toLowerCase() to include with optionFunctions in StringMatcher.clean */
+function toLowerCase(value: string) { return value.toLowerCase(); }
+
 /** A reusable object for comparing a string without the need to repeatedly manipulate the value. */
 export class StringMatcher implements Matcher {
 	public constructor(value: Optional<string>, cleanOptions?: CleanOptions) {
@@ -189,8 +192,6 @@ export class StringMatcher implements Matcher {
 		});
 
 		return value;
-
-		function toLowerCase(value: string) { return value.toLowerCase(); }
 	}
 
 	/** Convenience for StringMatcher.from(value).matches(other) */

@@ -3,6 +3,7 @@ import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "@
 import { escapeRegex } from "../regex/escapeRegex.js";
 import { isNotBlank } from "./blank/index.js";
 import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
+function toLowerCase(value) { return value.toLowerCase(); }
 export class StringMatcher {
     constructor(value, cleanOptions) {
         this.value = isDefined(value) ? String(value) : value;
@@ -96,7 +97,6 @@ export class StringMatcher {
             }
         });
         return value;
-        function toLowerCase(value) { return value.toLowerCase(); }
     }
     static matches(value, other, options) {
         return StringMatcher.from(value, options).matches(other);
