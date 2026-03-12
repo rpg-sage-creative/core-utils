@@ -21,7 +21,15 @@ type CleanOptions = {
 };
 /** A reusable object for comparing a string without the need to repeatedly manipulate the value. */
 export declare class StringMatcher implements Matcher {
-    constructor(value: Optional<string>, cleanOptions?: CleanOptions);
+    /** Stores the raw value. */
+    value: Optional<string>;
+    /** Stores the options for how to clean the value. */
+    cleanOptions?: CleanOptions | undefined;
+    constructor(
+    /** Stores the raw value. */
+    value: Optional<string>, 
+    /** Stores the options for how to clean the value. */
+    cleanOptions?: CleanOptions | undefined);
     /** Stores isNotBlank(value) */
     private _isNonNil?;
     /** Returns isNotBlank(value) */
@@ -37,9 +45,6 @@ export declare class StringMatcher implements Matcher {
     private _matchValue?;
     /** The value used to compare to other values. */
     get matchValue(): string;
-    cleanOptions?: CleanOptions;
-    /** Stores the raw value. */
-    value: Optional<string>;
     /** Compares the clean values. */
     matches(other: MatcherResolvable): boolean;
     /** Returns true if any of the given values are considered a match. */

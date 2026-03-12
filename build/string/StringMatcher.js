@@ -1,21 +1,19 @@
-import { isBoolean, isDefined, isNullOrUndefined, isString } from "@rsc-utils/type-utils";
+import { isDefined, isNullOrUndefined, isString } from "@rsc-utils/type-utils";
 import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "@rsc-utils/whitespace-utils";
 import { escapeRegex } from "../regex/escapeRegex.js";
 import { isNotBlank } from "./blank/index.js";
 import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
-function toLowerCase(value) { return value.toLowerCase(); }
+function toLowerCase(value) {
+    return value.toLowerCase();
+}
 export class StringMatcher {
+    value;
+    cleanOptions;
     constructor(value, cleanOptions) {
-        this.value = isDefined(value) ? String(value) : value;
-        if (cleanOptions) {
-            const keys = ["removeAccents", "normalizeApostrophes", "normalizeDashes", "normalizeEllipses", "normalizeQuotes", "cleanWhitespace", "toLowerCase"];
-            this.cleanOptions = keys.reduce((out, key) => {
-                const bool = cleanOptions[key];
-                if (isDefined(bool)) {
-                    out[key] = !!bool;
-                }
-                return out;
-            }, {});
+        this.value = value;
+        this.cleanOptions = cleanOptions;
+        if (isDefined(value) && !isString(value)) {
+            this.value = String(value);
         }
     }
     _isNonNil;
@@ -34,8 +32,6 @@ export class StringMatcher {
     get matchValue() {
         return this._matchValue ??= StringMatcher.clean(this.value, this.cleanOptions);
     }
-    cleanOptions;
-    value;
     matches(other) {
         if (!this.isValid || isNullOrUndefined(other)) {
             return false;
@@ -49,14 +45,22 @@ export class StringMatcher {
         return this.matchValue === other.matchValue;
     }
     matchesAny(...args) {
-        return args.flat(1).some(value => this.matches(value));
+        return args
+            .flat(1)
+            .some(value => this.matches(value));
     }
     toRegex({ anchored = true, asterisk, horizontalOnly, whitespace } = {}) {
-        const whitespaceRegex = horizontalOnly ? HorizontalWhitespaceRegExp : WhitespaceRegExp;
+        if (!this.isValid)
+            return /^$/;
+        const whitespaceRegex = horizontalOnly
+            ? HorizontalWhitespaceRegExp
+            : WhitespaceRegExp;
         const whitespaceSource = whitespaceRegex.source.slice(0, -1);
-        const whitespaceQuantifier = whitespace === "optional" ? "*" : "+";
+        const whitespaceQuantifier = whitespace === "optional"
+            ? "*"
+            : "+";
         let lastCharWasWhitespace = false;
-        const regex = this.value?.split("").map(char => {
+        const regex = this.value.split("").map(char => {
             if (char === "*" && asterisk) {
                 return ".*?";
             }
@@ -79,37 +83,54 @@ export class StringMatcher {
                 }
             }
             return escaped;
-        }).join("") ?? "";
+        }).join("");
         return new RegExp(anchored ? `^${regex}$` : regex, "i");
     }
     toString() {
         return this.value;
     }
     static clean(value, options = {}) {
-        if (isNullOrUndefined(value))
+        if (!isString(value)) {
             return "";
-        value = String(value ?? "");
-        const optionFunctions = [removeAccents, normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, cleanWhitespace, toLowerCase];
-        const optionDefaultValue = !optionFunctions.some(fn => isBoolean(options[fn.name]));
-        optionFunctions.forEach(fn => {
-            if (options[fn.name] ?? optionDefaultValue) {
+        }
+        const optionFunctions = [
+            removeAccents,
+            normalizeApostrophes,
+            normalizeDashes,
+            normalizeEllipses,
+            normalizeQuotes,
+            cleanWhitespace,
+            toLowerCase
+        ];
+        const shouldCallAllFunctions = !optionFunctions.some(fn => fn.name in options);
+        for (const fn of optionFunctions) {
+            const shouldCallFunction = shouldCallAllFunctions
+                || options[fn.name];
+            if (shouldCallFunction) {
                 value = fn(value);
             }
-        });
+        }
         return value;
     }
     static matches(value, other, options) {
-        return StringMatcher.from(value, options).matches(other);
+        return StringMatcher
+            .from(value, options)
+            .matches(other);
     }
     static matchesAny(value, others, options) {
-        return StringMatcher.from(value, options).matchesAny(others);
+        return StringMatcher
+            .from(value, options)
+            .matchesAny(others);
     }
     static from(value, options) {
         if (isDefined(value)) {
             if (value instanceof StringMatcher) {
                 return value;
             }
-            return new StringMatcher(isString(value) ? value : value?.value, options);
+            const stringValue = isString(value)
+                ? value
+                : value?.value;
+            return new StringMatcher(stringValue, options);
         }
         return new StringMatcher(value, options);
     }
