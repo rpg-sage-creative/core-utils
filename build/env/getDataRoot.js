@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { getFromProcess } from "./getFromProcess.js";
 import { verbose } from "../console/index.js";
+import { getFromProcess } from "./getFromProcess.js";
 const pathMap = new Map();
 function shiftPath(args) {
     const arg = args.shift();
