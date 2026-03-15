@@ -6,7 +6,6 @@ export * from "./class/index.js";
 export * from "./console/index.js";
 export * from "./date/index.js";
 export * from "./env/index.js";
-export * from "./git/index.js";
 export * from "./number/index.js";
 export * from "./pause/index.js";
 export * from "./progress/index.js";

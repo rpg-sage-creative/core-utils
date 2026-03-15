@@ -1,6 +1,7 @@
-import { readRepo } from "../git/readRepo.js";
+import { noop } from "@rsc-utils/type-utils";
+import { readRepo } from "@rsc-utils/git-utils";
 export async function getBuildInfo() {
-    const repo = await readRepo(".").catch(() => undefined);
+    const repo = await readRepo(".").catch(noop);
     return {
         name: repo?.package?.name ?? "no-name",
         version: repo?.package?.version ?? "0.0.0",
