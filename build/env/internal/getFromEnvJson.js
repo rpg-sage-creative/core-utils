@@ -1,10 +1,11 @@
 import { parseJson } from "@rsc-utils/json-utils";
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { error } from "../../console/loggers/error.js";
 let _json;
 export function getFromEnvJson(key) {
     if (!_json) {
-        const path = "./config/env.json";
+        const path = join(".", "config", "env.json");
         try {
             _json = parseJson(readFileSync(path).toString());
         }

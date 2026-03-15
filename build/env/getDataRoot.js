@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 import { getFromProcess } from "./getFromProcess.js";
 const pathMap = new Map();
 export function getDataRoot(childPath, ensureChildExists) {
@@ -13,7 +14,7 @@ export function getDataRoot(childPath, ensureChildExists) {
     }
     let dataPath = pathMap.get(childPath);
     if (!dataPath) {
-        dataPath = `${dataRoot}/${childPath}`;
+        dataPath = join(dataRoot, childPath);
         if (ensureChildExists) {
             mkdirSync(dataPath, { recursive: true });
         }

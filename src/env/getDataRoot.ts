@@ -1,5 +1,6 @@
 import type { Optional } from "@rsc-utils/type-utils";
 import { existsSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 import { getFromProcess } from "./getFromProcess.js";
 import type { ValidatorArg } from "./types.js";
 
@@ -8,7 +9,7 @@ const pathMap = new Map<string, string>();
 /**
  * Uses getFromProcess to get "dataRoot".
  * If not found or the path is invalid, an error is thrown.
- * If childPath is given the returned path will be `${dataRoot}/${childPath}`.
+ * If childPath is given the returned path will be join(dataRoot, childPath).
  * If childPath is given and is invalid, an error is thrown.
  */
 export function getDataRoot(childPath?: string, ensureChildExists?: boolean): string {
@@ -36,7 +37,7 @@ export function getDataRoot(childPath?: string, ensureChildExists?: boolean): st
 
 	if (!dataPath) {
 		// concat child path
-		dataPath = `${dataRoot}/${childPath}`;
+		dataPath = join(dataRoot, childPath);
 
 		if (ensureChildExists) {
 			mkdirSync(dataPath, { recursive:true });
