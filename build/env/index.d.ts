@@ -1,3 +1,4 @@
+export * from "./formatDataFilePath.js";
 export * from "./getAwsRegion.js";
 export * from "./getBuildInfo.js";
 export * from "./getCodeName.js";
