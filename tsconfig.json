@@ -4,6 +4,8 @@
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
 
+		"composite": true,
+
 		// "exactOptionalPropertyTypes": true,
 
 		"forceConsistentCasingInFileNames": true,
