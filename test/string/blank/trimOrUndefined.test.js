@@ -5,16 +5,16 @@ describe("string", () => {
 		describe("trimOrUndefined", () => {
 
 			const blankTests = [null, undefined, "", "      ", "\n", "\t", "\n\t", "\n \t"];
-			blankTests.forEach(s => {
-				test(tagLiterals`trimOrUndefined(${s}) === undefined`, () => {
-					expect(trimOrUndefined(s)).toBeUndefined();
+			blankTests.forEach(input => {
+				test(tagLiterals`trimOrUndefined(${input}) === undefined`, () => {
+					expect(trimOrUndefined(input)).toBeUndefined();
 				});
 			});
 
 			const nonBlankTests = ["bob", ".", " bob ", " . "];
-			nonBlankTests.forEach(s => {
-				test(tagLiterals`trimOrUndefined(${s}) === ${s.trim()}`, () => {
-					expect(trimOrUndefined(s)).toBe(s.trim());
+			nonBlankTests.forEach(input => {
+				test(tagLiterals`trimOrUndefined(${input}) === ${input.trim()}`, () => {
+					expect(trimOrUndefined(input)).toBe(input.trim());
 				});
 			});
 

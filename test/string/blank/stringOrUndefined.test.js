@@ -5,16 +5,16 @@ describe("string", () => {
 		describe("stringOrUndefined", () => {
 
 			const blankTests = [null, undefined, "", "      ", "\n", "\t", "\n\t", "\n \t"];
-			blankTests.forEach(s => {
-				test(tagLiterals`stringOrUndefined(${s}) === undefined`, () => {
-					expect(stringOrUndefined(s)).toBeUndefined();
+			blankTests.forEach(input => {
+				test(tagLiterals`stringOrUndefined(${input}) === undefined`, () => {
+					expect(stringOrUndefined(input)).toBeUndefined();
 				});
 			});
 
 			const nonBlankTests = ["bob", ".", "bob ", " ."];
-			nonBlankTests.forEach(s => {
-				test(tagLiterals`stringOrUndefined(${s}) === ${s}`, () => {
-					expect(stringOrUndefined(s)).toBe(s);
+			nonBlankTests.forEach(input => {
+				test(tagLiterals`stringOrUndefined(${input}) === ${input}`, () => {
+					expect(stringOrUndefined(input)).toBe(input);
 				});
 			});
 
