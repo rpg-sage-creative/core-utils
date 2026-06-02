@@ -1,4 +1,3 @@
-
 /**
  * Escapes RegExp special characters in the given value.
  * This is a shim until RegExp.escape is available.
@@ -6,7 +5,10 @@
  */
 export function escapeRegex(value: string): string {
 	return value.split("").map((char, index) => {
-		if (!index && /[0-9a-zA-Z]/.test(char) || ",-=<>#&!%:;@~'`\" ".includes(char)) {
+		if (!index
+				&& "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(char)
+				|| ",-=<>#&!%:;@~'`\" ".includes(char)
+				) {
 			return `\\x${char.charCodeAt(0).toString(16)}`;
 		}
 		if ("^$\\.*+?()[]{}|/".includes(char)) {
