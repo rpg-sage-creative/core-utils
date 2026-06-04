@@ -1,5 +1,5 @@
 import { debug, isLogLevelEnabled } from "../console/index.js";
-import { splitChars } from "../string/wrap/splitChars.js";
+import { splitWrapChars } from "../string/wrap/splitWrapChars.js";
 import { escapeRegex } from "./escapeRegex.js";
 import type { RegExpAnchorOptions, RegExpCaptureOptions, RegExpFlagOptions, RegExpQuantifyOptions, RegExpSpoilerOptions, RegExpWrapOptions } from "./RegExpOptions.js";
 
@@ -32,7 +32,7 @@ function createRegex<T extends RegExpGetOptions, U extends RegExp>(creator: Crea
 	}
 
 	if (spoilers || wrapChars) {
-		const { left, right } = splitChars(spoilers ? "||||" : wrapChars!);
+		const { left, right } = splitWrapChars(spoilers ? "||||" : wrapChars!);
 		const lPattern = escapeRegex(left);
 		const rPattern = escapeRegex(right);
 

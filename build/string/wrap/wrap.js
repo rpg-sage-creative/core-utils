@@ -1,8 +1,8 @@
-import { splitChars } from "./splitChars.js";
+import { splitWrapChars } from "./splitWrapChars.js";
 export function wrap(input, chars) {
     if (input && chars?.length) {
-        const { left, right } = splitChars(chars);
-        return `${left}${input}${right}`;
+        const { left, right } = splitWrapChars(chars);
+        return left + input + right;
     }
     return input;
 }

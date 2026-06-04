@@ -1,5 +1,4 @@
-// import { regex } from "regex";
-import { splitChars } from "../string/index.js";
+import { splitWrapChars } from "../string/wrap/splitWrapChars.js";
 import { escapeRegex } from "./escapeRegex.js";
 
 type Options = {
@@ -9,7 +8,7 @@ type Options = {
 
 /**
  * Wraps the given RegExp in the given left/right pairs.
- * Left/right pairs are split using splitChars() and then escaped for regexp using escapeRegex().
+ * Left/right pairs are split using splitWrapChars() and then escaped for regexp using escapeRegex().
  * Optional spaces are added the inside of the wrap characters.
  * RegExp flags match the given RegExp.
  * The given RegExp is put into a non-capture group to preserve logic, such as | "or".
@@ -28,7 +27,7 @@ export function wrapRegex(regexp: RegExp, pairs: string[], options?: Options): R
 	const or = options?.or;
 
 	for (const pair of pairs) {
-		const { left, right } = splitChars(pair);
+		const { left, right } = splitWrapChars(pair);
 
 		const original = regexp.source;
 

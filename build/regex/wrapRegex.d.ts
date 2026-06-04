@@ -4,7 +4,7 @@ type Options = {
 };
 /**
  * Wraps the given RegExp in the given left/right pairs.
- * Left/right pairs are split using splitChars() and then escaped for regexp using escapeRegex().
+ * Left/right pairs are split using splitWrapChars() and then escaped for regexp using escapeRegex().
  * Optional spaces are added the inside of the wrap characters.
  * RegExp flags match the given RegExp.
  * The given RegExp is put into a non-capture group to preserve logic, such as | "or".
