@@ -1,10 +1,10 @@
-import { jest } from "@jest/globals";
+import { vitest } from "vitest";
 import { getLogger, ProgressTracker } from "../../build/index.js";
 
-const error = jest.spyOn(getLogger(), "error");
-const info = jest.spyOn(getLogger(), "info");
-const silly = jest.spyOn(getLogger(), "silly");
-const verbose = jest.spyOn(getLogger(), "verbose");
+const error = vitest.spyOn(getLogger(), "error");
+const info = vitest.spyOn(getLogger(), "info");
+const silly = vitest.spyOn(getLogger(), "silly");
+const verbose = vitest.spyOn(getLogger(), "verbose");
 // function error(...args) { console.log("error", ...args); _error(...args); }
 // function info(...args) { console.log("info", ...args); _info(...args); }
 // function silly(...args) { console.log("silly", ...args); _silly(...args); }
@@ -12,7 +12,7 @@ const verbose = jest.spyOn(getLogger(), "verbose");
 
 afterEach(() => {
 	// restore the spy created with spyOn
-	jest.restoreAllMocks();
+	vitest.restoreAllMocks();
 });
 
 describe("progress", () => {

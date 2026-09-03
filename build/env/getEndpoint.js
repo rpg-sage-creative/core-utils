@@ -1,4 +1,4 @@
-import { parseBoolean } from "../boolean/parseBoolean.js";
+import { parseBoolean } from "@rsc-utils/type-utils";
 import { getAwsRegion } from "./getAwsRegion.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 import { getPort } from "./getPort.js";

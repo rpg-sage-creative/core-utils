@@ -1,12 +1,12 @@
-import { jest } from "@jest/globals";
+import { vitest } from "vitest";
 import { forEach, getLogger } from "../../build/index.js";
 
-const debug = jest.spyOn(getLogger(), "debug");
-const verbose = jest.spyOn(getLogger(), "verbose");
+const debug = vitest.spyOn(getLogger(), "debug");
+const verbose = vitest.spyOn(getLogger(), "verbose");
 
 afterEach(() => {
 	// restore the spy created with spyOn
-	jest.restoreAllMocks();
+	vitest.restoreAllMocks();
 });
 
 describe("progress", () => {

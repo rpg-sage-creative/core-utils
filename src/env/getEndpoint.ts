@@ -1,5 +1,4 @@
-import type { Optional } from "@rsc-utils/type-utils";
-import { parseBoolean } from "../boolean/parseBoolean.js";
+import { parseBoolean, type Optional } from "@rsc-utils/type-utils";
 import { getAwsRegion } from "./getAwsRegion.js";
 import { getFromProcessSafely } from "./getFromProcessSafely.js";
 import { getPort } from "./getPort.js";
