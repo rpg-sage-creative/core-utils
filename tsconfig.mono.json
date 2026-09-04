@@ -1,0 +1,12 @@
+/*
+Each package/submodule in rpg-sage will use tsconfig.mono.json to ensure proper build order.
+*/
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"composite": true,
+	},
+	"references": [
+		// { "path": "" },
+	],
+}

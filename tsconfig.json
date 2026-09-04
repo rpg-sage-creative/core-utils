@@ -4,7 +4,7 @@
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
 
-		"composite": true,
+		"composite": false,
 
 		"declaration": true,
 		// "declarationDir": "./types",
