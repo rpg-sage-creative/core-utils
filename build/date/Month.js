@@ -1,3 +1,4 @@
+/** Represents the 0 index based values returned from a DateLike .getMonth(). */
 export var Month;
 (function (Month) {
     Month[Month["January"] = 0] = "January";

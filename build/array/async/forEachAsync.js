@@ -14,6 +14,7 @@ export async function forEachAsync(...args) {
     const interval = typeof (args[0]) === "number" ? args.shift() : undefined;
     const thisArg = args[0];
     const pLogger = label ? new PercentLogger(label, array.length, interval) : undefined;
+    // trigger the 0% before processing the first item
     pLogger?.start();
     for (let index = 0, len = array.length; index < len; index++) {
         try {

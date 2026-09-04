@@ -5,6 +5,7 @@ import { toSubscript } from "../../number/toSubscript.js";
 import { toSuperscript } from "../../number/toSuperscript.js";
 const AsciiEscapeRegExp = /&#(?:x([0-9a-f]+)|(\d+));/gi;
 const HorizontalTabRegExp = /\t([^>]|$)/g;
+/** @deprecated This needs to be smarter about attributes */
 const StripHtmlRegExp = /<[^>]+>/gi;
 function handleListItem(level, dashOrNumber, content) {
     const indent = "".padEnd(level * 2, " ");
@@ -13,8 +14,11 @@ function handleListItem(level, dashOrNumber, content) {
 }
 function handleOrdered(content, level) {
     return htmlToMarkdown(content, "ol", (olInnerHtml, atts) => {
+        // setup list item indexer
         let indexer = 0;
+        // get number start value
         const start = isNaN(+atts.get("start")) ? 1 : +atts.get("start");
+        // process children
         return htmlToMarkdown(olInnerHtml, "ul|li", (childInnerHtml, _, childNodeName, childOuterHtml) => {
             switch (childNodeName) {
                 case "ol": return handleOrdered(childOuterHtml, level + 1);
@@ -26,6 +30,7 @@ function handleOrdered(content, level) {
 }
 function handleUnordered(content, level) {
     return htmlToMarkdown(content, "ul", ulInnerHtml => {
+        // process children
         return htmlToMarkdown(ulInnerHtml, "ol|li", (childInnerHtml, _, childNodeName, childOuterHtml) => {
             switch (childNodeName) {
                 case "ol": return handleOrdered(childOuterHtml, level + 1);
@@ -35,6 +40,7 @@ function handleUnordered(content, level) {
         });
     });
 }
+/** @internal */
 export class HtmlToMarkdownFormatter {
     text;
     constructor(text) {
@@ -67,6 +73,7 @@ export class HtmlToMarkdownFormatter {
     }
     formatHorizontalTab() {
         if (this.text) {
+            // ensures blockquotes aren't broken
             this.text = this.text.replace(HorizontalTabRegExp, `${HORIZONTAL_TAB}$1`);
         }
         return this;
@@ -99,6 +106,7 @@ export class HtmlToMarkdownFormatter {
         return this;
     }
     formatParagraph() {
+        /** @todo format <p> tags */
         return this;
     }
     formatFooter() {

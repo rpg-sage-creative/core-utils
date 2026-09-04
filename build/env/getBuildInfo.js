@@ -1,5 +1,6 @@
 import { noop } from "@rsc-utils/type-utils";
 import { readRepo } from "@rsc-utils/git-utils";
+/** @deprecated use readRepo() instead. */
 export async function getBuildInfo() {
     const repo = await readRepo(".").catch(noop);
     return {

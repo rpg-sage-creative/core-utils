@@ -1,4 +1,5 @@
 import { Season } from "../Season.js";
+/** @internal */
 export function flipSeasonForHemisphere(season) {
     switch (season) {
         case Season.Winter: return Season.Summer;

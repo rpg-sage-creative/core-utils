@@ -1,4 +1,7 @@
 import { AllCodeBlocksRegExpG } from "./AllCodeBlocksRegExp.js";
+/**
+ * @internal Finds all the matches in a given string
+ */
 export function matchCodeBlocks(content) {
     const matches = [];
     const iterator = content.matchAll(AllCodeBlocksRegExpG);

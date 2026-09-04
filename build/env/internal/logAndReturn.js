@@ -1,5 +1,12 @@
 import { stringifyJson } from "@rsc-utils/json-utils";
 import { verbose } from "../../console/loggers/verbose.js";
+/**
+ * @internal
+ * Convenience to consistently log a key/value pair before returning the value.
+ * @param key
+ * @param value
+ * @returns
+ */
 export function logAndReturn(from, key, value) {
     const shouldMask = key.endsWith("Token") || key.includes("AccessKey");
     const outValue = shouldMask ? value.split("").map(() => "*").join("") : value;

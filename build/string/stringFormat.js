@@ -1,4 +1,7 @@
 import { navigateJson } from "@rsc-utils/json-utils";
+/**
+ * Splits the key into dot notation and looks through the args until it finds a value that matches the key.
+ */
 function findByKeyPath(args, key) {
     for (const arg of args) {
         const navResult = navigateJson(arg, key);

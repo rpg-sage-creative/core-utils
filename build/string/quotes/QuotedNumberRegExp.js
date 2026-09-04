@@ -1,5 +1,9 @@
 import { regex } from "regex";
 import { NumberRegExp } from "../../number/isNumberString.js";
+/**
+ * Matches an possibly signed number (integer or decimal) in any of the following quotes: "", “”, '', ‘’.
+ * The number may have spaces on either side of it.
+ */
 export const QuotedNumberRegExp = regex() `
 	# "" simple double quotes
 	" \g<number> "

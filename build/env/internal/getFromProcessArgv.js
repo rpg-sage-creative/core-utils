@@ -1,4 +1,10 @@
 import { parseKeyValueArg } from "../../args/parseKeyValueArg.js";
+/**
+ * @internal
+ * Looks for an environment variable, as passed on the command line as: key="value"
+ * @param keys the key to check
+ * @returns
+ */
 export function getFromProcessArgv(key) {
     for (const arg of process.argv) {
         const pair = parseKeyValueArg(arg);

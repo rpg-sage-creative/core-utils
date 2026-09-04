@@ -1,3 +1,4 @@
+/** Adds the appropriate suffix to the given number. Ex: 1 becomes "1st" */
 export function nth(number) {
     const digit = +String(number).slice(-1);
     if (number !== 11 && digit === 1) {

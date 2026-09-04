@@ -4,9 +4,9 @@
 		"alwaysStrict": true,
 		"allowSyntheticDefaultImports": true,
 
-		"composite": false,
+		"composite": true,
 
-		"declaration": false,
+		"declaration": true,
 		// "declarationDir": "./types",
 		// "declarationMap": true,
 
@@ -39,7 +39,7 @@
 
 		"pretty": true,
 
-		"removeComments": true,
+		"removeComments": false,
 		"rootDir": "./src",
 
 		"skipLibCheck": true,

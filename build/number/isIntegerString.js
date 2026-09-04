@@ -1,3 +1,4 @@
+/** /[\-+]?\d+/ */
 export const IntegerRegExp = /[\-+]?\d+/;
 export function isIntegerString(value) {
     if (!value)

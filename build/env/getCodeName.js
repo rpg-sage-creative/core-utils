@@ -8,6 +8,7 @@ export function getCodeName(registerLogLevels) {
             return ["dev", "beta", "stable"].includes(value);
         };
         if (registerLogLevels) {
+            /** Checks that the gicen value is a string and a valid CodeName and enables the appropriate log levels. */
             const enableLogLevelsIfValid = (value) => {
                 if (codeNameValidator(value)) {
                     enableLogLevels(codeNameToEnvironmentName(value));

@@ -3,6 +3,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { error } from "../../console/loggers/error.js";
 let _json;
+/**
+ * @internal
+ * Looks for an environment variable in the ./config/env.json
+ * @param key the key to check
+ * @returns
+ */
 export function getFromEnvJson(key) {
     if (!_json) {
         const path = join(".", "config", "env.json");

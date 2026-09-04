@@ -35,7 +35,9 @@ export function parseKeyValueArg(raw, index) {
         const match = KeyValueArgRegExp.exec(raw);
         if (match?.index === 0 && match[0].length === raw.length) {
             const { key, pipedValue, nakedValue, value: val } = match.groups;
+            // isNaked for all values without quotes
             const isNaked = pipedValue || nakedValue ? true : undefined;
+            // only dequote if we have quotes
             const value = isNaked ? val : dequote(val);
             return Arg.from({
                 index,

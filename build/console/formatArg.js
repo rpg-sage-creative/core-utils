@@ -1,5 +1,6 @@
 import { stringifyJson } from "@rsc-utils/json-utils";
 import { isErrorLike } from "@rsc-utils/type-utils";
+/** Logging helper for formatting Error objects. */
 export function formatArg(arg) {
     if (isErrorLike(arg)) {
         const message = [arg.name, arg.message].filter(s => s).join(": ");

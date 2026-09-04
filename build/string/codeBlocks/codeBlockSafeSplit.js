@@ -1,6 +1,7 @@
 import { regex } from "regex";
 import { tokenize } from "../tokenize.js";
 import { AllCodeBlocksRegExp } from "./AllCodeBlocksRegExp.js";
+/** @internal Does the heavy lifting of splitting a string while ignoring code blocks. */
 export function codeBlockSafeSplit(value, splitter, options) {
     const { limit } = options ?? {};
     const tokenParsers = {
@@ -13,9 +14,11 @@ export function codeBlockSafeSplit(value, splitter, options) {
     for (const { key, token } of tokens) {
         switch (key) {
             case "splitter":
+                // increment lineIndex, add empty string
                 lineIndex = lines.push("") - 1;
                 break;
             default:
+                // append token to the current line
                 lines[lineIndex] += token;
                 break;
         }

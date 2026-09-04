@@ -1,4 +1,5 @@
 import { isColorLevelEnabled } from "./isColorLevelEnabled.js";
+/** Returns the color code for the log level only if enabled. */
 function getColorCode(logLevel) {
     if (isColorLevelEnabled(logLevel)) {
         switch (logLevel) {
@@ -9,6 +10,7 @@ function getColorCode(logLevel) {
     }
     return undefined;
 }
+/** Wraps the prefix in the color code if one is found. */
 export function colorPrefix(logLevel) {
     const colorCode = getColorCode(logLevel);
     if (colorCode !== undefined) {

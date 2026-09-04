@@ -1,3 +1,4 @@
+/** Adds commas to the given. Ex: 12345 becomes "12,345" */
 export function addCommas(value) {
     if (value < 1000) {
         return String(value);

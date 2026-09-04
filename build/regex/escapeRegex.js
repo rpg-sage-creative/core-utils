@@ -1,3 +1,8 @@
+/**
+ * Escapes RegExp special characters in the given value.
+ * This is a shim until RegExp.escape is available.
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+ */
 export function escapeRegex(value) {
     return value.split("").map((char, index) => {
         if (!index

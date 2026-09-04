@@ -53,6 +53,7 @@ export function parseIncrementArg(raw, index) {
             const { key, decrement: opDec, increment: opInc, operator: op, value: val } = match.groups;
             const stringValue = opDec || opInc ? "1" : dequote(val);
             const value = +stringValue;
+            // ensure we have a valid number
             if (isNaN(value))
                 return undefined;
             const operator = (opDec ?? opInc ?? op)[0].replace("\u2014", "-");

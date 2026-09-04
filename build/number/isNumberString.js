@@ -1,3 +1,4 @@
+/** /[\-\+]?\d+(?:\.\d+)?/ */
 export const NumberRegExp = /[\-\+]?\d+(?:\.\d+)?/;
 export function isNumberString(value) {
     if (!value)

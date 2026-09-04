@@ -1,3 +1,7 @@
+/**
+ * Filters and maps an array using a single pass through the array.
+ * Only values that return "truthy" to the predicate will be sent to the callbackfn.
+ */
 export function filterAndMap(arrayLike, predicate, callbackfn, thisArg) {
     let newIndex = 0;
     const arrayConstructor = arrayLike.constructor;

@@ -1,4 +1,5 @@
 let scriptedCharSet;
+/** Returns an object with subscript characters. */
 export function getSubscriptCharSet() {
     return scriptedCharSet ??= {
         equals: "₌",

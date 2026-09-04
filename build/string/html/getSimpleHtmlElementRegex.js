@@ -1,5 +1,6 @@
 import { createFullTagSource, createSelfCloseSource, isSelfCloseElement } from "./internal/helpers.js";
 ;
+/** groups: { comment, noCloseTag, noCloseTagAttributes, closeableTag, closeableTagAattributes, inner } */
 export function getSimpleHtmlElementRegex({ element, gFlag = "", iFlag = "i" } = {}) {
     const flags = gFlag + iFlag;
     const elements = element?.toLowerCase().split("|");

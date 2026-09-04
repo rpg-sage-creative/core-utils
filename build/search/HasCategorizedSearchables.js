@@ -28,6 +28,7 @@ function sortByCountThenLabel(a, b) {
 }
 export class HasCategorizedSearchables {
     _unsortedSearchables = [];
+    // #region properties
     _categories;
     get categories() {
         return this._categories ?? (this._categories = this.categorizedSearchables.map(cat => cat.label));
@@ -60,6 +61,8 @@ export class HasCategorizedSearchables {
     get theOne() {
         return this._unsortedSearchables.length === 1 ? this._unsortedSearchables[0] : undefined;
     }
+    // #endregion
+    // #region methods
     add(...searchables) {
         searchables.forEach(searchable => this._unsortedSearchables.push(searchable));
         delete this._searchables;

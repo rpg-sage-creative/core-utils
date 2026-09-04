@@ -12,6 +12,7 @@ function searchableToLabel(score) {
     return `${score.searchable.toSearchResult()}${source}`;
 }
 export class HasScoredSearchables {
+    // #region properties
     get count() {
         return this.scores.length;
     }
@@ -25,6 +26,8 @@ export class HasScoredSearchables {
     get theOne() {
         return this.scores.length === 1 ? this.scores[0]?.searchable : undefined;
     }
+    // #endregion
+    // #region methods
     add(...scores) {
         const labels = this.scores.map(score => searchableToLabel(score));
         scores.forEach(score => {

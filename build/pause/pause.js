@@ -6,9 +6,9 @@ export async function pause(...args) {
     const data = first.data ?? undefined;
     const log = first.log;
     if (log)
-        silly(`Pausing for ${ms}ms: ${label} ...`);
+        silly(`Pausing for ${ms}ms: ${label} ...`); // NOSONAR
     await (new Promise(res => setTimeout(res, ms)));
     if (log)
-        silly(`Pausing for ${ms}ms: ${label} ... done.`);
+        silly(`Pausing for ${ms}ms: ${label} ... done.`); // NOSONAR
     return data;
 }

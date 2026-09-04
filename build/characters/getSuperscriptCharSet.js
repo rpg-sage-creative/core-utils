@@ -1,4 +1,5 @@
 let superscriptCharSet;
+/** Returns an object with superscript characters. */
 export function getSuperscriptCharSet() {
     return superscriptCharSet ??= {
         equals: "⁼",

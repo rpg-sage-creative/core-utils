@@ -1,4 +1,7 @@
 import { wrapSetIterator } from "@rsc-utils/iterator-utils";
+/**
+ * A case insensitive string Set.
+ */
 export class StringSet {
     _values = {};
     constructor(values) {
@@ -15,6 +18,7 @@ export class StringSet {
         return "StringSet";
     }
     add(value) {
+        // only strings allowed
         if (typeof (value) !== "string") {
             throw new TypeError("string expected");
         }
@@ -33,6 +37,7 @@ export class StringSet {
         }
         return false;
     }
+    /** values in this but not in other */
     difference(other) {
         const difference = new StringSet();
         const otherSet = other instanceof StringSet ? other : new StringSet(other);
@@ -71,6 +76,7 @@ export class StringSet {
     hasKey(key) {
         return key in this._values;
     }
+    /** values in this and in other */
     intersection(other) {
         const intersection = new StringSet();
         const otherSet = other instanceof StringSet ? other : new StringSet(other);
@@ -90,6 +96,7 @@ export class StringSet {
         }
         return intersection;
     }
+    /** true if this set has no elements in common with the other set, and false otherwise. */
     isDisjointFrom(other) {
         if (this.size > other.size) {
             for (const value of other) {
@@ -108,6 +115,7 @@ export class StringSet {
         }
         return true;
     }
+    /** true if all elements in this set are also in the other set, and false otherwise. */
     isSubsetOf(other) {
         if (this.size > other.size) {
             return false;
@@ -120,6 +128,7 @@ export class StringSet {
         }
         return true;
     }
+    /** true if all elements in the other set are also in this set, and false otherwise. */
     isSupersetOf(other) {
         if (this.size < other.size) {
             return false;
@@ -143,6 +152,7 @@ export class StringSet {
     get size() {
         return Object.keys(this._values).length;
     }
+    /** A new StringSet object containing elements which are in either this set or the other set, but not in both. */
     symmetricDifference(other) {
         const symmetricDifference = new StringSet();
         const otherSet = other instanceof StringSet ? other : new StringSet(other);
@@ -158,6 +168,7 @@ export class StringSet {
         }
         return symmetricDifference;
     }
+    /** A new StringSet object containing elements which are in either or both of this set and the other set. */
     union(other) {
         const union = new StringSet(this);
         for (const value of other) {

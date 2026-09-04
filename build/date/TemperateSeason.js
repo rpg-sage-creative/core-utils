@@ -1,3 +1,4 @@
+/** The values 1-4 make this enum compatible with the Season enum. */
 export var TemperateSeason;
 (function (TemperateSeason) {
     TemperateSeason[TemperateSeason["Winter"] = 1] = "Winter";

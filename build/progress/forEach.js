@@ -1,6 +1,7 @@
 import { PercentLogger } from "./PercentLogger.js";
 export function forEach(label, array, callbackfn, interval) {
     const pLogger = new PercentLogger(label, array.length, interval);
+    // trigger the 0% before processing the first item
     pLogger.start();
     array.forEach((val, i, arr) => {
         callbackfn(val, i, arr);

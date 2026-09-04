@@ -1,3 +1,4 @@
+/** @internal */
 export function getDataConverter(dataType) {
     switch (dataType) {
         case "date":

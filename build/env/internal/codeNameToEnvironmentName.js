@@ -1,3 +1,4 @@
+/** @internal */
 export function codeNameToEnvironmentName(codeName) {
     switch (codeName) {
         case "dev":

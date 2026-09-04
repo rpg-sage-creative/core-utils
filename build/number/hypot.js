@@ -1,3 +1,7 @@
+/**
+ * Calculates the hypotenuse of the given numbers.
+ * If 3 values are given, then the result is: hypot(hypot(x, y), z)
+ */
 export function hypot(x, y, z) {
     const xy = Math.hypot(x, y);
     if (typeof (z) === "number") {

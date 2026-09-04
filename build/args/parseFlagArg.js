@@ -17,6 +17,7 @@ export function parseFlagArg(raw, index) {
                 index,
                 isFlag: true,
                 key: match.groups.key,
+                // value: raw,
                 raw,
             });
         }

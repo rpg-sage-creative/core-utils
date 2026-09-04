@@ -1,4 +1,6 @@
+/** Partitions the values into nested Collections based on the partitionfn */
 export function partition(arrayLike, partitionfn, thisArg) {
+    // create typed array for output
     const arrayConstructor = arrayLike.constructor;
     const partitioned = new arrayConstructor();
     arrayLike.forEach((value, index, array) => {

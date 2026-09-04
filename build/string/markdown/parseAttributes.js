@@ -1,4 +1,5 @@
 const attrRegex = /(?<key>\w+)="(?<value>[^"]+)"/gi;
+/** @internal Parses the given string for html attribute key/value pairs. */
 export function parseAttributes(attributesString) {
     const attributes = new Map();
     if (!attributesString) {

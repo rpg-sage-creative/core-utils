@@ -1,4 +1,8 @@
 import { codeBlockSafeSplit } from "./codeBlockSafeSplit.js";
+/**
+ * Creates a string splitter that is capable of ignoring code blocks using backticks (`).
+ * Defaults to splitting on "\n".
+ */
 export function getCodeBlockSafeSplitter(splitter = "\n") {
     return {
         _splitter: splitter,

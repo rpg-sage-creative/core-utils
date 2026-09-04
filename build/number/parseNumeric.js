@@ -2,10 +2,12 @@ import { getSubscriptCharSet } from "../characters/getSubscriptCharSet.js";
 import { getSuperscriptCharSet } from "../characters/getSuperscriptCharSet.js";
 import { isIntegerString } from "./isIntegerString.js";
 import { isNumberString } from "./isNumberString.js";
+/** Parses the given numeric string into a number, bigint, or NaN. */
 function _parseNumber(value) {
     if (!isNumberString(value)) {
         return NaN;
     }
+    // check integer only for BigInt
     if (isIntegerString(value)) {
         const length = value.length - (value.startsWith("-") ? 1 : 0);
         if (length < 16) {
@@ -22,8 +24,11 @@ function _parseNumber(value) {
     }
     return Number(value);
 }
+/** Parses a stringValue into different bits of information about the number. */
 function parseNumber(stringValue) {
+    // parse the numeric
     const numericValue = _parseNumber(stringValue);
+    // return bigint
     if (typeof (numericValue) === "bigint") {
         return {
             isBigInt: true,
@@ -33,7 +38,9 @@ function parseNumber(stringValue) {
             stringValue
         };
     }
+    // check for NaN
     const nan = isNaN(numericValue);
+    // return number
     return {
         isBigInt: false,
         isNaN: nan,
@@ -53,28 +60,36 @@ function findCharSet(value) {
     return undefined;
 }
 function scriptedToUnscripted(value) {
+    // split number into characters
     const chars = value.split("");
+    // get valid scripted character set
     const charSet = findCharSet(value);
     if (!charSet)
         return undefined;
+    // convert to normal chars
     let stringValue = "";
     for (const char of chars) {
         if (char === charSet.period) {
+            // can't have two decimals
             if (stringValue.includes("."))
                 return undefined;
             stringValue += ".";
         }
         else if (char === charSet.plus) {
+            // the plus can only be at the beginning
             if (stringValue.length)
                 return undefined;
+            // we don't actually use the plus
         }
         else if (char === charSet.minus) {
+            // the minus can only be at the beginning
             if (stringValue.length)
                 return undefined;
             stringValue = "-";
         }
         else {
             const index = charSet.numbers.indexOf(char);
+            // must be a valid number
             if (index < 0)
                 return undefined;
             stringValue += "0123456789"[index];
@@ -82,9 +97,11 @@ function scriptedToUnscripted(value) {
     }
     return { stringValue, charSet };
 }
+/** @internal exported only for testing */
 export function parseNumericString(value) {
     let charSetType;
     let stringValue = value;
+    // see if we need to convert from super/sub
     if (!isNumberString(value)) {
         const unscriptedResults = scriptedToUnscripted(value);
         if (unscriptedResults) {
@@ -96,6 +113,7 @@ export function parseNumericString(value) {
     const type = [charSetType, parsedNumber.isBigInt ? "bigint" : "number"].filter(s => s).join("-");
     return { ...parsedNumber, type, value };
 }
+/** Parses the given numeric string into a number, bigint, or NaN. */
 export function parseNumeric(value) {
     return parseNumericString(value).numericValue;
 }

@@ -1,3 +1,4 @@
+/** @internal Converts the given number to a string of scripted numbers. */
 export function toScriptedNumber(value, characters) {
     const mapper = (char) => {
         switch (char) {

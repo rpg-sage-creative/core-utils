@@ -2,15 +2,19 @@ import { error } from "./loggers/error.js";
 import { info } from "./loggers/info.js";
 async function onSignal(eventName, code) {
     try {
+        // log the event
         info(`process.on("${eventName}") = ${code}`);
+        // if we don't have handlers, just exit
         if (!signalHandlers?.size && !destroyables) {
             process.exit(code);
         }
+        // setup the exitCode
         let exitCode = 0;
         const exitHandler = (err) => {
             error(err);
             exitCode = 1;
         };
+        // if we have destroyables, send the event
         if (destroyables) {
             for (const destroyable of destroyables) {
                 try {
@@ -23,6 +27,7 @@ async function onSignal(eventName, code) {
             destroyables.clear();
             destroyables = undefined;
         }
+        // if we have handlers, send the event
         if (signalHandlers) {
             for (const handler of signalHandlers) {
                 try {
@@ -35,6 +40,7 @@ async function onSignal(eventName, code) {
             signalHandlers.clear();
             signalHandlers = undefined;
         }
+        // send exit code
         process.exit(exitCode);
     }
     catch (outer) {

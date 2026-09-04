@@ -57,6 +57,7 @@ export class SearchInfo {
     }
     mark(content) {
         return content;
+        // TODO: mark terms with <mark>
     }
     score(searchable, ...args) {
         const contents = args.flat(Infinity).filter(toUniqueDefined), score = new SearchScore(searchable);
@@ -68,6 +69,7 @@ export class SearchInfo {
         return score;
     }
     test(...args) {
+        // Because we never render the score, we don't need an actual ISearchable object
         return this.score(null, ...args).bool;
     }
 }
