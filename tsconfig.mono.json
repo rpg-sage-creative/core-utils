@@ -8,6 +8,9 @@ Each package/submodule in rpg-sage will use tsconfig.mono.json to ensure proper 
 		"outDir": "./build",
 		"rootDir": "./src",
 	},
+	"exclude": [
+		"./test"
+	],
 	"include": [
 		"./src"
 	],
