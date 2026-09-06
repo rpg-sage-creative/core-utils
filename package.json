@@ -1,6 +1,6 @@
 {
 	"name": "@rpg-sage-creative/core-utils",
-	"version": "1.7.0",
+	"version": "1.8.0",
 	"license": "LGPL-3.0-or-later",
 	"main": "build/index.js",
 	"type": "module",
@@ -38,7 +38,6 @@
 		"scrub::logs": "rm -rf ./logs/*.log",
 		"postscrub": "pnpm install",
 		"scrubIfMissing": "[ -d './node_modules' ] && [ -f './pnpm-lock.yaml' ] || pnpm scrub",
-
 		"prebuild": "pnpm scrubIfMissing && pnpm run '/^build::.*/'",
 		"build::clean-build-folder": "rm -rf build",
 		"build::clean-build-info": "rm -f *.tsbuildinfo",
@@ -46,7 +45,6 @@
 		"build": "[ -f './tsconfig.json' ] && tsc -b --force tsconfig.json",
 		"buildIfMissing": "[ -d './build' ] || pnpm build",
 		"build:fresh": "pnpm scrub && pnpm build",
-
 		"pretest": "[ -d './test' ] && pnpm build && node -e \"import * as utils from './build/index.js';\" && pnpm scrub::logs",
 		"test": "pnpm vitest --run --globals",
 		"pretest:dot-test-dot-js": "[ -d './test' ] && pnpm scrub::logs",
@@ -55,7 +53,6 @@
 		"test:dot-test-dot-ts": "pnpm vitest --run --globals",
 		"pretest:one-ts": "pnpm pretest",
 		"test:one-ts": "pnpm pretest && pnpm vitest --run --globals",
-
 		"release": "pnpm dev-scripts create-release",
 		"refresh-tags": "pnpm dev-scripts refresh-tags"
 	}
