@@ -17,7 +17,7 @@ permissions:
 jobs:
 
   build_release_publish:
-    name: Build Release
+    name: Build, Release, and Publish
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout Release Tag"
