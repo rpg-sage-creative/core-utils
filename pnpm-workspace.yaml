@@ -1,5 +1,4 @@
-blockExoticSubdeps:
-  false
+blockExoticSubdeps: false
 
 overrides:
   "@types/node": "^24"
