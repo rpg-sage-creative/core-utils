@@ -8,7 +8,7 @@ type SetLike<T> = {
 /**
  * A case insensitive string Set.
  */
-export declare class StringSet implements Set<string> {
+export declare class StringSet {
     private _values;
     constructor(values?: Optional<Iterable<string>>);
     [Symbol.iterator](): SetIterator<string>;

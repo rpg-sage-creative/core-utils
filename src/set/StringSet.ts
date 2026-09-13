@@ -11,7 +11,9 @@ type SetLike<T> = {
 /**
  * A case insensitive string Set.
  */
-export class StringSet implements Set<string> {
+export class StringSet
+	// implements Set<string>
+	{
 	private _values: Record<Lowercase<string>, string> = { };
 
 	public constructor(values?: Optional<Iterable<string>>) {
