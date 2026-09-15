@@ -6,4 +6,3 @@ export * from "@rsc-utils/json-utils";
 export * from "@rsc-utils/language-utils";
 export * from "@rsc-utils/template-literal-utils";
 export * from "@rsc-utils/type-utils";
-export * from "@rsc-utils/whitespace-utils";

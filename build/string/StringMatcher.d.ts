@@ -1,4 +1,4 @@
-import type { Matcher, MatcherResolvable, Optional } from "../index.js";
+import { type Matcher, type MatcherResolvable, type Optional } from "@rsc-utils/type-utils";
 type StringMatcherToRegExpOptions = {
     /** if set to true then the regex begins with ^ and ends with $; default value is true */
     anchored?: boolean;

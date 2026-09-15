@@ -1,9 +1,9 @@
 import { oneToUS, reduceNoiseUS } from "@rsc-utils/language-utils";
-import { cleanWhitespace } from "@rsc-utils/whitespace-utils";
 import { pattern, regex } from "regex";
 import { toUniqueDefined } from "../array/index.js";
 import { dequote, QuotedContentRegExp } from "../string/index.js";
 import { tokenize } from "../string/tokenize.js";
+import { cleanWhitespace } from "../whitespace/cleanWhitespace.js";
 import { SearchScore } from "./SearchScore.js";
 function createTerms(searchInfo, term, regexFlag) {
     const tokens = tokenize(term, { quoted: QuotedContentRegExp, other: /\S+/ });

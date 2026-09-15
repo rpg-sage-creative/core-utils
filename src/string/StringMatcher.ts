@@ -1,8 +1,7 @@
-import { isDefined, isNullOrUndefined, isString } from "@rsc-utils/type-utils";
-import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "@rsc-utils/whitespace-utils";
-import type { Matcher, MatcherResolvable, Optional } from "../index.js";
+import { isDefined, isNullOrUndefined, isString, type Matcher, type MatcherResolvable, type Optional } from "@rsc-utils/type-utils";
 import { escapeRegex } from "../regex/escapeRegex.js";
-import { isNotBlank } from "./blank/index.js";
+import { cleanWhitespace, HorizontalWhitespaceRegExp, WhitespaceRegExp } from "../whitespace/index.js";
+import { isNotBlank } from "./blank/isNotBlank.js";
 import { normalizeApostrophes, normalizeDashes, normalizeEllipses, normalizeQuotes, removeAccents } from "./normalize/index.js";
 
 type StringMatcherToRegExpOptions = {
